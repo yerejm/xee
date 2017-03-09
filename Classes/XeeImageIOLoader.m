@@ -112,8 +112,8 @@ static void XeeImageIOReleaseInfo(void *info) { [(CSHandle *)info release]; }
 		else if(colormodel==kCGImagePropertyColorModelGray) type=XeeBitmapTypeLuma8;
 		else type=XeeBitmapTypeNRGB8;
 
-		int pixelwidth=CGImageGetWidth(cgimage);
-		int pixelheight=CGImageGetHeight(cgimage);
+		size_t pixelwidth=CGImageGetWidth(cgimage);
+		size_t pixelheight=CGImageGetHeight(cgimage);
 
 		image=[[[XeeBitmapImage alloc] initWithType:type width:pixelwidth height:pixelheight] autorelease];
 

@@ -80,7 +80,7 @@
 	int maxwidth;
 }
 
--(id)initWithTitle:(NSString *)title contents:(NSArray *)contents defaultValue:(int)def;
+-(instancetype)initWithTitle:(NSString *)title contents:(NSArray *)contents defaultValue:(int)def;
 -(void)dealloc;
 
 -(int)height;
@@ -92,9 +92,9 @@
 -(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect;
 -(void)setHidden:(BOOL)hidden;
 
--(int)value;
+-(NSInteger)value;
 
-+(XeeSLPopUp *)popUpWithTitle:(NSString *)title defaultValue:(int)def contents:(NSString *)entry,...;
++(XeeSLPopUp *)popUpWithTitle:(NSString *)title defaultValue:(int)def contents:(NSString *)entry,... NS_REQUIRES_NIL_TERMINATION;
 
 @end
 

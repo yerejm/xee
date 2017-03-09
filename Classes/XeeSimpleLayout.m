@@ -314,7 +314,7 @@
 	[popup setHidden:hidden];
 }
 
--(int)value
+-(NSInteger)value
 {
 	return [popup indexOfSelectedItem];
 }
@@ -579,7 +579,7 @@
 
 -(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
 {
-	int page=[self value];
+	NSInteger page=[self value];
 	XeeSLControl *content=[pages objectAtIndex:page];
 
 	int selectorheight=[super height];
@@ -588,7 +588,7 @@
 	titlerect.size.height=contentrect.size.height=selectorheight;
 	[super layoutContent:contentrect title:titlerect];
 
-	if((id)content!=[NSNull null])
+	if((id)content != [NSNull null])
 	{
 		int contenttop=[content topSpacing];
 		int contentheight=[content height];
