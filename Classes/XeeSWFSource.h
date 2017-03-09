@@ -34,7 +34,7 @@
 -(void)dealloc;
 -(NSString *)descriptiveName;
 
--(CSHandle *)newHandle;
+-(CSHandle *)newHandle NS_RETURNS_NOT_RETAINED;
 
 @end
 

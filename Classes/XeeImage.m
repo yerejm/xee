@@ -9,6 +9,8 @@
 
 @implementation XeeImage
 @synthesize delegate;
+@synthesize icon;
+@synthesize format;
 
 -(id)init
 {
@@ -313,23 +315,19 @@
 
 -(CGImageRef)createCGImage { return NULL; }
 
--(int)losslessSaveFlags { return 0; }
+-(XeeSaveFormatFlags)losslessSaveFlags { return 0; }
 
 -(NSString *)losslessFormat { return nil; }
 
 -(NSString *)losslessExtension { return nil; }
 
--(BOOL)losslessSaveTo:(NSString *)path flags:(int)flags { return NO; }
+-(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags { return NO; }
 
 
 
 -(XeeFSRef *)ref { return ref; }
 
 -(NSString *)filename { return [ref path]; }
-
--(NSString *)format { return format; }
-
--(NSImage *)icon { return icon; }
 
 -(int)width
 {

@@ -55,10 +55,10 @@ glInternalFormat:(int)intformat glFormat:(int)format glType:(int)type;
 -(int)bytesPerRow;
 -(uint8_t *)data;
 
--(CGImageRef)createCGImage;
+-(CGImageRef)createCGImage CF_RETURNS_RETAINED;
 -(int)bitsPerComponentForCGImage;
 -(int)bytesPerPixelForCGImage;
--(CGColorSpaceRef)createColorSpaceForCGImage;
+-(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
 -(int)bitmapInfoForCGImage;
 -(XeeReadPixelFunction)readPixelFunctionForCGImage;
 

@@ -84,11 +84,11 @@ mode:(int)mode alphaType:(int)alpha flags:(int)flags;
 
 -(BOOL)allocWithType:(int)pixeltype width:(int)framewidth height:(int)frameheight;
 
--(CGContextRef)createCGContext;
+-(CGContextRef)createCGContext CF_RETURNS_RETAINED;
 
 -(int)bitsPerComponentForCGImage;
 -(int)bytesPerPixelForCGImage;
--(CGColorSpaceRef)createColorSpaceForCGImage;
+-(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
 -(int)bitmapInfoForCGImage;
 -(XeeReadPixelFunction)readPixelFunctionForCGImage;
 

@@ -27,6 +27,7 @@
 		[NSFont boldSystemFontOfSize:14],NSFontAttributeName,
 		sectpara,NSParagraphStyleAttributeName,
 	nil] retain];
+	[sectpara release];
 
 	NSMutableParagraphStyle *labelpara=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[labelpara setAlignment:NSTextAlignmentRight];
@@ -206,7 +207,7 @@
 -(NSString *)outlineView:(NSOutlineView *)view toolTipForCell:(NSCell *)cell rect:(NSRectPointer)rect
 tableColumn:(NSTableColumn *)col item:(XeePropertyItem *)item mouseLocation:(NSPoint)mouse
 {
-	if([item isSubSection]) return nil;
+	if([item isSubSection]) return @"";
 	if([[col identifier] isEqual:@"label"]) return [item label];
 	else return [[item value] description];
 }

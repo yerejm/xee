@@ -82,7 +82,7 @@
 	}
 	while(!thumbdata&&quality>0);
 
-	if(thumbdata) return [(id)thumbdata autorelease];
+	if(thumbdata) return CFBridgingRelease(thumbdata);
 
 	return nil;
 }

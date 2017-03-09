@@ -1,6 +1,6 @@
 #import "XeeKQueue.h"
 
-#import <unistd.h>
+#include <unistd.h>
 
 
 @implementation XeeKQueue
@@ -104,6 +104,8 @@
 
 
 @implementation XeeKEvent
+@synthesize fileDescriptor = fd;
+@synthesize ref;
 
 -(id)initWithFileDescriptor:(int)filedesc observer:(id)observer selector:(SEL)selector ref:(XeeFSRef *)fsref
 {
@@ -123,10 +125,6 @@
 	[super dealloc];
 }
 
--(int)fileDescriptor { return fd; }
-
--(XeeFSRef *)ref { return ref; }
-
 -(int)flags { return ev.fflags; }
 
 -(void)triggerForEvent:(struct kevent *)event
@@ -140,10 +138,12 @@
 
 
 @implementation XeeKEventKey
+@synthesize ref;
+@synthesize target;
 
 +(XeeKEventKey *)keyWithRef:(XeeFSRef *)fsref target:(id)observer
 {
-	return [[[XeeKEventKey alloc] initWithRef:fsref target:observer] autorelease];
+	return [[[self alloc] initWithRef:fsref target:observer] autorelease];
 }
 
 -(id)initWithRef:(XeeFSRef *)fsref target:(id)observer
@@ -156,17 +156,13 @@
 	return self;
 }
 
--(XeeFSRef *)ref { return ref; }
-
--(id)target { return target; }
-
 -(BOOL)isEqual:(XeeKEventKey *)other
 {
 	if(![other isKindOfClass:[self class]]) return NO;
 	return [ref isEqual:[other ref]]&&target==[other target];
 }
 
--(unsigned)hash { return (unsigned)target; }
+-(NSUInteger)hash { return (uintptr_t)target; }
 
 -(id)copyWithZone:(NSZone *)zone
 {

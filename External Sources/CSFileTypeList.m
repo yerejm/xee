@@ -3,12 +3,16 @@
 
 
 @implementation CSFileTypeList
+{
+	CSFileTypeListSource *listSource;
+}
 
 -(id)initWithCoder:(NSCoder *)coder
 {
 	if(self=[super initWithCoder:coder])
 	{
-		[self setDataSource:(id)[[CSFileTypeListSource alloc] init]];
+		listSource = [[CSFileTypeListSource alloc] init];
+		[self setDataSource:(id)listSource];
 	}
 	return self;
 }
@@ -18,14 +22,15 @@
 	if(self=[super initWithFrame:frame])
 	{
 		NSLog(@"Custom view mode in IB not supported yet");
-		[self setDataSource:(id)[[CSFileTypeListSource alloc] init]];
+		listSource = [[CSFileTypeListSource alloc] init];
+		[self setDataSource:(id)listSource];
 	}
 	return self;
 }
 
 -(void)dealloc
 {
-	[[self dataSource] release];
+	[listSource release];
 	[super dealloc];
 }
 

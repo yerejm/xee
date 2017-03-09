@@ -64,6 +64,7 @@
 		};
 		CGColorRef col=CGColorCreate(colorspace,components);
 		if(col) [properties setObject:(id)col forKey:(NSString *)kCGImageDestinationBackgroundColor];
+		CGColorRelease(col);
 	}
 
 	CGColorSpaceRelease(colorspace);

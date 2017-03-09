@@ -15,6 +15,6 @@ typedef void *CGAccessSessionRef;
 -(BOOL)setCGImage:(CGImageRef)cgimageref;
 -(void)invertImage;
 
--(CGColorSpaceRef)createColorSpaceForCGImage;
+-(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
 
 @end

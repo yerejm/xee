@@ -218,7 +218,10 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 
 	NSInteger *order=malloc(sizeof(NSInteger)*length);
 	rand_ordering=malloc(sizeof(struct rand_entry)*length);
-	if(!rand_ordering) return;
+	if(!rand_ordering) {
+		free(order);
+		return;
+	}
 	rand_size=length;
 
 	for(NSInteger i=0;i<length;i++) order[i]=i;

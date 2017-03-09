@@ -13,8 +13,8 @@
 -(id)initWithGeneralPasteboard;
 -(void)dealloc;
 
--(int)numberOfImages;
--(int)indexOfCurrentImage;
+-(NSInteger)numberOfImages;
+-(NSInteger)indexOfCurrentImage;
 -(NSString *)windowTitle;
 -(NSString *)descriptiveNameOfCurrentImage;
 -(uint64_t)sizeOfCurrentImage;

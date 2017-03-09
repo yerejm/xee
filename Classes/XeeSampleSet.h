@@ -14,7 +14,6 @@ typedef float (*XeeFilterFunction)(float,float);
 }
 
 -(id)initWithCount:(int)count;
--(void)dealloc;
 
 -(void)filterWithFunction:(XeeFilterFunction)filter;
 -(void)sortByWeight;

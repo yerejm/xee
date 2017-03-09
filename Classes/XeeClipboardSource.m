@@ -81,9 +81,9 @@
 	[self triggerImageChangeAction:image];
 }
 
--(int)numberOfImages { return 1; }
+-(NSInteger)numberOfImages { return 1; }
 
--(int)indexOfCurrentImage { return 0; }
+-(NSInteger)indexOfCurrentImage { return 0; }
 
 -(NSString *)windowTitle { return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard"); }
 

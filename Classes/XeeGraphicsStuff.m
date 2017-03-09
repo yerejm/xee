@@ -74,9 +74,9 @@ void XeeDrawRoundedBar(NSRect rect)
 	NSBezierPath *path=[NSBezierPath bezierPath];
 	[path setLineCapStyle:NSRoundLineCapStyle];
 	[path setLineWidth:rect.size.height-3];
-	float offs=rect.size.height/2.0;
-	float x=rect.origin.x+offs+2;
-	float y=rect.origin.y+offs;
+	CGFloat offs=rect.size.height/2.0;
+	CGFloat x=rect.origin.x+offs+2;
+	CGFloat y=rect.origin.y+offs;
 	[path moveToPoint:NSMakePoint(x,y)];
 	[path lineToPoint:NSMakePoint(x+rect.size.width-2*offs-4,y)];
 	[path stroke];

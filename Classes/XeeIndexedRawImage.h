@@ -30,12 +30,12 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 	BOOL istrans;
 }
 
-+(XeePalette *)palette;
++(instancetype)palette;
 
 -(int)numberOfColours;
 -(uint32_t)colourAtIndex:(int)index;
--(BOOL)isTransparent;
--(uint32_t *)colours;
+@property (readonly, getter=isTransparent) BOOL isTransparent;
+-(uint32_t *)colours NS_RETURNS_INNER_POINTER;
 
 -(void)setColourAtIndex:(int)index red:(uint8_t)red green:(uint8_t)green blue:(uint8_t)blue;
 -(void)setColourAtIndex:(int)index red:(uint8_t)red green:(uint8_t)green blue:(uint8_t)blue alpha:(uint8_t)alpha;

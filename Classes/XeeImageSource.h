@@ -79,7 +79,7 @@ extern NSString *XeeErrorDomain;
 
 -(NSError *)renameCurrentImageTo:(NSString *)newname;
 -(NSError *)deleteCurrentImage;
--(NSError *)copyCurrentImageTo:(NSString *)destination;
+-(NSError *)copyCurrentImageTo:(NSString *)destination NS_RETURNS_NOT_RETAINED;
 -(NSError *)moveCurrentImageTo:(NSString *)destination;
 -(NSError *)openCurrentImageInApp:(NSString *)app;
 

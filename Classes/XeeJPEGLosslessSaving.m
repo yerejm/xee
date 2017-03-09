@@ -1,8 +1,9 @@
 #import "XeeJPEGLosslessSaving.h"
 #import "XeeEXIFParser.h"
 #import "XeeJPEGUtilities.h"
-#import "XeeImageThumbnailing.h"
+//#import "XeeImageThumbnailing.h"
 #import "XeeTileImage.h"
+#import "Xee-swift.h"
 
 #import "libjpeg/transupp.h"
 
@@ -50,7 +51,7 @@
 
 -(NSString *)losslessExtension { return @"jpg"; }
 
--(BOOL)losslessSaveTo:(NSString *)path flags:(int)flags
+-(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags
 {
 	if(currindex!=0) return [super losslessSaveTo:path flags:flags];
 

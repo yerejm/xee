@@ -1,5 +1,6 @@
 
-#include <CoreFoundation/CoreFoundation.h>
+#import <Foundation/Foundation.h>
+@class NSEvent;
 
 //
 // Endian integer types
@@ -36,6 +37,10 @@ static inline void XeeSetLEUInt32(uint8_t *b,uint32_t n) { b[3]=(n>>24)&0xff; b[
 //
 // Integer utils
 //
+
+static inline int imin(int a,int b) NS_SWIFT_UNAVAILABLE("Use built-in Swift `min` function");
+static inline int imax(int a,int b) NS_SWIFT_UNAVAILABLE("Use built-in Swift `max` function");
+static inline int iabs(int a) NS_SWIFT_UNAVAILABLE("Use built-in Swift `abs` function");
 
 static inline int imin(int a,int b) { return a<b?a:b; }
 static inline int imax(int a,int b) { return a>b?a:b; }

@@ -56,7 +56,6 @@
 		1B5D4919086DFD7F004480AB /* XeeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D4918086DFD7F004480AB /* XeeDelegate.m */; };
 		1B5E0A420C8A37DA00F22867 /* CSCoroutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E0A410C8A37DA00F22867 /* CSCoroutine.m */; };
 		1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68CE2C0885F42A001971C8 /* OpenGL.framework */; };
-		1B68CEDA0885F5D7001971C8 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68CED90885F5D7001971C8 /* QuickTime.framework */; };
 		1B9094D90C7525F8009E5ACE /* XeePhotoshopLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5DEB40A7E9B6900967AD2 /* XeePhotoshopLoader.m */; };
 		1B9099D10C91BE1A009E5ACE /* XeeInterleavingHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9099D00C91BE1A009E5ACE /* XeeInterleavingHandle.m */; };
 		1B996C250928EE9E0026832A /* jpeg.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C230928EE9E0026832A /* jpeg.icns */; };
@@ -128,7 +127,6 @@
 		1BF28B740B5B1A9200481BED /* IconSetWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B730B5B1A9200481BED /* IconSetWindow.nib */; };
 		1BF28B760B5B1A9D00481BED /* SlideshowDelayPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.nib */; };
 		1BFB09CB0B0FE2C90088CDB4 /* XeeJPEGUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB09CA0B0FE2C90088CDB4 /* XeeJPEGUtilities.m */; };
-		1BFB0CD60B11EE040088CDB4 /* XeeImageThumbnailing.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0CD50B11EE040088CDB4 /* XeeImageThumbnailing.m */; };
 		1BFB0D000B1200AB0088CDB4 /* XeeJPEGLosslessSaving.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0CFF0B1200AB0088CDB4 /* XeeJPEGLosslessSaving.m */; };
 		1BFB0E0B0B126FD10088CDB4 /* XeeImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E0A0B126FD10088CDB4 /* XeeImageSource.m */; };
 		1BFB0E490B139D260088CDB4 /* XeeFileSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E480B139D260088CDB4 /* XeeFileSource.m */; };
@@ -138,10 +136,6 @@
 		1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFF73280B6AF5C500E0900B /* IOKit.framework */; };
 		5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAA81E70A3DF00697829 /* Security.framework */; };
 		5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5571AAB21E70AE9200697829 /* Icons.xcassets */; };
-		558A1ED31E70DC7600C41ADA /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1EB61E70DC5900C41ADA /* XADMaster.framework */; };
-		558A1ED41E70DC7600C41ADA /* XADMaster.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1EB61E70DC5900C41ADA /* XADMaster.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		558A1ED71E70DC7600C41ADA /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1E9D1E70DC4700C41ADA /* UniversalDetector.framework */; };
-		558A1ED81E70DC7600C41ADA /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1E9D1E70DC4700C41ADA /* UniversalDetector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		558A1EE41E70E63300C41ADA /* asahi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1420F0B094080003A8D57 /* asahi.c */; };
 		558A1EE51E70E63300C41ADA /* canon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142100B094080003A8D57 /* canon.c */; };
 		558A1EE61E70E63300C41ADA /* casio.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142110B094080003A8D57 /* casio.c */; };
@@ -247,6 +241,8 @@
 		558A1F681E70E73300C41ADA /* gifalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C16E08E23B6C00859EE2 /* gifalloc.c */; };
 		558A1F691E70E73300C41ADA /* quantize.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C16F08E23B6C00859EE2 /* quantize.c */; };
 		558A1F6C1E70E74900C41ADA /* libungif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1F5F1E70E72300C41ADA /* libungif.a */; };
+		558A1FE61E71153A00C41ADA /* XeeTypesAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */; };
+		558A1FE81E713EF400C41ADA /* XeeImageThumbnailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */; };
 		7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC411DD17DC0A8600626F23 /* libz.dylib */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -255,146 +251,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		558A1E9C1E70DC4700C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = UniversalDetector;
-		};
-		558A1E9E1E70DC4700C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B0DDCAB0A2D0AD10009B697;
-			remoteInfo = DetectorTest;
-		};
-		558A1EA01E70DC4700C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5518C6D41BDAFDCC00D50302;
-			remoteInfo = UniversalDetectorTests;
-		};
-		558A1EB51E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = XADMaster;
-		};
-		558A1EB71E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5500A60F1D776ADB00321300;
-			remoteInfo = "XADMaster-simple";
-		};
-		558A1EB91E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B34A97511C2FD0500396C26;
-			remoteInfo = libXADMaster.a;
-		};
-		558A1EBB1E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B91CD5E11D97E7C0081E40A;
-			remoteInfo = libXADMaster.win.a;
-		};
-		558A1EBD1E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B467B0115CD9A73001AB1DD;
-			remoteInfo = libXADMaster.ios.a;
-		};
-		558A1EBF1E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B5A7BA30A24F9B400B189EB;
-			remoteInfo = XADTest;
-		};
-		558A1EC11E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BBAB68B0EC274A3007FE6A2;
-			remoteInfo = XADTest2;
-		};
-		558A1EC31E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BC8931A0ED6F283006B47FE;
-			remoteInfo = XADTest3;
-		};
-		558A1EC51E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B3A68A2101BA12C00AE25A8;
-			remoteInfo = XADTest4;
-		};
-		558A1EC71E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B342390131D8B5B00CCDF77;
-			remoteInfo = XADTest5;
-		};
-		558A1EC91E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B31CB9213C6423600ED119E;
-			remoteInfo = XADTest6;
-		};
-		558A1ECB1E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B23DDC01185EBA300620319;
-			remoteInfo = unar;
-		};
-		558A1ECD1E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B91D18F11E1677B0081E40A;
-			remoteInfo = lsar;
-		};
-		558A1ECF1E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B91CDAC11D981E20081E40A;
-			remoteInfo = unar.exe;
-		};
-		558A1ED11E70DC5900C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B91D2EE11E694860081E40A;
-			remoteInfo = lsar.exe;
-		};
-		558A1ED51E70DC7600C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = XADMaster;
-		};
-		558A1ED91E70DC7600C41ADA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = UniversalDetector;
-		};
 		558A1EF71E70E66200C41ADA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -423,6 +279,132 @@
 			remoteGlobalIDString = 558A1F5E1E70E72300C41ADA;
 			remoteInfo = ungif;
 		};
+		558A1FBA1E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = XADMaster;
+		};
+		558A1FBC1E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5500A60F1D776ADB00321300;
+			remoteInfo = "XADMaster-simple";
+		};
+		558A1FBE1E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B34A97511C2FD0500396C26;
+			remoteInfo = libXADMaster.a;
+		};
+		558A1FC01E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B91CD5E11D97E7C0081E40A;
+			remoteInfo = libXADMaster.win.a;
+		};
+		558A1FC21E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B467B0115CD9A73001AB1DD;
+			remoteInfo = libXADMaster.ios.a;
+		};
+		558A1FC41E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B5A7BA30A24F9B400B189EB;
+			remoteInfo = XADTest;
+		};
+		558A1FC61E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BBAB68B0EC274A3007FE6A2;
+			remoteInfo = XADTest2;
+		};
+		558A1FC81E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BC8931A0ED6F283006B47FE;
+			remoteInfo = XADTest3;
+		};
+		558A1FCA1E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B3A68A2101BA12C00AE25A8;
+			remoteInfo = XADTest4;
+		};
+		558A1FCC1E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B342390131D8B5B00CCDF77;
+			remoteInfo = XADTest5;
+		};
+		558A1FCE1E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B31CB9213C6423600ED119E;
+			remoteInfo = XADTest6;
+		};
+		558A1FD01E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B23DDC01185EBA300620319;
+			remoteInfo = unar;
+		};
+		558A1FD21E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B91D18F11E1677B0081E40A;
+			remoteInfo = lsar;
+		};
+		558A1FD41E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B91CDAC11D981E20081E40A;
+			remoteInfo = unar.exe;
+		};
+		558A1FD61E71142900C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B91D2EE11E694860081E40A;
+			remoteInfo = lsar.exe;
+		};
+		558A1FDD1E71142D00C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = UniversalDetector;
+		};
+		558A1FDF1E71142D00C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B0DDCAB0A2D0AD10009B697;
+			remoteInfo = DetectorTest;
+		};
+		558A1FE11E71142D00C41ADA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5518C6D41BDAFDCC00D50302;
+			remoteInfo = UniversalDetectorTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -432,8 +414,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				558A1ED81E70DC7600C41ADA /* UniversalDetector.framework in Copy Frameworks */,
-				558A1ED41E70DC7600C41ADA /* XADMaster.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -723,7 +703,6 @@
 		1BF9A79A0B5C3EA000A79EA7 /* XeeDreamcastLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeDreamcastLoader.m; sourceTree = "<group>"; };
 		1BFB09C90B0FE2C90088CDB4 /* XeeJPEGUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeJPEGUtilities.h; sourceTree = "<group>"; };
 		1BFB09CA0B0FE2C90088CDB4 /* XeeJPEGUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeJPEGUtilities.m; sourceTree = "<group>"; };
-		1BFB0CD40B11EE040088CDB4 /* XeeImageThumbnailing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeImageThumbnailing.h; sourceTree = "<group>"; };
 		1BFB0CD50B11EE040088CDB4 /* XeeImageThumbnailing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeImageThumbnailing.m; sourceTree = "<group>"; };
 		1BFB0CFE0B1200AB0088CDB4 /* XeeJPEGLosslessSaving.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeJPEGLosslessSaving.h; sourceTree = "<group>"; };
 		1BFB0CFF0B1200AB0088CDB4 /* XeeJPEGLosslessSaving.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeJPEGLosslessSaving.m; sourceTree = "<group>"; };
@@ -816,22 +795,25 @@
 		1C14FE431C70CEB300200498 /* jversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jversion.h; sourceTree = "<group>"; };
 		1C14FE441C70CEB300200498 /* transupp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transupp.c; sourceTree = "<group>"; };
 		1C14FE451C70CEB300200498 /* transupp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transupp.h; sourceTree = "<group>"; };
-		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
+		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4B7FDCFA73011CA2CEA /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		32DBCF750370BD2300C91783 /* Xee_Prefix.pch */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = Xee_Prefix.pch; sourceTree = "<group>"; };
+		32DBCF750370BD2300C91783 /* Xee_Prefix.pch */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = Xee_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		5571AAA81E70A3DF00697829 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5571AAAA1E70A3F500697829 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5571AAAB1E70A3F600697829 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5571AAAE1E70A3FC00697829 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
-		5571AAB11E70A7CD00697829 /* XeePrefKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XeePrefKeys.h; path = Classes/XeePrefKeys.h; sourceTree = "<group>"; };
+		5571AAB11E70A7CD00697829 /* XeePrefKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XeePrefKeys.h; sourceTree = "<group>"; };
 		5571AAB21E70AE9200697829 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
-		558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = Vendor/UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
-		558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XADMaster.xcodeproj; path = Vendor/XADMaster/XADMaster/XADMaster.xcodeproj; sourceTree = "<group>"; };
+		558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = ../Vendor/UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
+		558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XADMaster.xcodeproj; path = ../Vendor/XADMaster/XADMaster/XADMaster.xcodeproj; sourceTree = "<group>"; };
 		558A1EE01E70E62100C41ADA /* libexiftags.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libexiftags.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1EFE1E70E67F00C41ADA /* libjpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libjpeg.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1F421E70E6D500C41ADA /* libpng.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libpng.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1F5F1E70E72300C41ADA /* libungif.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libungif.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1FA71E70FBAD00C41ADA /* PDFNameCollisionPreventer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDFNameCollisionPreventer.h; sourceTree = "<group>"; };
+		558A1FE41E71153900C41ADA /* Xee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Xee-Bridging-Header.h"; sourceTree = "<group>"; };
+		558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XeeTypesAdditions.swift; sourceTree = "<group>"; };
+		558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XeeImageThumbnailing.swift; sourceTree = "<group>"; };
 		7FC411DD17DC0A8600626F23 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Xee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xee.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -874,13 +856,10 @@
 				558A1F5A1E70E6FA00C41ADA /* libpng.a in Frameworks */,
 				558A1F3B1E70E6CA00C41ADA /* libjpeg.a in Frameworks */,
 				558A1EF91E70E66900C41ADA /* libexiftags.a in Frameworks */,
-				558A1ED31E70DC7600C41ADA /* XADMaster.framework in Frameworks */,
 				5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */,
-				1B68CEDA0885F5D7001971C8 /* QuickTime.framework in Frameworks */,
 				1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */,
-				558A1ED71E70DC7600C41ADA /* UniversalDetector.framework in Frameworks */,
 				1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */,
 				7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */,
 			);
@@ -1109,6 +1088,8 @@
 		1BE4C35208E4C46300859EE2 /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
+				558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */,
+				558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */,
 				1BCA06990E9C3DE60016D207 /* PDF */,
 				1BCA069A0E9C3DED0016D207 /* SWF */,
 				1BE4C47D08E5CA4200859EE2 /* XeeIFFHandle.h */,
@@ -1244,7 +1225,7 @@
 				1B2B5DAD0C78AEDD0057B42F /* XeeBitmapRawImage.m */,
 				1B2B5DB50C78AF140057B42F /* XeeIndexedRawImage.h */,
 				1B2B5DB60C78AF140057B42F /* XeeIndexedRawImage.m */,
-				1BFB0CD40B11EE040088CDB4 /* XeeImageThumbnailing.h */,
+				558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */,
 				1BFB0CD50B11EE040088CDB4 /* XeeImageThumbnailing.m */,
 			);
 			name = "Image Base Classes";
@@ -1263,15 +1244,6 @@
 				1BE7D7D00B2F58FD009166F5 /* XeeCropTool.m */,
 			);
 			name = "View Classes";
-			sourceTree = "<group>";
-		};
-		1BECC3C41082A779000385AB /* Local frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */,
-				558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */,
-			);
-			name = "Local frameworks";
 			sourceTree = "<group>";
 		};
 		1BF1420E0B094080003A8D57 /* exiftags */ = {
@@ -1359,11 +1331,13 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				558A1FE41E71153900C41ADA /* Xee-Bridging-Header.h */,
 				5571AAB11E70A7CD00697829 /* XeePrefKeys.h */,
 				32DBCF750370BD2300C91783 /* Xee_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
@@ -1395,7 +1369,6 @@
 			children = (
 				5571AAA81E70A3DF00697829 /* Security.framework */,
 				7FC411DD17DC0A8600626F23 /* libz.dylib */,
-				1BECC3C41082A779000385AB /* Local frameworks */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				1B3D30D809351D7A00345FD0 /* Carbon.framework */,
 				1B68CED90885F5D7001971C8 /* QuickTime.framework */,
@@ -1416,41 +1389,50 @@
 			name = "Additional frameworks";
 			sourceTree = "<group>";
 		};
-		558A1E971E70DC4700C41ADA /* Products */ = {
+		558A1FA81E71142900C41ADA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				558A1E9D1E70DC4700C41ADA /* UniversalDetector.framework */,
-				558A1E9F1E70DC4700C41ADA /* DetectorTest */,
-				558A1EA11E70DC4700C41ADA /* UniversalDetectorTests.xctest */,
+				558A1FBB1E71142900C41ADA /* XADMaster.framework */,
+				558A1FBD1E71142900C41ADA /* XADMaster.framework */,
+				558A1FBF1E71142900C41ADA /* libXADMaster.a */,
+				558A1FC11E71142900C41ADA /* libXADMaster.win.a */,
+				558A1FC31E71142900C41ADA /* libXADMaster.ios.a */,
+				558A1FC51E71142900C41ADA /* XADTest */,
+				558A1FC71E71142900C41ADA /* XADTest2 */,
+				558A1FC91E71142900C41ADA /* XADTest3 */,
+				558A1FCB1E71142900C41ADA /* XADTest4 */,
+				558A1FCD1E71142900C41ADA /* XADTest5 */,
+				558A1FCF1E71142900C41ADA /* XADTest6 */,
+				558A1FD11E71142900C41ADA /* unar */,
+				558A1FD31E71142900C41ADA /* lsar */,
+				558A1FD51E71142900C41ADA /* unar.exe */,
+				558A1FD71E71142900C41ADA /* lsar.exe */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		558A1EA31E70DC5800C41ADA /* Products */ = {
+		558A1FD81E71142D00C41ADA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				558A1EB61E70DC5900C41ADA /* XADMaster.framework */,
-				558A1EB81E70DC5900C41ADA /* XADMaster.framework */,
-				558A1EBA1E70DC5900C41ADA /* libXADMaster.a */,
-				558A1EBC1E70DC5900C41ADA /* libXADMaster.win.a */,
-				558A1EBE1E70DC5900C41ADA /* libXADMaster.ios.a */,
-				558A1EC01E70DC5900C41ADA /* XADTest */,
-				558A1EC21E70DC5900C41ADA /* XADTest2 */,
-				558A1EC41E70DC5900C41ADA /* XADTest3 */,
-				558A1EC61E70DC5900C41ADA /* XADTest4 */,
-				558A1EC81E70DC5900C41ADA /* XADTest5 */,
-				558A1ECA1E70DC5900C41ADA /* XADTest6 */,
-				558A1ECC1E70DC5900C41ADA /* unar */,
-				558A1ECE1E70DC5900C41ADA /* lsar */,
-				558A1ED01E70DC5900C41ADA /* unar.exe */,
-				558A1ED21E70DC5900C41ADA /* lsar.exe */,
+				558A1FDE1E71142D00C41ADA /* UniversalDetector.framework */,
+				558A1FE01E71142D00C41ADA /* DetectorTest */,
+				558A1FE21E71142D00C41ADA /* UniversalDetectorTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		558A1FE31E71151D00C41ADA /* Swift Additions */ = {
+			isa = PBXGroup;
+			children = (
+				558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */,
+			);
+			name = "Swift Additions";
 			sourceTree = "<group>";
 		};
 		55E22B211E70D6D3009C9E1A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				558A1FE31E71151D00C41ADA /* Swift Additions */,
 				2A37F4ABFDCFA73011CA2CEA /* Controllers */,
 				1BE7D7C70B2F58D8009166F5 /* View Classes */,
 				1BE5E4B00A8249CF00967AD2 /* Other UI Elements */,
@@ -1600,8 +1582,6 @@
 				558A1F591E70E6F500C41ADA /* PBXTargetDependency */,
 				558A1F3D1E70E6CE00C41ADA /* PBXTargetDependency */,
 				558A1EF81E70E66200C41ADA /* PBXTargetDependency */,
-				558A1ED61E70DC7600C41ADA /* PBXTargetDependency */,
-				558A1EDA1E70DC7600C41ADA /* PBXTargetDependency */,
 			);
 			name = Xee;
 			productInstallPath = "$(HOME)/Applications";
@@ -1633,6 +1613,9 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 					};
+					8D15AC270486D014006FF6A4 = {
+						LastSwiftMigration = 0820;
+					};
 				};
 			};
 			buildConfigurationList = 1B74977908D33EA2003CCA48 /* Build configuration list for PBXProject "Xee" */;
@@ -1653,11 +1636,11 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 558A1E971E70DC4700C41ADA /* Products */;
+					ProductGroup = 558A1FD81E71142D00C41ADA /* Products */;
 					ProjectRef = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
 				},
 				{
-					ProductGroup = 558A1EA31E70DC5800C41ADA /* Products */;
+					ProductGroup = 558A1FA81E71142900C41ADA /* Products */;
 					ProjectRef = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
 				},
 			);
@@ -1673,130 +1656,130 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		558A1E9D1E70DC4700C41ADA /* UniversalDetector.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = UniversalDetector.framework;
-			remoteRef = 558A1E9C1E70DC4700C41ADA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		558A1E9F1E70DC4700C41ADA /* DetectorTest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = DetectorTest;
-			remoteRef = 558A1E9E1E70DC4700C41ADA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		558A1EA11E70DC4700C41ADA /* UniversalDetectorTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = UniversalDetectorTests.xctest;
-			remoteRef = 558A1EA01E70DC4700C41ADA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		558A1EB61E70DC5900C41ADA /* XADMaster.framework */ = {
+		558A1FBB1E71142900C41ADA /* XADMaster.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = XADMaster.framework;
-			remoteRef = 558A1EB51E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FBA1E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EB81E70DC5900C41ADA /* XADMaster.framework */ = {
+		558A1FBD1E71142900C41ADA /* XADMaster.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = XADMaster.framework;
-			remoteRef = 558A1EB71E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FBC1E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EBA1E70DC5900C41ADA /* libXADMaster.a */ = {
+		558A1FBF1E71142900C41ADA /* libXADMaster.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libXADMaster.a;
-			remoteRef = 558A1EB91E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FBE1E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EBC1E70DC5900C41ADA /* libXADMaster.win.a */ = {
+		558A1FC11E71142900C41ADA /* libXADMaster.win.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libXADMaster.win.a;
-			remoteRef = 558A1EBB1E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FC01E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EBE1E70DC5900C41ADA /* libXADMaster.ios.a */ = {
+		558A1FC31E71142900C41ADA /* libXADMaster.ios.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libXADMaster.ios.a;
-			remoteRef = 558A1EBD1E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FC21E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EC01E70DC5900C41ADA /* XADTest */ = {
+		558A1FC51E71142900C41ADA /* XADTest */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = XADTest;
-			remoteRef = 558A1EBF1E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FC41E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EC21E70DC5900C41ADA /* XADTest2 */ = {
+		558A1FC71E71142900C41ADA /* XADTest2 */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = XADTest2;
-			remoteRef = 558A1EC11E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FC61E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EC41E70DC5900C41ADA /* XADTest3 */ = {
+		558A1FC91E71142900C41ADA /* XADTest3 */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = XADTest3;
-			remoteRef = 558A1EC31E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FC81E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EC61E70DC5900C41ADA /* XADTest4 */ = {
+		558A1FCB1E71142900C41ADA /* XADTest4 */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = XADTest4;
-			remoteRef = 558A1EC51E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FCA1E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1EC81E70DC5900C41ADA /* XADTest5 */ = {
+		558A1FCD1E71142900C41ADA /* XADTest5 */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = XADTest5;
-			remoteRef = 558A1EC71E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FCC1E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1ECA1E70DC5900C41ADA /* XADTest6 */ = {
+		558A1FCF1E71142900C41ADA /* XADTest6 */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = XADTest6;
-			remoteRef = 558A1EC91E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FCE1E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1ECC1E70DC5900C41ADA /* unar */ = {
+		558A1FD11E71142900C41ADA /* unar */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = unar;
-			remoteRef = 558A1ECB1E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FD01E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1ECE1E70DC5900C41ADA /* lsar */ = {
+		558A1FD31E71142900C41ADA /* lsar */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = lsar;
-			remoteRef = 558A1ECD1E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FD21E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1ED01E70DC5900C41ADA /* unar.exe */ = {
+		558A1FD51E71142900C41ADA /* unar.exe */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = unar.exe;
-			remoteRef = 558A1ECF1E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FD41E71142900C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		558A1ED21E70DC5900C41ADA /* lsar.exe */ = {
+		558A1FD71E71142900C41ADA /* lsar.exe */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = lsar.exe;
-			remoteRef = 558A1ED11E70DC5900C41ADA /* PBXContainerItemProxy */;
+			remoteRef = 558A1FD61E71142900C41ADA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		558A1FDE1E71142D00C41ADA /* UniversalDetector.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = UniversalDetector.framework;
+			remoteRef = 558A1FDD1E71142D00C41ADA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		558A1FE01E71142D00C41ADA /* DetectorTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = DetectorTest;
+			remoteRef = 558A1FDF1E71142D00C41ADA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		558A1FE21E71142D00C41ADA /* UniversalDetectorTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = UniversalDetectorTests.xctest;
+			remoteRef = 558A1FE11E71142D00C41ADA /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1990,6 +1973,7 @@
 				1B1D48E80AFD44C0009AA7EB /* XeeMultiImage.m in Sources */,
 				1B1D4C320AFE97B6009AA7EB /* XeeJPEGLoader.m in Sources */,
 				1B1D4D670AFECED5009AA7EB /* XeePNGLoader.m in Sources */,
+				558A1FE81E713EF400C41ADA /* XeeImageThumbnailing.swift in Sources */,
 				1B1D4DCC0AFED947009AA7EB /* XeeGIFLoader.m in Sources */,
 				1B1D4E320AFEE7BE009AA7EB /* XeePCXLoader.m in Sources */,
 				1B1D4E460AFEEEA8009AA7EB /* XeeILBMLoader.m in Sources */,
@@ -2004,7 +1988,6 @@
 				1BF142420B094404003A8D57 /* XeeEXIFParser.m in Sources */,
 				1BF143370B0A6364003A8D57 /* XeePropertiesController.m in Sources */,
 				1BFB09CB0B0FE2C90088CDB4 /* XeeJPEGUtilities.m in Sources */,
-				1BFB0CD60B11EE040088CDB4 /* XeeImageThumbnailing.m in Sources */,
 				1BFB0D000B1200AB0088CDB4 /* XeeJPEGLosslessSaving.m in Sources */,
 				1BFB0E0B0B126FD10088CDB4 /* XeeImageSource.m in Sources */,
 				1BFB0E490B139D260088CDB4 /* XeeFileSource.m in Sources */,
@@ -2022,6 +2005,7 @@
 				1B5552040B278EEB00DC7FF3 /* XeeGraphicsStuff.m in Sources */,
 				1B5553EA0B28DCF800DC7FF3 /* CSDesktopServices.m in Sources */,
 				1BE7D7BE0B2E4739009166F5 /* XeeTool.m in Sources */,
+				558A1FE61E71153A00C41ADA /* XeeTypesAdditions.swift in Sources */,
 				1BE7D7CC0B2F58F4009166F5 /* XeeMoveTool.m in Sources */,
 				1BE7D7D10B2F58FD009166F5 /* XeeCropTool.m in Sources */,
 				1B16F6070C0BB10F002B0008 /* XeeStringAdditions.m in Sources */,
@@ -2062,16 +2046,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		558A1ED61E70DC7600C41ADA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = XADMaster;
-			targetProxy = 558A1ED51E70DC7600C41ADA /* PBXContainerItemProxy */;
-		};
-		558A1EDA1E70DC7600C41ADA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UniversalDetector;
-			targetProxy = 558A1ED91E70DC7600C41ADA /* PBXContainerItemProxy */;
-		};
 		558A1EF81E70E66200C41ADA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 558A1EDF1E70E62100C41ADA /* exiftags */;
@@ -2245,6 +2219,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Xee;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -2263,6 +2238,9 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cx.c3.xee;
 				PRODUCT_NAME = Xee;
+				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Xee-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2271,6 +2249,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Xee;
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -2288,6 +2267,8 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cx.c3.xee;
 				PRODUCT_NAME = Xee;
+				SWIFT_OBJC_BRIDGING_HEADER = "Classes/Xee-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

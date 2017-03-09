@@ -178,13 +178,13 @@
 
 -(CGImageRef)createCGImage { return [[self currentSubImage] createCGImage]; }
 
--(int)losslessSaveFlags { return [[self currentSubImage] losslessSaveFlags]; }
+-(XeeSaveFormatFlags)losslessSaveFlags { return [[self currentSubImage] losslessSaveFlags]; }
 
 -(NSString *)losslessFormat { return [[self currentSubImage] losslessFormat]; }
 
 -(NSString *)losslessExtension { return [[self currentSubImage] losslessExtension]; }
 
--(BOOL)losslessSaveTo:(NSString *)path flags:(int)flags { return [[self currentSubImage] losslessSaveTo:path flags:flags]; }
+-(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags { return [[self currentSubImage] losslessSaveTo:path flags:flags]; }
 
 
 

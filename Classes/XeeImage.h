@@ -48,11 +48,10 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	id<XeeImageDelegate> delegate;
 }
 
--(id)init;
--(id)initWithHandle:(CSHandle *)fh;
--(id)initWithHandle:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
--(id)initWithHandle2:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
--(void)dealloc;
+-(instancetype)init;
+-(instancetype)initWithHandle:(CSHandle *)fh;
+-(instancetype)initWithHandle:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
+-(instancetype)initWithHandle2:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
 
 -(SEL)initLoader;
 -(void)deallocLoader;
@@ -63,11 +62,13 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 -(void)runLoader2;
 -(void)load;
 
--(BOOL)loaded;
--(BOOL)failed;
--(BOOL)needsLoading;
+@property (readonly) BOOL loaded;
+@property (readonly) BOOL failed;
+@property (readonly) BOOL needsLoading;
 -(void)stopLoading;
--(BOOL)hasBeenStopped;
+@property (readonly) BOOL hasBeenStopped;
+@property (readonly) CSHandle *handle;
+@property (readonly) CSFileHandle *fileHandle;
 -(CSHandle *)handle;
 -(CSFileHandle *)fileHandle;
 
@@ -80,7 +81,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 -(void)triggerSizeChangeAction;
 -(void)triggerPropertyChangeAction;
 
--(BOOL)animated;
+@property (readonly) BOOL animated;
 @property (nonatomic) BOOL animating;
 -(void)setAnimatingDefault;
 
@@ -89,25 +90,25 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 -(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds;
 -(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds lowQuality:(BOOL)lowquality;
 
--(CGImageRef)createCGImage;
+-(CGImageRef)createCGImage CF_RETURNS_RETAINED;
 
--(int)losslessSaveFlags;
--(NSString *)losslessFormat;
--(NSString *)losslessExtension;
--(BOOL)losslessSaveTo:(NSString *)path flags:(int)flags;
+@property (readonly) XeeSaveFormatFlags losslessSaveFlags;
+@property (readonly, copy) NSString *losslessFormat;
+@property (readonly, copy) NSString *losslessExtension;
+-(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
 
--(XeeFSRef *)ref;
--(NSString *)filename;
--(NSString *)format;
--(NSImage *)icon;
--(int)width;
--(int)height;
--(int)fullWidth;
--(int)fullHeight;
--(NSString *)depth;
--(NSImage *)depthIcon;
--(BOOL)transparent;
--(NSColor *)backgroundColor;
+@property (readonly, retain) XeeFSRef *ref;
+@property (readonly) NSString *filename;
+@property (nonatomic, copy) NSString *format;
+@property (nonatomic, retain) NSImage *icon;
+@property (readonly) int width;
+@property (readonly) int height;
+@property (readonly) int fullWidth;
+@property (readonly) int fullHeight;
+@property (nonatomic, copy) NSString *depth;
+@property (nonatomic, retain) NSImage *depthIcon;
+@property (readonly) BOOL transparent;
+@property (readonly) NSColor *backgroundColor;
 
 @property (readonly) XeeTransformation orientation;
 @property (readonly) XeeTransformation correctOrientation;
@@ -115,15 +116,15 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 @property (readonly) NSRect rawCroppingRect;
 @property (readonly, getter=isTransformed) BOOL transformed;
 @property (readonly, getter=isCropped) BOOL cropped;
--(XeeMatrix)transformationMatrix;
+@property (readonly) XeeMatrix transformationMatrix;
 -(XeeMatrix)transformationMatrixInRect:(NSRect)rect;
 
 -(NSArray *)properties;
 
 -(NSDictionary *)attributes;
--(uint64_t)fileSize;
--(NSDate *)date;
--(NSString *)descriptiveFilename;
+@property (readonly) uint64_t fileSize;
+@property (readonly) NSDate *date;
+@property (readonly, copy) NSString *descriptiveFilename;
 
 //-(void)setFilename:(NSString *)name;
 -(void)setFormat:(NSString *)fmt;
@@ -150,7 +151,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 -(void)setDepthRGB:(int)bits;
 -(void)setDepthRGBA:(int)bits;
 
--(id)description;
+-(NSString*)description;
 
 +(XeeImage *)imageForFilename:(NSString *)filename;
 +(XeeImage *)imageForRef:(XeeFSRef *)ref;
