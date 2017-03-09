@@ -14,8 +14,8 @@
 GLuint make_resize_texture();
 
 @interface NSEvent (DeviceDelta)
--(float)deviceDeltaX;
--(float)deviceDeltaY;
+-(CGFloat)deviceDeltaX;
+-(CGFloat)deviceDeltaY;
 @end
 
 

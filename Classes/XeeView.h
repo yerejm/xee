@@ -26,10 +26,10 @@
 
 	GLuint resizetex;
 
-	id delegate;
+	id<XeeViewDelegate> delegate;
 }
 
--(id)initWithFrame:(NSRect)frameRect;
+-(instancetype)initWithFrame:(NSRect)frameRect;
 -(void)dealloc;
 
 -(BOOL)acceptsFirstResponder;

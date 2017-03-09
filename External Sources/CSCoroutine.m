@@ -102,6 +102,7 @@ static void CSSetEntryPoint(jmp_buf env,void (*entry)(),void *stack,int stacksiz
 	if(_setjmp(env)==0) _longjmp(caller->env,1);
 }
 
+#if 0
 static void CSTigerCoroutineStart()
 {
 	CSCoroutine *coro=CSCurrentCoroutine();
@@ -109,9 +110,11 @@ static void CSTigerCoroutineStart()
 	[coro returnFrom];
 	[NSException raise:@"CSCoroutineException" format:@"Attempted to switch to a coroutine that has ended"];
 }
+#endif
 
 -forward:(SEL)sel :(marg_list)args // Tiger forwarding
 {
+#if 0
 	if(fired) [NSException raise:@"CSCoroutineException" format:@"Attempted to start a coroutine that is already running"];
 	fired=YES;
 
@@ -125,6 +128,7 @@ static void CSTigerCoroutineStart()
 	CSSetEntryPoint(env,CSTigerCoroutineStart,stack,stacksize);
 
 	[self switchTo];
+#endif
 	return nil;
 }
 
