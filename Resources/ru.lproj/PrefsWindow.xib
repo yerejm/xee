@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -239,14 +238,14 @@
                             <tabViewItem label="Клавиатура" identifier="" id="584">
                                 <view key="view" id="585">
                                     <rect key="frame" x="10" y="33" width="503" height="367"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="0.0" verticalLineScroll="19" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="669">
                                             <rect key="frame" x="20" y="44" width="463" height="323"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <clipView key="contentView" id="uYz-yA-WKg">
                                                 <rect key="frame" x="1" y="0.0" width="461" height="322"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveName="xeekeyboardlist" headerView="1100" id="670" customClass="CSKeyboardList">
                                                         <rect key="frame" x="0.0" y="0.0" width="461" height="299"/>
@@ -303,9 +302,9 @@
                                         <button toolTip="Add a new shortcut key for the currectly selected action." id="704">
                                             <rect key="frame" x="20" y="16" width="23" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="add_idle" imagePosition="only" alignment="center" alternateImage="add_pressed" inset="2" id="1083">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1083">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
+                                                <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="addShortcut:" target="670" id="710"/>
@@ -314,9 +313,9 @@
                                         <button toolTip="Remove the currently selected shortcut key." id="705">
                                             <rect key="frame" x="43" y="16" width="22" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="remove_idle" imagePosition="only" alignment="center" alternateImage="remove_pressed" inset="2" id="1084">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRemoveTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1084">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
+                                                <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="removeShortcut:" target="670" id="711"/>
@@ -325,9 +324,9 @@
                                         <button toolTip="Reset the shortcut keys of the currently selected action to the defaults." id="706">
                                             <rect key="frame" x="65" y="16" width="22" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="reset_idle" imagePosition="only" alignment="center" alternateImage="reset_pressed" inset="2" id="1085">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1085">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
+                                                <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="resetToDefaults:" target="670" id="712"/>
@@ -654,11 +653,8 @@
         </window>
     </objects>
     <resources>
-        <image name="add_idle" width="23" height="22"/>
-        <image name="add_pressed" width="23" height="22"/>
-        <image name="remove_idle" width="22" height="22"/>
-        <image name="remove_pressed" width="22" height="22"/>
-        <image name="reset_idle" width="22" height="22"/>
-        <image name="reset_pressed" width="22" height="22"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="NSStopProgressTemplate" width="11" height="11"/>
     </resources>
 </document>

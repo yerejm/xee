@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,11 +15,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <userDefaultsController representsSharedInstance="YES" id="266" userLabel="Shared Defaults"/>
-        <window title="Předvolby Xee" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="prefsWindow" animationBehavior="default" id="388" userLabel="PrefsWindow">
+        <window title="Xee 環境設定" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="prefsWindow" animationBehavior="default" id="388" userLabel="PrefsWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="89" y="301" width="495" height="400"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1024" height="746"/>
+            <rect key="contentRect" x="269" y="324" width="495" height="400"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1057"/>
             <view key="contentView" id="389">
                 <rect key="frame" x="0.0" y="0.0" width="495" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -30,7 +29,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
-                            <tabViewItem label="Hlavní" identifier="1" id="393">
+                            <tabViewItem label="一般" identifier="1" id="393">
                                 <view key="view" id="394">
                                     <rect key="frame" x="10" y="33" width="503" height="367"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -47,15 +46,15 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="Použít jedno okno" imagePosition="left" alignment="left" state="on" inset="2" id="399">
+                                                    <buttonCell type="radio" title="単一ウインドウを使用" imagePosition="left" alignment="left" state="on" inset="2" id="399">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Použít jedno okno na složku" imagePosition="left" alignment="left" tag="1" inset="2" id="400">
+                                                    <buttonCell type="radio" title="1 フォルダ毎に 1 ウインドウ" imagePosition="left" alignment="left" tag="1" inset="2" id="400">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Vždy otevírat nové okno" imagePosition="left" alignment="left" inset="2" id="401">
+                                                    <buttonCell type="radio" title="常に新規ウインドウを開く" imagePosition="left" alignment="left" inset="2" id="401">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -68,7 +67,7 @@
                                         <textField verticalHuggingPriority="750" id="398">
                                             <rect key="frame" x="9" y="330" width="156" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Otevírá se okno:" id="1067">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="ウインドウの開き方：" id="1067">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -77,7 +76,7 @@
                                         <textField verticalHuggingPriority="750" id="615">
                                             <rect key="frame" x="9" y="258" width="156" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Přizpůsobuje se okno:" id="1068">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="ウインドウのリサイズ：" id="1068">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -95,15 +94,15 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="Vždy přizpůsobit rozměr okna jak je třeba" imagePosition="left" alignment="left" state="on" inset="2" id="621">
+                                                    <buttonCell type="radio" title="常に必要に応じてリサイズ" imagePosition="left" alignment="left" state="on" inset="2" id="621">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Nepřizpůsobovat při zobrazení řádku nástrojů" imagePosition="left" alignment="left" tag="1" inset="2" id="622">
+                                                    <buttonCell type="radio" title="ツールバー使用時はリサイズしない" imagePosition="left" alignment="left" tag="1" inset="2" id="622">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Nikdy nepřizpůsobovat" imagePosition="left" alignment="left" inset="2" id="623">
+                                                    <buttonCell type="radio" title="ウインドウをリサイズしない" imagePosition="left" alignment="left" inset="2" id="623">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -148,7 +147,7 @@
                                         <textField verticalHuggingPriority="750" id="731">
                                             <rect key="frame" x="9" y="182" width="156" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Barvy:" id="1069">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="カラー：" id="1069">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -157,7 +156,7 @@
                                         <textField verticalHuggingPriority="750" id="732">
                                             <rect key="frame" x="229" y="150" width="244" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Pozadí okna" id="1070">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="ウインドウのバックグラウンド" id="1070">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -166,7 +165,7 @@
                                         <textField verticalHuggingPriority="750" id="733">
                                             <rect key="frame" x="229" y="182" width="244" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Výchozí pozadí obrázku" id="1071">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="省略時のイメージのバックグラウンド" id="1071">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -187,7 +186,7 @@
                                         <textField verticalHuggingPriority="750" id="735">
                                             <rect key="frame" x="229" y="118" width="240" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Pozadí celoobrazovkového režimu" id="1072">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="フルスクリーン時のバックグラウンド" id="1072">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -200,7 +199,7 @@
                                         <textField verticalHuggingPriority="750" id="857">
                                             <rect key="frame" x="9" y="81" width="156" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Kolečko myši:" id="1073">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="スクロールホイール：" id="1073">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -218,11 +217,11 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="Prochází obrázky" imagePosition="left" alignment="left" state="on" inset="2" id="887">
+                                                    <buttonCell type="radio" title="イメージをブラウズ" imagePosition="left" alignment="left" state="on" inset="2" id="887">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Pohybuje obrázkem" imagePosition="left" alignment="left" tag="1" inset="2" id="888">
+                                                    <buttonCell type="radio" title="イメージをスクロール" imagePosition="left" alignment="left" tag="1" inset="2" id="888">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -235,17 +234,17 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="Klávesnice" identifier="" id="584">
+                            <tabViewItem label="キーボード" identifier="" id="584">
                                 <view key="view" id="585">
                                     <rect key="frame" x="10" y="33" width="503" height="367"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="0.0" verticalLineScroll="19" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="669">
                                             <rect key="frame" x="20" y="44" width="463" height="323"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <clipView key="contentView" id="OOg-f1-fnd">
+                                            <clipView key="contentView" id="7ng-eA-JuY">
                                                 <rect key="frame" x="1" y="0.0" width="461" height="322"/>
-                                                <autoresizingMask key="autoresizingMask"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveName="xeekeyboardlist" headerView="1100" id="670" customClass="CSKeyboardList">
                                                         <rect key="frame" x="0.0" y="0.0" width="461" height="299"/>
@@ -254,8 +253,8 @@
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                         <tableColumns>
-                                                            <tableColumn identifier="title" editable="NO" width="250.5" minWidth="40" maxWidth="1000" id="671">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Akce">
+                                                            <tableColumn identifier="title" editable="NO" width="242" minWidth="40" maxWidth="1000" id="671">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="アクション">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
@@ -267,8 +266,8 @@
                                                                 </textFieldCell>
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
-                                                            <tableColumn identifier="shortcuts" editable="NO" width="204.52490234375" minWidth="58.3056640625" maxWidth="1000" id="672">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Klávesové zkratky">
+                                                            <tableColumn identifier="shortcuts" editable="NO" width="213" minWidth="58.3056640625" maxWidth="1000" id="672">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="ショートカット">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
@@ -299,34 +298,34 @@
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </tableHeaderView>
                                         </scrollView>
-                                        <button toolTip="Přidat novou kl. zkratku aktuálně vybrané akci." id="704">
+                                        <button toolTip="選択されたアクションに新規ショートカットキーを割り当てます。" id="704">
                                             <rect key="frame" x="20" y="16" width="23" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="add_idle" imagePosition="only" alignment="center" alternateImage="add_pressed" inset="2" id="1083">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1083">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
+                                                <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="addShortcut:" target="670" id="710"/>
                                             </connections>
                                         </button>
-                                        <button toolTip="Odstranit aktuálně vybranou kl. zkratku." id="705">
+                                        <button toolTip="選択したショートカットキーを削除します。" id="705">
                                             <rect key="frame" x="43" y="16" width="22" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="remove_idle" imagePosition="only" alignment="center" alternateImage="remove_pressed" inset="2" id="1084">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRemoveTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1084">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
+                                                <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="removeShortcut:" target="670" id="711"/>
                                             </connections>
                                         </button>
-                                        <button toolTip="Nastavit výchozí kl. zkratku aktuálně vybrané akci." id="706">
+                                        <button toolTip="選択されたアクションのショートカットキーを省略時設定に戻します。" id="706">
                                             <rect key="frame" x="65" y="16" width="22" height="22"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="reset_idle" imagePosition="only" alignment="center" alternateImage="reset_pressed" inset="2" id="1085">
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1085">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                <font key="font" metaFont="system" size="10"/>
+                                                <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <action selector="resetToDefaults:" target="670" id="712"/>
@@ -335,7 +334,7 @@
                                         <textField verticalHuggingPriority="750" id="707">
                                             <rect key="frame" x="90" y="20" width="396" height="14"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Přesouvejte ikony klávesových zkratek metodou Táhni a pusť." id="1086">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="キーをドラッグ＆ドロップして割り当てを変更します。" id="1086">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -344,15 +343,15 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="Formáty" identifier="" id="633">
+                            <tabViewItem label="形式" identifier="" id="633">
                                 <view key="view" id="634">
                                     <rect key="frame" x="10" y="33" width="503" height="367"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="0.0" verticalLineScroll="19" verticalPageScroll="0.0" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" id="635">
                                             <rect key="frame" x="20" y="44" width="463" height="298"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <clipView key="contentView" id="lSv-Co-pBh">
+                                            <clipView key="contentView" id="Oea-st-x6H">
                                                 <rect key="frame" x="1" y="0.0" width="461" height="297"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
@@ -376,7 +375,7 @@
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                             <tableColumn identifier="description" editable="NO" width="231" minWidth="8" maxWidth="1000" id="637">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Formát souboru">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="ファイルの形式">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" white="0.33333299" alpha="1" colorSpace="calibratedWhite"/>
@@ -389,7 +388,7 @@
                                                                 <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                             </tableColumn>
                                                             <tableColumn identifier="extensions" editable="NO" width="197" minWidth="61.75537109375" maxWidth="1000" id="642">
-                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Přípony">
+                                                                <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="拡張子">
                                                                     <font key="font" metaFont="smallSystem"/>
                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -421,10 +420,8 @@
                                         <textField verticalHuggingPriority="750" id="645">
                                             <rect key="frame" x="17" y="350" width="428" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="1087">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="下記形式のイメージを Xee で開く：" id="1087">
                                                 <font key="font" metaFont="system"/>
-                                                <string key="title">Použít Xee pro otevírání těchto typů souborů:
-</string>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
@@ -432,7 +429,7 @@
                                         <button verticalHuggingPriority="750" id="892">
                                             <rect key="frame" x="20" y="16" width="83" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <buttonCell key="cell" type="smallSquare" title="Vybrat vše" bezelStyle="smallSquare" alignment="center" controlSize="small" borderStyle="border" inset="2" id="1088">
+                                            <buttonCell key="cell" type="smallSquare" title="すべてを選択" bezelStyle="smallSquare" alignment="center" controlSize="small" borderStyle="border" inset="2" id="1088">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
@@ -441,9 +438,9 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" id="893">
-                                            <rect key="frame" x="111" y="16" width="83" height="22"/>
+                                            <rect key="frame" x="111" y="16" width="104" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <buttonCell key="cell" type="smallSquare" title="Nevybrat nic" bezelStyle="smallSquare" alignment="center" controlSize="small" borderStyle="border" inset="2" id="1089">
+                                            <buttonCell key="cell" type="smallSquare" title="すべてを選択解除" bezelStyle="smallSquare" alignment="center" controlSize="small" borderStyle="border" inset="2" id="1089">
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
@@ -454,7 +451,7 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
-                            <tabViewItem label="Rozšířené" identifier="" id="541">
+                            <tabViewItem label="詳細設定" identifier="" id="541">
                                 <view key="view" id="542">
                                     <rect key="frame" x="10" y="33" width="503" height="367"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -462,7 +459,7 @@
                                         <textField verticalHuggingPriority="750" id="543">
                                             <rect key="frame" x="17" y="228" width="141" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Načítá se JPEG:" id="1074">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="JPEG の読み込み：" id="1074">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -480,11 +477,11 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="Použít RGB (přesné, větší spotřeba paměti)" imagePosition="left" alignment="left" state="on" inset="2" id="546">
+                                                    <buttonCell type="radio" title="RGB を使用（より正確、メモリ使用量：多）" imagePosition="left" alignment="left" state="on" inset="2" id="546">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Použít YUV (nepřesné, menší spotřeba paměti)" imagePosition="left" alignment="left" tag="1" inset="2" id="545">
+                                                    <buttonCell type="radio" title="YUV を使用（正確さに劣る、メモリ使用量：少）" imagePosition="left" alignment="left" tag="1" inset="2" id="545">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -501,7 +498,7 @@
                                         <textField verticalHuggingPriority="750" id="555">
                                             <rect key="frame" x="17" y="142" width="141" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Načítá se IFF-ILBM:" id="1075">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="IFF-ILBM の読み込み：" id="1075">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -510,7 +507,7 @@
                                         <button id="556">
                                             <rect key="frame" x="161" y="141" width="324" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Použít průhlednou barvu" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1076">
+                                            <buttonCell key="cell" type="check" title="透明カラーを使用" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1076">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -521,7 +518,7 @@
                                         <button id="557">
                                             <rect key="frame" x="161" y="121" width="324" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Použít masku průhlednosti" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1077">
+                                            <buttonCell key="cell" type="check" title="マスクを透明カラーに使用" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1077">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -529,10 +526,6 @@
                                                 <binding destination="266" name="value" keyPath="values.ilbmUseMask" id="560"/>
                                             </connections>
                                         </button>
-                                        <box verticalHuggingPriority="750" boxType="separator" id="01Z-zD-WVJ">
-                                            <rect key="frame" x="12" y="112" width="479" height="5"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        </box>
                                         <box verticalHuggingPriority="750" boxType="separator" id="790">
                                             <rect key="frame" x="12" y="165" width="479" height="5"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -540,7 +533,7 @@
                                         <textField verticalHuggingPriority="750" id="792">
                                             <rect key="frame" x="17" y="176" width="141" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Načítá se PNG:" id="1078">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="PNG の読み込み：" id="1078">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -549,7 +542,7 @@
                                         <button id="793">
                                             <rect key="frame" x="161" y="174" width="324" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Načítat 16bitová data (šetří paměť)" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1079">
+                                            <buttonCell key="cell" type="check" title="16 ビットデータを削除（メモリ節約）" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="1079">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -560,7 +553,7 @@
                                         <textField verticalHuggingPriority="750" id="845">
                                             <rect key="frame" x="17" y="330" width="141" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Orientace obrázku:" id="1080">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="イメージの表示方向：" id="1080">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -578,11 +571,11 @@
                                             </buttonCell>
                                             <cells>
                                                 <column>
-                                                    <buttonCell type="radio" title="Nepoužívat automatickou orientaci obrázku" imagePosition="left" alignment="left" state="on" inset="2" id="848">
+                                                    <buttonCell type="radio" title="表示方向を自動設定しない" imagePosition="left" alignment="left" state="on" inset="2" id="848">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
-                                                    <buttonCell type="radio" title="Automatická orientace obrázku" imagePosition="left" alignment="left" tag="1" inset="2" id="847">
+                                                    <buttonCell type="radio" title="表示方向を自動設定" imagePosition="left" alignment="left" tag="1" inset="2" id="847">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
@@ -603,7 +596,7 @@
                                         <textField verticalHuggingPriority="750" id="959">
                                             <rect key="frame" x="17" y="276" width="141" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Výchozí třídění:" id="1081">
+                                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="省略時の並び順：" id="1081">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -612,18 +605,18 @@
                                         <popUpButton verticalHuggingPriority="750" id="963">
                                             <rect key="frame" x="160" y="270" width="199" height="26"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <popUpButtonCell key="cell" type="push" title="Stejné jako v programu Finder" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="968" id="1082">
+                                            <popUpButtonCell key="cell" type="push" title="Finder 表示に合わせる" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="968" id="1082">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
                                                 <menu key="menu" title="OtherViews" id="964">
                                                     <items>
-                                                        <menuItem title="Stejné jako v programu Finder" state="on" id="968"/>
+                                                        <menuItem title="Finder 表示に合わせる" state="on" id="968"/>
                                                         <menuItem isSeparatorItem="YES" id="969">
                                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                                         </menuItem>
-                                                        <menuItem title="Podle jména souboru" tag="1" id="966"/>
-                                                        <menuItem title="Podle data" tag="2" id="967"/>
-                                                        <menuItem title="Podle velikosti" tag="3" id="965"/>
+                                                        <menuItem title="ファイル名" tag="1" id="966"/>
+                                                        <menuItem title="日付" tag="2" id="967"/>
+                                                        <menuItem title="サイズ" tag="3" id="965"/>
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
@@ -631,17 +624,21 @@
                                                 <binding destination="266" name="selectedTag" keyPath="values.defaultSortingOrder" id="971"/>
                                             </connections>
                                         </popUpButton>
-                                        <button id="56O-f8-CcL">
+                                        <button id="Qfv-ae-BFV">
                                             <rect key="frame" x="161" y="90" width="324" height="18"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Quit application when last window is closed" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="2I5-fc-czJ">
+                                            <buttonCell key="cell" type="check" title="Quit application when last window is closed" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="HIa-cp-Vwt">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="266" name="value" keyPath="values.quitOnClose" id="0Nf-aB-Mp8"/>
+                                                <binding destination="266" name="value" keyPath="values.quitOnClose" id="Ic9-gK-AYb"/>
                                             </connections>
                                         </button>
+                                        <box verticalHuggingPriority="750" boxType="separator" id="HDn-g9-ldC">
+                                            <rect key="frame" x="12" y="112" width="479" height="5"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        </box>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -655,11 +652,8 @@
         </window>
     </objects>
     <resources>
-        <image name="add_idle" width="23" height="22"/>
-        <image name="add_pressed" width="23" height="22"/>
-        <image name="remove_idle" width="22" height="22"/>
-        <image name="remove_pressed" width="22" height="22"/>
-        <image name="reset_idle" width="22" height="22"/>
-        <image name="reset_pressed" width="22" height="22"/>
+        <image name="NSAddTemplate" width="11" height="11"/>
+        <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="NSStopProgressTemplate" width="11" height="11"/>
     </resources>
 </document>

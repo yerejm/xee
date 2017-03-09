@@ -27,7 +27,7 @@
 		1B1D52500B02A419009AA7EB /* XeeLosslessSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D524F0B02A419009AA7EB /* XeeLosslessSaver.m */; };
 		1B1D53140B03F876009AA7EB /* XeeCGImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D53130B03F876009AA7EB /* XeeCGImage.m */; };
 		1B1D53510B0405F4009AA7EB /* XeeNSImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D53500B0405F4009AA7EB /* XeeNSImage.m */; };
-		1B262DD008BF8CF200648EBC /* BrowserWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1B262DCF08BF8CF200648EBC /* BrowserWindow.nib */; };
+		1B262DD008BF8CF200648EBC /* BrowserWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B262DCF08BF8CF200648EBC /* BrowserWindow.xib */; };
 		1B262E6608BF97B000648EBC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B262E6508BF97B000648EBC /* Localizable.strings */; };
 		1B2823C70C63F33800AA7D9C /* jpeg_quant.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1B2823C60C63F33800AA7D9C /* jpeg_quant.txt */; };
 		1B28247C0C669EAF00AA7D9C /* XeeJPEGQuantizationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B28247B0C669EAF00AA7D9C /* XeeJPEGQuantizationDatabase.m */; };
@@ -108,7 +108,7 @@
 		1BE5E4F30A824FA300967AD2 /* XeeSampleSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5E4F20A824FA300967AD2 /* XeeSampleSet.m */; };
 		1BE5E9050A86CA0300967AD2 /* XeeTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5E9040A86CA0300967AD2 /* XeeTypes.m */; };
 		1BE66CB108D1F11200387D3D /* XeeBitmapImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE66CB008D1F11200387D3D /* XeeBitmapImage.m */; };
-		1BE782AE10A74D5C007EA6F6 /* PasswordPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BE782AC10A74D5C007EA6F6 /* PasswordPanel.nib */; };
+		1BE782AE10A74D5C007EA6F6 /* PasswordPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BE782AC10A74D5C007EA6F6 /* PasswordPanel.xib */; };
 		1BE782B910A77EE1007EA6F6 /* XeePasswordPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE782B810A77EE1007EA6F6 /* XeePasswordPanel.m */; };
 		1BE7849210ABA3AE007EA6F6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BDBF88308E9E7E800C83392 /* Credits.rtf */; };
 		1BE7D7BE0B2E4739009166F5 /* XeeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE7D7BD0B2E4739009166F5 /* XeeTool.m */; };
@@ -117,15 +117,15 @@
 		1BEEDCCA0A648BDC00603584 /* raw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BEEDCC90A648BDC00603584 /* raw.icns */; };
 		1BF142420B094404003A8D57 /* XeeEXIFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142410B094403003A8D57 /* XeeEXIFParser.m */; };
 		1BF143370B0A6364003A8D57 /* XeePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF143360B0A6364003A8D57 /* XeePropertiesController.m */; };
-		1BF144930B0B83D3003A8D57 /* PropertyPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF144920B0B83D3003A8D57 /* PropertyPanel.nib */; };
+		1BF144930B0B83D3003A8D57 /* PropertyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF144920B0B83D3003A8D57 /* PropertyPanel.xib */; };
 		1BF289400B56F7E700481BED /* cbz.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BF2893D0B56F7E700481BED /* cbz.icns */; };
 		1BF289410B56F7E700481BED /* cbr.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BF2893E0B56F7E700481BED /* cbr.icns */; };
 		1BF289420B56F7E700481BED /* archive.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BF2893F0B56F7E700481BED /* archive.icns */; };
-		1BF28B6E0B5B1A5F00481BED /* PrefsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B6D0B5B1A5E00481BED /* PrefsWindow.nib */; };
-		1BF28B700B5B1A7A00481BED /* CollisionPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B6F0B5B1A7A00481BED /* CollisionPanel.nib */; };
-		1BF28B720B5B1A8500481BED /* RenamePanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B710B5B1A8500481BED /* RenamePanel.nib */; };
-		1BF28B740B5B1A9200481BED /* IconSetWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B730B5B1A9200481BED /* IconSetWindow.nib */; };
-		1BF28B760B5B1A9D00481BED /* SlideshowDelayPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.nib */; };
+		1BF28B6E0B5B1A5F00481BED /* PrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B6D0B5B1A5E00481BED /* PrefsWindow.xib */; };
+		1BF28B700B5B1A7A00481BED /* CollisionPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B6F0B5B1A7A00481BED /* CollisionPanel.xib */; };
+		1BF28B720B5B1A8500481BED /* RenamePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B710B5B1A8500481BED /* RenamePanel.xib */; };
+		1BF28B740B5B1A9200481BED /* IconSetWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B730B5B1A9200481BED /* IconSetWindow.xib */; };
+		1BF28B760B5B1A9D00481BED /* SlideshowDelayPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.xib */; };
 		1BFB09CB0B0FE2C90088CDB4 /* XeeJPEGUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB09CA0B0FE2C90088CDB4 /* XeeJPEGUtilities.m */; };
 		1BFB0D000B1200AB0088CDB4 /* XeeJPEGLosslessSaving.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0CFF0B1200AB0088CDB4 /* XeeJPEGLosslessSaving.m */; };
 		1BFB0E0B0B126FD10088CDB4 /* XeeImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E0A0B126FD10088CDB4 /* XeeImageSource.m */; };
@@ -244,7 +244,7 @@
 		558A1FE61E71153A00C41ADA /* XeeTypesAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */; };
 		558A1FE81E713EF400C41ADA /* XeeImageThumbnailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */; };
 		7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC411DD17DC0A8600626F23 /* libz.dylib */; };
-		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
+		8D15AC2D0486D014006FF6A4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.xib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
@@ -479,15 +479,15 @@
 		1B2B5DB60C78AF140057B42F /* XeeIndexedRawImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeIndexedRawImage.m; sourceTree = "<group>"; };
 		1B2B5DBA0C78AF1F0057B42F /* XeeRawImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeRawImage.h; sourceTree = "<group>"; };
 		1B2B5DBB0C78AF1F0057B42F /* XeeRawImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeRawImage.m; sourceTree = "<group>"; };
-		1B32D4D010FBFAB3002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1B32D4D110FBFABC002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/PrefsWindow.nib; sourceTree = "<group>"; };
-		1B32D4D310FBFAE3002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/BrowserWindow.nib; sourceTree = "<group>"; };
-		1B32D4D410FBFAED002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/PropertyPanel.nib; sourceTree = "<group>"; };
-		1B32D4D510FBFAF7002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/CollisionPanel.nib; sourceTree = "<group>"; };
-		1B32D4D610FBFAFE002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/RenamePanel.nib; sourceTree = "<group>"; };
-		1B32D4D710FBFB05002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/IconSetWindow.nib; sourceTree = "<group>"; };
-		1B32D4D810FBFB0D002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/SlideshowDelayPanel.nib; sourceTree = "<group>"; };
-		1B32D4D910FBFB13002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = es.lproj/PasswordPanel.nib; sourceTree = "<group>"; };
+		1B32D4D010FBFAB3002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1B32D4D110FBFABC002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
+		1B32D4D310FBFAE3002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		1B32D4D410FBFAED002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
+		1B32D4D510FBFAF7002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/CollisionPanel.xib; sourceTree = "<group>"; };
+		1B32D4D610FBFAFE002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/RenamePanel.xib; sourceTree = "<group>"; };
+		1B32D4D710FBFB05002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
+		1B32D4D810FBFB0D002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/SlideshowDelayPanel.xib; sourceTree = "<group>"; };
+		1B32D4D910FBFB13002A2C76 /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/PasswordPanel.xib; sourceTree = "<group>"; };
 		1B32D4DA10FBFB1C002A2C76 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1B32D4DB10FBFB30002A2C76 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1B3D30D809351D7A00345FD0 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
@@ -510,14 +510,14 @@
 		1B5553E90B28DCF700DC7FF3 /* CSDesktopServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSDesktopServices.m; sourceTree = "<group>"; };
 		1B5D4892086B7D57004480AB /* XeeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeView.m; sourceTree = "<group>"; };
 		1B5D4893086B7D57004480AB /* XeeView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeView.h; sourceTree = "<group>"; };
-		1B5D48FD086DF190004480AB /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/BrowserWindow.nib; sourceTree = "<group>"; };
+		1B5D48FD086DF190004480AB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
 		1B5D4903086DF3F8004480AB /* XeeController.m */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.objc; path = XeeController.m; sourceTree = "<group>"; };
 		1B5D4904086DF3F8004480AB /* XeeController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeController.h; sourceTree = "<group>"; };
 		1B5D4917086DFD7F004480AB /* XeeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeDelegate.h; sourceTree = "<group>"; };
 		1B5D4918086DFD7F004480AB /* XeeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = XeeDelegate.m; sourceTree = "<group>"; };
 		1B5E0A400C8A37DA00F22867 /* CSCoroutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSCoroutine.h; sourceTree = "<group>"; };
 		1B5E0A410C8A37DA00F22867 /* CSCoroutine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCoroutine.m; sourceTree = "<group>"; };
-		1B66365B0B1F7B7400AF779A /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/IconSetWindow.nib; sourceTree = "<group>"; };
+		1B66365B0B1F7B7400AF779A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
 		1B68CE2C0885F42A001971C8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1B68CED90885F5D7001971C8 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		1B9099CF0C91BE1A009E5ACE /* XeeInterleavingHandle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeInterleavingHandle.h; sourceTree = "<group>"; };
@@ -561,23 +561,23 @@
 		1BB983E70B18C363000B4425 /* XeeRenamePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeRenamePanel.m; sourceTree = "<group>"; };
 		1BB984050B18C479000B4425 /* CSFileTypeList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = CSFileTypeList.h; sourceTree = "<group>"; };
 		1BB984060B18C479000B4425 /* CSFileTypeList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = CSFileTypeList.m; sourceTree = "<group>"; };
-		1BB984250B18CCA6000B4425 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/CollisionPanel.nib; sourceTree = "<group>"; };
-		1BB984270B18CCFF000B4425 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/RenamePanel.nib; sourceTree = "<group>"; };
+		1BB984250B18CCA6000B4425 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/CollisionPanel.xib; sourceTree = "<group>"; };
+		1BB984270B18CCFF000B4425 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RenamePanel.xib; sourceTree = "<group>"; };
 		1BB9863D0B19FBC0000B4425 /* XeePDFSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeePDFSource.h; sourceTree = "<group>"; };
 		1BB9863E0B19FBC0000B4425 /* XeePDFSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeePDFSource.m; sourceTree = "<group>"; };
 		1BB98D690B1CBCCB000B4425 /* XeeKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeKQueue.h; sourceTree = "<group>"; };
 		1BB98D6A0B1CBCCB000B4425 /* XeeKQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeKQueue.m; sourceTree = "<group>"; };
 		1BB98F150B1E1E5A000B4425 /* XeeFSRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeFSRef.h; sourceTree = "<group>"; };
 		1BB98F160B1E1E5A000B4425 /* XeeFSRef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeFSRef.m; sourceTree = "<group>"; };
-		1BBC3F0010B3593600A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1BBC3F0210B3595E00A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/PrefsWindow.nib; sourceTree = "<group>"; };
-		1BBC3F0310B3596400A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/BrowserWindow.nib; sourceTree = "<group>"; };
-		1BBC3F0410B3596900A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/PropertyPanel.nib; sourceTree = "<group>"; };
-		1BBC3F0510B3596F00A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/CollisionPanel.nib; sourceTree = "<group>"; };
-		1BBC3F0610B3597500A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/RenamePanel.nib; sourceTree = "<group>"; };
-		1BBC3F0710B3597C00A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/IconSetWindow.nib; sourceTree = "<group>"; };
-		1BBC3F0810B3598200A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/SlideshowDelayPanel.nib; sourceTree = "<group>"; };
-		1BBC3F0910B3598900A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = zh_CN.lproj/PasswordPanel.nib; sourceTree = "<group>"; };
+		1BBC3F0010B3593600A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1BBC3F0210B3595E00A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
+		1BBC3F0310B3596400A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		1BBC3F0410B3596900A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
+		1BBC3F0510B3596F00A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/CollisionPanel.xib; sourceTree = "<group>"; };
+		1BBC3F0610B3597500A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/RenamePanel.xib; sourceTree = "<group>"; };
+		1BBC3F0710B3597C00A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
+		1BBC3F0810B3598200A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/SlideshowDelayPanel.xib; sourceTree = "<group>"; };
+		1BBC3F0910B3598900A05E29 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = zh_CN; path = zh_CN.lproj/PasswordPanel.xib; sourceTree = "<group>"; };
 		1BBC3F0A10B3598F00A05E29 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1BBC3F0B10B3599500A05E29 /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1BCA06960E9C3CDD0016D207 /* XeeListSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeListSource.h; sourceTree = "<group>"; };
@@ -648,20 +648,20 @@
 		1BE5E9040A86CA0300967AD2 /* XeeTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeTypes.m; sourceTree = "<group>"; };
 		1BE66CAF08D1F11200387D3D /* XeeBitmapImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeBitmapImage.h; sourceTree = "<group>"; };
 		1BE66CB008D1F11200387D3D /* XeeBitmapImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeBitmapImage.m; sourceTree = "<group>"; };
-		1BE782AD10A74D5C007EA6F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PasswordPanel.nib; sourceTree = "<group>"; };
+		1BE782AD10A74D5C007EA6F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PasswordPanel.xib; sourceTree = "<group>"; };
 		1BE782B710A77EE1007EA6F6 /* XeePasswordPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeePasswordPanel.h; sourceTree = "<group>"; };
 		1BE782B810A77EE1007EA6F6 /* XeePasswordPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeePasswordPanel.m; sourceTree = "<group>"; };
-		1BE783B810AB433B007EA6F6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PasswordPanel.nib; sourceTree = "<group>"; };
+		1BE783B810AB433B007EA6F6 /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/PasswordPanel.xib; sourceTree = "<group>"; };
 		1BE783B910AB4366007EA6F6 /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1BE783BA10AB43BC007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1BE783BB10AB44F7007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/PrefsWindow.nib; sourceTree = "<group>"; };
-		1BE783BC10AB44FC007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/BrowserWindow.nib; sourceTree = "<group>"; };
-		1BE783BD10AB4503007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/PropertyPanel.nib; sourceTree = "<group>"; };
-		1BE783BE10AB450A007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/CollisionPanel.nib; sourceTree = "<group>"; };
-		1BE783BF10AB4511007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/RenamePanel.nib; sourceTree = "<group>"; };
-		1BE783C010AB4516007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/IconSetWindow.nib; sourceTree = "<group>"; };
-		1BE783C110AB451D007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/SlideshowDelayPanel.nib; sourceTree = "<group>"; };
-		1BE783C210AB4523007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = cs.lproj/PasswordPanel.nib; sourceTree = "<group>"; };
+		1BE783BA10AB43BC007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1BE783BB10AB44F7007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
+		1BE783BC10AB44FC007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		1BE783BD10AB4503007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
+		1BE783BE10AB450A007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/CollisionPanel.xib; sourceTree = "<group>"; };
+		1BE783BF10AB4511007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/RenamePanel.xib; sourceTree = "<group>"; };
+		1BE783C010AB4516007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
+		1BE783C110AB451D007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/SlideshowDelayPanel.xib; sourceTree = "<group>"; };
+		1BE783C210AB4523007EA6F6 /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/PasswordPanel.xib; sourceTree = "<group>"; };
 		1BE783C310AB452A007EA6F6 /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1BE7849310ABA3CA007EA6F6 /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1BE7D7BC0B2E4739009166F5 /* XeeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeTool.h; sourceTree = "<group>"; };
@@ -694,8 +694,8 @@
 		1BF142410B094403003A8D57 /* XeeEXIFParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeEXIFParser.m; sourceTree = "<group>"; };
 		1BF143350B0A6364003A8D57 /* XeePropertiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeePropertiesController.h; sourceTree = "<group>"; };
 		1BF143360B0A6364003A8D57 /* XeePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeePropertiesController.m; sourceTree = "<group>"; };
-		1BF1436F0B0A6F95003A8D57 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PropertyPanel.nib; sourceTree = "<group>"; };
-		1BF288E10B55811600481BED /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/PrefsWindow.nib; sourceTree = "<group>"; };
+		1BF1436F0B0A6F95003A8D57 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
+		1BF288E10B55811600481BED /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
 		1BF2893D0B56F7E700481BED /* cbz.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cbz.icns; sourceTree = "<group>"; };
 		1BF2893E0B56F7E700481BED /* cbr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cbr.icns; sourceTree = "<group>"; };
 		1BF2893F0B56F7E700481BED /* archive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = archive.icns; sourceTree = "<group>"; };
@@ -716,26 +716,26 @@
 		1BFB0E4E0B139D420088CDB4 /* XeeArchiveSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeArchiveSource.m; sourceTree = "<group>"; };
 		1BFB0E500B139D4C0088CDB4 /* XeeClipboardSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeClipboardSource.h; sourceTree = "<group>"; };
 		1BFB0E510B139D4C0088CDB4 /* XeeClipboardSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeClipboardSource.m; sourceTree = "<group>"; };
-		1BFF6F230B20F881005E2BD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/SlideshowDelayPanel.nib; sourceTree = "<group>"; };
+		1BFF6F230B20F881005E2BD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SlideshowDelayPanel.xib; sourceTree = "<group>"; };
 		1BFF73280B6AF5C500E0900B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		1BFF74E00B6C2A6900E0900B /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1BFF74E20B6C2AD300E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/SlideshowDelayPanel.nib; sourceTree = "<group>"; };
-		1BFF74E40B6C2AE400E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/IconSetWindow.nib; sourceTree = "<group>"; };
-		1BFF74E80B6C2B0500E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/RenamePanel.nib; sourceTree = "<group>"; };
-		1BFF74EC0B6C2B0F00E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/CollisionPanel.nib; sourceTree = "<group>"; };
-		1BFF74F00B6C2B1800E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PropertyPanel.nib; sourceTree = "<group>"; };
-		1BFF74F40B6C2B2000E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/BrowserWindow.nib; sourceTree = "<group>"; };
-		1BFF74F80B6C2B2B00E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/PrefsWindow.nib; sourceTree = "<group>"; };
-		1BFF74FC0B6C2B3700E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = ja.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1C14FD931C70BAD100200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		1C14FD941C70BAEB00200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/PrefsWindow.nib; sourceTree = "<group>"; };
-		1C14FD951C70BAF200200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/BrowserWindow.nib; sourceTree = "<group>"; };
-		1C14FD961C70BAF900200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/PropertyPanel.nib; sourceTree = "<group>"; };
-		1C14FD971C70BB0000200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/CollisionPanel.nib; sourceTree = "<group>"; };
-		1C14FD981C70BB0700200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/RenamePanel.nib; sourceTree = "<group>"; };
-		1C14FD991C70BB0E00200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/IconSetWindow.nib; sourceTree = "<group>"; };
-		1C14FD9A1C70BB1800200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/SlideshowDelayPanel.nib; sourceTree = "<group>"; };
-		1C14FD9B1C70BB2400200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = ru.lproj/PasswordPanel.nib; sourceTree = "<group>"; };
+		1BFF74E20B6C2AD300E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/SlideshowDelayPanel.xib; sourceTree = "<group>"; };
+		1BFF74E40B6C2AE400E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
+		1BFF74E80B6C2B0500E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/RenamePanel.xib; sourceTree = "<group>"; };
+		1BFF74EC0B6C2B0F00E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/CollisionPanel.xib; sourceTree = "<group>"; };
+		1BFF74F00B6C2B1800E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
+		1BFF74F40B6C2B2000E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		1BFF74F80B6C2B2B00E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
+		1BFF74FC0B6C2B3700E0900B /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1C14FD931C70BAD100200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1C14FD941C70BAEB00200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
+		1C14FD951C70BAF200200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/BrowserWindow.xib; sourceTree = "<group>"; };
+		1C14FD961C70BAF900200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
+		1C14FD971C70BB0000200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/CollisionPanel.xib; sourceTree = "<group>"; };
+		1C14FD981C70BB0700200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/RenamePanel.xib; sourceTree = "<group>"; };
+		1C14FD991C70BB0E00200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
+		1C14FD9A1C70BB1800200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/SlideshowDelayPanel.xib; sourceTree = "<group>"; };
+		1C14FD9B1C70BB2400200498 /* ru */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ru; path = ru.lproj/PasswordPanel.xib; sourceTree = "<group>"; };
 		1C14FD9C1C70BB2C00200498 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1C14FD9E1C70BB3C00200498 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1C14FE0B1C70CEB300200498 /* jaricom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jaricom.c; sourceTree = "<group>"; };
@@ -796,7 +796,7 @@
 		1C14FE441C70CEB300200498 /* transupp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = transupp.c; sourceTree = "<group>"; };
 		1C14FE451C70CEB300200498 /* transupp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transupp.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2A37F4B7FDCFA73011CA2CEA /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = en.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		2A37F4B7FDCFA73011CA2CEA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* Xee_Prefix.pch */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = Xee_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		5571AAA81E70A3DF00697829 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5571AAAA1E70A3F500697829 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -1343,15 +1343,15 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
-				1BF28B6D0B5B1A5E00481BED /* PrefsWindow.nib */,
-				1B262DCF08BF8CF200648EBC /* BrowserWindow.nib */,
-				1BF144920B0B83D3003A8D57 /* PropertyPanel.nib */,
-				1BF28B6F0B5B1A7A00481BED /* CollisionPanel.nib */,
-				1BF28B710B5B1A8500481BED /* RenamePanel.nib */,
-				1BF28B730B5B1A9200481BED /* IconSetWindow.nib */,
-				1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.nib */,
-				1BE782AC10A74D5C007EA6F6 /* PasswordPanel.nib */,
+				2A37F4B6FDCFA73011CA2CEA /* MainMenu.xib */,
+				1BF28B6D0B5B1A5E00481BED /* PrefsWindow.xib */,
+				1B262DCF08BF8CF200648EBC /* BrowserWindow.xib */,
+				1BF144920B0B83D3003A8D57 /* PropertyPanel.xib */,
+				1BF28B6F0B5B1A7A00481BED /* CollisionPanel.xib */,
+				1BF28B710B5B1A8500481BED /* RenamePanel.xib */,
+				1BF28B730B5B1A9200481BED /* IconSetWindow.xib */,
+				1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.xib */,
+				1BE782AC10A74D5C007EA6F6 /* PasswordPanel.xib */,
 				1BDBF88308E9E7E800C83392 /* Credits.rtf */,
 				1B262E6508BF97B000648EBC /* Localizable.strings */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
@@ -1789,11 +1789,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BE782AE10A74D5C007EA6F6 /* PasswordPanel.nib in Resources */,
+				1BE782AE10A74D5C007EA6F6 /* PasswordPanel.xib in Resources */,
 				1B4078280EBA122F008D5F17 /* rgb.txt in Resources */,
-				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
+				8D15AC2D0486D014006FF6A4 /* MainMenu.xib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				1B262DD008BF8CF200648EBC /* BrowserWindow.nib in Resources */,
+				1B262DD008BF8CF200648EBC /* BrowserWindow.xib in Resources */,
 				1B262E6608BF97B000648EBC /* Localizable.strings in Resources */,
 				1BE7849210ABA3AE007EA6F6 /* Credits.rtf in Resources */,
 				1B996C250928EE9E0026832A /* jpeg.icns in Resources */,
@@ -1821,12 +1821,12 @@
 				1B996C8E0929302C0026832A /* xbm.icns in Resources */,
 				5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */,
 				1BEEDCCA0A648BDC00603584 /* raw.icns in Resources */,
-				1BF144930B0B83D3003A8D57 /* PropertyPanel.nib in Resources */,
-				1BF28B700B5B1A7A00481BED /* CollisionPanel.nib in Resources */,
-				1BF28B720B5B1A8500481BED /* RenamePanel.nib in Resources */,
-				1BF28B740B5B1A9200481BED /* IconSetWindow.nib in Resources */,
-				1BF28B760B5B1A9D00481BED /* SlideshowDelayPanel.nib in Resources */,
-				1BF28B6E0B5B1A5F00481BED /* PrefsWindow.nib in Resources */,
+				1BF144930B0B83D3003A8D57 /* PropertyPanel.xib in Resources */,
+				1BF28B700B5B1A7A00481BED /* CollisionPanel.xib in Resources */,
+				1BF28B720B5B1A8500481BED /* RenamePanel.xib in Resources */,
+				1BF28B740B5B1A9200481BED /* IconSetWindow.xib in Resources */,
+				1BF28B760B5B1A9D00481BED /* SlideshowDelayPanel.xib in Resources */,
+				1BF28B6E0B5B1A5F00481BED /* PrefsWindow.xib in Resources */,
 				1BF289400B56F7E700481BED /* cbz.icns in Resources */,
 				1BF289410B56F7E700481BED /* cbr.icns in Resources */,
 				1BF289420B56F7E700481BED /* archive.icns in Resources */,
@@ -2082,7 +2082,7 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		1B262DCF08BF8CF200648EBC /* BrowserWindow.nib */ = {
+		1B262DCF08BF8CF200648EBC /* BrowserWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1B5D48FD086DF190004480AB /* en */,
@@ -2092,7 +2092,7 @@
 				1B32D4D310FBFAE3002A2C76 /* es */,
 				1C14FD951C70BAF200200498 /* ru */,
 			);
-			name = BrowserWindow.nib;
+			name = BrowserWindow.xib;
 			sourceTree = "<group>";
 		};
 		1B262E6508BF97B000648EBC /* Localizable.strings */ = {
@@ -2108,7 +2108,7 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		1BE782AC10A74D5C007EA6F6 /* PasswordPanel.nib */ = {
+		1BE782AC10A74D5C007EA6F6 /* PasswordPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BE782AD10A74D5C007EA6F6 /* en */,
@@ -2118,10 +2118,10 @@
 				1B32D4D910FBFB13002A2C76 /* es */,
 				1C14FD9B1C70BB2400200498 /* ru */,
 			);
-			name = PasswordPanel.nib;
+			name = PasswordPanel.xib;
 			sourceTree = "<group>";
 		};
-		1BF144920B0B83D3003A8D57 /* PropertyPanel.nib */ = {
+		1BF144920B0B83D3003A8D57 /* PropertyPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BF1436F0B0A6F95003A8D57 /* en */,
@@ -2131,10 +2131,10 @@
 				1B32D4D410FBFAED002A2C76 /* es */,
 				1C14FD961C70BAF900200498 /* ru */,
 			);
-			name = PropertyPanel.nib;
+			name = PropertyPanel.xib;
 			sourceTree = "<group>";
 		};
-		1BF28B6D0B5B1A5E00481BED /* PrefsWindow.nib */ = {
+		1BF28B6D0B5B1A5E00481BED /* PrefsWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BF288E10B55811600481BED /* en */,
@@ -2144,10 +2144,10 @@
 				1B32D4D110FBFABC002A2C76 /* es */,
 				1C14FD941C70BAEB00200498 /* ru */,
 			);
-			name = PrefsWindow.nib;
+			name = PrefsWindow.xib;
 			sourceTree = "<group>";
 		};
-		1BF28B6F0B5B1A7A00481BED /* CollisionPanel.nib */ = {
+		1BF28B6F0B5B1A7A00481BED /* CollisionPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BB984250B18CCA6000B4425 /* en */,
@@ -2157,10 +2157,10 @@
 				1B32D4D510FBFAF7002A2C76 /* es */,
 				1C14FD971C70BB0000200498 /* ru */,
 			);
-			name = CollisionPanel.nib;
+			name = CollisionPanel.xib;
 			sourceTree = "<group>";
 		};
-		1BF28B710B5B1A8500481BED /* RenamePanel.nib */ = {
+		1BF28B710B5B1A8500481BED /* RenamePanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BB984270B18CCFF000B4425 /* en */,
@@ -2170,10 +2170,10 @@
 				1B32D4D610FBFAFE002A2C76 /* es */,
 				1C14FD981C70BB0700200498 /* ru */,
 			);
-			name = RenamePanel.nib;
+			name = RenamePanel.xib;
 			sourceTree = "<group>";
 		};
-		1BF28B730B5B1A9200481BED /* IconSetWindow.nib */ = {
+		1BF28B730B5B1A9200481BED /* IconSetWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1B66365B0B1F7B7400AF779A /* en */,
@@ -2183,10 +2183,10 @@
 				1B32D4D710FBFB05002A2C76 /* es */,
 				1C14FD991C70BB0E00200498 /* ru */,
 			);
-			name = IconSetWindow.nib;
+			name = IconSetWindow.xib;
 			sourceTree = "<group>";
 		};
-		1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.nib */ = {
+		1BF28B750B5B1A9D00481BED /* SlideshowDelayPanel.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1BFF6F230B20F881005E2BD3 /* en */,
@@ -2196,10 +2196,10 @@
 				1B32D4D810FBFB0D002A2C76 /* es */,
 				1C14FD9A1C70BB1800200498 /* ru */,
 			);
-			name = SlideshowDelayPanel.nib;
+			name = SlideshowDelayPanel.xib;
 			sourceTree = "<group>";
 		};
-		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
+		2A37F4B6FDCFA73011CA2CEA /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2A37F4B7FDCFA73011CA2CEA /* en */,
@@ -2209,7 +2209,7 @@
 				1B32D4D010FBFAB3002A2C76 /* es */,
 				1C14FD931C70BAD100200498 /* ru */,
 			);
-			name = MainMenu.nib;
+			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
