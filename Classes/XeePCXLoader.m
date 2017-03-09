@@ -133,6 +133,7 @@ struct pcx_header
 	int bytesperline=XeeLEUInt16(pcx->bytesperline);
 	int totalbytes=pcx->nplanes*bytesperline;
 	uint8_t line[totalbytes];
+	memset(line, 0, totalbytes);
 	int bytesread=0;
 
 	while(bytesread<totalbytes)

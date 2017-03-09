@@ -1,6 +1,6 @@
 #import "CSKeyboardShortcuts.h"
 
-#import <Carbon/Carbon.h>
+#include <Carbon/Carbon.h>
 
 
 

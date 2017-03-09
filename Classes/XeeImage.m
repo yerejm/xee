@@ -258,11 +258,11 @@
 
 
 
--(int)frames { return 1; }
+-(NSInteger)frames { return 1; }
 
--(void)setFrame:(int)frame { }
+-(void)setFrame:(NSInteger)frame { }
 
--(int)frame { return 0; }
+-(NSInteger)frame { return 0; }
 
 
 
@@ -507,14 +507,14 @@
 -(void)setDepthBitmap
 {
 	[self setDepth:NSLocalizedString(@"Bitmap",@"Description for 1-bit bitmapped images")
-	iconName:@"depth_bitmap"];
+	iconName:@"depth/bitmap"];
 }
 
 -(void)setDepthIndexed:(int)colors
 {
 	[self setDepth:
 	[NSString stringWithFormat:NSLocalizedString(@"%d colours",@"Description for indexed-colour images"),colors]
-	iconName:@"depth_indexed"]; // needs alpha!
+	iconName:@"depth/indexed"]; // needs alpha!
 }
 
 -(void)setDepthGrey:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating
@@ -522,52 +522,52 @@
 	if(bits==1&&!alpha) [self setDepthBitmap];
 	else if(floating&&alpha) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits FP grey+alpha",@"Description for floating-point grey+alpha images"),bits]
-		iconName:@"depth_greyalpha"];
+		iconName:@"depth/greyalpha"];
 	else if(floating) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits FP grey",@"Description for floating-point greyscale images"),bits]
-		iconName:@"depth_grey"];
+		iconName:@"depth/grey"];
 	else if(alpha) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits grey+alpha",@"Description for grey+alpha images"),bits]
-		iconName:@"depth_greyalpha"];
+		iconName:@"depth/greyalpha"];
 	else [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits grey",@"Description for greyscale images"),bits]
-		iconName:@"depth_grey"];
+		iconName:@"depth/grey"];
 }
 
 -(void)setDepthRGB:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating
 {
 	if(floating&&alpha) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits FP RGBA",@"Description for floating-point RGBA images"),bits]
-		iconName:@"depth_rgba"];
+		iconName:@"depth/rgba"];
 	else if(floating) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits FP RGB",@"Description for floating-point RGB images"),bits]
-		iconName:@"depth_rgb"];
+		iconName:@"depth/rgb"];
 	else if(alpha) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits RGBA",@"Description for RGBA images"),bits]
-		iconName:@"depth_rgba"];
+		iconName:@"depth/rgba"];
 	else [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits RGB",@"Description for RGBA images"),bits]
-		iconName:@"depth_rgb"];
+		iconName:@"depth/rgb"];
 }
 
 -(void)setDepthCMYK:(int)bits alpha:(BOOL)alpha
 {
 	if(alpha) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits CMYK+alpha",@"Description for CMYK+alpha images"),bits]
-		iconName:@"depth_cmyk"];
+		iconName:@"depth/cmyk"];
 	else [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits CMYK",@"Description for CMYK images"),bits]
-		iconName:@"depth_cmyk"];
+		iconName:@"depth/cmyk"];
 }
 
 -(void)setDepthLab:(int)bits alpha:(BOOL)alpha
 {
 	if(alpha) [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits Lab+alpha",@"Description for Lab+alpha images"),bits]
-		iconName:@"depth_rgb"];
+		iconName:@"depth/rgb"];
 	else [self setDepth:
 		[NSString stringWithFormat:NSLocalizedString(@"%d bits Lab",@"Description for Lab images"),bits]
-		iconName:@"depth_rgb"];
+		iconName:@"depth/rgb"];
 }
 
 -(void)setDepthGrey:(int)bits { [self setDepthGrey:bits alpha:NO floating:NO]; }

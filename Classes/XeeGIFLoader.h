@@ -11,7 +11,8 @@
 	NSMutableArray *frames;
 	NSMutableArray *comments;
 
-	int background,currframe;
+	int background;
+	NSInteger currframe;
 	int frametime,transindex,disposal;
 	BOOL backupneeded;
 	uint32_t *backup;
@@ -25,7 +26,6 @@
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
 
 -(id)init;
--(void)dealloc;
 
 -(SEL)initLoader;
 -(void)deallocLoader;
@@ -34,9 +34,9 @@
 -(SEL)failLoading;
 -(SEL)finishLoading;
 
--(int)frames;
--(void)setFrame:(int)frame;
--(int)frame;
+-(NSInteger)frames;
+-(void)setFrame:(NSInteger)frame;
+-(NSInteger)frame;
 -(void)animate:(NSTimer *)timer;
 
 -(BOOL)animated;

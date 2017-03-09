@@ -18,12 +18,12 @@ extern NSString *PDFMD5FinishedException;
 
 +(instancetype)engine;
 +(NSData *)digestForData:(NSData *)data;
-+(NSData *)digestForBytes:(const void *)bytes length:(int)length;
++(NSData *)digestForBytes:(const void *)bytes length:(NSUInteger)length;
 
 -(instancetype)init;
 
 -(void)updateWithData:(NSData *)data;
--(void)updateWithBytes:(const void *)bytes length:(unsigned long)length;
+-(void)updateWithBytes:(const void *)bytes length:(NSUInteger)length;
 
 -(NSData *)digest;
 -(NSString *)hexDigest;

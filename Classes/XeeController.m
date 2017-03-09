@@ -17,7 +17,7 @@
 #import "XeePrefKeys.h"
 #import "XeeControllerFileActions.h"
 
-#import <Carbon/Carbon.h>
+#include <Carbon/Carbon.h>
 
 extern CGFloat XeeZoomLevels[];
 extern NSInteger XeeNumberOfZoomLevels;
@@ -29,6 +29,8 @@ static NSMutableArray *controllers=nil;
 // XeeController
 
 @implementation XeeController
+@synthesize zoom;
+@synthesize image = currimage;
 
 -(id)init
 {
@@ -215,7 +217,7 @@ static NSMutableArray *controllers=nil;
 	{
 		if([self isCropping]) return;
 
-		float deltay=[event deltaY];
+		CGFloat deltay=[event deltaY];
 		if(deltay==0) return;
 
 		if(IsSmoothScrollEvent(event))
@@ -224,8 +226,8 @@ static NSMutableArray *controllers=nil;
 			static NSTimeInterval prevtime=0;
 			NSTimeInterval currtime=[event timestamp];
 
-			static float lastdistance=0;
-			static float distance=0;
+			static CGFloat lastdistance=0;
+			static CGFloat distance=0;
 
 			if(currtime-prevtime>delay)
 			{
@@ -267,8 +269,8 @@ static NSMutableArray *controllers=nil;
 
 -(void)magnifyWithEvent:(NSEvent *)event
 {
-	float delta=[event magnification];
-	float newzoom=zoom*(delta+1.0);
+	CGFloat delta=[event magnification];
+	CGFloat newzoom=zoom*(delta+1.0);
 	[self setZoom:newzoom];
 }
 
@@ -292,7 +294,7 @@ static NSMutableArray *controllers=nil;
 
 -(void)swipeWithEvent:(NSEvent *)event
 {
-	float x=[event deltaX];
+	CGFloat x=[event deltaX];
 	if(x>0) [self skipPrev:nil];
 	else if(x<0) [self skipNext:nil];
 }
@@ -368,8 +370,6 @@ static NSMutableArray *controllers=nil;
 -(NSWindow *)window { return window; }
 
 -(XeeFullScreenWindow *)fullScreenWindow { return fullscreenwindow; }
-
--(XeeImage *)image { return currimage; }
 
 -(NSDrawer *)drawer { return drawer; }
 
@@ -509,8 +509,6 @@ static NSMutableArray *controllers=nil;
 
 -(BOOL)isFullscreen { return fullscreenwindow?YES:NO; }
 
--(float)zoom { return zoom; }
-
 
 
 -(void)setImageSource:(XeeImageSource *)newsource
@@ -559,11 +557,11 @@ static NSMutableArray *controllers=nil;
 	[undo removeAllActions];
 }
 
--(void)setZoom:(float)newzoom
+-(void)setZoom:(CGFloat)newzoom
 {
 	if(!currimage) return;
 
-	NSSize newsize=NSMakeSize(floor(newzoom*(float)[currimage width]+0.5),floor(newzoom*(float)[currimage height]+0.5));
+	NSSize newsize=NSMakeSize(floor(newzoom*(CGFloat)[currimage width]+0.5),floor(newzoom*(CGFloat)[currimage height]+0.5));
 	[self setImageSize:newsize];
 
 	zoom=newzoom;
@@ -572,7 +570,7 @@ static NSMutableArray *controllers=nil;
 	[self updateStatusBar];
 }
 
--(void)setFrame:(int)frame
+-(void)setFrame:(NSInteger)frame
 {
 	if(!currimage) return;
 	if(frame==[currimage frame]) return;
@@ -611,7 +609,7 @@ static NSMutableArray *controllers=nil;
     // Retina Support
     NSScreen *currentScreen = [imageview.window screen];
     if ([currentScreen respondsToSelector:@selector(backingScaleFactor)]) {
-        float scaleFactor = [currentScreen backingScaleFactor];
+        CGFloat scaleFactor = [currentScreen backingScaleFactor];
         size.width/=scaleFactor;
         size.height/=scaleFactor;
     }
@@ -619,10 +617,10 @@ static NSMutableArray *controllers=nil;
 	if(size.width<minsize.width) size.width=minsize.width;
 	if(size.height<minsize.height) size.height=minsize.height;
 
-	int borderwidth=windowframe.size.width-viewsize.width;
-	int borderheight=windowframe.size.height-viewsize.height;
-	int win_width=size.width+borderwidth;
-	int win_height=size.height+borderheight;
+	NSInteger borderwidth=windowframe.size.width-viewsize.width;
+	NSInteger borderheight=windowframe.size.height-viewsize.height;
+	NSInteger win_width=size.width+borderwidth;
+	NSInteger win_height=size.height+borderheight;
 
 	if(win_width>screenframe.size.width) win_width=screenframe.size.width;
 	if(win_height>screenframe.size.height) win_height=screenframe.size.height;
@@ -682,7 +680,7 @@ static NSMutableArray *controllers=nil;
 	if(shrink&&min_zoom<zoom) zoom=min_zoom;
 	if(enlarge&&min_zoom>zoom) zoom=min_zoom;
 
-	NSSize newsize=NSMakeSize(zoom*(float)[currimage width],zoom*(float)[currimage height]);
+	NSSize newsize=NSMakeSize(zoom*(CGFloat)[currimage width],zoom*(CGFloat)[currimage height]);
 
 	[self setImageSize:newsize resetFocus:!rememberfocus];
 }
@@ -775,7 +773,9 @@ static NSMutableArray *controllers=nil;
 -(void)displayAlert:(NSAlert *)alert
 {
 	if(fullscreenwindow) [alert runModal];
-	else [alert beginSheetModalForWindow:window modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+	else [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
+		// do nothing
+	}];
 }
 
 
@@ -870,68 +870,68 @@ static NSMutableArray *controllers=nil;
 	XeeSegmentedItem *navitool=[XeeSegmentedItem itemWithIdentifier:@"navi"
 	label:NSLocalizedString(@"Navigation",@"Navigation toolbar segment title")
 	paletteLabel:NSLocalizedString(@"Navigation",@"Navigation toolbar segment title") segments:4];
-	[navitool setSegment:0 imageName:@"tool_first" longLabel:NSLocalizedString(@"First Image",@"First Image toolbar button label") action:@selector(skipFirst:)];
-	[navitool setSegment:1 imageName:@"tool_prev" longLabel:NSLocalizedString(@"Previous Image",@"Previous Image toolbar button label") action:@selector(skipPrev:)];
-	[navitool setSegment:2 imageName:@"tool_next" longLabel:NSLocalizedString(@"Next Image",@"Next Image toolbar button label") action:@selector(skipNext:)];
-	[navitool setSegment:3 imageName:@"tool_last" longLabel:NSLocalizedString(@"Last Image",@"Last Image toolbar button label") action:@selector(skipLast:)];
+	[navitool setSegment:0 imageName:@"tool/first" longLabel:NSLocalizedString(@"First Image",@"First Image toolbar button label") action:@selector(skipFirst:)];
+	[navitool setSegment:1 imageName:@"tool/prev" longLabel:NSLocalizedString(@"Previous Image",@"Previous Image toolbar button label") action:@selector(skipPrev:)];
+	[navitool setSegment:2 imageName:@"tool/next" longLabel:NSLocalizedString(@"Next Image",@"Next Image toolbar button label") action:@selector(skipNext:)];
+	[navitool setSegment:3 imageName:@"tool/last" longLabel:NSLocalizedString(@"Last Image",@"Last Image toolbar button label") action:@selector(skipLast:)];
 	[navitool setupView];
 	[array addObject:navitool];
 
 	XeeSegmentedItem *skiptool=[XeeSegmentedItem itemWithIdentifier:@"skip"
 	label:NSLocalizedString(@"Prev Next",@"Prev/Next toolbar segment label")
 	paletteLabel:NSLocalizedString(@"Prev/Next",@"Prev/Next toolbar segment title") segments:2];
-	[skiptool setSegment:0 imageName:@"tool_prev" longLabel:NSLocalizedString(@"Previous Image",@"Previous Image toolbar button label") action:@selector(skipPrev:)];
-	[skiptool setSegment:1 imageName:@"tool_next" longLabel:NSLocalizedString(@"Next Image",@"Next Image toolbar button label") action:@selector(skipNext:)];
+	[skiptool setSegment:0 imageName:@"tool/prev" longLabel:NSLocalizedString(@"Previous Image",@"Previous Image toolbar button label") action:@selector(skipPrev:)];
+	[skiptool setSegment:1 imageName:@"tool/next" longLabel:NSLocalizedString(@"Next Image",@"Next Image toolbar button label") action:@selector(skipNext:)];
 	[skiptool setupView];
 	[array addObject:skiptool];
 
 	XeeSegmentedItem *endtool=[XeeSegmentedItem itemWithIdentifier:@"end"
 	label:NSLocalizedString(@"First Last",@"First/Last toolbar segment label")
 	paletteLabel:NSLocalizedString(@"First/Last",@"First/Last toolbar segment title") segments:2];
-	[endtool setSegment:0 imageName:@"tool_first" longLabel:NSLocalizedString(@"First Image",@"First Image toolbar button label") action:@selector(skipFirst:)];
-	[endtool setSegment:1 imageName:@"tool_last" longLabel:NSLocalizedString(@"Last Image",@"Last Image toolbar button label") action:@selector(skipLast:)];
+	[endtool setSegment:0 imageName:@"tool/first" longLabel:NSLocalizedString(@"First Image",@"First Image toolbar button label") action:@selector(skipFirst:)];
+	[endtool setSegment:1 imageName:@"tool/last" longLabel:NSLocalizedString(@"Last Image",@"Last Image toolbar button label") action:@selector(skipLast:)];
 	[endtool setupView];
 	[array addObject:endtool];
 
 	XeeSegmentedItem *zoomtool=[XeeSegmentedItem itemWithIdentifier:@"zoom"
 	label:NSLocalizedString(@"Zoom",@"Zoom toolbar segment title")
 	paletteLabel:NSLocalizedString(@"Zoom",@"Zoom toolbar segment title") segments:4];
-	[zoomtool setSegment:0 imageName:@"tool_zoomin" longLabel:NSLocalizedString(@"Zoom In",@"Zoom In toolbar button label") action:@selector(zoomIn:)];
-	[zoomtool setSegment:1 imageName:@"tool_zoomout" longLabel:NSLocalizedString(@"Zoom Out",@"Zoom Out toolbar button label") action:@selector(zoomOut:)];
-	[zoomtool setSegment:2 imageName:@"tool_zoomactual" longLabel:NSLocalizedString(@"Actual Size",@"Actual Size toolbar button label") action:@selector(zoomActual:)];
-	[zoomtool setSegment:3 imageName:@"tool_zoomfit" longLabel:NSLocalizedString(@"Fit On Screen",@"Fit On Screen toolbar button label") action:@selector(zoomFit:)];
+	[zoomtool setSegment:0 imageName:@"tool/zoomin" longLabel:NSLocalizedString(@"Zoom In",@"Zoom In toolbar button label") action:@selector(zoomIn:)];
+	[zoomtool setSegment:1 imageName:@"tool/zoomout" longLabel:NSLocalizedString(@"Zoom Out",@"Zoom Out toolbar button label") action:@selector(zoomOut:)];
+	[zoomtool setSegment:2 imageName:@"tool/zoomactual" longLabel:NSLocalizedString(@"Actual Size",@"Actual Size toolbar button label") action:@selector(zoomActual:)];
+	[zoomtool setSegment:3 imageName:@"tool/zoomfit" longLabel:NSLocalizedString(@"Fit On Screen",@"Fit On Screen toolbar button label") action:@selector(zoomFit:)];
 	[zoomtool setupView];
 	[array addObject:zoomtool];
 
 	XeeSegmentedItem *animtool=[XeeSegmentedItem itemWithIdentifier:@"anim"
 	label:NSLocalizedString(@"Animation",@"Animation toolbar segment label")
 	paletteLabel:NSLocalizedString(@"Animation And Frames",@"Animation toolbar segment title") segments:3];
-	[animtool setSegment:0 imageName:@"tool_anim" longLabel:NSLocalizedString(@"Toggle Animation",@"Toggle Animation toolbar button label") action:@selector(toggleAnimation:)];
-	[animtool setSegment:1 imageName:@"tool_nextframe" longLabel:NSLocalizedString(@"Next Frame",@"Next Frame toolbar button label") action:@selector(frameSkipNext:)];
-	[animtool setSegment:2 imageName:@"tool_prevframe" longLabel:NSLocalizedString(@"Previous Frame",@"Previous toolbar button label") action:@selector(frameSkipPrev:)];
+	[animtool setSegment:0 imageName:@"tool/anim" longLabel:NSLocalizedString(@"Toggle Animation",@"Toggle Animation toolbar button label") action:@selector(toggleAnimation:)];
+	[animtool setSegment:1 imageName:@"tool/nextframe" longLabel:NSLocalizedString(@"Next Frame",@"Next Frame toolbar button label") action:@selector(frameSkipNext:)];
+	[animtool setSegment:2 imageName:@"tool/prevframe" longLabel:NSLocalizedString(@"Previous Frame",@"Previous toolbar button label") action:@selector(frameSkipPrev:)];
 	[animtool setupView];
 	[array addObject:animtool];
 
 	XeeSegmentedItem *autotool=[XeeSegmentedItem itemWithIdentifier:@"auto"
 	label:NSLocalizedString(@"Auto Orientation",@"Auto orientation toolbar segment label")
 	paletteLabel:NSLocalizedString(@"Automatic Orientation",@"Auto orientation toolbar segment title") segments:1];
-	[autotool setSegment:0 imageName:@"tool_autorot" longLabel:NSLocalizedString(@"Automatic Orientation",@"Automatic Orientation toolbar button label") action:@selector(autoRotate:)];
+	[autotool setSegment:0 imageName:@"tool/autorot" longLabel:NSLocalizedString(@"Automatic Orientation",@"Automatic Orientation toolbar button label") action:@selector(autoRotate:)];
 	[autotool setupView];
 	[array addObject:autotool];
 
 	XeeSegmentedItem *rotatetool=[XeeSegmentedItem itemWithIdentifier:@"rotate"
 	label:NSLocalizedString(@"Rotation",@"Rotation segment label")
 	paletteLabel:NSLocalizedString(@"Rotation",@"Rotation toolbar segment title") segments:3];
-	[rotatetool setSegment:0 imageName:@"tool_cw" longLabel:NSLocalizedString(@"Rotate Clockwise",@"Rotate Clockwise toolbar button label") action:@selector(rotateCW:)];
-	[rotatetool setSegment:1 imageName:@"tool_ccw" longLabel:NSLocalizedString(@"Rotate Counter-clockwise",@"Rotate Counter-clockwise toolbar button label") action:@selector(rotateCCW:)];
-	[rotatetool setSegment:2 imageName:@"tool_flip" longLabel:NSLocalizedString(@"Rotate 180",@"Rotate 180 toolbar button label") action:@selector(rotate180:)];
+	[rotatetool setSegment:0 imageName:@"tool/cw" longLabel:NSLocalizedString(@"Rotate Clockwise",@"Rotate Clockwise toolbar button label") action:@selector(rotateCW:)];
+	[rotatetool setSegment:1 imageName:@"tool/ccw" longLabel:NSLocalizedString(@"Rotate Counter-clockwise",@"Rotate Counter-clockwise toolbar button label") action:@selector(rotateCCW:)];
+	[rotatetool setSegment:2 imageName:@"tool/flip" longLabel:NSLocalizedString(@"Rotate 180",@"Rotate 180 toolbar button label") action:@selector(rotate180:)];
 	[rotatetool setupView];
 	[array addObject:rotatetool];
 
 	XeeSegmentedItem *croppingtool=[XeeToolItem itemWithIdentifier:@"crop"
 	label:NSLocalizedString(@"Crop",@"Cropping segment label")
 	paletteLabel:NSLocalizedString(@"Crop Tool",@"Cropping toolbar segment title")
-	imageName:@"tool_crop"
+	imageName:@"tool/crop"
 	longLabel:NSLocalizedString(@"Crop Tool",@"Crop Tool toolbar button label")
 	action:@selector(crop:) activeSelector:@selector(isCropping) target:self];
 	[array addObject:croppingtool];
@@ -1048,7 +1048,7 @@ static NSMutableArray *controllers=nil;
 		imageNamed:@"zoom"];
 
 		if([currimage frames]>1) [statusbar addEntry:
-		[NSString stringWithFormat:@"%d/%d",[currimage frame]+1,[currimage frames]]
+		[NSString stringWithFormat:@"%ld/%ld",(long)[currimage frame]+1,(long)[currimage frames]]
 		imageNamed:@"frames"];
 
 		[statusbar addEntry:

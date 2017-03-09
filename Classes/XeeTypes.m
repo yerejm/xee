@@ -1,8 +1,8 @@
 #import "XeeTypes.h"
 
-#import <Carbon/Carbon.h>
-#import <OpenGL/gl.h>
-#import <sys/time.h>
+#include <Carbon/Carbon.h>
+#include <OpenGL/gl.h>
+#include <sys/time.h>
 
 @interface NSEvent (DeviceDelta)
 -(CGFloat)deviceDeltaX;

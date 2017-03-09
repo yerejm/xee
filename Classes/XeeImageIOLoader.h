@@ -1,6 +1,6 @@
 #import "XeeMultiImage.h"
 
-#import <Carbon/Carbon.h>
+#include <Carbon/Carbon.h>
 
 @interface XeeImageIOImage:XeeMultiImage
 {

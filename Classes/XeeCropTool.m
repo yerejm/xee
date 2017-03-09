@@ -379,7 +379,7 @@ static void XeeGLRect(float x1,float y1,float x2,float y2);
 	{
 		glPushMatrix();
 
-		int cornerarea;
+		int cornerarea = 0;
 		switch(n)
 		{
 			case 0: glTranslatef(x1,y1,0); cornerarea=XeeTopLeftArea; break;

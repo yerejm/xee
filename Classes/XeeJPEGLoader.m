@@ -74,7 +74,7 @@
 			cinfo.out_color_space=JCS_RGB;
 			[self setDepth:[NSString stringWithFormat:
 			@"YCbCr H%dV%d",cinfo.max_h_samp_factor,cinfo.max_v_samp_factor]
-			iconName:@"depth_rgb"];
+			iconName:@"depth/rgb"];
 		break;
 		case JCS_CMYK:
 			cinfo.out_color_space=JCS_CMYK;
@@ -82,7 +82,7 @@
 		break;
 		case JCS_YCCK:
 			cinfo.out_color_space=JCS_CMYK;
-			[self setDepth:@"YCCK" iconName:@"depth_cmyk"];
+			[self setDepth:@"YCCK" iconName:@"depth/cmyk"];
 		break;
 		default: [self setDepth:@"Unknown"]; break;
 	}
@@ -457,7 +457,7 @@
 			cinfo.out_color_space=JCS_RGB;
 			[self setDepth:[NSString stringWithFormat:
 			@"YCbCr H%dV%d",cinfo.max_h_samp_factor,cinfo.max_v_samp_factor]
-			iconName:@"depth_rgb"];
+			iconName:@"depth/rgb"];
 		break;
 		case JCS_CMYK:
 			cinfo.out_color_space=JCS_CMYK;
@@ -465,7 +465,7 @@
 		break;
 		case JCS_YCCK:
 			cinfo.out_color_space=JCS_CMYK;
-			[self setDepth:@"YCCK" iconName:@"depth_cmyk"];
+			[self setDepth:@"YCCK" iconName:@"depth/cmyk"];
 		break;
 		default: [self setDepth:@"Unknown"]; break;
 	}

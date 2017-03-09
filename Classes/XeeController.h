@@ -97,12 +97,16 @@ typedef NS_ENUM(int, XeeDrawerMode) {
 -(NSString *)currentFilename;
 -(NSArray *)currentProperties;
 -(BOOL)isFullscreen;
--(float)zoom;
+-(CGFloat)zoom;
 
 -(void)setImageSource:(XeeImageSource *)newsource;
 -(void)setImage:(XeeImage *)image;
--(void)setZoom:(float)newzoom;
--(void)setFrame:(int)frame;
+-(void)setZoom:(CGFloat)newzoom;
+-(void)setFrame:(NSInteger)frame;
+
+@property (nonatomic) CGFloat zoom;
+@property (readonly, getter=isFullscreen) BOOL fullscreen;
+@property (nonatomic, retain) XeeImage *image;
 
 -(void)updateWindowPosition;
 -(void)setImageSize:(NSSize)size;

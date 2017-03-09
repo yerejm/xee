@@ -12,7 +12,7 @@
 		1B07078C0C9F3DA700FA8EBD /* SWFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B07078A0C9F3DA700FA8EBD /* SWFParser.m */; };
 		1B071A440CB159D600FA8EBD /* XeeExperimentalImage1Saver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B071A430CB159D600FA8EBD /* XeeExperimentalImage1Saver.m */; };
 		1B0F15370CB17CBF000CED68 /* XeePhotoshopPICTLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F15360CB17CBF000CED68 /* XeePhotoshopPICTLoader.m */; };
-		1B16F6070C0BB10F002B0008 /* XeeStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B16F6060C0BB10F002B0008 /* XeeStringAdditions.m */; };
+		1B16F6070C0BB10F002B0008 /* XeeStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B16F6060C0BB10F002B0008 /* XeeStringAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B1B96580B06AD5B00EC8324 /* XeeBitmapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1B96570B06AD5B00EC8324 /* XeeBitmapTile.m */; };
 		1B1D48E80AFD44C0009AA7EB /* XeeMultiImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D48E70AFD44C0009AA7EB /* XeeMultiImage.m */; };
 		1B1D4C320AFE97B6009AA7EB /* XeeJPEGLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5DEAF0A7E9B5D00967AD2 /* XeeJPEGLoader.m */; };
@@ -91,7 +91,7 @@
 		1BB983E80B18C363000B4425 /* XeeRenamePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB983E70B18C363000B4425 /* XeeRenamePanel.m */; };
 		1BB984070B18C479000B4425 /* CSFileTypeList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB984060B18C479000B4425 /* CSFileTypeList.m */; };
 		1BB98D6B0B1CBCCB000B4425 /* XeeKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98D6A0B1CBCCB000B4425 /* XeeKQueue.m */; };
-		1BB98F170B1E1E5A000B4425 /* XeeFSRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98F160B1E1E5A000B4425 /* XeeFSRef.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
+		1BB98F170B1E1E5A000B4425 /* XeeFSRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98F160B1E1E5A000B4425 /* XeeFSRef.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -fobjc-arc"; }; };
 		1BCA06980E9C3CDD0016D207 /* XeeListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA06970E9C3CDD0016D207 /* XeeListSource.m */; };
 		1BCA069D0E9C3E110016D207 /* PDFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA069C0E9C3E110016D207 /* PDFParser.m */; };
 		1BCA08A80E9D5D060016D207 /* NSDictionaryNumberExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA08A70E9D5D060016D207 /* NSDictionaryNumberExtension.m */; };
@@ -1088,8 +1088,7 @@
 		1BE4C35208E4C46300859EE2 /* External Sources */ = {
 			isa = PBXGroup;
 			children = (
-				558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */,
-				558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */,
+				558EACBB1E7150A300C84199 /* Dependant libraries */,
 				1BCA06990E9C3DE60016D207 /* PDF */,
 				1BCA069A0E9C3DED0016D207 /* SWF */,
 				1BE4C47D08E5CA4200859EE2 /* XeeIFFHandle.h */,
@@ -1104,10 +1103,6 @@
 				1B5553E90B28DCF700DC7FF3 /* CSDesktopServices.m */,
 				1BE4B80B08D7655400859EE2 /* KFTypeSelectTableView.h */,
 				1BE4B80C08D7655400859EE2 /* KFTypeSelectTableView.m */,
-				1BF1420E0B094080003A8D57 /* exiftags */,
-				1BE5E0680A7EE50700967AD2 /* libjpeg */,
-				1BE4C10E08E22FB500859EE2 /* libpng */,
-				1BE4C16808E23B6C00859EE2 /* libungif */,
 			);
 			path = "External Sources";
 			sourceTree = "<group>";
@@ -1427,6 +1422,19 @@
 				558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */,
 			);
 			name = "Swift Additions";
+			sourceTree = "<group>";
+		};
+		558EACBB1E7150A300C84199 /* Dependant libraries */ = {
+			isa = PBXGroup;
+			children = (
+				558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */,
+				558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */,
+				1BF1420E0B094080003A8D57 /* exiftags */,
+				1BE5E0680A7EE50700967AD2 /* libjpeg */,
+				1BE4C10E08E22FB500859EE2 /* libpng */,
+				1BE4C16808E23B6C00859EE2 /* libungif */,
+			);
+			name = "Dependant libraries";
 			sourceTree = "<group>";
 		};
 		55E22B211E70D6D3009C9E1A /* Classes */ = {

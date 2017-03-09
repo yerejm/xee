@@ -242,13 +242,13 @@
 		case XeePhotoshopMultichannelMode:
 			[self setDepth:
 			[NSString stringWithFormat:NSLocalizedString(@"%d bits multichannel",@"Description for multichannel (Photoshop) images"),bitdepth]
-			iconName:@"depth_grey"];
+			iconName:@"depth/grey"];
 		break;
 
 		case XeePhotoshopDuotoneMode:
 		 	[self setDepth:
 			[NSString stringWithFormat:NSLocalizedString(@"%d bits duotone",@"Description for duotone (Photoshop) images"),bitdepth]
-			iconName:@"depth_rgb"];
+			iconName:@"depth/rgb"];
 		break;
 	}
 

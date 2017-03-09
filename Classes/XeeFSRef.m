@@ -4,7 +4,7 @@
 
 +(XeeFSRef *)refForPath:(NSString *)path
 {
-	return [[[XeeFSRef alloc] initWithPath:path] autorelease];
+	return [[XeeFSRef alloc] initWithPath:path];
 }
 
 -(id)initWithPath:(NSString *)path
@@ -15,7 +15,6 @@
 
 		if(FSPathMakeRef((const UInt8 *)[path fileSystemRepresentation],&ref,NULL)!=noErr)
 		{
-			[self release];
 			return nil;
 		}
 
@@ -43,7 +42,6 @@
 -(void)dealloc
 {
 	if(iterator) FSCloseIterator(iterator);
-	[super dealloc];
 }
 
 -(FSRef *)FSRef { return &ref; }
@@ -81,22 +79,21 @@
 -(NSString *)path
 {
 	NSString *path=nil;
-	CFURLRef url=CFURLCreateFromFSRef(kCFAllocatorDefault,&ref);
+	NSURL *url=CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault,&ref));
 	if(url)
 	{
-		path=[(NSString *)CFURLCopyFileSystemPath(url,kCFURLPOSIXPathStyle) autorelease];
-		CFRelease(url);
+		path=[url path];
 	}
 	return path;
 }
 
--(NSURL *)URL { return [(id)CFURLCreateFromFSRef(kCFAllocatorDefault,&ref) autorelease]; }
+-(NSURL *)URL { return CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault,&ref)); }
 
 -(XeeFSRef *)parent
 {
 	FSRef parent;
 	if(FSGetCatalogInfo(&ref,kFSCatInfoNone,NULL,NULL,NULL,&parent)!=noErr) return nil;
-	return [[[XeeFSRef alloc] initWithFSRef:&parent] autorelease];
+	return [[XeeFSRef alloc] initWithFSRef:&parent];
 }
 
 
@@ -227,7 +224,7 @@
 	}
 	else if(err!=noErr) return nil;
 
-	return [[[XeeFSRef alloc] initWithFSRef:&newref] autorelease];
+	return [[XeeFSRef alloc] initWithFSRef:&newref];
 }
 
 -(NSArray *)directoryContents
@@ -238,14 +235,14 @@
 	XeeFSRef *entry;
 	while((entry=[self nextDirectoryEntry])) [array addObject:entry];
 
-	return array;
+	return [array copy];
 }
 
 
 
 -(BOOL)isEqual:(XeeFSRef *)other
 {
-//	if(![other isKindOfClass:[self class]]) return NO;
+	if(![other isKindOfClass:[XeeFSRef class]]) return NO;
 	//if(![self isValid]||![other isValid]) return NO; // This is REALLY SLOW for some reason.
 	if(hash!=other->hash) return NO;
 	return FSCompareFSRefs(&ref,&other->ref)==noErr;
@@ -256,18 +253,18 @@
 	return [[self path] compare:[other path] options:NSCaseInsensitiveSearch|NSNumericSearch];
 }
 
--(NSComparisonResult)compare:(XeeFSRef *)other options:(int)options
+-(NSComparisonResult)compare:(XeeFSRef *)other options:(NSStringCompareOptions)options
 {
 	return [[self path] compare:[other path] options:options];
 }
 
--(unsigned)hash { return hash; }
+-(NSUInteger)hash { return hash; }
 
 -(NSString *)description { return [self path]; }
 
 -(id)copyWithZone:(NSZone *)zone
 {
-	return [[XeeFSRef allocWithZone:zone] initWithFSRef:&ref];
+	return [[XeeFSRef alloc] initWithFSRef:&ref];
 }
 
 @end

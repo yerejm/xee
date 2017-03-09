@@ -29,8 +29,8 @@
 
 -(void)runLoaderOnSubImage:(XeeImage *)image;
 
-@property (readonly) int frames;
-@property (nonatomic) int frame;
+@property (readonly) NSInteger frames;
+@property (nonatomic) NSInteger frame;
 
 -(NSRect)updatedAreaInRect:(NSRect)rect;
 -(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds lowQuality:(BOOL)lowquality;

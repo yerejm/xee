@@ -1,7 +1,7 @@
 #import "XeeSampleSet.h"
 
-#import <math.h>
-
+#include <math.h>
+#include <tgmath.h>
 
 
 @interface XeeBestCandidateSamples:XeeSampleSet {}
@@ -12,11 +12,11 @@
 -(id)initWithCount:(int)count;
 @end
 
-#define PI M_PI
+#define PI ((float)M_PI)
 
 static float XeeBoxFilter(float u,float v)
 {
-	if(fabsf(u)>0.5||fabsf(v)>0.5) return 0;
+	if(fabs(u)>0.5||fabs(v)>0.5) return 0;
 	return 1;
 }
 
@@ -39,7 +39,7 @@ static float XeeSincFilter(float u,float v)
 {
 	if(self=[super init])
 	{
-		if((samples=malloc(count*sizeof(XeeSamplePoint))))
+		if((samples=calloc(count, sizeof(XeeSamplePoint))))
 		{
 			num=count;
 			return self;

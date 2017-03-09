@@ -72,8 +72,8 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 -(CSHandle *)handle;
 -(CSFileHandle *)fileHandle;
 
-@property (readonly) int frames;
-@property (nonatomic) int frame;
+@property (readonly) NSInteger frames;
+@property (nonatomic) NSInteger frame;
 
 @property (assign) id<XeeImageDelegate> delegate;
 -(void)triggerLoadingAction;

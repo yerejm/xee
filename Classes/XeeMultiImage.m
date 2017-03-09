@@ -109,7 +109,7 @@
 	currloading=nil;
 }
 
--(int)frames
+-(NSInteger)frames
 {
 	NSEnumerator *enumerator=[subimages objectEnumerator];
 	XeeImage *image;
@@ -118,7 +118,7 @@
 	return frames;
 }
 
--(void)setFrame:(int)frame
+-(void)setFrame:(NSInteger)frame
 {
 	if([subimages count]==0) return;
 
@@ -129,7 +129,7 @@
 	NSInteger newindex,prevframes=0;
 	for(newindex=0;newindex<count-1;newindex++)
 	{
-		int frames=[[subimages objectAtIndex:newindex] frames];
+		NSInteger frames=[[subimages objectAtIndex:newindex] frames];
 		if(prevframes+frames>frame) break;
 		else prevframes+=frames;
 	}
@@ -153,10 +153,10 @@
 	[self triggerPropertyChangeAction];
 }
 
--(int)frame
+-(NSInteger)frame
 {
-	int prevframes=0;
-	for(int i=0;i<currindex;i++) prevframes+=[[subimages objectAtIndex:i] frames];
+	NSInteger prevframes=0;
+	for(NSInteger i=0;i<currindex;i++) prevframes+=[[subimages objectAtIndex:i] frames];
 	return prevframes+[(XeeImage *)[subimages objectAtIndex:currindex] frame];
 }
 

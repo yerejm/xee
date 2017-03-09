@@ -10,7 +10,7 @@ NSString *PDFMD5FinishedException=@"PDFMD5FinishedException";
 
 +(NSData *)digestForData:(NSData *)data { return [self digestForBytes:[data bytes] length:[data length]]; }
 
-+(NSData *)digestForBytes:(const void *)bytes length:(int)length
++(NSData *)digestForBytes:(const void *)bytes length:(NSUInteger)length
 {
 	PDFMD5Engine *md5=[[self class] new];
 	[md5 updateWithBytes:bytes length:length];
@@ -31,10 +31,21 @@ NSString *PDFMD5FinishedException=@"PDFMD5FinishedException";
 
 -(void)updateWithData:(NSData *)data { [self updateWithBytes:[data bytes] length:[data length]]; }
 
--(void)updateWithBytes:(const void *)bytes length:(unsigned long)length
+-(void)updateWithBytes:(const void *)bytes length:(NSUInteger)length
 {
 	if(done) [NSException raise:PDFMD5FinishedException format:@"Attempted to update a finished %@ object",[self class]];
-	CC_MD5_Update(&md5,bytes,length);
+#if __LP64__
+	if (length > INT_MAX) {
+		//split up the blocks
+		NSInteger i;
+		for (i = 0; i < length; i += INT_MAX) {
+			CC_MD5_Update(&md5, bytes + i, INT_MAX);
+		}
+		CC_LONG final = length % INT_MAX;
+		CC_MD5_Update(&md5, bytes + i, final);
+	} else
+#endif
+	CC_MD5_Update(&md5,bytes,(CC_LONG)length);
 }
 
 -(NSData *)digest

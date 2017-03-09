@@ -153,7 +153,10 @@
 	[source setActionsBlocked:YES];
 
 	if(fullscreenwindow) [self deleteAlertEnd:alert returnCode:[alert runModal] contextInfo:NULL];
-	else [alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(deleteAlertEnd:returnCode:contextInfo:) contextInfo:NULL];
+	else [alert beginSheetModalForWindow:window completionHandler:^(NSModalResponse returnCode) {
+		[self deleteAlertEnd:alert returnCode:returnCode contextInfo:NULL];
+	}];
+	[alert autorelease];
 
 	[self setResizeBlock:NO];
 }

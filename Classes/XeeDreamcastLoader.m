@@ -152,18 +152,18 @@ static void WritePixel(XeeDreamcastImage *self,int x,int y,uint32_t col)
 	switch(pixelformat)
 	{
 		case PIXEL_ARGB1555:
-			[self setDepth:@"1:5:5:5 bit ARGB" iconName:@"depth_rgba"];
+			[self setDepth:@"1:5:5:5 bit ARGB" iconName:@"depth/rgba"];
 			transparent=YES;
 		break;
 		case PIXEL_RGB565:
-			[self setDepth:@"5:6:5 bit RGB" iconName:@"depth_rgb"];
+			[self setDepth:@"5:6:5 bit RGB" iconName:@"depth/rgb"];
 		break;
 		case PIXEL_ARGB4444:
 			[self setDepthRGBA:4];
 			transparent=YES;
 		break;
 		case PIXEL_YUV422:
-			[self setDepth:@"YUV422" iconName:@"depth_rgb"];
+			[self setDepth:@"YUV422" iconName:@"depth/rgb"];
 		break;
 		case PIXEL_BUMP:
 		break;

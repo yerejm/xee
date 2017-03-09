@@ -126,6 +126,9 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 {
 	NSInteger curr=[self indexOfCurrentImage];
 	NSInteger count=[self numberOfImages];
+	if (count == 0) {
+		return;
+	}
 	if(curr==NSNotFound)
 	{
 		if(offset>=0) [self pickFirstImage];

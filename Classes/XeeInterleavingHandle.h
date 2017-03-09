@@ -7,7 +7,6 @@
 }
 
 -(id)initWithHandles:(NSArray *)handlearray elementSize:(int)bitsize;
--(void)dealloc;
 
 //-(off_t)fileSize;
 //-(off_t)offsetInFile;

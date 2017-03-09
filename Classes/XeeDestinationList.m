@@ -5,7 +5,7 @@
 #import "CSKeyboardShortcuts.h"
 #import "XeeControllerFileActions.h"
 
-#import <Carbon/Carbon.h>
+#include <Carbon/Carbon.h>
 
 
 
@@ -244,17 +244,19 @@ void XeePlayPoof(NSWindow *somewindow);
 	{
 		NSArray *files=[pboard propertyListForType:NSFilenamesPboardType];
 
-		NSEnumerator *enumerator=[files objectEnumerator];
-		NSString *file;
-		while(file=[enumerator nextObject])
+		for (NSString *file in files)
 		{
-			FSRef ref;
-			if(CFURLGetFSRef((CFURLRef)[NSURL fileURLWithPath:file],&ref))
-			{
-				Boolean folder,aliased;
-				if(!FSResolveAliasFileWithMountFlags(&ref,TRUE,&folder,&aliased,kResolveAliasFileNoUI))
-				{
-					if(!folder) return NSDragOperationNone;
+			NSURL *fileURL = [NSURL fileURLWithPath:file];
+			NSURL *resolvedURL = [NSURL URLByResolvingAliasFileAtURL:fileURL options:NSURLBookmarkResolutionWithoutUI error:NULL];
+			if (resolvedURL) {
+				fileURL = resolvedURL;
+			}
+			
+			NSNumber *isFolder = nil;
+			
+			if ([fileURL getResourceValue:&isFolder forKey:NSURLIsDirectoryKey error:NULL]) {
+				if (!isFolder.boolValue) {
+					return NSDragOperationNone;
 				}
 			}
 		}

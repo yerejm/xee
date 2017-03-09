@@ -266,9 +266,9 @@ static int XeeGIFReadData(GifFileType *gif,GifByteType *buf,int len)
 
 
 
--(int)frames { return frames?[frames count]:0; }
+-(NSInteger)frames { return frames?[frames count]:0; }
 
--(void)setFrame:(int)frame
+-(void)setFrame:(NSInteger)frame
 {
 	if(frame==currframe) return;
 
@@ -279,7 +279,7 @@ static int XeeGIFReadData(GifFileType *gif,GifByteType *buf,int len)
 	}
 	else [[frames objectAtIndex:currframe] dispose:self];
 
-	for(int i=currframe+1;i<frame;i++) [[frames objectAtIndex:i] drawAndDispose:self];
+	for(NSInteger i=currframe+1;i<frame;i++) [[frames objectAtIndex:i] drawAndDispose:self];
 
 	[(XeeGIFFrame *)[frames objectAtIndex:frame] draw:self];
 	currframe=frame;
@@ -287,7 +287,7 @@ static int XeeGIFReadData(GifFileType *gif,GifByteType *buf,int len)
 	[self invalidate];
 }
 
--(int)frame { return currframe; }
+-(NSInteger)frame { return currframe; }
 
 
 
@@ -327,7 +327,7 @@ static int XeeGIFReadData(GifFileType *gif,GifByteType *buf,int len)
 
 	if(animticks>=[[frames objectAtIndex:currframe] time])
 	{
-		int numframes=[frames count];
+		NSInteger numframes=[frames count];
 
 		[self setFrame:(currframe+1)%numframes];
 
