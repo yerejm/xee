@@ -467,24 +467,11 @@ void XeePlayPoof(NSWindow *somewindow);
 
 		NSURL *url=[NSURL fileURLWithPath:directory];
 
-		FSRef fsref;
-		FSSpec fsspec;
-		CFURLGetFSRef((CFURLRef)url,&fsref);
-		FSGetCatalogInfo(&fsref,kFSCatInfoNone,NULL,NULL,&fsspec,NULL);
+		NSColor *tmpClr = nil;
 
-		IconRef dummyicon;
-		SInt16 label;
-		RGBColor rgbcol;
-		Str255 labelstr;
-		if(GetIconRefFromFile(&fsspec,&dummyicon,&label)==noErr)
+		if([url getResourceValue:&tmpClr forKey:NSURLLabelColorKey error:NULL])
 		{
-			ReleaseIconRef(dummyicon);
-
-			if(label)
-			if(GetLabel(label,&rgbcol,labelstr)==noErr)
-			{
-				color=[NSColor colorWithCalibratedRed:rgbcol.red/65280.0 green:rgbcol.green/65280.0 blue:rgbcol.blue/65280.0 alpha:0.2];
-			}
+			color=[tmpClr colorWithAlphaComponent:0.2];
 		}
 
 		NSDictionary *dict=[NSDictionary dictionaryWithObjectsAndKeys:
