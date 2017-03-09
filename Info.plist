@@ -1099,7 +1099,7 @@
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
-	<string>Xee</string>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
 	<string>Xee</string>
 	<key>CFBundleIdentifier</key>
@@ -1108,6 +1108,8 @@
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.3</string>
 	<key>CFBundleSignature</key>
 	<string>xee!</string>
 	<key>CFBundleVersion</key>
@@ -1123,6 +1125,8 @@
 		<string>cx.c3.lha-archive</string>
 		<string>com.allume.stuffit-archive</string>
 	</array>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

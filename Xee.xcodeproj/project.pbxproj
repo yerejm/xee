@@ -19,7 +19,7 @@
 		1B1D4D670AFECED5009AA7EB /* XeePNGLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C03B08E0DC5500859EE2 /* XeePNGLoader.m */; };
 		1B1D4DCC0AFED947009AA7EB /* XeeGIFLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B262C3908BE6A5900648EBC /* XeeGIFLoader.m */; };
 		1B1D4E320AFEE7BE009AA7EB /* XeePCXLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C37B08E4C58300859EE2 /* XeePCXLoader.m */; };
-		1B1D4E460AFEEEA8009AA7EB /* XeeILBMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C37E08E4C5A300859EE2 /* XeeILBMLoader.m */; };
+		1B1D4E460AFEEEA8009AA7EB /* XeeILBMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C37E08E4C5A300859EE2 /* XeeILBMLoader.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B1D4F240AFFEC88009AA7EB /* XeeImageIOLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B00E45A0A7AEAE70094B997 /* XeeImageIOLoader.m */; };
 		1B1D4F700B000077009AA7EB /* XeeMayaLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D4F6F0B000077009AA7EB /* XeeMayaLoader.m */; };
 		1B1D523C0B02A34C009AA7EB /* XeeSavePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D523B0B02A34C009AA7EB /* XeeSavePanel.m */; };
@@ -43,7 +43,7 @@
 		1B3D33620937B89200345FD0 /* CSKeyboardShortcuts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */; };
 		1B3E45920C6E1EDD00D63BC0 /* XeeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E45910C6E1EDD00D63BC0 /* XeeProperties.m */; };
 		1B4072A80EB40787008D5F17 /* CCITTHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA0D2B0EABF4B20016D207 /* CCITTHandle.m */; };
-		1B40762F0EB7C325008D5F17 /* LZWHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B40762E0EB7C325008D5F17 /* LZWHandle.m */; };
+		1B40762F0EB7C325008D5F17 /* LZWHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B40762E0EB7C325008D5F17 /* LZWHandle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B4077300EB8E56B008D5F17 /* XeePNMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B40772F0EB8E56B008D5F17 /* XeePNMLoader.m */; };
 		1B4077A60EB928AC008D5F17 /* XeeXBMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4077A50EB928AC008D5F17 /* XeeXBMLoader.m */; };
 		1B4077A90EB928B5008D5F17 /* XeeXPMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4077A80EB928B5008D5F17 /* XeeXPMLoader.m */; };
@@ -243,6 +243,12 @@
 		558A1F6C1E70E74900C41ADA /* libungif.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1F5F1E70E72300C41ADA /* libungif.a */; };
 		558A1FE61E71153A00C41ADA /* XeeTypesAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */; };
 		558A1FE81E713EF400C41ADA /* XeeImageThumbnailing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */; };
+		55E039611E720F0A000E8268 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1FDE1E71142D00C41ADA /* UniversalDetector.framework */; };
+		55E039621E720F0A000E8268 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1FBB1E71142900C41ADA /* XADMaster.framework */; };
+		55E039631E720F0F000E8268 /* XADMaster.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1FBB1E71142900C41ADA /* XADMaster.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		55E039651E720F1A000E8268 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1FDE1E71142D00C41ADA /* UniversalDetector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		55E039661E720F6B000E8268 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAAA1E70A3F500697829 /* CoreFoundation.framework */; };
+		55E039671E720F6B000E8268 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAAB1E70A3F600697829 /* Foundation.framework */; };
 		7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC411DD17DC0A8600626F23 /* libz.dylib */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.xib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -405,6 +411,20 @@
 			remoteGlobalIDString = 5518C6D41BDAFDCC00D50302;
 			remoteInfo = UniversalDetectorTests;
 		};
+		55E0395D1E720EF0000E8268 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = UniversalDetector;
+		};
+		55E0395F1E720EF0000E8268 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = XADMaster;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -414,6 +434,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				55E039631E720F0F000E8268 /* XADMaster.framework in Copy Frameworks */,
+				55E039651E720F1A000E8268 /* UniversalDetector.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,16 +874,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55E039661E720F6B000E8268 /* CoreFoundation.framework in Frameworks */,
+				1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */,
+				1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */,
+				1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */,
+				5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */,
+				7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */,
+				55E039671E720F6B000E8268 /* Foundation.framework in Frameworks */,
+				55E039611E720F0A000E8268 /* UniversalDetector.framework in Frameworks */,
+				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
+				55E039621E720F0A000E8268 /* XADMaster.framework in Frameworks */,
 				558A1F6C1E70E74900C41ADA /* libungif.a in Frameworks */,
 				558A1F5A1E70E6FA00C41ADA /* libpng.a in Frameworks */,
 				558A1F3B1E70E6CA00C41ADA /* libjpeg.a in Frameworks */,
 				558A1EF91E70E66900C41ADA /* libexiftags.a in Frameworks */,
-				5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */,
-				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */,
-				1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */,
-				1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */,
-				7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1586,6 +1612,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				55E0395E1E720EF0000E8268 /* PBXTargetDependency */,
+				55E039601E720EF0000E8268 /* PBXTargetDependency */,
 				558A1F6B1E70E74300C41ADA /* PBXTargetDependency */,
 				558A1F591E70E6F500C41ADA /* PBXTargetDependency */,
 				558A1F3D1E70E6CE00C41ADA /* PBXTargetDependency */,
@@ -2073,6 +2101,16 @@
 			isa = PBXTargetDependency;
 			target = 558A1F5E1E70E72300C41ADA /* ungif */;
 			targetProxy = 558A1F6A1E70E74300C41ADA /* PBXContainerItemProxy */;
+		};
+		55E0395E1E720EF0000E8268 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UniversalDetector;
+			targetProxy = 55E0395D1E720EF0000E8268 /* PBXContainerItemProxy */;
+		};
+		55E039601E720EF0000E8268 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = XADMaster;
+			targetProxy = 55E0395F1E720EF0000E8268 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

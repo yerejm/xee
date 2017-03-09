@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #ifndef MAC_OS_X_VERSION_MIN_REQUIRED
 #define MAC_OS_X_VERSION_MIN_REQUIRED MAC_OS_X_VERSION_10_1
 #endif
@@ -5,8 +6,9 @@
 #define MAC_OS_X_VERSION_MAX_ALLOWED MAC_OS_X_VERSION_10_4
 #endif
 #import "CSCoroutine.h"
-#import <pthread.h>
-#import <objc/objc-runtime.h>
+#include <pthread.h>
+#include <objc/runtime.h>
+#include <objc/message.h>
 
 
 @interface NSProxy (Hidden)
@@ -112,7 +114,6 @@ static void CSTigerCoroutineStart()
 	[coro returnFrom];
 	[NSException raise:@"CSCoroutineException" format:@"Attempted to switch to a coroutine that has ended"];
 }
-#endif
 
 -forward:(SEL)sel :(marg_list)args // Tiger forwarding
 {
@@ -133,6 +134,7 @@ static void CSTigerCoroutineStart()
 #endif
 	return nil;
 }
+#endif
 
 -(NSMethodSignature *)methodSignatureForSelector:(SEL)sel { return [target methodSignatureForSelector:sel]; }
 

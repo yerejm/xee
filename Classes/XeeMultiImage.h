@@ -9,11 +9,10 @@
 	XeeImage *currloading;
 }
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 
 -(void)addSubImage:(XeeImage *)subimage;
--(void)addSubImages:(NSArray *)array;
+-(void)addSubImages:(NSArray<XeeImage*> *)array;
 
 -(void)xeeImageLoadingProgress:(XeeImage *)image;
 -(void)xeeImageDidChange:(XeeImage *)image;
@@ -48,7 +47,7 @@
 //@property (readonly, copy) NSString *depth;
 //@property (readonly, retain) NSImage *depthIcon;
 @property (readonly) BOOL transparent;
-@property (readonly) NSColor *backgroundColor;
+@property (readwrite, retain, nonatomic) NSColor *backgroundColor;
 @property (nonatomic) NSRect croppingRect;
 @property (nonatomic) XeeTransformation orientation;
 @property (nonatomic) XeeTransformation correctOrientation;

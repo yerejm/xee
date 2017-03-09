@@ -108,15 +108,16 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 @property (nonatomic, copy) NSString *depth;
 @property (nonatomic, retain) NSImage *depthIcon;
 @property (readonly) BOOL transparent;
-@property (readonly) NSColor *backgroundColor;
+@property (nonatomic, retain) NSColor *backgroundColor;
 
-@property (readonly) XeeTransformation orientation;
-@property (readonly) XeeTransformation correctOrientation;
-@property (readonly) NSRect croppingRect;
+@property (nonatomic) XeeTransformation orientation;
+@property (nonatomic) XeeTransformation correctOrientation;
+@property (nonatomic) NSRect croppingRect;
 @property (readonly) NSRect rawCroppingRect;
 @property (readonly, getter=isTransformed) BOOL transformed;
 @property (readonly, getter=isCropped) BOOL cropped;
 @property (readonly) XeeMatrix transformationMatrix;
+@property (nonatomic, retain) NSArray *properties;
 -(XeeMatrix)transformationMatrixInRect:(NSRect)rect;
 
 -(NSArray *)properties;
@@ -151,15 +152,13 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 -(void)setDepthRGB:(int)bits;
 -(void)setDepthRGBA:(int)bits;
 
--(NSString*)description;
-
 +(XeeImage *)imageForFilename:(NSString *)filename;
 +(XeeImage *)imageForRef:(XeeFSRef *)ref;
 +(XeeImage *)imageForHandle:(CSHandle *)fh;
 +(XeeImage *)imageForHandle:(CSHandle *)fh ref:(XeeFSRef *)ref attributes:(NSDictionary *)attrs;
 @property (class, readonly) NSArray<NSString*> *allFileTypes;
-+(NSDictionary *)fileTypeDictionary;
-+(void)registerImageClass:(Class)class;
+@property (class, readonly) NSDictionary *fileTypeDictionary;
++(void)registerImageClass:(Class)aClass;
 
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
 @property (class, readonly) NSArray<NSString*> *fileTypes;

@@ -38,7 +38,7 @@
 		image=NULL;
 		mask=NULL;
 		iff=nil;
-		ranges=[[NSMutableArray array] retain];
+		ranges=[[NSMutableArray alloc] init];
 		comments=nil;
 		clock=0;
 		animationtimer=nil;
@@ -50,16 +50,11 @@
 {
 	if(image) free(image);
 	if(mask) free(mask);
-
-	[ranges release];
-	[animationtimer release];
-
-	[super dealloc];
 }
 
 -(SEL)initLoader
 {
-	iff=[[XeeIFFHandle IFFHandleWithPath:[self filename] fileType:'ILBM'] retain];
+	iff=[XeeIFFHandle IFFHandleWithPath:[self filename] fileType:'ILBM'];
 	if(!iff) return NULL;
 
 	ham=ham8=ehb=ocscol=transparency=NO;
@@ -71,7 +66,7 @@
 
 -(void)deallocLoader
 {
-	[iff release];
+	iff = nil;
 }
 
 -(SEL)loadChunk
@@ -151,7 +146,7 @@
 		case 'CRNG':
 		case 'DRNG':
 		case 'CCRT':
-			range=[[[XeeILBMRange alloc] initWithIFF:iff image:self] autorelease];
+			range=[[XeeILBMRange alloc] initWithIFF:iff image:self];
 			if(range) [ranges addObject:range];
 		break;
 
@@ -492,8 +487,8 @@
 	}
 
 	[comments addObject:[XeePropertyItem itemWithLabel:label
-	value:[[[NSString alloc] initWithData:commentdata encoding:NSISOLatin1StringEncoding]
-	autorelease]]];
+	value:[[NSString alloc] initWithData:commentdata encoding:NSISOLatin1StringEncoding]
+	]];
 
 	[self triggerPropertyChangeAction];
 }
@@ -513,7 +508,7 @@
 	{
 		if(!animationtimer)
 		{
-			animationtimer=[[NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(animate:) userInfo:nil repeats:YES] retain];
+			animationtimer=[NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(animate:) userInfo:nil repeats:YES];
 		}
 	}
 	else
@@ -521,7 +516,6 @@
 		if(animationtimer)
 		{
 			[animationtimer invalidate];
-			[animationtimer release];
 			animationtimer=nil;
 		}
 	}
@@ -654,8 +648,6 @@
 			}
 			break;
 		}
-
-		[self release];
 	}
 	return nil;
 }
@@ -664,8 +656,6 @@
 {
 	if(colours) free(colours);
 	if(indexes) free(indexes);
-
-	[super dealloc];
 }
 
 -(BOOL)allocBuffers:(int)length

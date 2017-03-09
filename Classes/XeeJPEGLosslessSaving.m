@@ -3,7 +3,7 @@
 #import "XeeJPEGUtilities.h"
 //#import "XeeImageThumbnailing.h"
 #import "XeeTileImage.h"
-#import "Xee-swift.h"
+#import "Xee-Swift.h"
 
 #import "libjpeg/transupp.h"
 

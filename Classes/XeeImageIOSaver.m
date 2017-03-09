@@ -9,8 +9,8 @@
 	CGImageRef cgimage=[img createCGImage];
 	if(!img) return NO;
 
-	int depth=CGImageGetBitsPerComponent(cgimage);
-	int info=CGImageGetBitmapInfo(cgimage);
+	size_t depth=CGImageGetBitsPerComponent(cgimage);
+	CGBitmapInfo info=CGImageGetBitmapInfo(cgimage);
 
 	CGImageRelease(cgimage);
 

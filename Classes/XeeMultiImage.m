@@ -3,6 +3,7 @@
 
 
 @implementation XeeMultiImage
+@dynamic backgroundColor;
 
 -(id)init
 {
