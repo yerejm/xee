@@ -48,7 +48,7 @@
 -(uint64_t)size;
 -(double)time;
 
--(void)prepareForSortingBy:(int)sortorder;
+-(void)prepareForSortingBy:(XeeSortOrder)sortorder;
 -(void)finishSorting;
 -(NSComparisonResult)comparePaths:(XeeFileEntry *)other;
 -(NSComparisonResult)compareSizes:(XeeFileEntry *)other;

@@ -118,7 +118,7 @@ static int XeeSamplePointSorter(const void *a,const void *b)
 		for(int i=1;i<num;i++)
 		{
 			float maxdist=0;
-			XeeSamplePoint maxpoint;
+			XeeSamplePoint maxpoint = {0};
 
 			for(int j=0;j<100;j++) // should adapt the count
 			{

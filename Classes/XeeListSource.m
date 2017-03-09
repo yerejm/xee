@@ -44,9 +44,9 @@
 
 
 
--(int)numberOfImages { return [entries count]; }
+-(NSInteger)numberOfImages { return [entries count]; }
 
--(int)indexOfCurrentImage
+-(NSInteger)indexOfCurrentImage
 {
 	if(!currentry) return NSNotFound;
 	return [entries indexOfObject:currentry];
@@ -57,7 +57,7 @@
 
 
 
--(void)pickImageAtIndex:(int)index next:(int)next
+-(void)pickImageAtIndex:(NSInteger)index next:(NSInteger)next
 {
 	[listlock lock];
 
@@ -91,7 +91,7 @@
 	[self triggerImageChangeAction:currimage];
 }
 
--(void)pickImageAtIndex:(int)index
+-(void)pickImageAtIndex:(NSInteger)index
 {
 	// this is pretty dumb; FIX
 	if(index<[entries count]&&[entries objectAtIndex:index]==currentry&&nextentry) [self pickImageAtIndex:index next:[entries indexOfObject:nextentry]];
@@ -120,7 +120,7 @@
 		{
 			[self setCurrentEntry:nil];
 
-			int count=[entries count];
+			NSInteger count=[entries count];
 			/*if(count&&currfile)
 			{
 				int index;

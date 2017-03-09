@@ -31,7 +31,7 @@
 	if(!renamepanel)
 	{
 		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"RenamePanel" bundle:nil] autorelease];
-		[nib instantiateNibWithOwner:self topLevelObjects:nil];
+		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 
 	[source setActionsBlocked:YES];
@@ -158,7 +158,7 @@
 	[self setResizeBlock:NO];
 }
 
--(void)deleteAlertEnd:(NSAlert *)alert returnCode:(int)res contextInfo:(void *)info
+-(void)deleteAlertEnd:(NSAlert *)alert returnCode:(NSInteger)res contextInfo:(void *)info
 {
 	if(res==NSAlertFirstButtonReturn) [self displayPossibleError:[source deleteCurrentImage]];
 
@@ -201,13 +201,13 @@
 -(IBAction)moveToDestination9:(id)sender { [self transferToDestination:9 mode:XeeMoveMode]; }
 -(IBAction)moveToDestination10:(id)sender { [self transferToDestination:10 mode:XeeMoveMode]; }
 
--(void)triggerDrawer:(int)mode
+-(void)triggerDrawer:(XeeDrawerMode)mode
 {
 	int newseg;
 	if(mode==XeeCopyMode) newseg=0;
 	else newseg=1;
 
-	int state=[drawer state];
+	NSInteger state=[drawer state];
 
 	if(state==NSDrawerClosedState||state==NSDrawerClosingState)
 	{
@@ -259,7 +259,7 @@
 	if([drawerseg selectedSegment]==0) drawer_mode=XeeCopyMode;
 	else drawer_mode=XeeMoveMode;
 
-	int index=[sender selectedRow];
+	NSInteger index=[sender selectedRow];
 
 	if(index==0)
 	{
@@ -279,9 +279,9 @@
 	else [self transferToDestination:index mode:drawer_mode];
 }
 
--(void)destinationPanelEnd:(NSOpenPanel *)panel returnCode:(int)res contextInfo:(void *)info
+-(void)destinationPanelEnd:(NSOpenPanel *)panel returnCode:(NSInteger)res contextInfo:(void *)info
 {
-	if(res==NSOKButton)
+	if(res==NSFileHandlingPanelOKButton)
 	{
 		NSString *destdir=[[[panel URLs] objectAtIndex:0] path];
 		NSString *destination=[destdir stringByAppendingPathComponent:[source filenameOfCurrentImage]];
@@ -296,7 +296,7 @@
 	}
 }
 
--(void)transferToDestination:(int)index mode:(int)mode
+-(void)transferToDestination:(NSInteger)index mode:(XeeDrawerMode)mode
 {
 	if(mode==XeeCopyMode&&![source canCopyCurrentImage]) { NSBeep(); return; }
 	else if(mode==XeeMoveMode&&![source canMoveCurrentImage]) { NSBeep(); return; }
@@ -307,7 +307,7 @@
 	[self attemptToTransferCurrentImageTo:destination mode:mode];
 }
 
--(void)attemptToTransferCurrentImageTo:(NSString *)destination mode:(int)mode
+-(void)attemptToTransferCurrentImageTo:(NSString *)destination mode:(XeeDrawerMode)mode
 {
 	if([source isCurrentImageAtPath:destination])
 	{
@@ -323,7 +323,7 @@
 		if(!collisionpanel)
 		{
 			NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"CollisionPanel" bundle:nil] autorelease];
-			[nib instantiateNibWithOwner:self topLevelObjects:nil];
+			[nib instantiateWithOwner:self topLevelObjects:nil];
 		}
 
 		[source setActionsBlocked:YES];
@@ -341,7 +341,7 @@
 	}
 }
 
--(void)collisionPanelEnd:(XeeCollisionPanel *)panel returnCode:(int)res path:(NSString *)destination mode:(int)mode
+-(void)collisionPanelEnd:(XeeCollisionPanel *)panel returnCode:(NSInteger)res path:(NSString *)destination mode:(XeeDrawerMode)mode
 {
 	if(res==1)
 	{
@@ -358,7 +358,7 @@
 	}
 }
 
--(void)transferCurrentImageTo:(NSString *)destination mode:(int)mode
+-(void)transferCurrentImageTo:(NSString *)destination mode:(XeeDrawerMode)mode
 {
 	if(mode==XeeMoveMode) [self displayPossibleError:[source moveCurrentImageTo:destination]];
 	else [self displayPossibleError:[source copyCurrentImageTo:destination]];

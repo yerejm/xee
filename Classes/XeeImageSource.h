@@ -30,8 +30,8 @@ extern NSString *XeeErrorDomain;
 	BOOL pendingimagechange,pendinglistchange;
 	XeeImage *pendingimage;
 
-	struct rand_entry { int next,prev; } *rand_ordering;
-	int rand_size;
+	struct rand_entry { NSInteger next,prev; } *rand_ordering;
+	NSInteger rand_size;
 }
 
 -(id)init;
@@ -43,8 +43,8 @@ extern NSString *XeeErrorDomain;
 @property (assign) id<XeeImageSourceDelegate> delegate;
 @property (retain) NSImage *icon;
 
--(int)numberOfImages;
--(int)indexOfCurrentImage;
+-(NSInteger)numberOfImages;
+-(NSInteger)indexOfCurrentImage;
 -(NSString *)windowTitle;
 -(NSString *)windowRepresentedFilename;
 -(NSString *)descriptiveNameOfCurrentImage;
@@ -63,15 +63,14 @@ extern NSString *XeeErrorDomain;
 -(BOOL)canOpenCurrentImage;
 -(BOOL)canSaveCurrentImage;
 
--(int)sortOrder;
--(void)setSortOrder:(int)order;
+@property XeeSortOrder sortOrder;
 
 -(void)setActionsBlocked:(BOOL)blocked;
 
--(void)pickImageAtIndex:(int)index next:(int)next;
+-(void)pickImageAtIndex:(NSInteger)index next:(NSInteger)next;
 
--(void)pickImageAtIndex:(int)index;
--(void)skip:(int)offset;
+-(void)pickImageAtIndex:(NSInteger)index;
+-(void)skip:(NSInteger)offset;
 -(void)pickFirstImage;
 -(void)pickLastImage;
 -(void)pickNextImageAtRandom;
@@ -98,7 +97,7 @@ extern NSString *XeeErrorDomain;
 
 @protocol XeeImageSourceDelegate <NSObject>
 
--(void)xeeImageSource:(XeeImageSource *)source imageListDidChange:(int)num;
+-(void)xeeImageSource:(XeeImageSource *)source imageListDidChange:(NSInteger)num;
 -(void)xeeImageSource:(XeeImageSource *)source imageDidChange:(XeeImage *)newimage;
 -(NSString *)xeeImageSourceDemandsPassword:(XeeImageSource *)source;
 

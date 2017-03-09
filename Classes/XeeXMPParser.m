@@ -104,7 +104,7 @@
 		else return nil;
 	}
 
-	int len=[name length];
+	NSInteger len=[name length];
 	NSMutableString *newname=[NSMutableString stringWithCapacity:len];
 
 	for(int i=0;i<len;i++)
@@ -122,7 +122,7 @@
 -(NSArray *)parsePropertyValue:(NSXMLNode *)node
 {
 	NSArray *children=[node children];
-	int count=[children count];
+	NSInteger count=[children count];
 
 	if(count==0) return [NSArray arrayWithObject:@""];
 	else if(count==1)

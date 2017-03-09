@@ -1,10 +1,9 @@
 #import "XeeFileSource.h"
 
-#define NSUInteger unsigned long
 #import <XADMaster/XADArchive.h>
 
 
-@interface XeeArchiveSource:XeeFileSource
+@interface XeeArchiveSource:XeeFileSource <XADArchiveParserDelegate>
 {
 	NSString *filename;
 	XADArchiveParser *parser;
@@ -14,7 +13,7 @@
 
 +(NSArray *)fileTypes;
 
--(id)initWithArchive:(NSString *)archivename;
+-(instancetype)initWithArchive:(NSString *)archivename;
 -(void)dealloc;
 
 -(void)start;
@@ -40,18 +39,18 @@
 	double time;
 }
 
--(id)initWithArchiveParser:(XADArchiveParser *)parent entry:(NSDictionary *)entry realPath:(NSString *)realpath;
--(id)initAsCopyOf:(XeeArchiveEntry *)other;
+-(instancetype)initWithArchiveParser:(XADArchiveParser *)parent entry:(NSDictionary *)entry realPath:(NSString *)realpath;
+-(instancetype)initAsCopyOf:(XeeArchiveEntry *)other;
 -(void)dealloc;
 
 -(NSString *)descriptiveName;
--(XeeFSRef *)ref;
--(NSString *)path;
--(NSString *)filename;
--(uint64_t)size;
--(double)time;
+@property (readonly, retain) XeeFSRef *ref;
+@property (readonly, copy) NSString *path;
+@property (readonly, copy) NSString *filename;
+@property (readonly) uint64_t size;
+@property (readonly) double time;
 
 -(BOOL)isEqual:(XeeArchiveEntry *)other;
--(unsigned long)hash;
+-(NSUInteger)hash;
 
 @end

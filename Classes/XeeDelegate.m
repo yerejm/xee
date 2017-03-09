@@ -322,7 +322,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 		if(!iconwindow)
 		{
 			NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"IconSetWindow" bundle:nil] autorelease];
-			[nib instantiateNibWithOwner:self topLevelObjects:nil];
+			[nib instantiateWithOwner:self topLevelObjects:nil];
 		}
 
 
@@ -337,7 +337,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	}
 	else
 	{
-		XeeFSRef *ref=[XeeFSRef refForPath:filename],*dirref;
+		XeeFSRef *ref=[XeeFSRef refForPath:filename],*dirref = nil;
 
 		XeeImageSource *source=nil;
 		if([ref isDirectory])
@@ -405,9 +405,9 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
 	NSInteger res=[panel runModal];
 
-	if(res==NSOKButton)
+	if(res==NSFileHandlingPanelOKButton)
 	{
-		[self application:[NSApplication sharedApplication] openFile:[[panel filenames] objectAtIndex:0]];
+		[self application:[NSApplication sharedApplication] openFile:[[[panel URLs] objectAtIndex:0] path]];
 	}
 }
 
@@ -628,7 +628,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	if(!prefswindow)
 	{
 		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PrefsWindow" bundle:nil] autorelease];
-		[nib instantiateNibWithOwner:self topLevelObjects:nil];
+		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 	[prefswindow makeKeyAndOrderFront:nil];
 }
@@ -648,7 +648,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	if(!properties)
 	{
 		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PropertyPanel" bundle:nil] autorelease];
-		[nib instantiateNibWithOwner:self topLevelObjects:nil];
+		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 	[properties toggleVisibility];
 }
@@ -658,7 +658,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	if(!prefswindow)
 	{
 		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PrefsWindow" bundle:nil] autorelease];
-		[nib instantiateNibWithOwner:self topLevelObjects:nil];
+		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 	[prefstabs selectTabViewItemAtIndex:1];
 	[prefswindow makeKeyAndOrderFront:self];
@@ -778,7 +778,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 		if(!browsernib) browsernib=[[NSNib alloc] initWithNibNamed:@"BrowserWindow" bundle:nil];
 
 		windowcontroller=nil;
-		[browsernib instantiateNibWithOwner:self topLevelObjects:nil];
+		[browsernib instantiateWithOwner:self topLevelObjects:nil];
 		controller=windowcontroller;
 
 		if(directory) [controllers setObject:controller forKey:directory];

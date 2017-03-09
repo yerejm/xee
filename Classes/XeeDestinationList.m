@@ -299,7 +299,7 @@ void XeePlayPoof(NSWindow *somewindow);
 	dropnum=0;
 
 	NSPasteboard *pboard=[sender draggingPasteboard];
-	int insindex=row-1;
+	NSInteger insindex=row-1;
 
 	NSArray *files;
 	if([[pboard types] containsObject:NSFilenamesPboardType]) files=[pboard propertyListForType:NSFilenamesPboardType];
@@ -309,7 +309,7 @@ void XeePlayPoof(NSWindow *somewindow);
 	NSString *file;
 	while(file=[enumerator nextObject])
 	{
-		int remindex=[XeeDestinationView findDestination:file];
+		NSInteger remindex=[XeeDestinationView findDestination:file];
 		if(remindex!=NSNotFound)
 		{
 			[destinations removeObjectAtIndex:remindex];

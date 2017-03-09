@@ -46,10 +46,10 @@
 
 #pragma mark constants
 
-typedef enum KFTypeSelectMatchAlgorithm {
+typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
     KFSubstringMatchAlgorithm = 0,
     KFPrefixMatchAlgorithm = 1
-} KFTypeSelectMatchAlgorithm;
+};
 
 @interface KFTypeSelectTableView : NSTableView
 
@@ -69,21 +69,17 @@ typedef enum KFTypeSelectMatchAlgorithm {
 
 // a tableview with no match algorithm set uses defaultMatchAlgorithm
 // defaultMatchAlgorithm defaults to KFPrefixMatchAlgorithm
-+ (KFTypeSelectMatchAlgorithm)defaultMatchAlgorithm;
-+ (void)setDefaultMatchAlgorithm:(KFTypeSelectMatchAlgorithm)algorithm;
+@property (class) KFTypeSelectMatchAlgorithm defaultMatchAlgorithm;
 
-- (KFTypeSelectMatchAlgorithm)matchAlgorithm;
-- (void)setMatchAlgorithm:(KFTypeSelectMatchAlgorithm)algorithm;
+@property KFTypeSelectMatchAlgorithm matchAlgorithm;
 
 // defaults to NO
-- (BOOL)searchWraps;
-- (void)setSearchWraps:(BOOL)flag;
+@property BOOL searchWraps;
 
 // supply a set of identifiers to limit columns searched for match.
 // Only columns with identifiers in the provided set are searched.
 // nil identifiers means search all columns.  defaults to nil.
-- (NSSet *)searchColumnIdentifiers;
-- (void)setSearchColumnIdentifiers:(NSSet *)identifiers;
+@property (copy) NSSet<NSString*> *searchColumnIdentifiers;
 
 @end
 
@@ -95,7 +91,7 @@ typedef enum KFTypeSelectMatchAlgorithm {
 // Use something like
 //     return [[[arrayController arrangedObjects] objectAtIndex:row] valueForKey:[column identifier]];
 // Could also use it to supply string representations for non-string data, or to search only part of visible text.
-- (NSString *)typeSelectTableView:(id)tableView stringValueForTableColumn:(NSTableColumn *)column row:(int)row;
+- (NSString *)typeSelectTableView:(id)tableView stringValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row;
 
 // defaults to YES
 - (BOOL)typeSelectTableViewSearchTopToBottom:(id)tableView; 
@@ -121,5 +117,5 @@ typedef enum KFTypeSelectMatchAlgorithm {
 @end
 
 #pragma mark notifications
-// delegate automatically receives this notification.  See delegate method above.
+//! delegate automatically receives this notification.  See delegate method above.
 extern NSString *KFTypeSelectTableViewPattenDidChangeNotification;

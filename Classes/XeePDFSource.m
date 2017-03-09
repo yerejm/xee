@@ -7,14 +7,14 @@
 #import "XeeImageIOLoader.h"
 
 
-static int XeePDFSortPages(id first,id second,void *context)
+static NSInteger XeePDFSortPages(id first,id second,void *context)
 {
 	NSDictionary *order=(NSDictionary *)context;
 	NSNumber *firstpage=[order objectForKey:[first reference]];
 	NSNumber *secondpage=[order objectForKey:[second reference]];
-	if(!firstpage&&!secondpage) return 0;
-	else if(!firstpage) return 1;
-	else if(!secondpage) return -1;
+	if(!firstpage&&!secondpage) return NSOrderedSame;
+	else if(!firstpage) return NSOrderedDescending;
+	else if(!secondpage) return NSOrderedAscending;
 	else return [firstpage compare:secondpage];
 }
 

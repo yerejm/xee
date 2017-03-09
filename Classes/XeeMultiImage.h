@@ -2,10 +2,10 @@
 
 
 
-@interface XeeMultiImage:XeeImage
+@interface XeeMultiImage:XeeImage <XeeImageDelegate>
 {
 	NSMutableArray *subimages;
-	int currindex;
+	NSInteger currindex;
 	XeeImage *currloading;
 }
 

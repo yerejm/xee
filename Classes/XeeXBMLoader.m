@@ -14,7 +14,7 @@
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
 {
 	const unsigned char *head=[block bytes];
-	int len=[block length];
+	NSInteger len=[block length];
 	if(len>=8&&!memcmp(head,"#define ",8))
 	{
 		return [[[[NSString alloc] initWithData:block encoding:NSASCIIStringEncoding] autorelease]

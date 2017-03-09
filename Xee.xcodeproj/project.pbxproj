@@ -92,7 +92,7 @@
 		1BB983E80B18C363000B4425 /* XeeRenamePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB983E70B18C363000B4425 /* XeeRenamePanel.m */; };
 		1BB984070B18C479000B4425 /* CSFileTypeList.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB984060B18C479000B4425 /* CSFileTypeList.m */; };
 		1BB98D6B0B1CBCCB000B4425 /* XeeKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98D6A0B1CBCCB000B4425 /* XeeKQueue.m */; };
-		1BB98F170B1E1E5A000B4425 /* XeeFSRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98F160B1E1E5A000B4425 /* XeeFSRef.m */; };
+		1BB98F170B1E1E5A000B4425 /* XeeFSRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98F160B1E1E5A000B4425 /* XeeFSRef.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations"; }; };
 		1BCA06980E9C3CDD0016D207 /* XeeListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA06970E9C3CDD0016D207 /* XeeListSource.m */; };
 		1BCA069D0E9C3E110016D207 /* PDFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA069C0E9C3E110016D207 /* PDFParser.m */; };
 		1BCA08A80E9D5D060016D207 /* NSDictionaryNumberExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA08A70E9D5D060016D207 /* NSDictionaryNumberExtension.m */; };
@@ -618,7 +618,7 @@
 		1BDEDB8408D4B15F0065EA39 /* XeeImageSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeImageSaver.h; sourceTree = "<group>"; };
 		1BDEDB8508D4B15F0065EA39 /* XeeImageSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeImageSaver.m; sourceTree = "<group>"; };
 		1BE4B80B08D7655400859EE2 /* KFTypeSelectTableView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KFTypeSelectTableView.h; sourceTree = "<group>"; };
-		1BE4B80C08D7655400859EE2 /* KFTypeSelectTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFTypeSelectTableView.m; sourceTree = "<group>"; };
+		1BE4B80C08D7655400859EE2 /* KFTypeSelectTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KFTypeSelectTableView.m; sourceTree = "<group>"; usesTabs = 0; };
 		1BE4B81008D765C300859EE2 /* XeeDestinationList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeDestinationList.h; sourceTree = "<group>"; };
 		1BE4B81108D765C300859EE2 /* XeeDestinationList.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = XeeDestinationList.m; sourceTree = "<group>"; };
 		1BE4BA1B08D9E3E500859EE2 /* XeeSimpleLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeSimpleLayout.h; sourceTree = "<group>"; };
@@ -2322,7 +2322,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -2356,7 +2356,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -2376,6 +2376,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2394,6 +2395,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -2416,6 +2418,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2434,6 +2437,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -2456,6 +2460,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2474,6 +2479,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -2496,6 +2502,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -2514,6 +2521,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;

@@ -250,7 +250,7 @@
 
 
 
--(void)prepareForSortingBy:(int)sortorder
+-(void)prepareForSortingBy:(XeeSortOrder)sortorder
 {
 	switch(sortorder)
 	{

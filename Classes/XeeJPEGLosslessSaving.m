@@ -2,6 +2,7 @@
 #import "XeeEXIFParser.h"
 #import "XeeJPEGUtilities.h"
 #import "XeeImageThumbnailing.h"
+#import "XeeTileImage.h"
 
 #import "libjpeg/transupp.h"
 
@@ -230,14 +231,14 @@
 
 					if(thumbdata)
 					{
-						int newlen=[thumbdata length];
+						NSUInteger newlen=[thumbdata length];
 						const uint8_t *newdata=[thumbdata bytes];
 
 						[exif setLong:newlen forTag:XeeThumbnailLengthTag set:XeeStandardTagSet];
 
 						jpeg_write_m_header(&dest,marker->marker,6+offs+newlen);
-						for(int i=0;i<offs+6;i++) jpeg_write_m_byte(&dest,marker->data[i]);
-						for(int i=0;i<newlen;i++) jpeg_write_m_byte(&dest,newdata[i]);
+						for(NSInteger i=0;i<offs+6;i++) jpeg_write_m_byte(&dest,marker->data[i]);
+						for(NSInteger i=0;i<newlen;i++) jpeg_write_m_byte(&dest,newdata[i]);
 
 						continue;
 					}

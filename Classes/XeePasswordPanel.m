@@ -10,7 +10,7 @@
 
 	if(window) [NSApp beginSheet:self modalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 
-	int res=[NSApp runModalForWindow:self];
+	NSInteger res=[NSApp runModalForWindow:self];
 
 	if(window) [NSApp endSheet:self];
 	[self orderOut:nil];

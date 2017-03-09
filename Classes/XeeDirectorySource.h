@@ -70,7 +70,7 @@
 -(id)initAsCopyOf:(XeeDirectoryEntry *)other;
 -(void)dealloc;
 
--(void)prepareForSortingBy:(int)sortorder;
+-(void)prepareForSortingBy:(XeeSortOrder)sortorder;
 
 -(NSString *)descriptiveName;
 -(XeeFSRef *)ref;

@@ -69,7 +69,7 @@ static NSString *XeeLookupIPTCTag(int record,int dataset,int *type);
 					else
 					{
 						[props addObject:[XeePropertyItem itemWithLabel:label value:value]];
-						[prevdict setObject:[NSNumber numberWithInt:[props count]-1] forKey:label];
+						[prevdict setObject:@([props count]-1) forKey:label];
 					}
 				}
 

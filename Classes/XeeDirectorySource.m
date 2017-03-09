@@ -229,7 +229,7 @@
 	if(scheduledimagerefresh)
 	{
 		// pretty stupid
-		int index=[self indexOfCurrentImage];
+		NSInteger index=[self indexOfCurrentImage];
 		[self setCurrentEntry:nil];
 		[self pickImageAtIndex:index next:nextentry?[entries indexOfObject:nextentry]:-1];
 		if(sortorder==XeeSizeSortOrder) [self sortFiles];
@@ -275,8 +275,8 @@
 			if(lsvp)
 			{
 				NSDictionary *properties=(NSDictionary *)[NSPropertyListSerialization
-				propertyListFromData:lsvp mutabilityOption:NSPropertyListMutableContainersAndLeaves
-				format:nil errorDescription:nil];
+				propertyListWithData:lsvp options:NSPropertyListMutableContainersAndLeaves
+				format:nil error:nil];
 			
 				NSString *sortcolumn=[properties objectForKey:@"sortColumn"];
 
@@ -394,7 +394,7 @@
 	[super dealloc];
 }
 
--(void)prepareForSortingBy:(int)sortorder
+-(void)prepareForSortingBy:(XeeSortOrder)sortorder
 {
 	switch(sortorder)
 	{

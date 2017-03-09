@@ -9,7 +9,7 @@
 	NSArray *types;
 
 	XeeListEntry *currentry,*nextentry,*preventry;
-	int changes,oldindex;
+	NSInteger changes,oldindex;
 
 	BOOL loader_running,exiting;
 	XeeImage *loadingimage;
@@ -20,12 +20,12 @@
 
 -(void)stop;
 
--(int)numberOfImages;
--(int)indexOfCurrentImage;
+@property (readonly) NSInteger numberOfImages;
+@property (readonly) NSInteger indexOfCurrentImage;
 -(NSString *)descriptiveNameOfCurrentImage;
 
--(void)pickImageAtIndex:(int)index next:(int)next;
--(void)pickImageAtIndex:(int)index;
+-(void)pickImageAtIndex:(NSInteger)index next:(NSInteger)next;
+-(void)pickImageAtIndex:(NSInteger)index;
 
 -(void)startListUpdates;
 -(void)endListUpdates;

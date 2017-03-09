@@ -170,7 +170,7 @@
 						NSString *datestr=[[[NSString alloc] initWithData:[fh readDataOfLength:len] encoding:NSISOLatin1StringEncoding] autorelease];
 						[fh skipBytes:((len&1)^1)+4];
 
-						NSCalendarDate *date=nil;
+						NSDate *date=nil;
 						NSArray *matches=[datestr substringsCapturedByPattern:@"^D:([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([+-])([0-9]{2})'([0-9]{2})'$"];
 						if(matches)
 						{
@@ -185,7 +185,16 @@
 							int tzmin=[[matches objectAtIndex:9] intValue];
 
 							NSTimeZone *tz=[NSTimeZone timeZoneForSecondsFromGMT:tzmult*(tzhour*60+tzmin)*60];
-							date=[NSCalendarDate dateWithYear:year month:month day:day hour:hour minute:minute second:second timeZone:tz];
+							NSDateComponents *dateComps = [[NSDateComponents alloc] init];
+							dateComps.year = year;
+							dateComps.month = month;
+							dateComps.day = day;
+							dateComps.hour = hour;
+							dateComps.minute = minute;
+							dateComps.second = second;
+							dateComps.timeZone = tz;
+							date = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian] dateFromComponents:dateComps];
+							[dateComps release];
 						}
 
 						if([fh readUInt32BE]=='txtC')
@@ -324,8 +333,8 @@
 
 -(SEL)loadImage
 {
-	int count=[subimages count];
-	for(int i=0;i<count;i++)
+	NSInteger count=[subimages count];
+	for(NSInteger i=0;i<count;i++)
 	{
 		[self runLoaderOnSubImage:[subimages objectAtIndex:i]];
 	}

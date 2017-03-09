@@ -698,7 +698,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 	return [other isKindOfClass:[PDFObjectReference class]]&&((PDFObjectReference *)other)->num==num&&((PDFObjectReference *)other)->gen==gen;
 }
 
--(unsigned)hash { return num^(gen*69069); }
+-(NSUInteger)hash { return num^(gen*69069); }
 
 -(id)copyWithZone:(NSZone *)zone { return [[[self class] allocWithZone:zone] initWithNumber:num generation:gen]; }
 

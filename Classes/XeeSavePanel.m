@@ -113,11 +113,11 @@
 
 -(void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)res contextInfo:(void *)info
 {
-	if(res==NSOKButton)
+	if(res==NSFileHandlingPanelOKButton)
 	{
 		[controller detachBackgroundTaskWithMessage:[NSString stringWithFormat:
 		NSLocalizedString(@"Saving as \"%@\"...",@"Message when saving an image as"),
-		[[self filename] lastPathComponent]]
+		[[self URL] lastPathComponent]]
 		selector:@selector(saveTask) target:self object:nil];
 	}
 
@@ -128,7 +128,7 @@
 {
 	NSString *filename=[[self URL] path];
 
-	int page=[formats value];
+	NSInteger page=[formats value];
 	if([[savers objectAtIndex:page] save:filename])
 	{
 		NSApplication *app=[NSApplication sharedApplication];

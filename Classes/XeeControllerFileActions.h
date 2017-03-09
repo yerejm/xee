@@ -9,7 +9,7 @@
 
 -(IBAction)deleteFileFromMenu:(id)sender;
 -(IBAction)askAndDelete:(id)sender;
--(void)deleteAlertEnd:(NSAlert *)alert returnCode:(int)res contextInfo:(void *)info;
+-(void)deleteAlertEnd:(NSAlert *)alert returnCode:(NSInteger)res contextInfo:(void *)info;
 
 -(IBAction)printFileFromMenu:(id)sender;
 
@@ -35,14 +35,14 @@
 -(IBAction)moveToDestination8:(id)sender;
 -(IBAction)moveToDestination9:(id)sender;
 -(IBAction)moveToDestination10:(id)sender;
--(void)triggerDrawer:(int)mode;
+-(void)triggerDrawer:(XeeDrawerMode)mode;
 -(void)drawerDidClose:(NSNotification *)notification;
 -(void)destinationListClick:(id)sender;
--(void)destinationPanelEnd:(NSOpenPanel *)panel returnCode:(int)res contextInfo:(void *)info;
--(void)transferToDestination:(int)index mode:(int)mode;
--(void)attemptToTransferCurrentImageTo:(NSString *)destination mode:(int)mode;
--(void)collisionPanelEnd:(XeeCollisionPanel *)panel returnCode:(int)res path:(NSString *)destination mode:(int)mode;
--(void)transferCurrentImageTo:(NSString *)destination mode:(int)mode;
+-(void)destinationPanelEnd:(NSOpenPanel *)panel returnCode:(NSInteger)res contextInfo:(void *)info;
+-(void)transferToDestination:(NSInteger)index mode:(XeeDrawerMode)mode;
+-(void)attemptToTransferCurrentImageTo:(NSString *)destination mode:(XeeDrawerMode)mode;
+-(void)collisionPanelEnd:(XeeCollisionPanel *)panel returnCode:(NSInteger)res path:(NSString *)destination mode:(XeeDrawerMode)mode;
+-(void)transferCurrentImageTo:(NSString *)destination mode:(XeeDrawerMode)mode;
 
 -(IBAction)launchAppFromMenu:(id)sender;
 -(IBAction)launchDefaultEditor:(id)sender;

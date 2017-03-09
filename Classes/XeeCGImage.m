@@ -48,15 +48,15 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 {
 	if(!cgimage) return NO;
 
-	int pixelwidth=CGImageGetWidth(cgimage);
-	int pixelheight=CGImageGetHeight(cgimage);
-	int bprow=CGImageGetBytesPerRow(cgimage);
-	int bppixel=CGImageGetBitsPerPixel(cgimage);
-	int bpcomponent=CGImageGetBitsPerComponent(cgimage);
-	int bitmapinfo=CGImageGetBitmapInfo(cgimage); // only on 10.4
-	int alphainfo=CGImageGetAlphaInfo(cgimage);
+	size_t pixelwidth=CGImageGetWidth(cgimage);
+	size_t pixelheight=CGImageGetHeight(cgimage);
+	size_t bprow=CGImageGetBytesPerRow(cgimage);
+	size_t bppixel=CGImageGetBitsPerPixel(cgimage);
+	size_t bpcomponent=CGImageGetBitsPerComponent(cgimage);
+	CGBitmapInfo bitmapinfo=CGImageGetBitmapInfo(cgimage); // only on 10.4
+	CGImageAlphaInfo alphainfo=CGImageGetAlphaInfo(cgimage);
 	CGColorSpaceRef colorspace=CGImageGetColorSpace(cgimage);
-	int components=CGColorSpaceGetNumberOfComponents(colorspace);
+	size_t components=CGColorSpaceGetNumberOfComponents(colorspace);
 
 	int mode;
 	switch(components)
@@ -68,11 +68,7 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 
 	// Check for unsupported (non-host) byte ordering
 	int byteorder=bitmapinfo&kCGBitmapByteOrderMask;
-	#ifdef __BIG_ENDIAN__
-	if(byteorder==kCGBitmapByteOrder16Little||byteorder==kCGBitmapByteOrder32Little) return NO;
-	#else
-	if(byteorder==kCGBitmapByteOrder16Big||byteorder==kCGBitmapByteOrder32Big) return NO;
-	#endif
+	if(byteorder==kCGBitmapByteOrder16Host||byteorder==kCGBitmapByteOrder32Host) return NO;
 
 	CGDataProviderRef provider=CGImageGetDataProvider(cgimage);
 	if(!provider) return NO;

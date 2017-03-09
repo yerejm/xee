@@ -142,7 +142,7 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner
 	if([colourspace isKindOfClass:[NSString class]]) return colourspace;
 	else if([colourspace isKindOfClass:[NSArray class]])
 	{
-		int count=[colourspace count];
+		NSInteger count=[colourspace count];
 		if(count<1) return nil;
 
 		NSString *name=[colourspace objectAtIndex:0];
@@ -244,10 +244,10 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner
 
 	if(filter)
 	{
-		int count=[filter count];
+		NSInteger count=[filter count];
 		if(excludelast) count--;
 
-		for(int i=0;i<count;i++)
+		for(NSInteger i=0;i<count;i++)
 		{
 			handle=[self handleForFilterName:[filter objectAtIndex:i]
 			decodeParms:[decodeparms objectAtIndex:i] parentHandle:handle];
@@ -471,7 +471,7 @@ components:(int)components bitsPerComponent:(int)bitspercomp
 		int a=prevbuf[(cols*comps+comps+bufoffs)%buflen];
 		int b=prevbuf[(comps+bufoffs)%buflen];
 		int c=prevbuf[bufoffs];
-		int val;
+		int val = 0;
 
 		switch(type)
 		{

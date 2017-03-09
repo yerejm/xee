@@ -42,13 +42,13 @@
 
 +(NSArray *)itemsWithLabel:(NSString *)itemlabel valueArray:(NSArray *)values
 {
-	int count=[values count];
+	NSInteger count=[values count];
 	if(!values||count==0) return nil;
 
 	XeePropertyItem *heading=[self itemWithLabel:itemlabel value:[values objectAtIndex:0]];
 	NSMutableArray *items=[NSMutableArray arrayWithObject:heading];
 
-	for(int i=1;i<count;i++) [items addObject:[self itemWithLabel:@"" value:[values objectAtIndex:i] heading:heading position:i]];
+	for(NSInteger i=1;i<count;i++) [items addObject:[self itemWithLabel:@"" value:[values objectAtIndex:i] heading:heading position:i]];
 
 	return items;
 }

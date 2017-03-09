@@ -798,7 +798,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 {
 	NSImageCell *cell=[[self tableColumnWithIdentifier:@"shortcuts"] dataCell];
 	[cell setImageAlignment:NSImageAlignLeft];
-	[cell setImageScaling:NSScaleNone];
+	[cell setImageScaling:NSImageScaleNone];
 	[self setRowHeight:18];
 	[self setMatchAlgorithm:KFPrefixMatchAlgorithm];
 	[self setSearchColumnIdentifiers:[NSSet setWithObject:@"title"]];
@@ -933,6 +933,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 				[[NSCursor arrowCursor] push];
 
+				//TODO: [self beginDraggingSessionWithItems:(nonnull NSArray<NSDraggingItem *> *) event:event source:self];
 				[self dragImage:dragimage at:imgpoint
 				offset:NSMakeSize(newpoint.x-clickpoint.x,newpoint.y-clickpoint.y)
 				event:event pasteboard:pboard source:self slideBack:NO];

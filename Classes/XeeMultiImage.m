@@ -125,8 +125,8 @@
 	if(frame<0) frame=0;
 	if(frame==[self frame]) return;
 
-	int count=[subimages count];
-	int newindex,prevframes=0;
+	NSInteger count=[subimages count];
+	NSInteger newindex,prevframes=0;
 	for(newindex=0;newindex<count-1;newindex++)
 	{
 		int frames=[[subimages objectAtIndex:newindex] frames];
@@ -135,8 +135,8 @@
 	}
 
 	XeeImage *subimage=[subimages objectAtIndex:newindex];
-	int frames=[subimage frames];
-	int subframe=frame-prevframes;
+	NSInteger frames=[subimage frames];
+	NSInteger subframe=frame-prevframes;
 	if(subframe>=frames) subframe=frames-1;
 
 	int oldwidth=[self width];

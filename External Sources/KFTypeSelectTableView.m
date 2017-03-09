@@ -51,7 +51,7 @@ NSString *KFTypeSelectTableViewPatternDidChangeNotification = @"KFTypeSelectTabl
  * (Summary of link:  messages to super act like messages to self in categories on a posing class
  * in system 10.3)
  */
-@interface KFTypeSelectTableView (Private)
+@interface KFTypeSelectTableView ()
 
 // responding to events
 static BOOL KFKeyEventIsBeginFindEvent(NSEvent *keyEvent);
@@ -63,41 +63,41 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent);
 
 // finding strings
 - (void)kfFindPattern:(NSString *)pattern 
-           initialRow:(int)initialRow 
+           initialRow:(NSInteger)initialRow
           topToBottom:(BOOL)topToBottom
        allowExtension:(BOOL)allowPatternExtension;
 - (BOOL)kfWorkUnitGetMatch:(NSString **)match
                      range:(NSRange *)matchRange
-           lastSearchedRow:(int *)lastSearchedRow
+           lastSearchedRow:(NSInteger *)lastSearchedRow
                 forPattern:(NSString *)pattern
-              matchOptions:(unsigned)patternMatchOptions
-                initialRow:(int)initialRow
-               boundaryRow:(int)boundaryRow
-              rowIncrement:(int)rowIncrement
+              matchOptions:(NSStringCompareOptions)patternMatchOptions
+                initialRow:(NSInteger)initialRow
+               boundaryRow:(NSInteger)boundaryRow
+              rowIncrement:(NSInteger)rowIncrement
              searchColumns:(NSArray *)searchColumns
                    timeout:(uint64_t)timeout;
 - (BOOL)kfShouldAcceptMatch:(NSString *)match 
                       range:(NSRange)matchedRange 
-                      inRow:(int)row;
+                      inRow:(NSInteger)row;
 - (BOOL)kfCanPerformTypeSelect;
 - (BOOL)kfSelectionShouldChange;
 - (BOOL)kfCanGetTableData;
-- (NSString *)kfStringValueForTableColumn:(NSTableColumn *)column row:(int)row;
+- (NSString *)kfStringValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row;
 - (NSArray *)kfSearchColumns;
 - (BOOL)kfSearchTopToBottom;
-- (int)kfInitialRowForNewSearch;
+- (NSInteger)kfInitialRowForNewSearch;
 
 // taking action
 - (void)kfPatternDidChange:(id)sender;
 - (void)kfDidFindMatch:(NSString *)match 
                  range:(NSRange)matchedRange 
-                 inRow:(int)row;
-- (void)kfDidFailToFindMatchSearchingToRow:(int)row;
+                 inRow:(NSInteger)row;
+- (void)kfDidFailToFindMatchSearchingToRow:(NSInteger)row;
 - (void)kfResetSearch;
 - (void)kfConfigureDelegateIfNeeded;
 
 // utility
-- (BOOL)kfRowIsVisible:(int)row;
+- (BOOL)kfRowIsVisible:(NSInteger)row;
 - (void)kfScrollRectToCenter:(NSRect)aRect vertical:(BOOL)scrollVertical horizontal:(BOOL)scrollHorizontal;
 
 // simulated ivars infrastructure
@@ -107,8 +107,8 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent);
 - (void)kfTearDownSimulatedIvars;
 
 // accessors
-- (int)kfSavedRowForExtensionSearch;
-- (void)setKfSavedRowForExtensionSearch:(int)row;
+- (NSInteger)kfSavedRowForExtensionSearch;
+- (void)setKfSavedRowForExtensionSearch:(NSInteger)row;
 - (NSString *)kfLastSuccessfullyMatchedPattern;
 - (void)setKfLastSuccessfullyMatchedPattern:(NSString *)string;
 - (BOOL)kfCanExtendFind;
@@ -284,14 +284,14 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent);
     return shouldResign;
 }
 
-static unsigned int modifierFlagsICareAboutMask = NSCommandKeyMask | NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSFunctionKeyMask;
+static NSEventModifierFlags modifierFlagsICareAboutMask = NSCommandKeyMask | NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSFunctionKeyMask;
 
 // yes if every character in the event is alphanumeric and no command, control or function modifiers 
 static BOOL KFKeyEventIsBeginFindEvent(NSEvent *keyEvent)
 {
-    unsigned int modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
+    NSEventModifierFlags modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
     NSString *characters = [keyEvent characters];
-    int numCharacters = [characters length];
+    NSInteger numCharacters = [characters length];
     
     if ((modifiers & (NSCommandKeyMask | NSControlKeyMask | NSFunctionKeyMask)) != 0)
     {
@@ -318,9 +318,9 @@ static BOOL KFKeyEventIsBeginFindEvent(NSEvent *keyEvent)
 // yes if every character in the event is alphanumeric, punctuation or a space, and no command, control or function modifiers 
 static BOOL KFKeyEventIsExtendFindEvent(NSEvent *keyEvent)
 {
-    unsigned int modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
+    NSEventModifierFlags modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
     NSString *characters = [keyEvent characters];
-    int numCharacters = [characters length];
+    NSInteger numCharacters = [characters length];
     
     if ((modifiers & (NSCommandKeyMask | NSControlKeyMask | NSFunctionKeyMask)) != 0)
     {
@@ -347,9 +347,9 @@ static BOOL KFKeyEventIsExtendFindEvent(NSEvent *keyEvent)
 
 static BOOL KFKeyEventIsFindNextEvent(NSEvent *keyEvent)
 {
-    unsigned int modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
+    NSEventModifierFlags modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
     NSString *characters = [keyEvent characters];
-    int numCharacters = [characters length];
+    NSInteger numCharacters = [characters length];
     
     if (numCharacters == 1 && [characters characterAtIndex:0] == NSDownArrowFunctionKey && modifiers == (NSControlKeyMask | NSFunctionKeyMask))
     {
@@ -362,9 +362,9 @@ static BOOL KFKeyEventIsFindNextEvent(NSEvent *keyEvent)
 
 static BOOL KFKeyEventIsFindPreviousEvent(NSEvent *keyEvent)
 {
-    unsigned int modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
+    NSEventModifierFlags modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
     NSString *characters = [keyEvent characters];
-    int numCharacters = [characters length];
+    NSInteger numCharacters = [characters length];
     
     if (numCharacters == 1 && [characters characterAtIndex:0] == NSUpArrowFunctionKey && modifiers == (NSControlKeyMask | NSFunctionKeyMask))
     {
@@ -376,9 +376,9 @@ static BOOL KFKeyEventIsFindPreviousEvent(NSEvent *keyEvent)
 
 static BOOL KFKeyEventIsDeleteEvent(NSEvent *keyEvent)
 {
-    unsigned int modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
+    NSEventModifierFlags modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
     NSString *characters = [keyEvent characters];
-    int numCharacters = [characters length];
+    NSInteger numCharacters = [characters length];
     
     if (numCharacters == 1 && [characters characterAtIndex:0] == NSDeleteCharacter && modifiers == 0)
     {
@@ -394,7 +394,7 @@ static BOOL KFKeyEventIsDeleteEvent(NSEvent *keyEvent)
 
 static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
 {
-    unsigned int modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
+    NSEventModifierFlags modifiers = [keyEvent modifierFlags] & modifierFlagsICareAboutMask;
     NSString *characters = [keyEvent characters];
 //    int numCharacters = [characters length]; // XeeEdited
     
@@ -451,13 +451,13 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
 
 
 - (void)kfFindPattern:(NSString *)pattern 
-           initialRow:(int)initialRow 
+           initialRow:(NSInteger)initialRow
           topToBottom:(BOOL)topToBottom
        allowExtension:(BOOL)allowPatternExtension
 {
     NSArray *searchColumns = [self kfSearchColumns];
     BOOL shouldWrap = [self searchWraps];
-    unsigned patternMatchOptions;
+    NSStringCompareOptions patternMatchOptions;
     NSDate *distantPast = [NSDate distantPast];
     NSMutableArray *suspendedEvents = [NSMutableArray array];
     const uint64_t eventCheckFrequency = SecondsToMachAbsolute(.01);
@@ -466,7 +466,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
     
     // we'll translate topToBottom into these parameters
     // so that we can use a single loop for both directions
-    int rowIncrement, boundaryRow;
+    NSInteger rowIncrement, boundaryRow;
 
     if (topToBottom)
     {
@@ -502,7 +502,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
     }
     
     BOOL finished = NO;
-    int row = initialRow;
+    NSInteger row = initialRow;
     while (!finished)
     {
         // Mail generates 3MB in autoreleased objects in a search through 15000 rows
@@ -591,7 +591,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
         [self kfDidFailToFindMatchSearchingToRow:row];
     }
     
-    int numSuspendedEvents, i;
+    NSInteger numSuspendedEvents, i;
     numSuspendedEvents = [suspendedEvents count];
     for (i = numSuspendedEvents-1; i >= 0; i--)
     {
@@ -601,17 +601,17 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
 
 - (BOOL)kfWorkUnitGetMatch:(NSString **)match
                      range:(NSRange *)matchRange
-           lastSearchedRow:(int *)lastSearchedRow
+           lastSearchedRow:(NSInteger *)lastSearchedRow
                 forPattern:(NSString *)pattern
-              matchOptions:(unsigned)patternMatchOptions
-                initialRow:(int)initialRow
-               boundaryRow:(int)boundaryRow
-              rowIncrement:(int)rowIncrement
+              matchOptions:(NSStringCompareOptions)patternMatchOptions
+                initialRow:(NSInteger)initialRow
+               boundaryRow:(NSInteger)boundaryRow
+              rowIncrement:(NSInteger)rowIncrement
              searchColumns:(NSArray *)searchColumns
                    timeout:(uint64_t)timeout // times are mach absolute times
 {
-    int row, col;
-    int numCols = [searchColumns count];
+    NSInteger row, col;
+    NSInteger numCols = [searchColumns count];
     NSString *candidateMatch;
     NSRange rangeOfPattern;
     
@@ -649,7 +649,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
 
 - (BOOL)kfShouldAcceptMatch:(NSString *)match 
                       range:(NSRange)matchedRange 
-                      inRow:(int)row
+                      inRow:(NSInteger)row
 {
     id delegate = [self delegate];
     
@@ -678,7 +678,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
     // This behavior is determined based on Inside Macintosh documentation on the List Manager.
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    int keyThreshTicks = [defaults integerForKey:@"InitialKeyRepeat"]; // undocumented key.  Still valid in 10.3. 
+    NSInteger keyThreshTicks = [defaults integerForKey:@"InitialKeyRepeat"]; // undocumented key.  Still valid in 10.3.
     if (0 == keyThreshTicks)	// missing value in defaults?  Means user has never changed the default.
     {
         keyThreshTicks = 35;	// apparent default value. translates to 1.17 sec timeout.
@@ -722,7 +722,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
             [[self delegate] respondsToSelector:@selector(typeSelectTableView:stringValueForTableColumn:row:)]);
 }
 
-- (NSString *)kfStringValueForTableColumn:(NSTableColumn *)column row:(int)row
+- (NSString *)kfStringValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row
 {
     // There are three ways we can get this information: (1) our delegate supplies it, (2) our datasource 
     // supplies it like an NSTableViewDataSource, (3) our datasource supplies it like an NSOutlineViewDataSource
@@ -797,7 +797,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
         NSMutableArray *partialSearchColumns;
         NSArray *candidateColumns = [self tableColumns];
         NSTableColumn *column;
-        int numCols, col;
+        NSInteger numCols, col;
         
         partialSearchColumns = [NSMutableArray array];
         
@@ -835,9 +835,9 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
     return topToBottom;
 }
 
-- (int)kfInitialRowForNewSearch
+- (NSInteger)kfInitialRowForNewSearch
 {
-    int row;
+    NSInteger row;
     
     id delegate = [self delegate];
     if ([delegate respondsToSelector:@selector(typeSelectTableViewInitialSearchRow:)])
@@ -875,7 +875,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
 
 - (void)kfDidFindMatch:(NSString *)match 
                  range:(NSRange)matchedRange 
-                 inRow:(int)row
+                 inRow:(NSInteger)row
 {   
     NSString *pattern = [self pattern];
     
@@ -910,7 +910,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
     }
 }
 
-- (void)kfDidFailToFindMatchSearchingToRow:(int)row
+- (void)kfDidFailToFindMatchSearchingToRow:(NSInteger)row
 {
     if ([self kfCanExtendFind])
     {
@@ -959,7 +959,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
 }
 #pragma mark utility
 
-- (BOOL)kfRowIsVisible:(int)row 
+- (BOOL)kfRowIsVisible:(NSInteger)row
 {
     NSScrollView *enclosingScrollView = [self enclosingScrollView];
     if (enclosingScrollView == nil)
@@ -1053,9 +1053,9 @@ static NSMutableDictionary *idToSimulatedIvarsMap = nil;
 
 #pragma mark private accessors
 
-- (int)kfSavedRowForExtensionSearch
+- (NSInteger)kfSavedRowForExtensionSearch
 {
-    int row;
+    NSInteger row;
     NSNumber *rowNumber = [[self kfSimulatedIvars] objectForKey:@"initialRowForExtensionSearch"];
     
     // default value
@@ -1063,15 +1063,15 @@ static NSMutableDictionary *idToSimulatedIvarsMap = nil;
         row = NSNotFound;
     else
     {
-        row = [rowNumber intValue];
+        row = [rowNumber integerValue];
     }
     
     return row;
 }
 
-- (void)setKfSavedRowForExtensionSearch:(int)row
+- (void)setKfSavedRowForExtensionSearch:(NSInteger)row
 {
-    [[self kfSimulatedIvars]  setObject:[NSNumber numberWithInt:row]
+    [[self kfSimulatedIvars]  setObject:@(row)
                                  forKey:@"initialRowForExtensionSearch"];
 }
 

@@ -292,8 +292,8 @@
 					encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)]
 					autorelease];
 
-					int len=[str length];
-					for(int i=0;i<len;i++)
+					NSInteger len=[str length];
+					for(NSInteger i=0;i<len;i++)
 					if([str characterAtIndex:i]=='\r') [str replaceCharactersInRange:NSMakeRange(i,1) withString:@"\n"];
 
 					typetooltext=[XeePropertyItem itemsWithLabel:

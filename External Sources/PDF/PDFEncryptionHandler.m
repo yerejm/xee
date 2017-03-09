@@ -92,7 +92,7 @@ static const char PDFPasswordPadding[32]=
 
 	[keys removeAllObjects];
 
-	NSData *key;
+	NSData *key = nil;
 	if(version==1) key=[self documentKeyOfLength:5];
 	else if(version==2) key=[self documentKeyOfLength:[encrypt intValueForKey:@"Length" default:40]/8];
 	else if(version==4) key=[self documentKeyOfLength:16]; // This is total bullshit, but the specs don't say what to actually do for version 4.
@@ -139,7 +139,7 @@ static const char PDFPasswordPadding[32]=
 	PDFMD5Engine *md5=[PDFMD5Engine engine];
 
 	NSData *passdata=[password dataUsingEncoding:NSISOLatin1StringEncoding];
-	int passlength=[passdata length];
+	NSInteger passlength=[passdata length];
 	const unsigned char *passbytes=[passdata bytes];
 	if(passlength<32)
 	{

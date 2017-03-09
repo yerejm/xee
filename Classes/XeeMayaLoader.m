@@ -88,7 +88,7 @@
 
 -(SEL)startLoadingData
 {
-	int type;
+	int type = 0;
 
 	switch(flags&MAYA_FORMAT_MASK)
 	{

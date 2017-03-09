@@ -22,11 +22,11 @@ extern NSString *PDFParserException;
 +(PDFParser *)parserWithHandle:(CSHandle *)handle;
 +(PDFParser *)parserForPath:(NSString *)path;
 
--(id)initWithHandle:(CSHandle *)handle;
+-(instancetype)initWithHandle:(CSHandle *)handle;
 -(void)dealloc;
 
--(BOOL)isEncrypted;
--(BOOL)needsPassword;
+@property (readonly, getter=isEncrypted) BOOL encrypted;
+@property (readonly) BOOL needsPassword;
 -(BOOL)setPassword:(NSString *)password;
 
 -(NSDictionary *)objectDictionary;

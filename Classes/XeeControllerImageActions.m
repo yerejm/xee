@@ -5,6 +5,7 @@
 #import "XeeMoveTool.h"
 #import "XeeCropTool.h"
 #import "XeeImageSource.h"
+#import "XeeImage.h"
 
 //#import <QuickTime/ImageCompression.h>
 //#import <QuickTime/QuickTimeComponents.h>
@@ -190,7 +191,7 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 {
 	[self setResizeBlockFromSender:sender];
 
-	int i;
+	NSInteger i;
 	for(i=XeeNumberOfZoomLevels-1;i>0;i--) if(XeeZoomLevels[i]<zoom) break;
 
 	[self setZoom:XeeZoomLevels[i]];
@@ -242,7 +243,7 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 
 -(void)setOrientation:(int)orientation
 {
-	[[undo prepareWithInvocationTarget:self] setOrientation:[currimage orientation]];
+	[(XeeController*)[undo prepareWithInvocationTarget:self] setOrientation:[currimage orientation]];
 	[currimage setOrientation:orientation];
 }
 

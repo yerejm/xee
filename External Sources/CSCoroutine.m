@@ -47,6 +47,8 @@ static void CSSetEntryPoint(jmp_buf env,void (*entry)(),void *stack,int stacksiz
 	#if defined(__i386__)
 	env[9]=(((int)stack+stacksize)&~15)-4; // -4 to pretend that a return address has just been pushed onto the stack
 	env[12]=(int)entry;
+	#elif defined(__x86_64__)
+	#warning TODO: implement!
 	#else
 	env[0]=((int)stack+stacksize-64)&~3;
 	env[21]=(int)entry;

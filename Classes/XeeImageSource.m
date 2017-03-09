@@ -41,9 +41,9 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 -(void)stop {}
 
 
--(int)numberOfImages { return 0; }
+-(NSInteger)numberOfImages { return 0; }
 
--(int)indexOfCurrentImage { return 0; }
+-(NSInteger)indexOfCurrentImage { return 0; }
 
 -(NSString *)windowTitle { return nil; }
 
@@ -74,9 +74,9 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 
 
 
--(int)sortOrder { return sortorder==XeeDefaultSortOrder?XeeNameSortOrder:sortorder; }
+-(XeeSortOrder)sortOrder { return sortorder==XeeDefaultSortOrder?XeeNameSortOrder:sortorder; }
 
--(void)setSortOrder:(int)order { sortorder=order; }
+-(void)setSortOrder:(XeeSortOrder)order { sortorder=order; }
 
 
 
@@ -104,16 +104,16 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 
 
 
--(void)pickImageAtIndex:(int)index next:(int)next { }
+-(void)pickImageAtIndex:(NSInteger)index next:(NSInteger)next { }
 
 
 
--(void)pickImageAtIndex:(int)index
+-(void)pickImageAtIndex:(NSInteger)index
 {
-	int curr=[self indexOfCurrentImage];
-	int count=[self numberOfImages];
+	NSInteger curr=[self indexOfCurrentImage];
+	NSInteger count=[self numberOfImages];
 
-	int next;
+	NSInteger next;
 	if(index==count-1) next=count-2;
 	else if(index==0) next=1;
 	else if(index<curr) next=index-1;
@@ -122,10 +122,10 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 	[self pickImageAtIndex:index next:next];
 }
 
--(void)skip:(int)offset
+-(void)skip:(NSInteger)offset
 {
-	int curr=[self indexOfCurrentImage];
-	int count=[self numberOfImages];
+	NSInteger curr=[self indexOfCurrentImage];
+	NSInteger count=[self numberOfImages];
 	if(curr==NSNotFound)
 	{
 		if(offset>=0) [self pickFirstImage];
@@ -133,7 +133,7 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 	}
 	else
 	{
-		int newpos=curr+offset;
+		NSInteger newpos=curr+offset;
 		if([[NSUserDefaults standardUserDefaults] boolForKey:@"wrapImageBrowsing"])
 		{
 			newpos=(newpos%count+count)%count; // this looks horrible
@@ -159,10 +159,10 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 
 -(void)pickNextImageAtRandom
 {
-	int index=[self indexOfCurrentImage];
+	NSInteger index=[self indexOfCurrentImage];
 	if(index==NSNotFound)
 	{
-		int count=[self numberOfImages];
+		NSInteger count=[self numberOfImages];
  		if(count) [self pickImageAtIndex:random()%count];
  	}
 	else
@@ -175,10 +175,10 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 
 -(void)pickPreviousImageAtRandom
 {
-	int index=[self indexOfCurrentImage];
+	NSInteger index=[self indexOfCurrentImage];
 	if(index==NSNotFound)
 	{
-		int count=[self numberOfImages];
+		NSInteger count=[self numberOfImages];
  		if(count) [self pickImageAtIndex:random()%count];
  	}
 	else
@@ -209,24 +209,24 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 
 -(void)updateRandomList
 {
-	int length=[self numberOfImages];
+	NSInteger length=[self numberOfImages];
 	if(rand_ordering&&length==rand_size) return;
 
 	free(rand_ordering);
 
-	srandom(time(NULL));
+	srandom(0x7fffffff & time(NULL));
 
-	int *order=malloc(sizeof(int)*length);
+	NSInteger *order=malloc(sizeof(NSInteger)*length);
 	rand_ordering=malloc(sizeof(struct rand_entry)*length);
 	if(!rand_ordering) return;
 	rand_size=length;
 
-	for(int i=0;i<length;i++) order[i]=i;
+	for(NSInteger i=0;i<length;i++) order[i]=i;
 
-	for(int i=length-1;i>0;i--)
+	for(NSInteger i=length-1;i>0;i--)
 	{
-		int randindex=random()%i;
-		int tmp=order[i];
+		NSInteger randindex=random()%i;
+		NSInteger tmp=order[i];
 		order[i]=order[randindex];
 		order[randindex]=tmp;
 	}

@@ -67,7 +67,6 @@
 	NSMutableArray *array=[NSMutableArray array];
 	NSArray *types=[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDocumentTypes"];
 	NSArray *hidden=[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CSHiddenDocumentTypes"];
-	NSEnumerator *enumerator=[types objectEnumerator];
 
 	for(NSDictionary<NSString*,id> *dict in types)
 	{
@@ -76,7 +75,7 @@
 		{
 			NSString *description=[dict objectForKey:@"CFBundleTypeName"];
 			NSString *extensions=[[dict objectForKey:@"CFBundleTypeExtensions"] componentsJoinedByString:@", "];
-			NSString *type=[types objectAtIndex:0];
+			NSString *type=types.firstObject;
 
 			if(!hidden||![hidden containsObject:type])
 			[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:

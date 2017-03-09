@@ -208,18 +208,14 @@
 	return ref;
 }
 
--(NSString *)path { return path; }
+@synthesize path;
+@synthesize size;
+@synthesize time;
 
 -(NSString *)filename { return [[[dict objectForKey:XADFileNameKey] string] lastPathComponent]; }
 
--(uint64_t)size { return size; }
-
--(double)time { return time; }
-
-
-
 -(BOOL)isEqual:(XeeArchiveEntry *)other { return parser==other->parser&&dict==other->dict; }
 
--(unsigned long)hash { return (uintptr_t)parser^(uintptr_t)dict; }
+-(NSUInteger)hash { return (uintptr_t)parser^(uintptr_t)dict; }
 
 @end

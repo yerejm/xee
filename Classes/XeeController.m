@@ -322,7 +322,7 @@ static NSMutableArray *controllers=nil;
 	if(!passwordpanel)
 	{
 		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PasswordPanel" bundle:nil] autorelease];
-		[nib instantiateNibWithOwner:self topLevelObjects:nil];
+		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 
 	//[source setActionsBlocked:YES];
@@ -971,8 +971,8 @@ static NSMutableArray *controllers=nil;
 
 -(BOOL)validateAction:(SEL)action
 {
-	int count=[source numberOfImages];
-	int curr=[source indexOfCurrentImage];
+	NSInteger count=[source numberOfImages];
+	NSInteger curr=[source indexOfCurrentImage];
 	BOOL wrap=[[NSUserDefaults standardUserDefaults] boolForKey:XeeWrapImageBrowsingKey];
 
 	if(action==@selector(toggleStatusBar:)) return fullscreenwindow?NO:YES;
@@ -1038,7 +1038,7 @@ static NSMutableArray *controllers=nil;
 	}
 
 	if([source canBrowse]) [statusbar addEntry:
-	[NSString stringWithFormat:@"%d/%d",[source indexOfCurrentImage]+1,[source numberOfImages]]
+	[NSString stringWithFormat:@"%ld/%ld",(long)[source indexOfCurrentImage]+1,(long)[source numberOfImages]]
 	image:[source icon]];
 
 	if(currimage)
