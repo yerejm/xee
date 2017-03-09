@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "PDFEncryptionUtils.h"
 #import <XADMaster/CSHandle.h>
+#import "PDFNameCollisionPreventer.h"
 
 extern NSString *PDFUnsupportedEncryptionException;
 
@@ -29,7 +30,7 @@ extern NSString *PDFUnsupportedEncryptionException;
 -(NSData *)documentKeyOfLength:(int)length;
 -(NSData *)keyOfLength:(int)length forReference:(PDFObjectReference *)ref AES:(BOOL)aes;
 
--(NSData *)decryptString:(PDFString *)string;
+-(NSData *)decryptString:(XeePDFString *)string;
 -(CSHandle *)decryptStream:(PDFStream *)stream;
 
 /*-(NSData *)keyForReference:(PDFObjectReference *)ref AES:(BOOL)aes;

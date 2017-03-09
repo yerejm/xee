@@ -3,6 +3,7 @@
 #import <XADMaster/CSBlockStreamHandle.h>
 #include <CommonCrypto/CommonDigest.h>
 #include <Security/Security.h>
+#import "PDFNameCollisionPreventer.h"
 
 extern NSString *PDFMD5FinishedException;
 

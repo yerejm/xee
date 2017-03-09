@@ -181,7 +181,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 			if(entry[17]!='n') continue;
 
 			off_t objoffs=atoll(entry);
-			int objgen=atol(entry+11);
+			int objgen=(int)atol(entry+11);
 
 			if(!objoffs) continue; // kludge to handle broken Apple PDF files
 
@@ -542,8 +542,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 		{
 			NSMutableDictionary *dict=obj;
 			NSEnumerator *keyenum=[[dict allKeys] objectEnumerator];
-			NSString *key;
-			while(key=[keyenum nextObject])
+			for(NSString *key in keyenum)
 			{
 				id value=[dict objectForKey:key];
 				if([value isKindOfClass:[PDFObjectReference class]])
@@ -556,8 +555,8 @@ static BOOL IsWhiteSpace(uint8_t c);
 		else if([obj isKindOfClass:[NSArray class]])
 		{
 			NSMutableArray *array=obj;
-			int count=[array count];
-			for(int i=0;i<count;i++)
+			NSInteger count=[array count];
+			for(NSInteger i=0;i<count;i++)
 			{
 				id value=[array objectAtIndex:i];
 				if([value isKindOfClass:[PDFObjectReference class]])
@@ -586,7 +585,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 		start=[fh readDataOfLength:100];
 	}
 
-	int length=[start length];
+	NSInteger length=[start length];
 	const uint8_t *bytes=[start bytes];
 	int skip=0;
 	for(int i=0;i<length;i++) if(bytes[i]=='\n'||bytes[i]=='\r') skip=i+1;
@@ -639,7 +638,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 -(NSString *)string
 {
 	NSData *characters=[self data];
-	int length=[characters length];
+	NSInteger length=[characters length];
 	const unsigned char *bytes=[characters bytes];
 	if(length>=2&&bytes[0]==0xfe&&bytes[1]==0xff) return [[[NSString alloc] initWithBytes:bytes+2 length:length-2
 	encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease];
@@ -651,7 +650,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 	return [other isKindOfClass:[PDFString class]]&&[data isEqual:((PDFString *)other)->data];
 }
 
--(unsigned)hash { return [data hash]; }
+-(NSUInteger)hash { return [data hash]; }
 
 -(id)copyWithZone:(NSZone *)zone
 {

@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#import "PDFNameCollisionPreventer.h"
 #import "PDFStream.h"
 #import "PDFEncryptionHandler.h"
 
@@ -81,7 +82,7 @@ extern NSString *PDFParserException;
 -(NSString *)string;
 
 -(BOOL)isEqual:(id)other;
--(unsigned)hash;
+-(NSUInteger)hash;
 
 -(id)copyWithZone:(NSZone *)zone;
 
@@ -105,7 +106,7 @@ extern NSString *PDFParserException;
 -(int)generation;
 
 -(BOOL)isEqual:(id)other;
--(unsigned)hash;
+-(NSUInteger)hash;
 
 -(id)copyWithZone:(NSZone *)zone;
 

@@ -1,5 +1,6 @@
 #import <XADMaster/CSByteStreamHandle.h>
 #import <XADMaster/XADPrefixCode.h>
+#import "PDFNameCollisionPreventer.h"
 
 extern NSString *CCITTCodeException;
 
@@ -9,7 +10,7 @@ extern NSString *CCITTCodeException;
 	int col,colour,bitsleft;
 }
 
--(id)initWithHandle:(CSHandle *)handle columns:(int)columns white:(int)whitevalue;
+-(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns white:(int)whitevalue;
 
 -(void)resetByteStream;
 -(uint8_t)produceByteAtOffset:(off_t)pos;
@@ -27,7 +28,7 @@ extern NSString *CCITTCodeException;
 	XADPrefixCode *maincode,*whitecode,*blackcode;
 }
 
--(id)initWithHandle:(CSHandle *)handle columns:(int)columns white:(int)whitevalue;
+-(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns white:(int)whitevalue;
 -(void)dealloc;
 
 -(void)resetByteStream;

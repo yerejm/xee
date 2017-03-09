@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#import "SWFGeometry.h"
+#import <XADMaster/XADSWFGeometry.h>
 
 #import <XADMaster/CSHandle.h>
 

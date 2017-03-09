@@ -1,5 +1,6 @@
 #import <XADMaster/CSByteStreamHandle.h>
 #import <XADMaster/LZW.h>
+#import "PDFNameCollisionPreventer.h"
 
 extern NSString *LZWInvalidCodeException;
 

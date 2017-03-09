@@ -4,6 +4,7 @@
 
 #import <XADMaster/CSHandle.h>
 #import <XADMaster/CSByteStreamHandle.h>
+#import "PDFNameCollisionPreventer.h"
 
 @class PDFParser,PDFObjectReference;
 
