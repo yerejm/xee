@@ -9,10 +9,11 @@ NS_ASSUME_NONNULL_BEGIN
 	int hash;
 }
 
-+(nullable instancetype)refForPath:(NSString *)path;
++ (nullable instancetype)refForPath:(NSString *)path NS_SWIFT_UNAVAILABLE("Use `init(path:)` instead");
 
--(nullable instancetype)initWithPath:(NSString *)path;
--(instancetype)initWithFSRef:(FSRef *)fsref;
+- (nullable instancetype)initWithPath:(NSString *)path;
+- (instancetype)initWithFSRef:(FSRef *)fsref NS_DESIGNATED_INITIALIZER;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
 @property (readonly) FSRef *FSRef NS_RETURNS_INNER_POINTER;
 
@@ -36,13 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) CFAbsoluteTime accessTime;
 @property (readonly) CFAbsoluteTime backupTime;
 
-@property (readonly) NSString *HFSTypeCode;
-@property (readonly) NSString *HFSCreatorCode;
+@property (readonly, nullable) NSString *HFSTypeCode;
+@property (readonly, nullable) NSString *HFSCreatorCode;
 
--(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive;
+-(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive NS_SWIFT_UNAVAILABLE("Use the throwing version instead");
+-(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive error:(NSError**)error;
 -(void)stopReadingDirectory;
 -(nullable XeeFSRef *)nextDirectoryEntry;
--(NSArray<XeeFSRef*> *)directoryContents;
+-(nullable NSArray<XeeFSRef*> *)directoryContents;
 
 -(NSComparisonResult)compare:(XeeFSRef *)other;
 -(NSComparisonResult)compare:(XeeFSRef *)other options:(NSStringCompareOptions)options;

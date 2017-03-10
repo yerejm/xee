@@ -1,26 +1,32 @@
 #import "XeeProperties.h"
 
 @implementation XeePropertyItem
+@synthesize label;
+@synthesize value;
+@synthesize identifier = ident;
+@synthesize heading;
+@synthesize position = pos;
+
 
 +(XeePropertyItem *)itemWithLabel:(NSString *)itemlabel value:(id)itemvalue
 {
-	return [[[self alloc] initWithLabel:itemlabel value:itemvalue identifier:nil heading:nil position:0] autorelease];
+	return [[self alloc] initWithLabel:itemlabel value:itemvalue identifier:nil heading:nil position:0];
 }
 
 +(XeePropertyItem *)itemWithLabel:(NSString *)itemlabel value:(id)itemvalue identifier:(NSString *)identifier
 {
-	return [[[self alloc] initWithLabel:itemlabel value:itemvalue identifier:identifier heading:nil position:0] autorelease];
+	return [[self alloc] initWithLabel:itemlabel value:itemvalue identifier:identifier heading:nil position:0];
 }
 
 +(XeePropertyItem *)itemWithLabel:(NSString *)itemlabel value:(id)itemvalue heading:(XeePropertyItem *)headingitem position:(int)position
 {
-	return [[[self alloc] initWithLabel:itemlabel value:itemvalue identifier:nil heading:headingitem position:position] autorelease];
+	return [[self alloc] initWithLabel:itemlabel value:itemvalue identifier:nil heading:headingitem position:position];
 }
 
 +(XeePropertyItem *)subSectionItemWithLabel:(NSString *)itemlabel identifier:(NSString *)identifier labelsAndValues:(id)first,...
 {
-	NSMutableArray *array=[NSMutableArray array];
-	XeePropertyItem *item=[[[self alloc] initWithLabel:itemlabel value:array identifier:identifier heading:nil position:0] autorelease];
+	NSMutableArray *array=[[NSMutableArray alloc] init];
+	XeePropertyItem *item=[[self alloc] initWithLabel:itemlabel value:array identifier:identifier heading:nil position:0];
 
 	va_list va;
 	va_start(va,first);
@@ -87,33 +93,19 @@
 	{
 		if(itemlabel&&[itemlabel length])
 		{
-			if([itemvalue isKindOfClass:[NSArray class]]) label=[itemlabel retain];
-			else label=[[itemlabel stringByAppendingString:@":"] retain];
+			if([itemvalue isKindOfClass:[NSArray class]]) label=[itemlabel copy];
+			else label=[itemlabel stringByAppendingString:@":"];
 		}
 		else label=@"";
-		value=[itemvalue retain];
-		ident=[identifier retain];
+		value=itemvalue;
+		ident=[identifier copy];
 
-		heading=[headingitem retain];
+		heading=headingitem;
 		pos=position;
 	}
 	return self;
 }
 
--(void)dealloc
-{
-	[label release];
-	[value release];
-	[ident release];
-	[heading release];
-	[super dealloc];
-}
-
--(NSString *)label { return label; }
--(id)value { return value; }
--(NSString *)identifier { return ident; }
--(XeePropertyItem *)heading { return heading; }
--(int)position { return pos; }
 -(BOOL)isSubSection { return [value isKindOfClass:[NSArray class]]; }
 
 -(BOOL)isEqual:(XeePropertyItem *)other
@@ -132,7 +124,7 @@
 			else return NSOrderedAscending;
 		}
 		else if(otherheading) return [heading compare:otherheading];
-		else [heading compare:other];
+		else return [heading compare:other];
 	}
 	else if(otherheading) return [self compare:otherheading];
 

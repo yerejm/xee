@@ -2,11 +2,11 @@
 
 @interface XeeInterleavingHandle:CSHandle
 {
-	NSArray *handles;
+	NSArray<CSHandle*> *handles;
 	int n2,bits;
 }
 
--(id)initWithHandles:(NSArray *)handlearray elementSize:(int)bitsize;
+-(id)initWithHandles:(NSArray<CSHandle*> *)handlearray elementSize:(int)bitsize;
 
 //-(off_t)fileSize;
 //-(off_t)offsetInFile;

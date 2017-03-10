@@ -203,7 +203,7 @@
 
 		close(fh);
 
-		ref=[[XeeFSRef refForPath:path] retain];
+		ref=[[XeeFSRef alloc] initWithPath:path];
 	}
 	return ref;
 }
