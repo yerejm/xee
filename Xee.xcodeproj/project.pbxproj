@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B00E3590A796D980094B997 /* XeeTileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B00E3580A796D980094B997 /* XeeTileImage.m */; };
 		1B00E36A0A7999070094B997 /* XeeYUVImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B00E3690A7999070094B997 /* XeeYUVImage.m */; };
-		1B07078C0C9F3DA700FA8EBD /* SWFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B07078A0C9F3DA700FA8EBD /* SWFParser.m */; };
+		1B07078C0C9F3DA700FA8EBD /* SWFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B07078A0C9F3DA700FA8EBD /* SWFParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B071A440CB159D600FA8EBD /* XeeExperimentalImage1Saver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B071A430CB159D600FA8EBD /* XeeExperimentalImage1Saver.m */; };
 		1B0F15370CB17CBF000CED68 /* XeePhotoshopPICTLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F15360CB17CBF000CED68 /* XeePhotoshopPICTLoader.m */; };
 		1B16F6070C0BB10F002B0008 /* XeeStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B16F6060C0BB10F002B0008 /* XeeStringAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -34,7 +34,7 @@
 		1B2824810C66A0F700AA7D9C /* Xee8BIMParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2824800C66A0F700AA7D9C /* Xee8BIMParser.m */; };
 		1B2825CB0C67B8FB00AA7D9C /* XeeIPTCParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2825CA0C67B8FB00AA7D9C /* XeeIPTCParser.m */; };
 		1B2825CE0C67B90C00AA7D9C /* XeeXMPParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2825CD0C67B90C00AA7D9C /* XeeXMPParser.m */; };
-		1B2826560C67DD9500AA7D9C /* XeeDuckyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2826550C67DD9500AA7D9C /* XeeDuckyParser.m */; };
+		1B2826560C67DD9500AA7D9C /* XeeDuckyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2826550C67DD9500AA7D9C /* XeeDuckyParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B2B5B3F0C7510B30057B42F /* XeePhotoshopLayerParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5B3E0C7510B30057B42F /* XeePhotoshopLayerParser.m */; };
 		1B2B5DAE0C78AEDD0057B42F /* XeeBitmapRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DAD0C78AEDD0057B42F /* XeeBitmapRawImage.m */; };
 		1B2B5DB70C78AF140057B42F /* XeeIndexedRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DB60C78AF140057B42F /* XeeIndexedRawImage.m */; };
@@ -826,8 +826,8 @@
 		5571AAAE1E70A3FC00697829 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		5571AAB11E70A7CD00697829 /* XeePrefKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XeePrefKeys.h; sourceTree = "<group>"; };
 		5571AAB21E70AE9200697829 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
-		558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = ../Vendor/UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
-		558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XADMaster.xcodeproj; path = ../Vendor/XADMaster/XADMaster/XADMaster.xcodeproj; sourceTree = "<group>"; };
+		558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
+		558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XADMaster.xcodeproj; path = XADMaster/XADMaster/XADMaster.xcodeproj; sourceTree = "<group>"; };
 		558A1EE01E70E62100C41ADA /* libexiftags.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libexiftags.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1EFE1E70E67F00C41ADA /* libjpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libjpeg.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1F421E70E6D500C41ADA /* libpng.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libpng.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1055,9 +1055,8 @@
 				1BE4C11E08E22FB500859EE2 /* pngwtran.c */,
 				1BE4C11F08E22FB500859EE2 /* pngwutil.c */,
 			);
-			name = libpng;
-			path = Vendor/libpng;
-			sourceTree = SOURCE_ROOT;
+			path = libpng;
+			sourceTree = "<group>";
 		};
 		1BE4C16808E23B6C00859EE2 /* libungif */ = {
 			isa = PBXGroup;
@@ -1070,9 +1069,8 @@
 				1BE4C16E08E23B6C00859EE2 /* gifalloc.c */,
 				1BE4C16F08E23B6C00859EE2 /* quantize.c */,
 			);
-			name = libungif;
-			path = Vendor/libungif;
-			sourceTree = SOURCE_ROOT;
+			path = libungif;
+			sourceTree = "<group>";
 		};
 		1BE4C35108E4C43800859EE2 /* Image Loading */ = {
 			isa = PBXGroup;
@@ -1194,9 +1192,8 @@
 				1C14FE441C70CEB300200498 /* transupp.c */,
 				1C14FE451C70CEB300200498 /* transupp.h */,
 			);
-			name = libjpeg;
-			path = Vendor/libjpeg;
-			sourceTree = SOURCE_ROOT;
+			path = libjpeg;
+			sourceTree = "<group>";
 		};
 		1BE5E4B00A8249CF00967AD2 /* Other UI Elements */ = {
 			isa = PBXGroup;
@@ -1290,9 +1287,8 @@
 				1BF142240B094080003A8D57 /* sigma.c */,
 				1BF142250B094080003A8D57 /* tagdefs.c */,
 			);
-			name = exiftags;
-			path = Vendor/exiftags;
-			sourceTree = SOURCE_ROOT;
+			path = exiftags;
+			sourceTree = "<group>";
 		};
 		1BFB0E080B126FAA0088CDB4 /* Image Sources */ = {
 			isa = PBXGroup;
@@ -1461,7 +1457,8 @@
 				1BE4C16808E23B6C00859EE2 /* libungif */,
 			);
 			name = "Dependant libraries";
-			sourceTree = "<group>";
+			path = Vendor;
+			sourceTree = SOURCE_ROOT;
 		};
 		55E22B211E70D6D3009C9E1A /* Classes */ = {
 			isa = PBXGroup;

@@ -56,7 +56,7 @@ extension XeeMatrix {
 		self = XeeTranslationMatrix(x, y)
 	}
 	
-	init(TransformRect r1: NSRect, _ r2: NSRect) {
+	init(transformRect r1: NSRect, _ r2: NSRect) {
 		self = XeeTransformRectToRectMatrix(r1, r2)
 	}
 

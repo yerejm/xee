@@ -24,23 +24,23 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
 -(NSDictionary *)dictionary;
 -(PDFObjectReference *)reference;
 
--(BOOL)isImage;
--(BOOL)isJPEG;
--(BOOL)isJPEG2000;
--(BOOL)isMask;
--(BOOL)isBitmap;
--(BOOL)isIndexed;
--(BOOL)isGrey;
--(BOOL)isRGB;
--(BOOL)isCMYK;
--(BOOL)isLab;
+@property (readonly, getter=isImage) BOOL image;
+@property (readonly, getter=isJPEG) BOOL JPEG;
+@property (readonly, getter=isJPEG2000) BOOL JPEG2000;
+@property (readonly, getter=isMask) BOOL mask;
+@property (readonly, getter=isBitmap) BOOL bitmap;
+@property (readonly, getter=isIndexed) BOOL indexed;
+@property (readonly, getter=isGrey) BOOL grey;
+@property (readonly, getter=isRGB) BOOL RGB;
+@property (readonly, getter=isCMYK) BOOL CMYK;
+@property (readonly, getter=isLab) BOOL lab;
 -(NSString *)finalFilter;
 -(int)bitsPerComponent;
 
 -(NSString *)colourSpaceOrAlternate;
 -(NSString *)subColourSpaceOrAlternate;
 -(NSString *)_parseColourSpace:(id)colourspace;
--(int)numberOfColours;
+@property (readonly) int numberOfColours;
 -(NSData *)paletteData;
 -(NSArray *)decodeArray;
 
@@ -50,8 +50,6 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
 -(CSHandle *)handleExcludingLast:(BOOL)excludelast;
 -(CSHandle *)handleForFilterName:(NSString *)filtername decodeParms:(NSDictionary *)decodeparms parentHandle:(CSHandle *)parent;
 -(CSHandle *)predictorHandleForDecodeParms:(NSDictionary *)decodeparms parentHandle:(CSHandle *)parent;
-
--(NSString *)description;
 
 @end
 
@@ -67,8 +65,6 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
 @end
 
 @interface PDFHexHandle:CSByteStreamHandle
-{
-}
 
 -(uint8_t)produceByteAtOffset:(off_t)pos;
 
@@ -83,7 +79,7 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
 	int prev[4];
 }
 
--(id)initWithHandle:(CSHandle *)handle columns:(int)columns
+-(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns
 components:(int)components bitsPerComponent:(int)bitspercomp;
 -(uint8_t)produceByteAtOffset:(off_t)pos;
 
@@ -96,7 +92,7 @@ components:(int)components bitsPerComponent:(int)bitspercomp;
 	int type;
 }
 
--(id)initWithHandle:(CSHandle *)handle columns:(int)columns
+-(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns
 components:(int)components bitsPerComponent:(int)bitspercomp;
 -(void)resetByteStream;
 -(uint8_t)produceByteAtOffset:(off_t)pos;

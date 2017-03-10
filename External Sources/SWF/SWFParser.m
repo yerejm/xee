@@ -8,34 +8,39 @@ NSString *SWFNoMoreTagsException=@"SWFNoMoreTagsException";
 
 
 @implementation SWFParser
+@synthesize tag = currtag;
+@synthesize tagLength = currlen;
+@synthesize handle = fh;
+@synthesize frame = currframe;
+@synthesize version;
+@synthesize rect;
+@synthesize frames;
+@synthesize framesPerSecond = fps;
 
 +(SWFParser *)parserWithHandle:(CSHandle *)handle
 {
-	return [[[SWFParser alloc] initWithHandle:handle] autorelease];
+	return [[SWFParser alloc] initWithHandle:handle];
 }
 
 +(SWFParser *)parserForPath:(NSString *)path
 {
 	CSFileHandle *handle=[CSFileHandle fileHandleForReadingAtPath:path];
-	return [[[SWFParser alloc] initWithHandle:handle] autorelease];
+	return [[self alloc] initWithHandle:handle];
 }
 
 -(id)initWithHandle:(CSHandle *)handle
 {
-	if(self=[super init])
-	{
-		fh=[handle retain];
+	if (self=[super init]) {
+		fh = handle;
 
-		@try { [self parseHeader]; }
-		@catch(id e) { [self release]; @throw; }
+		@try {
+			[self parseHeader];
+		}
+		@catch(NSException *e) {
+			@throw;
+		}
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[fh release];
-	[super dealloc];
 }
 
 -(void)parseHeader
@@ -49,11 +54,9 @@ NSString *SWFNoMoreTagsException=@"SWFNoMoreTagsException";
 	if((magic[0]!='F'&&magic[0]!='C')||magic[1]!='W'||magic[2]!='S')
 	[NSException raise:SWFWrongMagicException format:@"Not a Shockwave Flash file."];
 
-	if(magic[0]=='C')
-	{
+	if (magic[0] == 'C') {
 		CSZlibHandle *zh=[CSZlibHandle zlibHandleWithHandle:fh];
-		[fh release];
-		fh=[zh retain];
+		fh = zh;
 	}
 
 	rect=SWFParseRect(fh);
@@ -66,12 +69,6 @@ NSString *SWFNoMoreTagsException=@"SWFNoMoreTagsException";
 	currlen=0;
 	currframe=0;
 }
-
-
--(int)version { return version; }
--(SWFRect)rect { return rect; }
--(int)frames { return frames; }
--(int)framesPerSecond { return fps; }
 
 -(int)nextTag
 {
@@ -97,16 +94,23 @@ NSString *SWFNoMoreTagsException=@"SWFNoMoreTagsException";
 	return currtag;
 }
 
--(int)tag { return currtag; }
--(int)tagLength { return currlen; }
--(int)tagBytesLeft { return nexttag-[fh offsetInFile]; }
--(int)frame { return currframe; }
--(double)time { return (double)currframe/((double)fps/256.0); }
+-(int)tagBytesLeft
+{
+	return (int)(nexttag-[fh offsetInFile]);
+}
+-(double)time
+{
+	return (double)currframe/((double)fps/256.0);
+}
 
--(CSHandle *)handle { return fh; }
+-(CSHandle *)tagHandle
+{
+	return [fh subHandleOfLength:[self tagBytesLeft]];
+}
 
--(CSHandle *)tagHandle { return [fh subHandleOfLength:[self tagBytesLeft]]; }
-
--(NSData *)tagContents { return [fh readDataOfLength:[self tagBytesLeft]]; }
+-(NSData *)tagContents
+{
+	return [fh readDataOfLength:[self tagBytesLeft]];
+}
 
 @end

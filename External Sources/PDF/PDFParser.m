@@ -577,7 +577,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 	if(offs<100)
 	{
 		[fh seekToFileOffset:0];
-		start=[fh readDataOfLength:offs];
+		start=[fh readDataOfLength:(int)offs];
 	}
 	else
 	{
@@ -605,6 +605,8 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 
 @implementation PDFString
+@synthesize rawData = data;
+@synthesize reference = ref;
 
 -(id)initWithData:(NSData *)bytes parent:(PDFObjectReference *)parent parser:(PDFParser *)owner
 {
@@ -623,10 +625,6 @@ static BOOL IsWhiteSpace(uint8_t c);
 	[ref release];
 	[super dealloc];
 }
-
--(NSData *)rawData { return data; }
-
--(PDFObjectReference *)reference { return ref; }
 
 -(NSData *)data
 {
@@ -668,6 +666,8 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 
 @implementation PDFObjectReference
+@synthesize number = num;
+@synthesize generation = gen;
 
 +(PDFObjectReference *)referenceWithNumber:(int)objnum generation:(int)objgen
 {
@@ -688,10 +688,6 @@ static BOOL IsWhiteSpace(uint8_t c);
 	}
 	return self;
 }
-
--(int)number { return num; }
-
--(int)generation { return gen; }
 
 -(BOOL)isEqual:(id)other
 {

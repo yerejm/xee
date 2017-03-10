@@ -23,7 +23,6 @@ extern NSString *PDFParserException;
 +(PDFParser *)parserForPath:(NSString *)path;
 
 -(instancetype)initWithHandle:(CSHandle *)handle;
--(void)dealloc;
 
 @property (readonly, getter=isEncrypted) BOOL encrypted;
 @property (readonly) BOOL needsPassword;
@@ -70,23 +69,15 @@ extern NSString *PDFParserException;
 {
 	NSData *data;
 	PDFObjectReference *ref;
-	PDFParser *parser;
+	__unsafe_unretained PDFParser *parser;
 }
 
 -(id)initWithData:(NSData *)bytes parent:(PDFObjectReference *)parent parser:(PDFParser *)owner;
--(void)dealloc;
 
--(NSData *)data;
--(PDFObjectReference *)reference;
--(NSData *)rawData;
--(NSString *)string;
-
--(BOOL)isEqual:(id)other;
--(NSUInteger)hash;
-
--(id)copyWithZone:(NSZone *)zone;
-
--(NSString *)description;
+@property (readonly, retain) NSData *data;
+@property (readonly, retain) PDFObjectReference *reference;
+@property (readonly, copy) NSData *rawData;
+@property (readonly, copy) NSString *string;
 
 @end
 
@@ -97,19 +88,13 @@ extern NSString *PDFParserException;
 	int num,gen;
 }
 
-+(PDFObjectReference *)referenceWithNumber:(int)objnum generation:(int)objgen;
-+(PDFObjectReference *)referenceWithNumberObject:(NSNumber *)objnum generationObject:(NSNumber *)objgen;
++(instancetype)referenceWithNumber:(int)objnum generation:(int)objgen;
++(instancetype)referenceWithNumberObject:(NSNumber *)objnum generationObject:(NSNumber *)objgen;
 
--(id)initWithNumber:(int)objnum generation:(int)objgen;
+-(instancetype)initWithNumber:(int)objnum generation:(int)objgen NS_DESIGNATED_INITIALIZER;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
--(int)number;
--(int)generation;
-
--(BOOL)isEqual:(id)other;
--(NSUInteger)hash;
-
--(id)copyWithZone:(NSZone *)zone;
-
--(NSString *)description;
+@property (readonly) int number;
+@property (readonly) int generation;
 
 @end

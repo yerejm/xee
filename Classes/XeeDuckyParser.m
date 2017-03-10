@@ -8,7 +8,7 @@
 {
 	if(self=[super init])
 	{
-		props=[[NSMutableArray array] retain];
+		props=[[NSMutableArray alloc] init];
 //NSLog(@"%@",[NSData dataWithBytes:duckydata length:len]);
 
 		int pos=0;
@@ -36,27 +36,21 @@
 					if(len>=4)
 					[props addObjectsFromArray:[XeePropertyItem itemsWithLabel:
 					NSLocalizedString(@"Description",@"Description property title")
-					textValue:[[[NSString alloc] initWithBytes:duckydata+pos+4 length:chunklen-4
-					encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease]]];
+					textValue:[[NSString alloc] initWithBytes:duckydata+pos+4 length:chunklen-4
+					encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] ]];
 				break;
 				case 3: // copyright
 					if(len>=4)
 					[props addObjectsFromArray:[XeePropertyItem itemsWithLabel:
 					NSLocalizedString(@"Copyright",@"Copyright property title")
-					textValue:[[[NSString alloc] initWithBytes:duckydata+pos+4 length:chunklen-4
-					encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease]]];
+					textValue:[[NSString alloc] initWithBytes:duckydata+pos+4 length:chunklen-4
+					encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] ]];
 				break;
 			}
 			pos=next;
 		}
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[props release];
-	[super dealloc];
 }
 
 -(NSArray *)propertyArray
