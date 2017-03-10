@@ -42,7 +42,7 @@
 		1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3D30D809351D7A00345FD0 /* Carbon.framework */; };
 		1B3D33620937B89200345FD0 /* CSKeyboardShortcuts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */; };
 		1B3E45920C6E1EDD00D63BC0 /* XeeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E45910C6E1EDD00D63BC0 /* XeeProperties.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		1B4072A80EB40787008D5F17 /* CCITTHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA0D2B0EABF4B20016D207 /* CCITTHandle.m */; };
+		1B4072A80EB40787008D5F17 /* CCITTHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA0D2B0EABF4B20016D207 /* CCITTHandle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B40762F0EB7C325008D5F17 /* LZWHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B40762E0EB7C325008D5F17 /* LZWHandle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B4077300EB8E56B008D5F17 /* XeePNMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B40772F0EB8E56B008D5F17 /* XeePNMLoader.m */; };
 		1B4077A60EB928AC008D5F17 /* XeeXBMLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B4077A50EB928AC008D5F17 /* XeeXBMLoader.m */; };
@@ -82,8 +82,8 @@
 		1B996C8D0929302C0026832A /* icns.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C7B0929302C0026832A /* icns.icns */; };
 		1B996C8E0929302C0026832A /* xbm.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C7C0929302C0026832A /* xbm.icns */; };
 		1BA51C770E980F7000554F95 /* XeePDFSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9863E0B19FBC0000B4425 /* XeePDFSource.m */; };
-		1BA51CF80E99212E00554F95 /* PDFEncryptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA51CF70E99212E00554F95 /* PDFEncryptionUtils.m */; };
-		1BA51CFB0E9921C200554F95 /* PDFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA51CFA0E9921C200554F95 /* PDFStream.m */; };
+		1BA51CF80E99212E00554F95 /* PDFEncryptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA51CF70E99212E00554F95 /* PDFEncryptionUtils.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1BA51CFB0E9921C200554F95 /* PDFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA51CFA0E9921C200554F95 /* PDFStream.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1BB983620B187BAA000B4425 /* XeeControllerImageActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB983610B187BAA000B4425 /* XeeControllerImageActions.m */; };
 		1BB983670B187BB8000B4425 /* XeeControllerNavigationActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB983660B187BB8000B4425 /* XeeControllerNavigationActions.m */; };
 		1BB9836C0B187BC7000B4425 /* XeeControllerFileActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9836B0B187BC7000B4425 /* XeeControllerFileActions.m */; };
@@ -93,10 +93,10 @@
 		1BB98D6B0B1CBCCB000B4425 /* XeeKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98D6A0B1CBCCB000B4425 /* XeeKQueue.m */; };
 		1BB98F170B1E1E5A000B4425 /* XeeFSRef.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB98F160B1E1E5A000B4425 /* XeeFSRef.m */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -fobjc-arc"; }; };
 		1BCA06980E9C3CDD0016D207 /* XeeListSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA06970E9C3CDD0016D207 /* XeeListSource.m */; };
-		1BCA069D0E9C3E110016D207 /* PDFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA069C0E9C3E110016D207 /* PDFParser.m */; };
-		1BCA08A80E9D5D060016D207 /* NSDictionaryNumberExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA08A70E9D5D060016D207 /* NSDictionaryNumberExtension.m */; };
+		1BCA069D0E9C3E110016D207 /* PDFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA069C0E9C3E110016D207 /* PDFParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1BCA08A80E9D5D060016D207 /* NSDictionaryNumberExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA08A70E9D5D060016D207 /* NSDictionaryNumberExtension.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1BCA08E50E9D75BF0016D207 /* XeeSWFSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0707840C9F3BC500FA8EBD /* XeeSWFSource.m */; };
-		1BCA0C080EA008980016D207 /* PDFEncryptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA0C070EA008980016D207 /* PDFEncryptionHandler.m */; };
+		1BCA0C080EA008980016D207 /* PDFEncryptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA0C070EA008980016D207 /* PDFEncryptionHandler.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1BDBF90E08EC663100C83392 /* XeeStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDBF90D08EC663100C83392 /* XeeStatusBar.m */; };
 		1BDC059A087EE3FF005E88BD /* XeeImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDC0599087EE3FF005E88BD /* XeeImage.m */; };
 		1BDEDB8608D4B15F0065EA39 /* XeeImageSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BDEDB8508D4B15F0065EA39 /* XeeImageSaver.m */; };

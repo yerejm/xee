@@ -20,23 +20,23 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 +(PDFParser *)parserWithHandle:(CSHandle *)handle
 {
-	return [[[PDFParser alloc] initWithHandle:handle] autorelease];
+	return [[PDFParser alloc] initWithHandle:handle];
 }
 
 +(PDFParser *)parserForPath:(NSString *)path
 {
 	CSFileHandle *handle=[CSFileHandle fileHandleForReadingAtPath:path];
-	return [[[PDFParser alloc] initWithHandle:handle] autorelease];
+	return [[PDFParser alloc] initWithHandle:handle];
 }
 
 -(id)initWithHandle:(CSHandle *)handle
 {
 	if(self=[super init])
 	{
-		fh=[handle retain];
+		fh=handle;
 
-		objdict=[[NSMutableDictionary dictionary] retain];
-		unresolved=[[NSMutableArray array] retain];
+		objdict=[[NSMutableDictionary alloc] init];
+		unresolved=[[NSMutableArray alloc] init];
 
 		encryption=nil;
 
@@ -45,21 +45,12 @@ static BOOL IsWhiteSpace(uint8_t c);
 			if([fh readUInt8]!='%'||[fh readUInt8]!='P'||[fh readUInt8]!='D'||[fh readUInt8]!='F'||[fh readUInt8]!='-')
 			[NSException raise:PDFWrongMagicException format:@"Not a PDF file."];
 		}
-		@catch(id e) { [self release]; @throw; }
+		@catch(NSException *e) {
+			@throw;
+		}
 	}
 	return self;
 }
-
--(void)dealloc
-{
-	[fh release];
-	[objdict release];
-	[unresolved release];
-	[encryption release];
-	[super dealloc];
-}
-
-
 
 -(BOOL)isEncrypted
 {
@@ -68,7 +59,8 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 -(BOOL)needsPassword
 {
-	if(!encryption) return NO;
+	if (!encryption)
+		return NO;
 	return [encryption needsPassword];
 }
 
@@ -115,14 +107,14 @@ static BOOL IsWhiteSpace(uint8_t c);
 	[fh seekToEndOfFile];
 	[fh skipBytes:-48];
 	NSData *enddata=[fh readDataOfLength:48];
-	NSString *end=[[[NSString alloc] initWithData:enddata encoding:NSISOLatin1StringEncoding] autorelease];
+	NSString *end=[[NSString alloc] initWithData:enddata encoding:NSISOLatin1StringEncoding];
 
 	NSString *startxref=[[end substringsCapturedByPattern:@"startxref[\n\r ]+([0-9]+)[\n\r ]+%%EOF"] objectAtIndex:1];
 	if(!startxref) [NSException raise:PDFInvalidFormatException format:@"Missing PDF trailer."];
 	[fh seekToFileOffset:[startxref intValue]];
 
 	// Read newest xrefs and trailer
-	trailerdict=[[self parsePDFXref] retain];
+	trailerdict=[self parsePDFXref];
 
 	// Read older xrefs, ignore their trailers
 	NSNumber *prev=[trailerdict objectForKey:@"Prev"];
@@ -137,7 +129,6 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 	if([trailerdict objectForKey:@"Encrypt"])
 	{
-		[encryption release];
 		encryption=[[PDFEncryptionHandler alloc] initWithParser:self];
 	}
 }
@@ -224,8 +215,8 @@ static BOOL IsWhiteSpace(uint8_t c);
 			if(c=='\r') c=[fh readUInt8];
 			if(c!='\n') [self _raiseParserException:@"Error parsing stream object"];
 
-			return [[[PDFStream alloc] initWithDictionary:value fileHandle:fh
-			reference:ref parser:self] autorelease];
+			return [[PDFStream alloc] initWithDictionary:value fileHandle:fh
+			reference:ref parser:self];
 		break;
 
 		case 'e':
@@ -389,7 +380,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 			default: b=c; break;
 			case '(': nesting++; b='('; break;
 			case ')':
-				if(--nesting==0) return (NSString *)[[[PDFString alloc] initWithData:data parent:parent parser:self] autorelease];
+				if(--nesting==0) return (NSString *)[[PDFString alloc] initWithData:data parent:parent parser:self];
 				else b=')';
 			break;
 			case '\\':
@@ -442,7 +433,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 		int c1;
 		do { c1=[fh readUInt8]; }
 		while(IsWhiteSpace(c1));
-		if(c1=='>') return (NSData *)[[[PDFString alloc] initWithData:data parent:parent parser:self] autorelease];
+		if(c1=='>') return (NSData *)[[PDFString alloc] initWithData:data parent:parent parser:self];
 		if(!IsHexDigit(c1)) [self _raiseParserException:@"Error parsing hex data value"];
 
 		int c2;
@@ -453,7 +444,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 		uint8_t byte=HexDigit(c1)*16+HexDigit(c2);
 		[data appendBytes:&byte length:1];
 
-		if(c2=='>') return (NSData *)[[[PDFString alloc] initWithData:data parent:parent parser:self] autorelease];
+		if(c2=='>') return (NSData *)[[PDFString alloc] initWithData:data parent:parent parser:self];
 	}
 }
 
@@ -589,13 +580,13 @@ static BOOL IsWhiteSpace(uint8_t c);
 	const uint8_t *bytes=[start bytes];
 	int skip=0;
 	for(int i=0;i<length;i++) if(bytes[i]=='\n'||bytes[i]=='\r') skip=i+1;
-	NSString *startstr=[[[NSString alloc] initWithBytes:bytes+skip length:length-skip encoding:NSISOLatin1StringEncoding] autorelease];
+	NSString *startstr=[[NSString alloc] initWithBytes:bytes+skip length:length-skip encoding:NSISOLatin1StringEncoding];
 
 	NSData *end=[fh readDataOfLengthAtMost:100];
 	length=[end length];
 	bytes=[end bytes];
 	for(int i=0;i<length;i++) if(bytes[i]=='\n'||bytes[i]=='\r') { length=i; break; }
-	NSString *endstr=[[[NSString alloc] initWithBytes:bytes length:length encoding:NSISOLatin1StringEncoding] autorelease];
+	NSString *endstr=[[NSString alloc] initWithBytes:bytes length:length encoding:NSISOLatin1StringEncoding];
 
 	[NSException raise:PDFParserException format:@"%@: \"%@%C%@\"",error,startstr,0x25bc,endstr];
 }
@@ -612,18 +603,11 @@ static BOOL IsWhiteSpace(uint8_t c);
 {
 	if(self=[super init])
 	{
-		data=[bytes retain];
-		ref=[parent retain];
+		data=[bytes copy];
+		ref=parent;
 		parser=owner;
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[data release];
-	[ref release];
-	[super dealloc];
 }
 
 -(NSData *)data
@@ -638,9 +622,9 @@ static BOOL IsWhiteSpace(uint8_t c);
 	NSData *characters=[self data];
 	NSInteger length=[characters length];
 	const unsigned char *bytes=[characters bytes];
-	if(length>=2&&bytes[0]==0xfe&&bytes[1]==0xff) return [[[NSString alloc] initWithBytes:bytes+2 length:length-2
-	encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease];
-	else return [[[NSString alloc] initWithData:characters encoding:NSISOLatin1StringEncoding] autorelease];
+	if(length>=2&&bytes[0]==0xfe&&bytes[1]==0xff) return [[NSString alloc] initWithBytes:bytes+2 length:length-2
+	encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)];
+	else return [[NSString alloc] initWithData:characters encoding:NSISOLatin1StringEncoding];
 }
 
 -(BOOL)isEqual:(id)other
@@ -671,12 +655,12 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 +(PDFObjectReference *)referenceWithNumber:(int)objnum generation:(int)objgen
 {
-	return [[[[self class] alloc] initWithNumber:objnum generation:objgen] autorelease];
+	return [[[self class] alloc] initWithNumber:objnum generation:objgen];
 }
 
 +(PDFObjectReference *)referenceWithNumberObject:(NSNumber *)objnum generationObject:(NSNumber *)objgen
 {
-	return [[[[self class] alloc] initWithNumber:[objnum intValue] generation:[objgen intValue]] autorelease];
+	return [[[self class] alloc] initWithNumber:[objnum intValue] generation:[objgen intValue]];
 }
 
 -(id)initWithNumber:(int)objnum generation:(int)objgen

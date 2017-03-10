@@ -32,8 +32,9 @@
 
 -(void)dealloc
 {
-	if(iterator)
+	if(iterator) {
 		FSCloseIterator(iterator);
+	}
 }
 
 -(FSRef *)FSRef
@@ -49,7 +50,9 @@
 -(BOOL)isDirectory
 {
 	FSCatalogInfo catinfo;
-	if(FSGetCatalogInfo(&ref,kFSCatInfoNodeFlags,&catinfo,NULL,NULL,NULL)!=noErr) return NO;
+	if (FSGetCatalogInfo(&ref, kFSCatInfoNodeFlags, &catinfo, NULL, NULL, NULL) != noErr) {
+		return NO;
+	}
 	return (catinfo.nodeFlags & kFSNodeIsDirectoryMask) ? YES : NO;
 }
 
@@ -69,23 +72,21 @@
 -(NSString *)name;
 {
 	HFSUniStr255 name;
-	if (FSGetCatalogInfo(&ref, kFSCatInfoNone, NULL, &name, NULL, NULL) != noErr)
+	if (FSGetCatalogInfo(&ref, kFSCatInfoNone, NULL, &name, NULL, NULL) != noErr) {
 		return nil;
-	return [NSString stringWithCharacters:name.unicode length:name.length];
+	}
+	return [NSString stringWithCharacters:name.unicode length:MIN(name.length, 255)];
 }
 
 -(NSString *)path
 {
-	NSString *path = nil;
-	NSURL *url = [self URL];
-	if(url)
-	{
-		path=[url path];
-	}
-	return path;
+	return self.URL.path;
 }
 
--(NSURL *)URL { return CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault,&ref)); }
+-(NSURL *)URL
+{
+	return CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault, &ref));
+}
 
 -(XeeFSRef *)parent
 {

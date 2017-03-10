@@ -19,10 +19,10 @@ typedef int CCITTCodeTable[][2];
 typedef int (*CCITTCodeTablePointer)[2];
 
 //static CCITTCodeTable T41DWhiteCodeTable;
-static int T41DWhiteCodeTable[][2];
-static int T41DBlackCodeTable[][2];
+static const CCITTCodeTable T41DWhiteCodeTable;
+static const CCITTCodeTable T41DBlackCodeTable;
 //static int T42DCodeTable[][2];
-static int T62DCodeTable[][2];
+static const CCITTCodeTable T62DCodeTable;
 
 NSString *CCITTCodeException=@"CCITTCodeException";
 
@@ -129,9 +129,9 @@ void FindNextOldChangeOfColorAndLargerThan(CCITTFaxT6Handle *self,int col,int po
 {
 	if(self=[super initWithHandle:handle columns:columns white:whitevalue])
 	{
-		maincode=[[XADPrefixCode alloc] initWithStaticTable:T62DCodeTable];
-		whitecode=[[XADPrefixCode alloc] initWithStaticTable:T41DWhiteCodeTable];
-		blackcode=[[XADPrefixCode alloc] initWithStaticTable:T41DBlackCodeTable];
+		maincode=[[XADPrefixCode alloc] initWithStaticTable:(CCITTCodeTablePointer)T62DCodeTable];
+		whitecode=[[XADPrefixCode alloc] initWithStaticTable:(CCITTCodeTablePointer)T41DWhiteCodeTable];
+		blackcode=[[XADPrefixCode alloc] initWithStaticTable:(CCITTCodeTablePointer)T41DBlackCodeTable];
 
 		prevchanges=malloc(sizeof(int)*columns);
 		currchanges=malloc(sizeof(int)*columns);
@@ -141,12 +141,8 @@ void FindNextOldChangeOfColorAndLargerThan(CCITTFaxT6Handle *self,int col,int po
 
 -(void)dealloc
 {
-	[maincode release];
-	[whitecode release];
-	[blackcode release];
 	free(prevchanges);
 	free(currchanges);
-	[super dealloc];
 }
 
 -(void)resetByteStream
@@ -317,7 +313,7 @@ void FindNextOldChangeOfColorAndLargerThan(CCITTFaxT6Handle *self,int col,int po
 @end
 
 
-static int T41DWhiteCodeTable[][2]=
+static const int T41DWhiteCodeTable[][2]=
 {
 	{4,1},{2,3},{3,3},{2,2},{8,5},{7,6},{4,4},{1,1},{12,9},{10,11},
 	{6,6},{5,5},{18,13},{15,14},{7,7},{16,17},{9,9},{8,8},{25,19},
@@ -352,7 +348,7 @@ static int T41DWhiteCodeTable[][2]=
 	{1536,1536},{1152,1152},{896,896},{1280,1280},
 };
 
-static int T41DBlackCodeTable[][2]=
+static const int T41DBlackCodeTable[][2]=
 {
 	{5,1},{2,9},{15,3},{26,4},{4,4},{19,6},{23,7},{50,8},{2,2},{13,10},
 	{12,11},{7,7},{6,6},{14,17},{5,5},{16,28},{3,3},{31,18},{64,64},
@@ -399,7 +395,7 @@ static int T41DBlackCodeTable[][2]=
 	{EOL,EOL},
 };*/
 
-static int T62DCodeTable[][2]=
+static const int T62DCodeTable[][2]=
 {
 	{2,1},{VERTICAL_0,VERTICAL_0},{5,3},{7,4},{VERTICAL_R1,VERTICAL_R1},
 	{8,6},{HORIZONTAL,HORIZONTAL},{VERTICAL_L1,VERTICAL_L1},{10,9},

@@ -17,9 +17,8 @@
 	PDFParser *parser;
 }
 
--(id)initWithDictionary:(NSDictionary *)dictionary fileHandle:(CSHandle *)filehandle
-reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
--(void)dealloc;
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary fileHandle:(CSHandle *)filehandle
+						reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
 
 -(NSDictionary *)dictionary;
 -(PDFObjectReference *)reference;
@@ -80,7 +79,7 @@ reference:(PDFObjectReference *)reference parser:(PDFParser *)owner;
 }
 
 -(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns
-components:(int)components bitsPerComponent:(int)bitspercomp;
+				   components:(int)components bitsPerComponent:(int)bitspercomp;
 -(uint8_t)produceByteAtOffset:(off_t)pos;
 
 @end
@@ -93,7 +92,7 @@ components:(int)components bitsPerComponent:(int)bitspercomp;
 }
 
 -(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns
-components:(int)components bitsPerComponent:(int)bitspercomp;
+				   components:(int)components bitsPerComponent:(int)bitspercomp;
 -(void)resetByteStream;
 -(uint8_t)produceByteAtOffset:(off_t)pos;
 
