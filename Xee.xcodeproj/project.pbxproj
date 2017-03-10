@@ -1115,18 +1115,7 @@
 				558EACBB1E7150A300C84199 /* Dependant libraries */,
 				1BCA06990E9C3DE60016D207 /* PDF */,
 				1BCA069A0E9C3DED0016D207 /* SWF */,
-				1BE4C47D08E5CA4200859EE2 /* XeeIFFHandle.h */,
-				1BE4C47E08E5CA4200859EE2 /* XeeIFFHandle.m */,
-				1B3D33600937B89100345FD0 /* CSKeyboardShortcuts.h */,
-				1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */,
-				1BB984050B18C479000B4425 /* CSFileTypeList.h */,
-				1BB984060B18C479000B4425 /* CSFileTypeList.m */,
-				1B5E0A400C8A37DA00F22867 /* CSCoroutine.h */,
-				1B5E0A410C8A37DA00F22867 /* CSCoroutine.m */,
-				1B5553E80B28DCF700DC7FF3 /* CSDesktopServices.h */,
-				1B5553E90B28DCF700DC7FF3 /* CSDesktopServices.m */,
-				1BE4B80B08D7655400859EE2 /* KFTypeSelectTableView.h */,
-				1BE4B80C08D7655400859EE2 /* KFTypeSelectTableView.m */,
+				55EC00E31E729BBC008A85F3 /* Unsorted */,
 			);
 			path = "External Sources";
 			sourceTree = "<group>";
@@ -1475,6 +1464,25 @@
 				1B1D52390B02A319009AA7EB /* Image Saving */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		55EC00E31E729BBC008A85F3 /* Unsorted */ = {
+			isa = PBXGroup;
+			children = (
+				1BE4C47D08E5CA4200859EE2 /* XeeIFFHandle.h */,
+				1BE4C47E08E5CA4200859EE2 /* XeeIFFHandle.m */,
+				1B3D33600937B89100345FD0 /* CSKeyboardShortcuts.h */,
+				1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */,
+				1BB984050B18C479000B4425 /* CSFileTypeList.h */,
+				1BB984060B18C479000B4425 /* CSFileTypeList.m */,
+				1B5E0A400C8A37DA00F22867 /* CSCoroutine.h */,
+				1B5E0A410C8A37DA00F22867 /* CSCoroutine.m */,
+				1B5553E80B28DCF700DC7FF3 /* CSDesktopServices.h */,
+				1B5553E90B28DCF700DC7FF3 /* CSDesktopServices.m */,
+				1BE4B80B08D7655400859EE2 /* KFTypeSelectTableView.h */,
+				1BE4B80C08D7655400859EE2 /* KFTypeSelectTableView.m */,
+			);
+			name = Unsorted;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
