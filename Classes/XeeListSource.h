@@ -15,8 +15,7 @@
 	XeeImage *loadingimage;
 }
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 
 -(void)stop;
 
@@ -53,9 +52,8 @@
 	int imageretain;
 }
 
--(id)init;
--(id)initAsCopyOf:(XeeListEntry *)other;
--(void)dealloc;
+-(instancetype)init;
+-(instancetype)initAsCopyOf:(XeeListEntry *)other;
 
 -(NSString *)descriptiveName;
 -(BOOL)matchesObject:(id)obj;
@@ -64,9 +62,6 @@
 -(void)releaseImage;
 -(XeeImage *)image;
 -(XeeImage *)produceImage;
-
--(BOOL)isEqual:(id)other;
--(unsigned long)hash;
 
 -(id)copyWithZone:(NSZone *)zone;
 

@@ -9,7 +9,7 @@
 {
 	if(self=[super init])
 	{
-		subimages=[[NSMutableArray array] retain];
+		subimages=[[NSMutableArray alloc] init];
 		currindex=0;
 		currloading=nil;
 
@@ -185,15 +185,20 @@
 
 -(NSString *)losslessExtension { return [[self currentSubImage] losslessExtension]; }
 
--(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags { return [[self currentSubImage] losslessSaveTo:path flags:flags]; }
+-(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags
+{
+	return [[self currentSubImage] losslessSaveTo:path flags:flags];
+}
 
 
 
 -(int)width
 {
 	XeeImage *curr=[self currentSubImage];
-	if(curr) return [curr width];
-	else return [super width];
+	if(curr)
+		return [curr width];
+	else
+		return [super width];
 }
 
 -(int)height

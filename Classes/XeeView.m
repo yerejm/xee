@@ -11,16 +11,12 @@
 #include <Carbon/Carbon.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-GLuint make_resize_texture();
-
-@interface NSEvent (DeviceDelta)
--(CGFloat)deviceDeltaX;
--(CGFloat)deviceDeltaY;
-@end
+static GLuint make_resize_texture();
 
 
 
 @implementation XeeView
+@synthesize delegate;
 
 -(id)initWithFrame:(NSRect)frameRect
 {
@@ -298,8 +294,8 @@ GLuint make_resize_texture();
 		CGFloat dx,dy;
 		if(IsSmoothScrollEvent(event))
 		{
-			dx=[event deviceDeltaX];
-			dy=[event deviceDeltaY];
+			dx=[event scrollingDeltaX];
+			dy=[event scrollingDeltaY];
 		}
 		else
 		{
@@ -499,18 +495,11 @@ GLuint make_resize_texture();
 	return XeeTransformRectToRectMatrix([self imageRect],NSMakeRect(0,0,[image width],[image height]));
 }
 
--(id)delegate { return delegate; }
-
 -(XeeImage *)image { return image; }
 
 -(XeeTool *)tool { return tool; }
 
 
-
--(void)setDelegate:(id)newdelegate
-{
-	delegate=newdelegate;
-}
 
 -(void)setImage:(XeeImage *)img
 {
@@ -556,8 +545,8 @@ GLuint make_resize_texture();
 	imgwidth=size.width;
 	imgheight=size.height;
 
-	focus.x*=(float)imgwidth/(float)oldwidth;
-	focus.y*=(float)imgheight/(float)oldheight;
+	focus.x*=(CGFloat)imgwidth/(CGFloat)oldwidth;
+	focus.y*=(CGFloat)imgheight/(CGFloat)oldheight;
 
 	[self setFocus:focus];
 

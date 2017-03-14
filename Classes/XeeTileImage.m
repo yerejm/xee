@@ -27,6 +27,7 @@ struct XeeTileImageProviderInfo
 
 
 @implementation XeeTileImage
+@synthesize bytesPerRow = bytesperrow;
 
 -(id)init
 {
@@ -61,8 +62,8 @@ struct XeeTileImageProviderInfo
 }
 
 
--(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(int)pixelwidth height:(int)pixelheight
-bytesPerPixel:(int)bppixel bytesPerRow:(int)bprow premultiplied:(BOOL)premult
+-(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
+bytesPerPixel:(NSInteger)bppixel bytesPerRow:(NSInteger)bprow premultiplied:(BOOL)premult
 glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 {
 	// Free old data
@@ -90,11 +91,11 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 
 -(void)setCompleted { [self setFirstCompletedRow:0 count:height]; }
 
--(void)setCompletedRowCount:(int)count { [self setFirstCompletedRow:XeeSpanStart(completed) count:count]; }
+-(void)setCompletedRowCount:(NSInteger)count { [self setFirstCompletedRow:XeeSpanStart(completed) count:count]; }
 
--(void)setFirstCompletedRow:(int)first count:(int)count
+-(void)setFirstCompletedRow:(NSInteger)first count:(NSInteger)count
 {
-	completed=XeeSpanIntersection(XeeMakeSpan(first,count),XeeMakeSpan(0,height));
+	completed=XeeSpanIntersection(XeeMakeSpan((int)first,(int)count),XeeMakeSpan(0,(int)height));
 
 	if(XeeSpanLength(completed)==height)
 	{
@@ -104,7 +105,7 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	{
 //		static double prevtime=0;
 //		double time=XeeGetTime();
-		int delta=height/32;
+		NSInteger delta=height/32;
 		if(delta<8) delta=8;
 
 		if(XeeSpanLength(completed)-XeeSpanLength(uploaded)>=delta) [self triggerLoadingAction];
@@ -130,7 +131,7 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 {
 	if(needsupdate)
 	{
-		drawn=XeeMakeSpan(0,height);
+		drawn=XeeMakeSpan(0,(int)height);
 		return rect;
 	}
 	else if(XeeSpanLength(drawn)==height)
@@ -267,20 +268,20 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	glGetIntegerv(GL_MAX_RECTANGLE_TEXTURE_SIZE_EXT,&maxtilesize);
 	if(maxtilesize>512) maxtilesize=512;
 
-	int cols=(width+maxtilesize-1)/maxtilesize;
-	int rows=(height+maxtilesize-1)/maxtilesize;
+	NSInteger cols=(width+maxtilesize-1)/maxtilesize;
+	NSInteger rows=(height+maxtilesize-1)/maxtilesize;
 
 	tiles=[[NSMutableArray alloc] initWithCapacity:rows*cols];
 
 	if(tiles)
 	{
-		for(int row=0;row<rows;row++)
+		for(NSInteger row=0;row<rows;row++)
 		{
-			int tile_h=(row==rows-1)?(height-(rows-1)*maxtilesize):maxtilesize;
+			NSInteger tile_h=(row==rows-1)?(height-(rows-1)*maxtilesize):maxtilesize;
 
-			for(int col=0;col<cols;col++)
+			for(NSInteger col=0;col<cols;col++)
 			{
-				int tile_w=(col==cols-1)?(width-(cols-1)*maxtilesize):maxtilesize;
+				NSInteger tile_w=(col==cols-1)?(width-(cols-1)*maxtilesize):maxtilesize;
 
 				XeeBitmapTile *tile=[[[XeeBitmapTile alloc] initWithTarget:textarget
 				internalFormat:texintformat x:col*maxtilesize y:row*maxtilesize
@@ -339,7 +340,7 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	else if((bytesperrow&1)==0) align=2;
 	else align=1;
 
-	glPixelStorei(GL_UNPACK_ROW_LENGTH,bytesperrow/bytesperpixel);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH,(GLint)(bytesperrow/bytesperpixel));
 	glPixelStorei(GL_UNPACK_ALIGNMENT,align);
 
 	if(textarget==GL_TEXTURE_2D&&(texformat==GL_LUMINANCE||texformat==GL_YCBCR_422_APPLE)) // workaround for buggy Rage128 drivers
@@ -492,8 +493,6 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	else return GL_LINEAR;
 }
 
--(int)bytesPerRow { return bytesperrow; }
-
 -(uint8_t *)data { return data; }
 
 
@@ -508,7 +507,7 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	struct XeeTileImageProviderInfo *info=malloc(sizeof(struct XeeTileImageProviderInfo));
 	if(info)
 	{
-		int pixelsize=[self bytesPerPixelForCGImage];
+		NSInteger pixelsize=[self bytesPerPixelForCGImage];
 		XeeMatrix m=XeeInverseMatrix([self transformationMatrix]);
 
 		info->readpixel=readpixel;
@@ -554,10 +553,10 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	return cgimage;
 }
 
--(int)bitsPerComponentForCGImage { return 0; }
--(int)bytesPerPixelForCGImage { return 0; }
+-(NSInteger)bitsPerComponentForCGImage { return 0; }
+-(NSInteger)bytesPerPixelForCGImage { return 0; }
 -(CGColorSpaceRef)createColorSpaceForCGImage { return NULL; }
--(int)bitmapInfoForCGImage { return 0; }
+-(UInt32)bitmapInfoForCGImage { return 0; }
 -(XeeReadPixelFunction)readPixelFunctionForCGImage { return NULL; }
 
 
@@ -571,17 +570,17 @@ size_t XeeTileImageGetBytes(void *infoptr,void *buffer,size_t count)
 	uint8_t *dest=buffer;
 	size_t end=info->pos+count;
 
-	int pixelnum=info->pos/info->pixelsize;
-	int offs=info->pos%info->pixelsize;
+	NSInteger pixelnum=info->pos/info->pixelsize;
+	NSInteger offs=info->pos%info->pixelsize;
 
 	while(info->pos<end)
 	{
-		int dx=pixelnum%info->width;
-		int dy=pixelnum/info->width;
-		int sx=info->a00*dx+info->a01*dy+info->a02;
-		int sy=info->a10*dx+info->a11*dy+info->a12;
+		NSInteger dx=pixelnum%info->width;
+		NSInteger dy=pixelnum/info->width;
+		NSInteger sx=info->a00*dx+info->a01*dy+info->a02;
+		NSInteger sy=info->a10*dx+info->a11*dy+info->a12;
 		uint8_t *row=info->data+sy*info->bytesperrow;
-		int left=end-info->pos;
+		NSInteger left=end-info->pos;
 
 		if(offs==0&&left>=info->pixelsize) // read full pixel directly
 		{
@@ -593,7 +592,7 @@ size_t XeeTileImageGetBytes(void *infoptr,void *buffer,size_t count)
 		{
 			info->readpixel(row,sx,info->pixelsize,pixel);
 
-			int bytes=info->pixelsize-offs;
+			NSInteger bytes=info->pixelsize-offs;
 			if(bytes>left) bytes=left;
 
 			memcpy(dest,pixel+offs,bytes);

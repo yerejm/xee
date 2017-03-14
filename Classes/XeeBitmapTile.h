@@ -5,7 +5,7 @@
 
 @interface XeeBitmapTile:NSObject
 {
-	int x,y,width,height;
+	NSInteger x,y,width,height;
 
 	GLuint tex,textarget,texintformat,textype,texformat;
 	int realwidth;
@@ -18,7 +18,7 @@
 }
 
 -(id)initWithTarget:(GLuint)tt internalFormat:(GLuint)tif
-	x:(int)x y:(int)y width:(int)width height:(int)height
+	x:(NSInteger)x y:(NSInteger)y width:(NSInteger)width height:(NSInteger)height
 	format:(GLuint)tf type:(GLuint)tt data:(void *)d;
 -(void)dealloc;
 

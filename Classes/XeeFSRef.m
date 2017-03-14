@@ -83,6 +83,15 @@
 	return self.URL.path;
 }
 
+- (const char*)fileSystemRepresentation
+{
+	if ([NSURL instancesRespondToSelector:@selector(fileSystemRepresentation)]) {
+		return self.URL.fileSystemRepresentation;
+	} else {
+		return self.path.fileSystemRepresentation;
+	}
+}
+
 -(NSURL *)URL
 {
 	return CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault, &ref));
@@ -165,8 +174,9 @@
 -(CFAbsoluteTime)accessTime
 {
 	FSCatalogInfo catinfo;
-	if (FSGetCatalogInfo(&ref, kFSCatInfoAccessDate, &catinfo, NULL, NULL, NULL) != noErr)
+	if (FSGetCatalogInfo(&ref, kFSCatInfoAccessDate, &catinfo, NULL, NULL, NULL) != noErr) {
 		return 0;
+	}
 	CFAbsoluteTime res;
 	UCConvertUTCDateTimeToCFAbsoluteTime(&catinfo.accessDate,&res);
 	return res;
@@ -175,8 +185,9 @@
 -(CFAbsoluteTime)backupTime
 {
 	FSCatalogInfo catinfo;
-	if (FSGetCatalogInfo(&ref, kFSCatInfoBackupDate, &catinfo, NULL, NULL, NULL) != noErr)
+	if (FSGetCatalogInfo(&ref, kFSCatInfoBackupDate, &catinfo, NULL, NULL, NULL) != noErr) {
 		return 0;
+	}
 	CFAbsoluteTime res;
 	UCConvertUTCDateTimeToCFAbsoluteTime(&catinfo.backupDate,&res);
 	return res;

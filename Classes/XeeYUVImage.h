@@ -1,8 +1,6 @@
 #import "XeeTileImage.h"
 
 @interface XeeYUVImage:XeeTileImage
-{
-}
 
 -(instancetype)initWithWidth:(int)pixelwidth height:(int)pixelheight;
 

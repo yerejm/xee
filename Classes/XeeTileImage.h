@@ -5,14 +5,14 @@
 #import <OpenGL/GL.h>
 #import <OpenGL/GLu.h>
 
-typedef void (*XeeReadPixelFunction)(uint8_t *row,int x,int pixelsize,uint8_t *dest);
+typedef void (*XeeReadPixelFunction)(uint8_t *row,NSInteger x,NSInteger pixelsize,uint8_t *dest);
 
 
 @interface XeeTileImage:XeeImage
 {
 	@public
 	uint8_t *data;
-	int bytesperpixel,bytesperrow;
+	NSInteger bytesperpixel,bytesperrow;
 	@protected
 	BOOL freedata,premultiplied;
 	GLuint texintformat,texformat,textype;
@@ -25,16 +25,15 @@ typedef void (*XeeReadPixelFunction)(uint8_t *row,int x,int pixelsize,uint8_t *d
 	NSOpenGLContext *context;
 }
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 
--(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(int)pixelwidth height:(int)pixelheight
-bytesPerPixel:(int)bppixel bytesPerRow:(int)bprow premultiplied:(BOOL)premult
+-(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
+bytesPerPixel:(NSInteger)bppixel bytesPerRow:(NSInteger)bprow premultiplied:(BOOL)premult
 glInternalFormat:(int)intformat glFormat:(int)format glType:(int)type;
 
 -(void)setCompleted;
--(void)setCompletedRowCount:(int)count;
--(void)setFirstCompletedRow:(int)first count:(int)count;
+-(void)setCompletedRowCount:(NSInteger)count;
+-(void)setFirstCompletedRow:(NSInteger)first count:(NSInteger)count;
 -(void)invalidate;
 
 -(NSRect)updatedAreaInRect:(NSRect)rect;
@@ -52,14 +51,14 @@ glInternalFormat:(int)intformat glFormat:(int)format glType:(int)type;
 
 -(GLuint)magFilter;
 
--(int)bytesPerRow;
+@property (readonly) NSInteger bytesPerRow;
 -(uint8_t *)data;
 
 -(CGImageRef)createCGImage CF_RETURNS_RETAINED;
--(int)bitsPerComponentForCGImage;
--(int)bytesPerPixelForCGImage;
+@property (readonly) NSInteger bitsPerComponentForCGImage;
+@property (readonly) NSInteger bytesPerPixelForCGImage;
 -(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
--(int)bitmapInfoForCGImage;
+-(UInt32)bitmapInfoForCGImage;
 -(XeeReadPixelFunction)readPixelFunctionForCGImage;
 
 @end

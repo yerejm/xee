@@ -58,7 +58,7 @@ static NSMutableArray *controllers=nil;
 
 		copiedcgimage=NULL;
 
-		tasks=[[NSMutableArray array] retain];
+		tasks=[[NSMutableArray alloc] init];
 
 		renamepanel=nil;
 		collisionpanel=nil;

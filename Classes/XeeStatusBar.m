@@ -9,7 +9,7 @@
 {
 	if(self=[super initWithFrame:frame])
 	{
-		cells=[[NSMutableArray array] retain];
+		cells=[[NSMutableArray alloc] init];
 		shading=XeeMakeGradient(
 		[NSColor colorWithCalibratedWhite:0.95 alpha:1],
 		[NSColor colorWithCalibratedWhite:0.7 alpha:1],

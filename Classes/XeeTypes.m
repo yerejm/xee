@@ -3,11 +3,7 @@
 #include <Carbon/Carbon.h>
 #include <OpenGL/gl.h>
 #include <sys/time.h>
-
-@interface NSEvent (DeviceDelta)
--(CGFloat)deviceDeltaX;
--(CGFloat)deviceDeltaY;
-@end
+#include <tgmath.h>
 
 
 //
@@ -78,11 +74,11 @@ NSPoint XeeTransformPoint(XeeMatrix m,NSPoint p)
 
 NSRect XeeTransformRect(XeeMatrix m,NSRect r)
 {
-	float x1=m.a00*r.origin.x+m.a01*r.origin.y+m.a02;
-	float y1=m.a10*r.origin.x+m.a11*r.origin.y+m.a12;
-	float x2=m.a00*(r.origin.x+r.size.width)+m.a01*(r.origin.y+r.size.height)+m.a02;
-	float y2=m.a10*(r.origin.x+r.size.width)+m.a11*(r.origin.y+r.size.height)+m.a12;
-	return NSMakeRect(fminf(x1,x2),fminf(y1,y2),fabsf(x2-x1),fabsf(y2-y1));
+	CGFloat x1=m.a00*r.origin.x+m.a01*r.origin.y+m.a02;
+	CGFloat y1=m.a10*r.origin.x+m.a11*r.origin.y+m.a12;
+	CGFloat x2=m.a00*(r.origin.x+r.size.width)+m.a01*(r.origin.y+r.size.height)+m.a02;
+	CGFloat y2=m.a10*(r.origin.x+r.size.width)+m.a11*(r.origin.y+r.size.height)+m.a12;
+	return NSMakeRect(fmin(x1,x2),fmin(y1,y2),fabs(x2-x1),fabs(y2-y1));
 }
 
 void XeeGLLoadMatrix(XeeMatrix m)
@@ -209,8 +205,8 @@ BOOL IsSmoothScrollEvent(NSEvent *event)
 	const EventRef carbonevent=(EventRef)[event eventRef];
 	if(!carbonevent) return NO;
 	if(GetEventKind(carbonevent)!=kEventMouseScroll) return NO;
-	if(![event respondsToSelector:@selector(deviceDeltaX)]) return NO;
-	if(![event respondsToSelector:@selector(deviceDeltaY)]) return NO;
+	if(![event respondsToSelector:@selector(scrollingDeltaX)]) return NO;
+	if(![event respondsToSelector:@selector(scrollingDeltaY)]) return NO;
 	return YES;
 }
 

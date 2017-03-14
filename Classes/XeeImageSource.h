@@ -24,7 +24,7 @@ extern NSString *XeeErrorDomain;
 	id<XeeImageSourceDelegate> delegate;
 	NSImage *icon;
 
-	NSInteger sortorder;
+	XeeSortOrder sortorder;
 
 	BOOL actionsblocked;
 	BOOL pendingimagechange,pendinglistchange;
@@ -63,7 +63,7 @@ extern NSString *XeeErrorDomain;
 -(BOOL)canOpenCurrentImage;
 -(BOOL)canSaveCurrentImage;
 
-@property XeeSortOrder sortOrder;
+@property (nonatomic) XeeSortOrder sortOrder;
 
 -(void)setActionsBlocked:(BOOL)blocked;
 

@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nullable) NSString *name;
 @property (readonly, nullable) NSString *path;
 @property (readonly, nullable) NSURL *URL;
+@property (readonly, nullable) const char *fileSystemRepresentation NS_RETURNS_INNER_POINTER;
 -(nullable XeeFSRef *)parent;
 
 @property (readonly) off_t dataSize;

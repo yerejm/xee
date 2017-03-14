@@ -2,7 +2,7 @@
 
 
 
-static void XeeYUVImageReadPixel(uint8_t *row,int x,int pixelsize,uint8_t *dest);
+static void XeeYUVImageReadPixel(uint8_t *row,NSInteger x,NSInteger pixelsize,uint8_t *dest);
 static void XeeBuildYUVConversionTables();
 
 
@@ -79,7 +79,7 @@ static void XeeBuildYUVConversionTables();
 
 	for(int y=0;y<height;y++)
 	{
-		int n=width;
+		NSInteger n=width;
 		unsigned char *ptr=(unsigned char *)data+y*bytesperrow+1;
 
 		while(n--)
@@ -141,7 +141,7 @@ static void XeeBuildYUVConversionTables()
 	range_limit=range_table+256;
 }
 
-static void XeeYUVImageReadPixel(uint8_t *row,int x,int pixelsize,uint8_t *dest)
+static void XeeYUVImageReadPixel(uint8_t *row,NSInteger x,NSInteger pixelsize,uint8_t *dest)
 {
 	uint8_t y=row[2*x|1];
 	uint8_t cb=row[2*x&~2];

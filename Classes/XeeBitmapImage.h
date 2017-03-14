@@ -70,26 +70,25 @@ static inline int XeeGetBFromARGB8(uint32_t argb) { return (argb>>24)&0xff; }
 
 @interface XeeBitmapImage:XeeTileImage
 {
-	int bitsperpixel,bitspercomponent;
+	NSInteger bitsperpixel,bitspercomponent;
 	int colourmode,alphatype,modeflags;
 }
 
--(id)init;
--(id)initWithType:(int)pixeltype width:(int)framewidth height:(int)frameheight;
--(void)dealloc;
+-(instancetype)init;
+-(instancetype)initWithType:(int)pixeltype width:(NSInteger)framewidth height:(NSInteger)frameheight;
 
--(BOOL)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(int)pixelwidth height:(int)pixelheight
-bitsPerPixel:(int)bppixel bitsPerComponent:(int)bpcomponent bytesPerRow:(int)bprow
+-(BOOL)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
+bitsPerPixel:(NSInteger)bppixel bitsPerComponent:(NSInteger)bpcomponent bytesPerRow:(NSInteger)bprow
 mode:(int)mode alphaType:(int)alpha flags:(int)flags;
 
--(BOOL)allocWithType:(int)pixeltype width:(int)framewidth height:(int)frameheight;
+-(BOOL)allocWithType:(int)pixeltype width:(NSInteger)framewidth height:(NSInteger)frameheight;
 
 -(CGContextRef)createCGContext CF_RETURNS_RETAINED;
 
--(int)bitsPerComponentForCGImage;
--(int)bytesPerPixelForCGImage;
+@property (readonly) NSInteger bitsPerComponentForCGImage;
+@property (readonly) NSInteger bytesPerPixelForCGImage;
 -(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
--(int)bitmapInfoForCGImage;
+@property (readonly) UInt32 bitmapInfoForCGImage;
 -(XeeReadPixelFunction)readPixelFunctionForCGImage;
 
 

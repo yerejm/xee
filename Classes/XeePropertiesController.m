@@ -166,13 +166,14 @@
 			id value=[item value];
 			if([value isKindOfClass:[NSDate class]]) {
 				return [dateFormatter stringFromDate:value];
-			} else return value;
+			} else {
+				return value;
+			}
+		} else {
+			return nil;
 		}
-		else return nil;
 	}
 }
-
-
 
 -(BOOL)outlineView:(NSOutlineView *)view shouldEditTableColumn:(NSTableColumn *)col item:(XeePropertyItem *)item
 {
@@ -211,7 +212,6 @@ tableColumn:(NSTableColumn *)col item:(XeePropertyItem *)item mouseLocation:(NSP
 	if([[col identifier] isEqual:@"label"]) return [item label];
 	else return [[item value] description];
 }
-
 
 -(void)restoreCollapsedStatusForArray:(NSArray *)array
 {

@@ -33,7 +33,7 @@ static NSMutableArray *saverclasses=nil;
 
 +(void)registerSaverClass:(Class)saverclass
 {
-	if(!saverclasses) saverclasses=[[NSMutableArray array] retain];
+	if(!saverclasses) saverclasses=[[NSMutableArray alloc] init];
 	[saverclasses addObject:saverclass];
 }
 

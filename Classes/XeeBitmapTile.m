@@ -1,15 +1,15 @@
 #import "XeeBitmapTile.h"
 
 
+#define glVertex2l(__x, __y) glVertex2i((int)(__x), (int)(__y))
 
 @implementation XeeBitmapTile
 
 -(id)initWithTarget:(GLuint)target internalFormat:(GLuint)intformat
-	x:(int)x0 y:(int)y0 width:(int)w height:(int)h
+	x:(NSInteger)x0 y:(NSInteger)y0 width:(NSInteger)w height:(NSInteger)h
 	format:(GLuint)format type:(GLuint)type data:(void *)d
 {
-	if(self=[super init])
-	{
+	if (self=[super init]) {
 		x=x0;
 		y=y0;
 		width=w;
@@ -31,7 +31,7 @@
 			realwidth=(width+1)&~1;
 			if(textarget==GL_TEXTURE_2D&&width==1) texwidth=0.5;
 		}
-		else realwidth=width;
+		else realwidth=(int)width;
 
 		created=NO;
 		uploaded=XeeEmptySpan;
@@ -44,26 +44,26 @@
 		glNewList(lists,GL_COMPILE);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,texheight);
-		glVertex2i(x,y+height);
+		glVertex2l(x,y+height);
 		glTexCoord2f(texwidth,texheight);
-		glVertex2i(x+width,y+height);
+		glVertex2l(x+width,y+height);
 		glTexCoord2f(texwidth,0);
-		glVertex2i(x+width,y);
+		glVertex2l(x+width,y);
 		glTexCoord2f(0,0);
-		glVertex2i(x,y);
+		glVertex2l(x,y);
 		glEnd();
 		glEndList();
 
 		glNewList(lists+1,GL_COMPILE);
 		glBegin(GL_QUADS);
 		for(int i=0;i<textureunits;i++) glMultiTexCoord2f(GL_TEXTURE0+i,0,texheight);
-		glVertex2i(x,y+height);
+		glVertex2l(x,y+height);
 		for(int i=0;i<textureunits;i++) glMultiTexCoord2f(GL_TEXTURE0+i,texwidth,texheight);
-		glVertex2i(x+width,y+height);
+		glVertex2l(x+width,y+height);
 		for(int i=0;i<textureunits;i++) glMultiTexCoord2f(GL_TEXTURE0+i,texwidth,0);
-		glVertex2i(x+width,y);
+		glVertex2l(x+width,y);
 		for(int i=0;i<textureunits;i++) glMultiTexCoord2f(GL_TEXTURE0+i,0,0);
-		glVertex2i(x,y);
+		glVertex2l(x,y);
 		glEnd();
 		glEndList();
 
@@ -98,14 +98,14 @@
 {
 	if(XeeSpanLength(uploaded)==height) return; // fully loaded
 
-	XeeSpan completed=XeeSpanIntersection(XeeSpanShifted(global_completed,-y),XeeMakeSpan(0,height));
+	XeeSpan completed=XeeSpanIntersection(XeeSpanShifted(global_completed,(int)(-y)),XeeMakeSpan(0,(int)height));
 	if(XeeSpanEmpty(completed)) return; // nothing to load
 
 	XeeSpan upload=XeeSpanDifference(uploaded,completed);
 
 	glBindTexture(textarget,tex);
-	glPixelStorei(GL_UNPACK_SKIP_PIXELS,x);
-	glPixelStorei(GL_UNPACK_SKIP_ROWS,y);
+	glPixelStorei(GL_UNPACK_SKIP_PIXELS,(int)x);
+	glPixelStorei(GL_UNPACK_SKIP_ROWS,(int)y);
 
 //	if(XeeSpanLength(completed)==height) glTexParameteri(textarget,GL_TEXTURE_STORAGE_HINT_APPLE,GL_STORAGE_CACHED_APPLE);
 //	else glTexParameteri(textarget,GL_TEXTURE_STORAGE_HINT_APPLE,GL_STORAGE_SHARED_APPLE);
@@ -113,25 +113,27 @@
 //	glTexParameteri(textarget,GL_TEXTURE_STORAGE_HINT_APPLE,GL_STORAGE_SHARED_APPLE); // slow
 	glTexParameteri(textarget,GL_TEXTURE_STORAGE_HINT_APPLE,GL_STORAGE_CACHED_APPLE);
 
-	if(!created)
-	{
-		glTexImage2D(textarget,0,texintformat,realwidth,height,0,texformat,textype,data);
+	if (!created) {
+		glTexImage2D(textarget,0,texintformat,realwidth,(int)height,0,texformat,textype,data);
 		created=YES;
-	}
-	else if(!XeeSpanEmpty(upload))
-	{
+	} else if(!XeeSpanEmpty(upload)) {
 		glTexSubImage2D(textarget,0,0,0,realwidth,XeeSpanStart(upload)+XeeSpanLength(upload),texformat,textype,data);
 	}
 
 	uploaded=completed;
 }
 
--(void)invalidate { uploaded=XeeEmptySpan; }
+-(void)invalidate
+{
+	uploaded=XeeEmptySpan;
+}
 
 -(void)drawWithBounds:(NSRect)bounds minFilter:(GLuint)minfilter magFilter:(GLuint)magfilter 
 {
-	if(!tex||!created) return;
-	if(!NSIntersectsRect(NSMakeRect(x,y,width,height),bounds)) return;
+	if (!tex || !created)
+		return;
+	if (!NSIntersectsRect(NSMakeRect(x,y,width,height),bounds))
+		return;
 
 	glBindTexture(textarget,tex);
 	glTexParameteri(textarget,GL_TEXTURE_MIN_FILTER,minfilter);
@@ -142,18 +144,20 @@
 
 -(void)drawMultipleWithBounds:(NSRect)bounds minFilter:(GLuint)minfilter magFilter:(GLuint)magfilter num:(int)num
 {
-	if(!tex||!created) return;
-	if(!NSIntersectsRect(NSMakeRect(x,y,width,height),bounds)) return;
+	if (!tex || !created)
+		return;
+	if (!NSIntersectsRect(NSMakeRect(x,y,width,height),bounds))
+		return;
 
-	for(int i=0;i<num;i++)
+	for(int i = 0; i < num; i++)
 	{
-		glActiveTexture(GL_TEXTURE0+i);
-		glBindTexture(textarget,tex);
-		glTexParameteri(textarget,GL_TEXTURE_MIN_FILTER,minfilter);
-		glTexParameteri(textarget,GL_TEXTURE_MAG_FILTER,magfilter);
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(textarget, tex);
+		glTexParameteri(textarget, GL_TEXTURE_MIN_FILTER, minfilter);
+		glTexParameteri(textarget, GL_TEXTURE_MAG_FILTER, magfilter);
 	}
 
-	glCallList(lists+1);
+	glCallList(lists + 1);
 }
 
 @end

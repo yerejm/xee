@@ -6,6 +6,11 @@
 #define XeeDeletionChange 0x0002
 #define XeeSortingChange 0x0004
 
+static NSString *findCoreAudioSoundNamed(NSString *name)
+{
+	return [NSString stringWithFormat:@"/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/%@.aif", name];
+}
+
 @implementation XeeFileSource
 
 -(id)init
@@ -52,7 +57,7 @@
 
 
 
--(void)setSortOrder:(int)order
+-(void)setSortOrder:(XeeSortOrder)order
 {
 	[super setSortOrder:order];
 	[self sortFiles];
@@ -84,115 +89,216 @@
 }
 
 
-
--(NSError *)renameCurrentImageTo:(NSString *)newname
+-(BOOL)renameCurrentImageTo:(NSString *)newname error:(NSError**)error
 {
 	NSString *currpath=[(XeeFileEntry *)currentry path];
 	NSString *newpath=[[currpath stringByDeletingLastPathComponent]
-	stringByAppendingPathComponent:newname];
-
-	if([currpath isEqual:newpath]) return nil;
-
+					   stringByAppendingPathComponent:newname];
+	
+	if([currpath isEqual:newpath]) return YES;
+	
 	if([[NSFileManager defaultManager] fileExistsAtPath:newpath])
 	{
-		return [NSError errorWithDomain:XeeErrorDomain code:XeeFileExistsError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-			NSLocalizedString(@"Couldn't rename file",@"Title of the rename error dialog"),NSLocalizedDescriptionKey,
-			[NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be renamed because another file with the same name already exists.",@"Content of the rename collision dialog"),
-			[currpath lastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
-		nil]];
+		if (error) {
+			*error = [NSError errorWithDomain:XeeErrorDomain code:XeeFileExistsError userInfo:
+				[NSDictionary dictionaryWithObjectsAndKeys:
+				 NSLocalizedString(@"Couldn't rename file",@"Title of the rename error dialog"),NSLocalizedDescriptionKey,
+				 [NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be renamed because another file with the same name already exists.",@"Content of the rename collision dialog"),
+				  [currpath lastPathComponent]], NSLocalizedRecoverySuggestionErrorKey,
+				 newpath, NSFilePathErrorKey,
+				 nil]];
+		}
+		return NO;
 	}
-
-	if(![[NSFileManager defaultManager] movePath:currpath toPath:newpath handler:nil])
+	
+	NSError *theError;
+	if(![[NSFileManager defaultManager] moveItemAtPath:currpath toPath:newpath error:&theError])
 	{
-		return [NSError errorWithDomain:XeeErrorDomain code:XeeRenameError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-			NSLocalizedString(@"Couldn't rename file",@"Title of the rename error dialog"),NSLocalizedDescriptionKey,
-			[NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be renamed.",@"Content of the rename error dialog"),
-			[currpath lastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
-		nil]];
+		if (error) {
+			*error = [NSError errorWithDomain:XeeErrorDomain code:XeeRenameError userInfo:
+					  [NSDictionary dictionaryWithObjectsAndKeys:
+					   NSLocalizedString(@"Couldn't rename file",@"Title of the rename error dialog"),NSLocalizedDescriptionKey,
+					   [NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be renamed.",@"Content of the rename error dialog"),
+						[currpath lastPathComponent]], NSLocalizedRecoverySuggestionErrorKey,
+					   newpath, NSFilePathErrorKey,
+					   theError, NSUnderlyingErrorKey,
+					   nil]];
+		}
+		return NO;
 	}
-
+	
 	// success, let kqueue update list
+	
+	return YES;
+}
 
+-(BOOL)deleteCurrentImageWithError:(NSError**)error
+{
+	XeeFSRef *ref=[(XeeFileEntry *)currentry ref];
+	NSString *path=[ref path];
+	NSURL *urlPath = ref.URL;
+	BOOL res = YES;
+	NSError *inErr = nil;
+	
+	if ([ref isRemote]) {
+		res=[[NSFileManager defaultManager] removeItemAtURL:urlPath error:&inErr];
+	} else {
+		res=[[NSWorkspace sharedWorkspace]
+			 performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent]
+			 destination:@"" files:[NSArray arrayWithObject:[path lastPathComponent]] tag:nil];
+	}
+	
+	if (!res) {
+		if (error) {
+			*error = [NSError errorWithDomain:XeeErrorDomain code:XeeDeleteError userInfo:
+					  [NSDictionary dictionaryWithObjectsAndKeys:
+					   NSLocalizedString(@"Couldn't delete file",@"Title of the delete failure dialog"),NSLocalizedDescriptionKey,
+					   [NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be deleted.",@"Content of the delet failure dialog"),
+						[path lastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
+					   path, NSFilePathErrorKey,
+					   inErr, NSUnderlyingErrorKey,
+					   nil]];
+		}
+		return NO;
+	}
+	
+	// success, let kqueue update list
+	[self playSound:findCoreAudioSoundNamed(@"dock/drag to trash")];
+	
+	return YES;
+}
+
+-(BOOL)copyCurrentImageTo:(NSString *)destination error:(NSError**)error
+{
+	NSString *currpath=[(XeeFileEntry *)currentry path];
+	NSError *inErr = nil;
+	
+	if([[NSFileManager defaultManager] fileExistsAtPath:destination])
+		[[NSFileManager defaultManager] removeItemAtPath:destination error:NULL];
+	
+	if(![[NSFileManager defaultManager] copyItemAtPath:currpath toPath:destination error:&inErr])
+	{
+		if (error) {
+			*error = [NSError errorWithDomain:XeeErrorDomain code:XeeCopyError userInfo:
+					  [NSDictionary dictionaryWithObjectsAndKeys:
+					   NSLocalizedString(@"Couldn't copy file",@"Title of the copy failure dialog"),NSLocalizedDescriptionKey,
+					   [NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be copied to the folder \"%@\".",@"Content of the copy failure dialog"),
+				  [currpath lastPathComponent],[destination stringByDeletingLastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
+					   destination, NSFilePathErrorKey,
+					   inErr, NSUnderlyingErrorKey,
+					   nil]];
+		}
+		return NO;
+	}
+	
+	// "copied" message in status bar
+	[self playSound:findCoreAudioSoundNamed(@"system/Volume Mount")];
+	
+	return YES;
+}
+
+-(BOOL)moveCurrentImageTo:(NSString *)destination error:(NSError**)error
+{
+	NSString *currpath=[(XeeFileEntry *)currentry path];
+	NSError *inErr = nil;
+
+	if([[NSFileManager defaultManager] fileExistsAtPath:destination])
+		[[NSFileManager defaultManager] removeItemAtPath:destination error:NULL];
+	
+	if (![[NSFileManager defaultManager] moveItemAtPath:currpath toPath:destination error:&inErr]) {
+		if (error) {
+			*error = [NSError errorWithDomain:XeeErrorDomain code:XeeMoveError userInfo:
+					  [NSDictionary dictionaryWithObjectsAndKeys:
+					   NSLocalizedString(@"Couldn't move file",@"Title of the move failure dialog"),NSLocalizedDescriptionKey,
+					   [NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be moved to the folder \"%@\".",@"Content of the move failure dialog"),
+						[currpath lastPathComponent],[destination stringByDeletingLastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
+					   destination, NSFilePathErrorKey,
+					   inErr, NSUnderlyingErrorKey,
+					   nil]];
+		}
+		return NO;
+	}
+	
+	// "moved" message in status bar
+	[self playSound:findCoreAudioSoundNamed(@"system/Volume Mount")];
+	// success, let kqueue update list
+	
+	return YES;
+
+}
+
+-(BOOL)openCurrentImageWithApplication:(NSString *)app error:(NSError**)error
+{
+	NSString *currpath=[(XeeFileEntry *)currentry path];
+	
+	// TODO: handle errors
+	//- (nullable NSRunningApplication *)openURLs:(NSArray<NSURL *> *)urls withApplicationAtURL:(NSURL *)applicationURL options:(NSWorkspaceLaunchOptions)options configuration:(NSDictionary<NSString *, id> *)configuration error:(NSError **)error NS_AVAILABLE_MAC(10_10);
+
+	if ([NSWorkspace instancesRespondToSelector:@selector(openURLs:withApplicationAtURL:options:configuration:error:)]) {
+		NSString *appPath = [[NSWorkspace sharedWorkspace] fullPathForApplication:app];
+		if (!appPath) {
+			if (error) {
+				*error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileNoSuchFileError userInfo:
+						  @{NSLocalizedFailureReasonErrorKey: [NSString stringWithFormat:NSLocalizedString(@"Unable to locate an application named \"%@\"", @"could not locate app to open document with"), app]
+							}];
+			}
+			return NO;
+		}
+		id success = [[NSWorkspace sharedWorkspace] openURLs:@[[NSURL fileURLWithPath:currpath]] withApplicationAtURL:[NSURL fileURLWithPath:appPath] options:(NSWorkspaceLaunchWithErrorPresentation) configuration:@{} error:error];
+		if (!success) {
+			return NO;
+		}
+	} else {
+	[[NSWorkspace sharedWorkspace] openFile:currpath withApplication:app];
+	}
+	
+	return YES;
+}
+
+
+-(NSError *)renameCurrentImageTo:(NSString *)newname
+{
+	NSError *outErr = nil;
+	if (![self renameCurrentImageTo:newname error:&outErr]) {
+		return outErr;
+	}
 	return nil;
 }
 
 -(NSError *)deleteCurrentImage
 {
-	XeeFSRef *ref=[(XeeFileEntry *)currentry ref];
-	NSString *path=[ref path];
-	BOOL res;
-
-	if([ref isRemote]) res=[[NSFileManager defaultManager] removeFileAtPath:path handler:NULL];
-	else res=[[NSWorkspace sharedWorkspace] performFileOperation:NSWorkspaceRecycleOperation source:[path stringByDeletingLastPathComponent]
-	destination:nil files:[NSArray arrayWithObject:[path lastPathComponent]] tag:nil];
-
-	if(!res)
-	{
-		return [NSError errorWithDomain:XeeErrorDomain code:XeeDeleteError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-			NSLocalizedString(@"Couldn't delete file",@"Title of the delete failure dialog"),NSLocalizedDescriptionKey,
-			[NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be deleted.",@"Content of the delet failure dialog"),
-			[path lastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
-		nil]];
+	NSError *outErr = nil;
+	if (![self deleteCurrentImageWithError:&outErr]) {
+		return outErr;
 	}
-
-	// success, let kqueue update list
-	[self playSound:@"/System/Library/Components/CoreAudio.component/Contents/Resources/SystemSounds/dock/drag to trash.aif"];
-
 	return nil;
+
 }
 
 -(NSError *)copyCurrentImageTo:(NSString *)destination
 {
-	NSString *currpath=[(XeeFileEntry *)currentry path];
-
-	if([[NSFileManager defaultManager] fileExistsAtPath:destination])
-	[[NSFileManager defaultManager] removeFileAtPath:destination handler:nil];
-
-	if(![[NSFileManager defaultManager] copyPath:currpath toPath:destination handler:nil])
-	{
-		return [NSError errorWithDomain:XeeErrorDomain code:XeeCopyError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-			NSLocalizedString(@"Couldn't copy file",@"Title of the copy failure dialog"),NSLocalizedDescriptionKey,
-			[NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be copied to the folder \"%@\".",@"Content of the copy failure dialog"),
-			[currpath lastPathComponent],[destination stringByDeletingLastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
-		nil]];
+	NSError *outErr = nil;
+	if (![self copyCurrentImageTo:destination error:&outErr]) {
+		return outErr;
 	}
-
-	// "copied" message in status bar
-	[self playSound:@"/System/Library/Components/CoreAudio.component/Contents/Resources/SystemSounds/system/Volume Mount.aif"];
-
 	return nil;
 }
 
 -(NSError *)moveCurrentImageTo:(NSString *)destination
 {
-	NSString *currpath=[(XeeFileEntry *)currentry path];
-
-	if([[NSFileManager defaultManager] fileExistsAtPath:destination])
-	[[NSFileManager defaultManager] removeFileAtPath:destination handler:nil];
-
-	if(![[NSFileManager defaultManager] movePath:currpath toPath:destination handler:nil])
-	{
-		return [NSError errorWithDomain:XeeErrorDomain code:XeeMoveError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-			NSLocalizedString(@"Couldn't move file",@"Title of the move failure dialog"),NSLocalizedDescriptionKey,
-			[NSString stringWithFormat:NSLocalizedString(@"The file \"%@\" could not be moved to the folder \"%@\".",@"Content of the move failure dialog"),
-			[currpath lastPathComponent],[destination stringByDeletingLastPathComponent]],NSLocalizedRecoverySuggestionErrorKey,
-		nil]];
+	NSError *outErr = nil;
+	if (![self moveCurrentImageTo:destination error:&outErr]) {
+		return outErr;
 	}
-
-	// "moved" message in status bar
-	[self playSound:@"/System/Library/Components/CoreAudio.component/Contents/Resources/SystemSounds/system/Volume Mount.aif"];
-	// success, let kqueue update list
-
 	return nil;
 }
 
 -(NSError *)openCurrentImageInApp:(NSString *)app
 {
-	NSString *currpath=[(XeeFileEntry *)currentry path];
-
-	// TODO: handle errors
-	[[NSWorkspace sharedWorkspace] openFile:currpath withApplication:app];
-
+	NSError *outErr = nil;
+	if (![self openCurrentImageWithApplication:app error:&outErr]) {
+		return outErr;
+	}
 	return nil;
 }
 

@@ -1,12 +1,9 @@
 #import <Cocoa/Cocoa.h>
 
 @interface CSFileTypeList:NSTableView
-{
-}
 
 -(id)initWithCoder:(NSCoder *)coder;
 -(id)initWithFrame:(NSRect)frame;
--(void)dealloc;
 
 -(IBAction)selectAll:(id)sender;
 -(IBAction)deselectAll:(id)sender;
@@ -27,7 +24,6 @@
 }
 
 -(id)init;
--(void)dealloc;
 -(NSArray *)readFileTypes;
 
 -(void)claimAllTypes;

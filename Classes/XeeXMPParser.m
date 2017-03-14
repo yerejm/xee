@@ -10,7 +10,7 @@
 {
 	if(self=[super init])
 	{
-		props=[[NSMutableArray array] retain];
+		props=[[NSMutableArray alloc] init];
 		prefixdict=[[NSDictionary dictionaryWithObjectsAndKeys:
 			@"",@"dc",
 			@"",@"xap",

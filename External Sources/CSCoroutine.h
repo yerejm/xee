@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
-#import <setjmp.h>
-#import <objc/objc-class.h>
+#include <setjmp.h>
+#include <objc/runtime.h>
+#include <objc/message.h>
 
 @interface CSCoroutine:NSProxy
 {
@@ -18,9 +19,8 @@
 
 	NSInvocation *inv;
 }
-+(CSCoroutine *)mainCoroutine;
-+(CSCoroutine *)currentCoroutine;
-+(void)setCurrentCoroutine:(CSCoroutine *)curr;
+@property (class, readonly, retain) CSCoroutine *mainCoroutine;
+@property (class, retain) CSCoroutine *currentCoroutine;
 +(void)returnFromCurrent;
 
 -(instancetype)initWithTarget:(id)targetobj stackSize:(size_t)stackbytes;

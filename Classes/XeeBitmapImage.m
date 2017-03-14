@@ -1,10 +1,11 @@
 #import "XeeBitmapImage.h"
 
 
-static GLuint XeePickTexType(int bitspercomponent,int flags);
-static void XeeBitmapImageReadPixel(uint8_t *row,int x,int pixelsize,uint8_t *dest);
+static GLuint XeePickTexType(NSInteger bitspercomponent,int flags);
+static void XeeBitmapImageReadPixel(uint8_t *row,NSInteger x,NSInteger pixelsize,uint8_t *dest);
 
 @implementation XeeBitmapImage
+@synthesize bitsPerComponentForCGImage = bitspercomponent;
 
 -(id)init
 {
@@ -16,7 +17,7 @@ static void XeeBitmapImageReadPixel(uint8_t *row,int x,int pixelsize,uint8_t *de
 	return self;
 }
 
--(id)initWithType:(int)pixelgltype width:(int)framewidth height:(int)frameheight
+-(id)initWithType:(int)pixelgltype width:(NSInteger)framewidth height:(NSInteger)frameheight
 {
 	if(self=[super init])
 	{
@@ -38,11 +39,11 @@ static void XeeBitmapImageReadPixel(uint8_t *row,int x,int pixelsize,uint8_t *de
 
 
 
--(BOOL)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(int)pixelwidth height:(int)pixelheight
-bitsPerPixel:(int)bppixel bitsPerComponent:(int)bpcomponent bytesPerRow:(int)bprow
+-(BOOL)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
+bitsPerPixel:(NSInteger)bppixel bitsPerComponent:(NSInteger)bpcomponent bytesPerRow:(NSInteger)bprow
 mode:(int)mode alphaType:(int)alpha flags:(int)flags 
 {
-	int pixelsize=bppixel/8;
+	NSInteger pixelsize=bppixel/8;
 
 	int components;
 	switch(mode)
@@ -158,7 +159,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 
 
 
--(BOOL)allocWithType:(int)type width:(int)pixelwidth height:(int)pixelheight
+-(BOOL)allocWithType:(int)type width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
 {
 	int mode=XeeBitmapMode(type);
 	int bpcomponent=XeeBitmapDepth(type);
@@ -214,7 +215,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 	CGColorSpaceRef colorspace=[self createColorSpaceForCGImage];
 	if(!colorspace) return NULL;
 
-	int bitmapinfo=[self bitmapInfoForCGImage];
+	uint32_t bitmapinfo=[self bitmapInfoForCGImage];
 
 	CGContextRef cgcontext=CGBitmapContextCreate(data,width,height,8,bytesperrow,colorspace,bitmapinfo);
 
@@ -223,9 +224,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 	return cgcontext;
 }
 
--(int)bitsPerComponentForCGImage { return bitspercomponent; }
-
--(int)bytesPerPixelForCGImage { return bytesperpixel; }
+-(NSInteger)bytesPerPixelForCGImage { return bytesperpixel; }
 
 -(CGColorSpaceRef)createColorSpaceForCGImage
 {
@@ -237,7 +236,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 	}
 }
 
--(int)bitmapInfoForCGImage
+-(UInt32)bitmapInfoForCGImage
 {
 	return alphatype|(modeflags&XeeBitmapFloatingPointFlag?kCGBitmapFloatComponents:0);
 }
@@ -248,7 +247,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 
 
 
-static GLuint XeePickTexType(int bitspercomponent,int flags)
+static GLuint XeePickTexType(NSInteger bitspercomponent,int flags)
 {
 	switch(bitspercomponent)
 	{
@@ -262,7 +261,7 @@ static GLuint XeePickTexType(int bitspercomponent,int flags)
 	}
 }
 
-static void XeeBitmapImageReadPixel(uint8_t *row,int x,int pixelsize,uint8_t *dest)
+static void XeeBitmapImageReadPixel(uint8_t *row,NSInteger x,NSInteger pixelsize,uint8_t *dest)
 {
 	memcpy(dest,row+x*pixelsize,pixelsize);
 }

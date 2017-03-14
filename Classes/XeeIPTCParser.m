@@ -17,7 +17,7 @@ static NSString *XeeLookupIPTCTag(int record,int dataset,int *type);
 	if(self=[super init])
 	{
 		NSMutableDictionary *prevdict=[NSMutableDictionary dictionary];
-		props=[[NSMutableArray array] retain];
+		props=[[NSMutableArray alloc] init];
 
 		@try
 		{

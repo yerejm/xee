@@ -19,7 +19,7 @@
 {
 	if(self=[super init])
 	{
-		dict=[[NSMutableDictionary dictionary] retain];
+		dict=[[NSMutableDictionary alloc] init];
 
 		FILE *fh=fopen([filename fileSystemRepresentation],"r");
 		if(fh)

@@ -36,13 +36,13 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	CSCoroutine *coro;
 
 	NSString *format;
-	int width,height;
+	NSInteger width,height;
 	NSString *depth;
 	NSImage *icon,*depthicon;
 	BOOL transparent;
 	NSColor *back;
 	XeeTransformation orientation,correctorientation;
-	int crop_x,crop_y,crop_width,crop_height;
+	NSInteger crop_x,crop_y,crop_width,crop_height;
 	NSMutableArray *properties;
 
 	id<XeeImageDelegate> delegate;
@@ -101,10 +101,10 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 @property (readonly) NSString *filename;
 @property (nonatomic, copy) NSString *format;
 @property (nonatomic, retain) NSImage *icon;
-@property (readonly) int width;
-@property (readonly) int height;
-@property (readonly) int fullWidth;
-@property (readonly) int fullHeight;
+@property (readonly) NSInteger width;
+@property (readonly) NSInteger height;
+@property (readonly) NSInteger fullWidth;
+@property (readonly) NSInteger fullHeight;
 @property (nonatomic, copy) NSString *depth;
 @property (nonatomic, retain) NSImage *depthIcon;
 @property (readonly) BOOL transparent;

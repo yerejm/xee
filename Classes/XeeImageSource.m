@@ -8,6 +8,7 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 @implementation XeeImageSource
 @synthesize delegate;
 @synthesize icon;
+@synthesize sortOrder = sortorder;
 
 -(id)init
 {
@@ -73,11 +74,10 @@ NSString *XeeErrorDomain=@"XeeErrorDomain";
 -(BOOL)canSaveCurrentImage { return NO; }
 
 
-
--(XeeSortOrder)sortOrder { return sortorder==XeeDefaultSortOrder?XeeNameSortOrder:sortorder; }
-
--(void)setSortOrder:(XeeSortOrder)order { sortorder=order; }
-
+-(XeeSortOrder)sortOrder
+{
+	return sortorder == XeeDefaultSortOrder ? XeeNameSortOrder : sortorder;
+}
 
 
 -(void)setActionsBlocked:(BOOL)blocked

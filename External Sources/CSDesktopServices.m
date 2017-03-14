@@ -4,6 +4,32 @@ static inline uint16_t CSGetUInt16(const uint8_t *b) { return ((uint16_t)b[0]<<8
 static inline uint32_t CSGetUInt32(const uint8_t *b) { return ((uint32_t)b[0]<<24)|((uint32_t)b[1]<<16)|((uint32_t)b[2]<<8)|(uint32_t)b[3]; }
 static inline int16_t CSGetInt16(const uint8_t *b) { return ((int16_t)b[0]<<8)|(int16_t)b[1]; }
 static inline int32_t CSGetInt32(const uint8_t *b) { return ((int32_t)b[0]<<24)|((int32_t)b[1]<<16)|((int32_t)b[2]<<8)|(int32_t)b[3]; }
+static inline uint64_t CSGetUInt64(const uint8_t *b) { return ((uint64_t)b[0]<<56)|((uint64_t)b[1]<<48)|((uint64_t)b[2]<<40)|((uint64_t)b[3]<<32)|((uint64_t)b[4]<<24)|((uint64_t)b[5]<<16)|((uint64_t)b[6]<<8)|(uint64_t)b[7]; }
+static inline int64_t CSGetInt64(const uint8_t *b) { return ((int64_t)b[0]<<56)|((int64_t)b[1]<<48)|((int64_t)b[2]<<40)|((int64_t)b[3]<<32)|((int64_t)b[4]<<24)|((int64_t)b[5]<<16)|((int64_t)b[6]<<8)|(int64_t)b[7]; }
+
+#define USEUTCDATETIMESTRUCT
+
+#ifdef USEUTCDATETIMESTRUCT
+
+static inline UTCDateTime CSGetUTCTime(const uint8_t *b) {
+	union utcHi {
+		UTCDateTime utcTime;
+		uint64_t theInt;
+	} utcUnion;
+	uint64_t theNum = CSGetUInt64(b);
+	utcUnion.theInt = theNum;
+	return utcUnion.utcTime;
+}
+
+#else
+
+static const NSTimeInterval MacEpoch = -3061152000;
+static const NSTimeInterval utcDateTimeBlah = (1/(NSTimeInterval)65536);
+
+#endif
+
+
+// See also http://search.cpan.org/~wiml/Mac-Finder-DSStore/DSStoreFormat.pod
 
 NSDictionary *CSParseDSStore(NSString *filename)
 {
@@ -17,7 +43,7 @@ NSDictionary *CSParseDSStore(NSString *filename)
 	int ver=CSGetUInt32(bytes);
 	if(ver!=1) return nil; // Unsupported version (probably).
 
-	int type=CSGetUInt32(bytes+4);
+	OSType type=CSGetUInt32(bytes+4);
 	if(type!='Bud1') return nil; // Unsupported filetype.
 
 	NSMutableDictionary *dict=[NSMutableDictionary dictionary];
@@ -53,7 +79,7 @@ NSDictionary *CSParseDSStore(NSString *filename)
 
 			NSString *attrname=[[[NSString alloc] initWithBytes:bytes+chunk length:4
 			encoding:NSISOLatin1StringEncoding] autorelease];
-			uint32_t type=CSGetUInt32(bytes+chunk+4);
+			OSType type=CSGetUInt32(bytes+chunk+4);
 			chunk+=8;
 
 			id value;
@@ -68,7 +94,7 @@ NSDictionary *CSParseDSStore(NSString *filename)
 				case 'long': // Four-byte long.
 				case 'shor': // Shorts seem to be 4 bytes too.
 					if(length<chunk+4) goto end; // Truncated file.
-					value=[NSNumber numberWithLong:CSGetInt32(bytes+chunk)];
+					value=@(CSGetInt32(bytes+chunk));
 					chunk+=4;
 				break;
 
@@ -88,10 +114,42 @@ NSDictionary *CSParseDSStore(NSString *filename)
 					int len=CSGetUInt32(bytes+chunk);
 					if(length<chunk+4+len*2) goto end; // Truncated file.
 					value=[[[NSString alloc] initWithBytes:bytes+chunk+2 length:len*2
-					encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease];
+					encoding:NSUTF16BigEndianStringEncoding] autorelease];
 					chunk+=4+len*2;
 				}
 				break;
+					
+				case 'comp': // eight-byte integer
+					if(length<chunk+8) goto end; // Truncated file.
+					value=@(CSGetInt64(bytes+chunk));
+					chunk+=8;
+					break;
+					
+				case 'dutc': // date stamp
+				{
+					if(length<chunk+8) goto end; // Truncated file.
+#ifdef USEUTCDATETIMESTRUCT
+					UTCDateTime newDateTime = CSGetUTCTime(bytes+chunk);
+					CFAbsoluteTime theTime;
+					UCConvertUTCDateTimeToCFAbsoluteTime(&newDateTime, &theTime);
+					value = [NSDate dateWithTimeIntervalSinceReferenceDate:theTime];
+#else
+					
+#endif
+					chunk+=8;
+				}
+					break;
+					
+				case 'type': // OSType
+				{
+					if(length<chunk+4) goto end; // Truncated file.
+					// Hmm, integer or string...
+					// Let's go string.
+					OSType type2 = CSGetUInt32(bytes+chunk);
+					value = CFBridgingRelease(UTCreateStringForOSType(type2));
+				}
+					chunk+=4;
+					break;
 
 				default: goto end; // Unknown chunk type, give up.
 			}

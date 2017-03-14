@@ -12,7 +12,7 @@
 -(id)initWithCount:(int)count;
 @end
 
-#define PI ((float)M_PI)
+#define PI ((CGFloat)(M_PI))
 
 static float XeeBoxFilter(float u,float v)
 {
@@ -27,7 +27,7 @@ static float XeeSincFilter(float u,float v)
 
 /*static float XeeWindowedSinc3Filter(float u,float v)
 {
-	if(fabsf(u)>3.0/2.0||fabsf(v)>3.0/2.0) return 0;
+	if(fabs(u)>3.0/2.0||fabs(v)>3.0/2.0) return 0;
 	return sin(2*u*PI)*sin(2*v*PI)*sin(2*u*PI/3)*sin(2*v*PI/3)/(4*u*u*v*v/9);
 }*/
 
@@ -76,7 +76,7 @@ static int XeeSamplePointSorter(const void *a,const void *b)
 +(XeeSampleSet *)sampleSetWithCount:(int)count distribution:(NSString *)distname filter:(NSString *)filtername;
 {
 	static NSMutableDictionary *setdict=nil;
-	if(!setdict) setdict=[[NSMutableDictionary dictionary] retain];
+	if(!setdict) setdict=[[NSMutableDictionary alloc] init];
 
 	NSString *name=[NSString stringWithFormat:@"%@-%@-%d",distname,filtername,count];
 	XeeSampleSet *set=[setdict objectForKey:name];

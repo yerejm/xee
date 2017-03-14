@@ -14,7 +14,7 @@
 		currentry=nextentry=preventry=nil;
 		loadingimage=nil;
 
-		entries=[[NSMutableArray array] retain];
+		entries=[[NSMutableArray alloc] init];
 
 		listlock=[[NSRecursiveLock alloc] init];
 		loadlock=[[NSRecursiveLock alloc] init];
@@ -94,8 +94,11 @@
 -(void)pickImageAtIndex:(NSInteger)index
 {
 	// this is pretty dumb; FIX
-	if(index<[entries count]&&[entries objectAtIndex:index]==currentry&&nextentry) [self pickImageAtIndex:index next:[entries indexOfObject:nextentry]];
-	else [super pickImageAtIndex:index];
+	if (index<[entries count]&&[entries objectAtIndex:index]==currentry&&nextentry) {
+		[self pickImageAtIndex:index next:[entries indexOfObject:nextentry]];
+	} else {
+		[super pickImageAtIndex:index];
+	}
 }
 
 
@@ -298,9 +301,15 @@
 
 
 
--(NSString *)descriptiveName { return nil; }
+-(NSString *)descriptiveName
+{
+	return nil;
+}
 
--(BOOL)matchesObject:(id)obj { return NO; }
+-(BOOL)matchesObject:(id)obj
+{
+	return NO;
+}
 
 
 
@@ -328,13 +337,20 @@
 	return savedimage;
 }
 
--(XeeImage *)produceImage { return nil; }
+-(XeeImage *)produceImage
+{
+	return nil;
+}
 
+-(BOOL)isEqual:(id)other
+{
+	return NO;
+}
 
-
--(BOOL)isEqual:(id)other { return NO; }
-
--(unsigned long)hash { return 0; }
+-(NSUInteger)hash
+{
+	return 0;
+}
 
 -(NSString *)description
 {

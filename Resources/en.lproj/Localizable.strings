@@ -801,3 +801,8 @@
 /* Zoom Out toolbar button label */
 "Zoom Out" = "Zoom Out";
 
+/* XeeIcons are no longer supported error message */
+"XeeIcons are no longer supported." = "XeeIcons are no longer supported.";
+
+/* could not locate app to open document with */
+"Unable to locate an application named \"%@\"" = "Unable to locate an application named “%@”.";

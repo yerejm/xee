@@ -93,7 +93,7 @@ extern NSString *XeeRefreshImageNotification;
 
 -(BOOL)xeeFocus;
 -(XeeController *)focusedController;
--(NSArray *)iconNames;
+-(NSArray<NSString*> *)iconNames;
 -(XeePropertiesController *)propertiesController;
 -(CSAction **)copyAndMoveActions;
 

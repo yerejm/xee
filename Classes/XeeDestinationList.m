@@ -364,15 +364,20 @@ void XeePlayPoof(NSWindow *somewindow);
 
 -(IBAction)switchMode:(id)sender
 {
-	if([sender selectedSegment]==1) movemode=YES;
-	else movemode=NO;
+	if ([sender selectedSegment] == 1) {
+		movemode = YES;
+	} else {
+		movemode = NO;
+	}
 	[self reloadData];
 }
 
 -(IBAction)openInXee:(id)sender
 {
-	NSInteger index=[self indexForRow:[self selectedRow]];
-	if(index<0) return;
+	NSInteger index = [self indexForRow:[self selectedRow]];
+	if (index < 0) {
+		return;
+	}
 
 	NSString *filename=[[destinations objectAtIndex:index] objectForKey:@"path"];
 	[[NSApp delegate] application:NSApp openFile:filename];
@@ -381,7 +386,8 @@ void XeePlayPoof(NSWindow *somewindow);
 -(IBAction)openInFinder:(id)sender
 {
 	NSInteger index=[self indexForRow:[self selectedRow]];
-	if(index<0) return;
+	if (index < 0)
+		return;
 
 	NSString *filename=[[destinations objectAtIndex:index] objectForKey:@"path"];
 	[[NSWorkspace sharedWorkspace] openFile:filename];
@@ -517,7 +523,7 @@ void XeePlayPoof(NSWindow *somewindow);
 	static NSMutableArray *def=nil;
 	if(!def)
 	{
-		def=[[NSMutableArray array] retain];
+		def=[[NSMutableArray alloc] init];
 		[self loadArray];
 	}
 

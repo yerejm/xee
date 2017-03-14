@@ -148,8 +148,11 @@
 	NSString *self_id=[[NSBundle mainBundle] bundleIdentifier];
 	NSString *oldhandler=[(id)LSCopyDefaultRoleHandlerForContentType((CFStringRef)type,kLSRolesViewer) autorelease];
 
-	if(oldhandler&&![oldhandler isEqual:self_id]) [[NSUserDefaults standardUserDefaults] setObject:oldhandler
-	forKey:[@"oldHandler." stringByAppendingString:type]];
+	if(oldhandler&&![oldhandler isEqual:self_id]) {
+		[[NSUserDefaults standardUserDefaults]
+		 setObject:oldhandler
+		 forKey:[@"oldHandler." stringByAppendingString:type]];
+	}
 
 	[self setHandler:self_id forType:type];
 }
@@ -173,22 +176,20 @@
 	NSMutableArray *handlers=[NSMutableArray array];
 	NSString *self_id=[[NSBundle mainBundle] bundleIdentifier];
 
-	[handlers addObjectsFromArray:[(id)LSCopyAllRoleHandlersForContentType((CFStringRef)type,kLSRolesViewer) autorelease]];
-	[handlers addObjectsFromArray:[(id)LSCopyAllRoleHandlersForContentType((CFStringRef)type,kLSRolesViewer) autorelease]];
+	[handlers addObjectsFromArray:CFBridgingRelease(LSCopyAllRoleHandlersForContentType((CFStringRef)type,kLSRolesViewer))];
+	[handlers addObjectsFromArray:CFBridgingRelease(LSCopyAllRoleHandlersForContentType((CFStringRef)type,kLSRolesViewer))];
 
-	NSString *ext=[(id)UTTypeCopyPreferredTagWithClass((CFStringRef)type,kUTTagClassFilenameExtension) autorelease];
+	NSString *ext=CFBridgingRelease(UTTypeCopyPreferredTagWithClass((CFStringRef)type,kUTTagClassFilenameExtension));
 	NSString *filename=[NSString stringWithFormat:@"/tmp/CSFileTypeList%04x.%@",rand()&0xffff,ext];
 
 	[[NSFileManager defaultManager] createFileAtPath:filename contents:nil attributes:nil];
-	NSArray *apps=[(NSArray *)LSCopyApplicationURLsForURL((CFURLRef)[NSURL fileURLWithPath:filename],kLSRolesAll) autorelease];
-	[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
+	NSArray<NSURL*> *apps=CFBridgingRelease(LSCopyApplicationURLsForURL((CFURLRef)[NSURL fileURLWithPath:filename],kLSRolesAll));
+	[[NSFileManager defaultManager] removeItemAtPath:filename error:NULL];
 
-	NSEnumerator *enumerator=[apps objectEnumerator];
-	NSURL *url;
-	while(url=[enumerator nextObject])
-	{
+	for(NSURL *url in apps) {
 		NSString *identifier=[[NSBundle bundleWithPath:[url path]] bundleIdentifier];
-		if(identifier) [handlers addObject:identifier];
+		if(identifier)
+			[handlers addObject:identifier];
 	}
 
 	for(;;)
@@ -198,8 +199,10 @@
 		[handlers removeObjectAtIndex:index];
 	}
 
-	if([handlers count]) [self setHandler:[handlers objectAtIndex:0] forType:type];
-	else [self setHandler:@"__dummy__" forType:type];
+	if([handlers count])
+		[self setHandler:[handlers objectAtIndex:0] forType:type];
+	else
+		[self setHandler:@"__dummy__" forType:type];
 }
 
 @end

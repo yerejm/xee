@@ -54,7 +54,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 		iconwindow=nil;
 		iconfield=nil;
 
-		controllers=[[NSMutableDictionary dictionary] retain];
+		controllers=[[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
@@ -304,36 +304,13 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
 	if([[filename pathExtension] isEqual:@"xeeicons"]) // icon set
 	{
-		NSMutableAttributedString *icons=[[[NSMutableAttributedString alloc] init] autorelease];
+		NSError *err = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:
+						@{NSFilePathErrorKey: filename,
+						  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"XeeIcons are no longer supported.", @"XeeIcons are no longer supported error message")}];
+		[NSApp replyToOpenOrPrint:NSApplicationDelegateReplyFailure];
+		[NSApp presentError:err];
 
-		NSEnumerator *enumerator=[[self iconNames] objectEnumerator];
-		NSString *iconname;
-		while(iconname=[enumerator nextObject])
-		{
-			NSTextAttachment *attachment=[[[NSTextAttachment alloc] init] autorelease];
-			NSCell *cell=(NSCell *)[attachment attachmentCell];
-			NSImage *icon=[[[NSImage alloc] initWithContentsOfFile:[filename stringByAppendingPathComponent:iconname]] autorelease];
-			[icon setScalesWhenResized:YES];
-			[icon setSize:NSMakeSize(48,48)];
-			[cell setImage:icon];
-			[icons appendAttributedString:[NSMutableAttributedString attributedStringWithAttachment:attachment]];
-		}
-
-		if(!iconwindow)
-		{
-			NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"IconSetWindow" bundle:nil] autorelease];
-			[nib instantiateWithOwner:self topLevelObjects:nil];
-		}
-
-
-		[iconfield setAttributedStringValue:icons];
-		[iconwindow makeKeyAndOrderFront:nil];
-
-//		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-
-		openediconset=[filename retain];
-
-		return YES;
+		return NO;
 	}
 	else
 	{
@@ -688,8 +665,8 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	{
 		NSString *destname=[resdir stringByAppendingPathComponent:iconname];
 
-		if(![[NSFileManager defaultManager] removeFileAtPath:destname handler:nil]
-		||![[NSFileManager defaultManager] copyPath:[openediconset stringByAppendingPathComponent:iconname] toPath:destname handler:nil])
+		if(![[NSFileManager defaultManager] removeItemAtPath:destname error:NULL]
+		||![[NSFileManager defaultManager] copyItemAtPath:[openediconset stringByAppendingPathComponent:iconname] toPath:destname error:NULL])
 		{
 			NSAlert *alert=[[[NSAlert alloc] init] autorelease];
 
@@ -707,8 +684,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
 -(void)windowWillClose:(NSNotification *)notification
 {
-	if([notification object]==iconwindow)
-	{
+	if ([notification object] == iconwindow) {
 		[iconfield setStringValue:@""];
 		[openediconset release];
 		openediconset=nil;
@@ -723,8 +699,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
 	NSMenu *menu=[sender menu];
 	NSInteger num=[menu numberOfItems];
-	for(NSInteger i=0;i<num;i++)
-	{
+	for (NSInteger i = 0; i < num; i++) {
 		NSMenuItem *item=[menu itemAtIndex:i];
 		[item setState:item==sender?NSOnState:NSOffState];
 	}
@@ -737,44 +712,55 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	//[[NSUserDefaults standardUserDefaults] setBoolean:[sender state]==NSOnState forKey:@XeeUpsampleImageKey];
 	[[NSNotificationCenter defaultCenter] postNotificationName:XeeRefreshImageNotification object:nil];
 }
--(IBAction)alwaysFullscreenStub:(id)sender { }
+-(IBAction)alwaysFullscreenStub:(id)sender
+{
+}
 
--(IBAction)loopImagesStub:(id)sender { }
+-(IBAction)loopImagesStub:(id)sender
+{
+}
 
--(IBAction)randomOrderStub:(id)sender { }
+-(IBAction)randomOrderStub:(id)sender
+{
+}
 
--(IBAction)rememberZoomStub:(id)sender { }
+-(IBAction)rememberZoomStub:(id)sender
+{
+}
 
--(IBAction)rememberFocusStub:(id)sender { }
+-(IBAction)rememberFocusStub:(id)sender
+{
+}
 
 
 
 -(XeeController *)controllerForDirectory:(XeeFSRef *)directory
 {
 	XeeController *focus=[self focusedController];
-	if(focus&&[focus isFullscreen]) return focus;
+	if (focus && [focus isFullscreen]) {
+		return focus;
+	}
 
 	XeeController *controller=nil;
 	NSInteger windowmode=[[NSUserDefaults standardUserDefaults] integerForKey:@"windowOpening"];
-	switch(windowmode)
-	{
+	switch (windowmode) {
 		case 0: // single window
 		{
-			NSArray *keys=[controllers allKeys];
-			if([keys count]>0) controller=[controllers objectForKey:[keys objectAtIndex:0]];
+			NSArray *keys = [controllers allKeys];
+			if ([keys count]>0) {
+				controller = [controllers objectForKey:[keys objectAtIndex:0]];
+			}
 		}
-		break;
+			break;
 
 		case 1:
-		{
-			if(!directory) break;
+			if(!directory)
+				break;
 			controller=[controllers objectForKey:directory];
-		}
-		break;
+			break;
 	}
 
-	if(!controller)
-	{
+	if (!controller) {
 		if(!browsernib) browsernib=[[NSNib alloc] initWithNibNamed:@"BrowserWindow" bundle:nil];
 
 		windowcontroller=nil;
@@ -784,15 +770,17 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 		if(directory) [controllers setObject:controller forKey:directory];
 
 		NSMutableSet *set=[NSMutableSet set];
-		NSEnumerator *enumerator=[[NSApp windows] objectEnumerator];
-		NSWindow *window;
-		while(window=[enumerator nextObject]) if([window frameAutosaveName]) [set addObject:[window frameAutosaveName]];
+		for (NSWindow *window in [NSApp windows]) {
+			if ([window frameAutosaveName]) {
+				[set addObject:[window frameAutosaveName]];
+			}
+		}
 
-		window=[controller window];
-		int n=1;
-		while([set containsObject:[NSString stringWithFormat:@"browserWindow%d",n]]) n++;
+		NSWindow *window=[controller window];
+		NSInteger n=1;
+		while([set containsObject:[NSString stringWithFormat:@"browserWindow%ld",(long)n]]) n++;
 
-		[window setFrameAutosaveName:[NSString stringWithFormat:@"browserWindow%d",n]];
+		[window setFrameAutosaveName:[NSString stringWithFormat:@"browserWindow%ld",(long)n]];
 	}
 
 	[[controller window] makeKeyAndOrderFront:self];
@@ -802,25 +790,32 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
 -(void)controllerWillExit:(XeeController *)controller
 {
-	NSArray *keys=[controllers allKeysForObject:controller];
-	if(keys) [controllers removeObjectsForKeys:keys];
+	NSArray *keys = [controllers allKeysForObject:controller];
+	if (keys) {
+		[controllers removeObjectsForKeys:keys];
+	}
 }
 
 
 -(BOOL)xeeFocus
 {
 	NSWindow *win=[[NSApplication sharedApplication] keyWindow];
-	if(!win) return YES;
-	if(![win delegate]) return NO;
-	if([[win delegate] isKindOfClass:[XeeController class]]) return YES;
+	if (!win)
+		return YES;
+	if (![win delegate])
+		return NO;
+	if ([[win delegate] isKindOfClass:[XeeController class]])
+		return YES;
 	return NO;
 }
 
 -(XeeController *)focusedController
 {
 	id delegate=[[[NSApplication sharedApplication] mainWindow] delegate];
-	if([delegate isKindOfClass:[XeeController class]]) return delegate;
-	else return nil;
+	if([delegate isKindOfClass:[XeeController class]])
+		return delegate;
+	else
+		return nil;
 }
 
 -(NSArray *)iconNames
