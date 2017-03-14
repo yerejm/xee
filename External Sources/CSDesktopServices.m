@@ -53,7 +53,7 @@ NSDictionary *CSParseDSStore(NSString *filename)
 		if(length<24+n*4) return nil; // Truncated file.
 
 		int offs=CSGetUInt32(bytes+20+n*4);
-		if(offs==0) return dict; // No more chunk sections, parsing is done.
+		if(offs==0) return [dict copy]; // No more chunk sections, parsing is done.
 
 		offs&=~0x0f; // Chunk sections are 16-byte aligned, but the offsets are not for some reason.
 
@@ -73,12 +73,12 @@ NSDictionary *CSParseDSStore(NSString *filename)
 			int namelen=CSGetUInt32(bytes+chunk);
 			if(length<chunk+12+namelen*2) goto end; // Truncated file.
 
-			NSString *filename=[[[NSString alloc] initWithBytes:bytes+chunk+4 length:namelen*2
-			encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease];
+			NSString *filename=[[NSString alloc] initWithBytes:bytes+chunk+4 length:namelen*2
+			encoding:NSUTF16BigEndianStringEncoding];
 			chunk+=4+namelen*2;
 
-			NSString *attrname=[[[NSString alloc] initWithBytes:bytes+chunk length:4
-			encoding:NSISOLatin1StringEncoding] autorelease];
+			NSString *attrname=[[NSString alloc] initWithBytes:bytes+chunk length:4
+			encoding:NSISOLatin1StringEncoding];
 			OSType type=CSGetUInt32(bytes+chunk+4);
 			chunk+=8;
 
@@ -113,8 +113,8 @@ NSDictionary *CSParseDSStore(NSString *filename)
 					if(length<chunk+4) goto end; // Truncated file.
 					int len=CSGetUInt32(bytes+chunk);
 					if(length<chunk+4+len*2) goto end; // Truncated file.
-					value=[[[NSString alloc] initWithBytes:bytes+chunk+2 length:len*2
-					encoding:NSUTF16BigEndianStringEncoding] autorelease];
+					value=[[NSString alloc] initWithBytes:bytes+chunk+2 length:len*2
+					encoding:NSUTF16BigEndianStringEncoding];
 					chunk+=4+len*2;
 				}
 				break;
@@ -157,7 +157,7 @@ NSDictionary *CSParseDSStore(NSString *filename)
 			NSMutableDictionary *filedict=[dict objectForKey:filename];
 			if(!filedict)
 			{
-				filedict=[NSMutableDictionary dictionary];
+				filedict=[[NSMutableDictionary alloc] init];
 				[dict setObject:filedict forKey:filename];
 			}
 

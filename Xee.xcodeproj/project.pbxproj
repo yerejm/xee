@@ -50,7 +50,7 @@
 		1B4078280EBA122F008D5F17 /* rgb.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1B4078270EBA122F008D5F17 /* rgb.txt */; };
 		1B4078930EBE658B008D5F17 /* XeeDreamcastLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF9A79A0B5C3EA000A79EA7 /* XeeDreamcastLoader.m */; };
 		1B5552040B278EEB00DC7FF3 /* XeeGraphicsStuff.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5552030B278EEB00DC7FF3 /* XeeGraphicsStuff.m */; };
-		1B5553EA0B28DCF800DC7FF3 /* CSDesktopServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5553E90B28DCF700DC7FF3 /* CSDesktopServices.m */; };
+		1B5553EA0B28DCF800DC7FF3 /* CSDesktopServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5553E90B28DCF700DC7FF3 /* CSDesktopServices.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B5D4894086B7D57004480AB /* XeeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D4892086B7D57004480AB /* XeeView.m */; };
 		1B5D4905086DF3F8004480AB /* XeeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D4903086DF3F8004480AB /* XeeController.m */; };
 		1B5D4919086DFD7F004480AB /* XeeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D4918086DFD7F004480AB /* XeeDelegate.m */; };

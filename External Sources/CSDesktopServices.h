@@ -1,3 +1,3 @@
 #import <Cocoa/Cocoa.h>
 
-NSDictionary *CSParseDSStore(NSString *filename);
+NSDictionary<NSString*,NSDictionary<NSString*,id>*> *__nullable CSParseDSStore(NSString *__nonnull filename);
