@@ -13,12 +13,13 @@
 		currindex=0;
 		currloading=nil;
 
-		if(subimages) return self;
-
-		[self release];
+		if (!subimages) {
+			[self release];
+			return nil;
+		}
 	}
 
-	return nil;
+	return self;
 }
 
 -(void)dealloc
@@ -140,8 +141,8 @@
 	NSInteger subframe=frame-prevframes;
 	if(subframe>=frames) subframe=frames-1;
 
-	int oldwidth=[self width];
-	int oldheight=[self height];
+	NSInteger oldwidth=[self width];
+	NSInteger oldheight=[self height];
 
 	currindex=newindex;
 	[subimage setDelegate:nil];
@@ -192,7 +193,7 @@
 
 
 
--(int)width
+-(NSInteger)width
 {
 	XeeImage *curr=[self currentSubImage];
 	if(curr)
@@ -201,21 +202,21 @@
 		return [super width];
 }
 
--(int)height
+-(NSInteger)height
 {
 	XeeImage *curr=[self currentSubImage];
 	if(curr) return [curr height];
 	else return [super height];
 }
 
--(int)fullWidth
+-(NSInteger)fullWidth
 {
 	XeeImage *curr=[self currentSubImage];
 	if(curr) return [curr fullWidth];
 	else return [super fullWidth];
 }
 
--(int)fullHeight
+-(NSInteger)fullHeight
 {
 	XeeImage *curr=[self currentSubImage];
 	if(curr) return [curr fullHeight];

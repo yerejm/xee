@@ -7,6 +7,13 @@ typedef NS_ENUM(NSInteger, XeeSortOrder) {
 	XeeSizeSortOrder = 3
 };
 
+typedef NS_ENUM(uint32_t, XeeChange) {
+	XeeAdditionChange = 0x0001,
+	XeeDeletionChange = 0x0002,
+	XeeSortingChange = 0x0004
+	};
+
+
 extern NSString *XeeErrorDomain;
 
 #define XeeFileExistsError 1

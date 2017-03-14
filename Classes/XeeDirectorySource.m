@@ -86,13 +86,40 @@
 
 
 
--(BOOL)canBrowse { return currentry!=nil; }
--(BOOL)canSort { return currentry!=nil; }
--(BOOL)canRenameCurrentImage { return currentry!=nil; }
--(BOOL)canDeleteCurrentImage { return currentry!=nil; }
--(BOOL)canCopyCurrentImage { return currentry!=nil; }
--(BOOL)canMoveCurrentImage { return currentry!=nil; }
--(BOOL)canOpenCurrentImage { return currentry!=nil; }
+-(BOOL)canBrowse
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canSort
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canRenameCurrentImage
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canDeleteCurrentImage
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canCopyCurrentImage
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canMoveCurrentImage
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canOpenCurrentImage
+{
+	return currentry!=nil;
+}
 
 -(BOOL)canSaveCurrentImage
 {
@@ -101,27 +128,59 @@
 	return YES;
 }
 
+-(BOOL)renameCurrentImageTo:(NSString *)newname error:(NSError**)error
+{
+	BOOL success = [super renameCurrentImageTo:newname error:error];
+	if (success) {
+		[self scheduleImageRename];
+	}
+	return success;
+}
 
+-(BOOL)deleteCurrentImageWithError:(NSError**)error
+{
+	BOOL success = [super deleteCurrentImageWithError:error];
+	if (success) {
+		[self removeCurrentEntryAndUpdate];
+	}
+	return success;
+}
+
+-(BOOL)moveCurrentImageTo:(NSString *)destination error:(NSError**)error
+{
+	BOOL success = [super moveCurrentImageTo:destination error:error];
+	if (success) {
+		[self removeCurrentEntryAndUpdate];
+	}
+	return success;
+}
 
 -(NSError *)renameCurrentImageTo:(NSString *)newname
 {
-	NSError *err=[super renameCurrentImageTo:newname];
-	if(!err) [self scheduleImageRename];
-	return err;
+	NSError *outErr = nil;
+	if (![self renameCurrentImageTo:newname error:&outErr]) {
+		return outErr;
+	}
+	return nil;
 }
 
 -(NSError *)deleteCurrentImage
 {
-	NSError *err=[super deleteCurrentImage];
-	if(!err) [self removeCurrentEntryAndUpdate];
-	return err;
+	NSError *outErr = nil;
+	if (![self deleteCurrentImageWithError:&outErr]) {
+		return outErr;
+	}
+	return nil;
+	
 }
 
 -(NSError *)moveCurrentImageTo:(NSString *)destination
 {
-	NSError *err=[super moveCurrentImageTo:destination];
-	if(!err) [self removeCurrentEntryAndUpdate];
-	return err;
+	NSError *outErr = nil;
+	if (![self moveCurrentImageTo:destination error:&outErr]) {
+		return outErr;
+	}
+	return nil;
 }
 
 -(void)beginSavingImage:(XeeImage *)image

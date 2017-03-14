@@ -59,8 +59,7 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 	size_t components=CGColorSpaceGetNumberOfComponents(colorspace);
 
 	int mode;
-	switch(components)
-	{
+	switch (components) {
 		case 1: mode=XeeGreyBitmap; break;
 		case 3: mode=XeeRGBBitmap; break;
 		default: return NO;
@@ -71,19 +70,19 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 	if(byteorder==kCGBitmapByteOrder16Host||byteorder==kCGBitmapByteOrder32Host) return NO;
 
 	CGDataProviderRef provider=CGImageGetDataProvider(cgimage);
-	if(!provider) return NO;
+	if(!provider)
+		return NO;
 
 	CGAccessSessionRef newsession=CGAccessSessionCreate(provider);
-	if(!newsession) return NO;
+	if(!newsession)
+		return NO;
 
 	BOOL shouldfree=NO;
 	void *pixeldata=CGAccessSessionGetBytePointer(newsession);
-	if(!pixeldata)
-	{
+	if (!pixeldata) {
 		size_t bytes=pixelheight*bprow;
 		pixeldata=malloc(bytes);
-		if(!pixeldata)
-		{
+		if (!pixeldata) {
 			CGAccessSessionRelease(newsession);
 			return NO;
 		}
@@ -100,11 +99,12 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 	int flags=0;
 	if(bitmapinfo&kCGBitmapFloatComponents) flags|=XeeBitmapFloatingPointFlag;
 
-	if(![self setData:pixeldata freeData:shouldfree width:pixelwidth height:pixelheight
-	bitsPerPixel:bppixel bitsPerComponent:bpcomponent bytesPerRow:bprow
-	mode:mode alphaType:alphainfo flags:flags])
-	{
-		if(newsession) CGAccessSessionRelease(newsession);
+	if (![self setData:pixeldata freeData:shouldfree width:pixelwidth height:pixelheight
+		  bitsPerPixel:bppixel bitsPerComponent:bpcomponent bytesPerRow:bprow
+				  mode:mode alphaType:alphainfo flags:flags]) {
+		if (newsession) {
+			CGAccessSessionRelease(newsession);
+		}
 		return NO;
 	}
 
@@ -112,7 +112,8 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 	CGImageRelease(imageref);
 	imageref=cgimage;
 
-	if(session) CGAccessSessionRelease(session);
+	if (session)
+		CGAccessSessionRelease(session);
 	session=newsession;
 
 	return YES;
@@ -122,22 +123,25 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 {
 	// Used to invert the colours of TIFF bitmap images.
 
-	if(bitspercomponent!=8) return; // TODO: should throw an exception?
+	if(bitspercomponent!=8)
+		return; // TODO: should throw an exception?
 
-	for(int y=0;y<height;y++)
-	for(int i=0;i<bytesperrow;i++)
-	{
-		data[y*bytesperrow+i]^=0xff;
+	for (NSInteger y = 0; y < height; y++) {
+		for (NSInteger i = 0; i < bytesperrow; i++) {
+			data[y * bytesperrow + i]^=0xff;
+		}
 	}
 }
 
 -(CGColorSpaceRef)createColorSpaceForCGImage
 {
-	if(!imageref) return [super createColorSpaceForCGImage];
+	if (!imageref)
+		return [super createColorSpaceForCGImage];
 
 	CGColorSpaceRef colorspace=CGImageGetColorSpace(imageref);
 
-	if(colorspace) CGColorSpaceRetain(colorspace);
+	if (colorspace)
+		CGColorSpaceRetain(colorspace);
 
 	return colorspace;
 }

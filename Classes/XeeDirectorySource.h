@@ -29,9 +29,14 @@
 -(BOOL)canOpenCurrentImage;
 -(BOOL)canSaveCurrentImage;
 
--(NSError *)renameCurrentImageTo:(NSString *)newname;
--(NSError *)deleteCurrentImage;
--(NSError *)moveCurrentImageTo:(NSString *)destination;
+-(NSError *)renameCurrentImageTo:(NSString *)newname DEPRECATED_ATTRIBUTE;
+-(NSError *)deleteCurrentImage DEPRECATED_ATTRIBUTE;
+-(NSError *)moveCurrentImageTo:(NSString *)destination DEPRECATED_ATTRIBUTE;
+
+-(BOOL)renameCurrentImageTo:(NSString *)newname error:(NSError**)error;
+-(BOOL)deleteCurrentImageWithError:(NSError**)error;
+-(BOOL)moveCurrentImageTo:(NSString *)destination error:(NSError**)error;
+
 -(void)beginSavingImage:(XeeImage *)image;
 -(void)endSavingImage:(XeeImage *)image;
 

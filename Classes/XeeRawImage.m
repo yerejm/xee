@@ -27,17 +27,16 @@ static inline uint16_t clamp16(int a) { if(a<0) return 0; else if(a>65535) retur
 @implementation XeeRawImage
 
 -(id)initWithHandle:(CSHandle *)inhandle width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth colourSpace:(int)space flags:(int)flags
+			  depth:(int)framedepth colourSpace:(XeeRawColourSpace)space flags:(XeeRawAlphaFlags)flags
 {
 	return [self initWithHandle:inhandle width:framewidth height:frameheight depth:framedepth
 	colourSpace:space flags:flags bytesPerRow:0];
 }
 
 -(id)initWithHandle:(CSHandle *)inhandle width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth colourSpace:(int)space flags:(int)flags bytesPerRow:(int)bytesperinputrow
+			  depth:(int)framedepth colourSpace:(XeeRawColourSpace)space flags:(XeeRawAlphaFlags)flags bytesPerRow:(int)bytesperinputrow
 {
-	if(self=[super initWithHandle:inhandle])
-	{
+	if (self = [super initWithHandle:inhandle]) {
 		width=framewidth;
 		height=frameheight;
 		bitdepth=framedepth;

@@ -1,19 +1,21 @@
 #import <Cocoa/Cocoa.h>
+#import "XeeParser.h"
 
 #import "XeeTypes.h"
 #import "exiftags/exif.h"
 
-
+@class XeePropertyItem;
 
 // Tags and tag sets
 
-typedef int16_t XeeEXIFTag;
+typedef NS_ENUM(int16_t, XeeEXIFTag) {
+	XeeOrientationTag = 0x0112,
+	XeeThumbnailOffsetTag = 0x0201,
+	XeeThumbnailLengthTag = 0x0202,
+	XeeFocalPlaneXResolution = (int16_t)0xa20e,
+	XeeFocalPlaneYResolution = (int16_t)0xa20f
 
-#define XeeOrientationTag 0x0112
-#define XeeThumbnailOffsetTag 0x0201
-#define XeeThumbnailLengthTag 0x0202
-#define XeeFocalPlaneXResolution 0xa20e
-#define XeeFocalPlaneYResolution 0xa20f
+};
 
 typedef enum
 {
@@ -36,17 +38,16 @@ static inline int XeeRationalDenominator(XeeRational r) { return r.denom; }
 
 // Reader class
 
-@interface XeeEXIFParser:NSObject
+@interface XeeEXIFParser:NSObject <XeeParser>
 {
 	struct exiftags *exiftags;
 	uint8_t *data;
 	NSData *dataobj;
 }
 
--(id)initWithBuffer:(const uint8_t *)exifdata length:(int)len;
--(id)initWithBuffer:(uint8_t *)exifdata length:(int)len mutable:(BOOL)mutable;
--(id)initWithData:(NSData *)data;
--(void)dealloc;
+-(instancetype)initWithBuffer:(const uint8_t *)exifdata length:(int)len;
+-(instancetype)initWithBuffer:(uint8_t *)exifdata length:(int)len mutable:(BOOL)mutable;
+-(instancetype)initWithData:(NSData *)data;
 
 -(NSString *)stringForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 -(int)integerForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
@@ -56,6 +57,6 @@ static inline int XeeRationalDenominator(XeeRational r) { return r.denom; }
 -(BOOL)setRational:(XeeRational)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 -(struct exifprop *)exifPropForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 
--(NSArray *)propertyArray;
+-(NSArray<XeePropertyItem*> *)propertyArray;
 
 @end

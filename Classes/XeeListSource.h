@@ -9,7 +9,8 @@
 	NSArray *types;
 
 	XeeListEntry *currentry,*nextentry,*preventry;
-	NSInteger changes,oldindex;
+	XeeChange changes;
+	NSInteger oldindex;
 
 	BOOL loader_running,exiting;
 	XeeImage *loadingimage;

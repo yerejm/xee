@@ -1,14 +1,14 @@
 #import <Cocoa/Cocoa.h>
+#import "XeeParser.h"
 #import <XADMaster/CSHandle.h>
 
-@interface XeeIPTCParser:NSObject
+@interface XeeIPTCParser:NSObject <XeeParser>
 {
 	NSMutableArray *props;
 }
 
 -(id)initWithHandle:(CSHandle *)handle;
--(void)dealloc;
 
--(NSArray *)propertyArray;
+-(NSArray<XeePropertyItem*> *)propertyArray;
 
 @end

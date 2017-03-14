@@ -40,8 +40,8 @@ static void XeeBitmapImageReadPixel(uint8_t *row,NSInteger x,NSInteger pixelsize
 
 
 -(BOOL)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
-bitsPerPixel:(NSInteger)bppixel bitsPerComponent:(NSInteger)bpcomponent bytesPerRow:(NSInteger)bprow
-mode:(int)mode alphaType:(int)alpha flags:(int)flags 
+  bitsPerPixel:(NSInteger)bppixel bitsPerComponent:(NSInteger)bpcomponent bytesPerRow:(NSInteger)bprow
+		  mode:(int)mode alphaType:(CGImageAlphaInfo)alpha flags:(int)flags
 {
 	NSInteger pixelsize=bppixel/8;
 
@@ -163,7 +163,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 {
 	int mode=XeeBitmapMode(type);
 	int bpcomponent=XeeBitmapDepth(type);
-	int alpha=XeeBitmapAlpha(type);
+	CGImageAlphaInfo alpha=XeeBitmapAlpha(type);
 	int flags=XeeBitmapFlags(type);
 
 	int components;
@@ -236,7 +236,7 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 	}
 }
 
--(UInt32)bitmapInfoForCGImage
+-(CGBitmapInfo)bitmapInfoForCGImage
 {
 	return alphatype|(modeflags&XeeBitmapFloatingPointFlag?kCGBitmapFloatComponents:0);
 }

@@ -58,7 +58,7 @@ glInternalFormat:(int)intformat glFormat:(int)format glType:(int)type;
 @property (readonly) NSInteger bitsPerComponentForCGImage;
 @property (readonly) NSInteger bytesPerPixelForCGImage;
 -(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
--(UInt32)bitmapInfoForCGImage;
+@property (readonly) CGBitmapInfo bitmapInfoForCGImage;
 -(XeeReadPixelFunction)readPixelFunctionForCGImage;
 
 @end

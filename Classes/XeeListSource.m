@@ -1,10 +1,6 @@
 #import "XeeListSource.h"
 #import "XeeImage.h"
 
-#define XeeAdditionChange 0x0001
-#define XeeDeletionChange 0x0002
-#define XeeSortingChange 0x0004
-
 @implementation XeeListSource
 
 -(id)init

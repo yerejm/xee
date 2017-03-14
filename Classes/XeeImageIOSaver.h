@@ -1,13 +1,11 @@
 #import "XeeImageSaver.h"
 
 @interface XeeCGImageSaver:XeeImageSaver
-{
-}
 
 +(BOOL)canSaveImage:(XeeImage *)img;
 +(BOOL)canSaveImageWithBitDepth:(int)depth floating:(BOOL)floating;
 -(BOOL)save:(NSString *)filename;
--(NSString *)type;
+@property (readonly, copy) NSString *type;
 -(NSMutableDictionary *)properties;
 
 @end
@@ -31,9 +29,9 @@
 
 +(BOOL)canSaveImageWithBitDepth:(int)depth floating:(BOOL)floating;
 -(id)initWithImage:(XeeImage *)img;
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 -(NSMutableDictionary *)properties;
 
 @end
@@ -44,9 +42,9 @@
 }
 
 -(id)initWithImage:(XeeImage *)img;
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 -(NSMutableDictionary *)properties;
 
 @end
@@ -57,9 +55,9 @@
 }
 
 -(id)initWithImage:(XeeImage *)img;
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 -(NSMutableDictionary *)properties;
 
 @end
@@ -71,57 +69,57 @@
 
 +(BOOL)canSaveImageWithBitDepth:(int)depth floating:(BOOL)floating;
 -(id)initWithImage:(XeeImage *)img;
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 -(NSMutableDictionary *)properties;
 @end
 
 
 
-@interface XeePhotoshopSaver:XeeAlphaSaver {}
+@interface XeePhotoshopSaver:XeeAlphaSaver
 +(BOOL)canSaveImageWithBitDepth:(int)depth floating:(BOOL)floating;
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 @end
 
-@interface XeeOpenEXRSaver:XeeCGImageSaver {}
+@interface XeeOpenEXRSaver:XeeCGImageSaver
 +(BOOL)canSaveImageWithBitDepth:(int)depth floating:(BOOL)floating;
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 @end
 
 
 
-@interface XeeGIFSaver:XeeAlphaSaver {}
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@interface XeeGIFSaver:XeeAlphaSaver
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 @end
 
-@interface XeePICTSaver:XeeAlphaSaver {}
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@interface XeePICTSaver:XeeAlphaSaver
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 @end
 
-@interface XeeBMPSaver:XeeCGImageSaver {}
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@interface XeeBMPSaver:XeeCGImageSaver
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 -(NSMutableDictionary *)properties;
 @end
 
-@interface XeeTGASaver:XeeAlphaSaver {}
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@interface XeeTGASaver:XeeAlphaSaver
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 @end
 
-@interface XeeSGISaver:XeeAlphaSaver {}
--(NSString *)format;
--(NSString *)extension;
--(NSString *)type;
+@interface XeeSGISaver:XeeAlphaSaver
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
+@property (readonly, copy) NSString *type;
 @end

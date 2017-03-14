@@ -22,7 +22,7 @@ static void XeeBuildYUVConversionTables();
 
 
 
--(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(int)pixelwidth height:(int)pixelheight bytesPerRow:(int)bprow
+-(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight bytesPerRow:(NSInteger)bprow
 {
 	#ifdef __BIG_ENDIAN__
 	[super setData:pixeldata freeData:willfree width:pixelwidth height:pixelheight
@@ -90,13 +90,13 @@ static void XeeBuildYUVConversionTables();
 	}
 }
 
--(int)bitsPerComponentForCGImage { return 8; }
+-(NSInteger)bitsPerComponentForCGImage { return 8; }
 
--(int)bytesPerPixelForCGImage { return 3; }
+-(NSInteger)bytesPerPixelForCGImage { return 3; }
 
 -(CGColorSpaceRef)createColorSpaceForCGImage { return CGColorSpaceCreateDeviceRGB(); }
 
--(int)bitmapInfoForCGImage { return 0; }
+-(CGBitmapInfo)bitmapInfoForCGImage { return 0; }
 
 -(XeeReadPixelFunction)readPixelFunctionForCGImage
 {

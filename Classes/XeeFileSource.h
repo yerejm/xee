@@ -4,10 +4,8 @@
 @class XeeFileEntry;
 
 @interface XeeFileSource:XeeListSource
-{
-}
 
--(id)init;
+-(instancetype)init;
 
 @property (readonly) uint64_t sizeOfCurrentImage;
 @property (readonly) NSDate * dateOfCurrentImage;
@@ -42,15 +40,15 @@
 	int pathlen;
 }
 
--(id)init;
+-(instancetype)init;
 
 -(XeeImage *)produceImage;
 
--(XeeFSRef *)ref;
--(NSString *)path;
--(NSString *)filename;
--(uint64_t)size;
--(double)time;
+@property (readonly) XeeFSRef *ref;
+@property (readonly) NSString *path;
+@property (readonly) NSString *filename;
+@property (readonly) uint64_t size;
+@property (readonly) double time;
 
 -(void)prepareForSortingBy:(XeeSortOrder)sortorder;
 -(void)finishSorting;

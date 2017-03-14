@@ -19,8 +19,7 @@
 
 +(void)runSavePanelForImage:(XeeImage *)image controller:(XeeController *)controller;
 
--(id)initWithImage:(XeeImage *)img controller:(XeeController *)cont;
--(void)dealloc;
+-(instancetype)initWithImage:(XeeImage *)img controller:(XeeController *)cont;
 
 -(void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)res contextInfo:(void *)info;
 -(void)xeeSLUpdated:(XeeSimpleLayout *)alsoview;

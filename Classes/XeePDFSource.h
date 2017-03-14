@@ -9,12 +9,11 @@
 
 +(NSArray *)fileTypes;
 
--(id)initWithFile:(NSString *)pdfname;
--(void)dealloc;
+-(instancetype)initWithFile:(NSString *)pdfname;
 
--(NSString *)windowTitle;
--(NSString *)windowRepresentedFilename;
--(BOOL)canBrowse;
+@property (readonly, retain) NSString *windowTitle;
+@property (readonly, retain) NSString *windowRepresentedFilename;
+@property (readonly) BOOL canBrowse;
 
 @end
 
@@ -25,10 +24,9 @@
 	BOOL complained;
 }
 
--(id)initWithPDFStream:(PDFStream *)stream name:(NSString *)descname;
--(void)dealloc;
+-(instancetype)initWithPDFStream:(PDFStream *)stream name:(NSString *)descname;
 
--(NSString *)descriptiveName;
+@property (readonly, copy) NSString *descriptiveName;
 -(XeeImage *)produceImage;
 
 @end

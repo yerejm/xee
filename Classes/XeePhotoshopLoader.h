@@ -24,8 +24,7 @@
 
 -(CSHandle *)handleForNumberOfChannels:(int)requiredchannels alpha:(BOOL)alpha;
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 -(SEL)initLoader;
 
 -(int)bitDepth;
@@ -45,12 +44,11 @@
 	BOOL literal;
 }
 
--(id)initWithHandle:(CSHandle *)handle rows:(int)numrows bytesPerRow:(int)bpr channel:(int)channel of:(int)numchannels previousSize:(off_t)prevsize;
--(void)dealloc;
+-(instancetype)initWithHandle:(CSHandle *)handle rows:(int)numrows bytesPerRow:(int)bpr channel:(int)channel of:(int)numchannels previousSize:(off_t)prevsize;
 
 -(uint8_t)produceByteAtOffset:(off_t)pos;
 
--(off_t)totalSize;
+@property (readonly) off_t totalSize;
 
 @end
 
@@ -60,7 +58,7 @@
 	uint16_t curr;
 }
 
--(id)initWithHandle:(CSHandle *)handle depth:(int)bitdepth columns:(int)columns;
+-(instancetype)initWithHandle:(CSHandle *)handle depth:(int)bitdepth columns:(int)columns;
 -(uint8_t)produceByteAtOffset:(off_t)pos;
 
 @end

@@ -7,7 +7,7 @@
 
 +(NSArray *)fileTypes;
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
-+(NSDictionary *)colourDictionary;
+@property (class, readonly, copy) NSDictionary<NSString*,NSNumber*> *colourDictionary;
 
 -(void)load;
 

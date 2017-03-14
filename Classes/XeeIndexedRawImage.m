@@ -3,26 +3,26 @@
 
 @implementation XeeIndexedRawImage
 
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
+-(id)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
 palette:(XeePalette *)palette
 {
 	return [self initWithHandle:fh width:framewidth height:frameheight depth:8 palette:palette bytesPerRow:0];
 }
 
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
-palette:(XeePalette *)palette bytesPerRow:(int)bytesperinputrow
+-(id)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
+palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytesperinputrow
 {
 	return [self initWithHandle:fh width:framewidth height:frameheight depth:8 palette:palette bytesPerRow:bytesperinputrow];
 }
 
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
+-(id)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
 depth:(int)framedepth palette:(XeePalette *)palette
 {
 	return [self initWithHandle:fh width:framewidth height:frameheight depth:framedepth palette:palette bytesPerRow:0];
 }
 
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinputrow
+-(id)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
+depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytesperinputrow
 {
 	if(self=[super initWithHandle:fh])
 	{
@@ -49,13 +49,13 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 
 	if(![self allocWithType:[pal isTransparent]?XeeBitmapTypeARGB8:XeeBitmapTypeRGB8 width:width height:height]) XeeImageLoaderDone(NO);
 
-	int buffersize=(width*bitdepth+7)/8;
+	NSInteger buffersize=(width*bitdepth+7)/8;
 	buffer=malloc(buffersize);
 	if(!buffer) XeeImageLoaderDone(NO);
 
 	for(int row=0;row<height;row++)
 	{
-		[handle readBytes:buffersize toBuffer:buffer];
+		[handle readBytes:(int)buffersize toBuffer:buffer];
 		if(inbpr&&inbpr!=buffersize) [handle skipBytes:inbpr-buffersize];
 
 		uint8_t *rowptr=XeeImageDataRow(self,row);
@@ -77,8 +77,13 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 
 
 @implementation XeePalette
+@synthesize numberOfColours = numcolours;
+@synthesize isTransparent = istrans;
 
-+(XeePalette *)palette { return [[[self alloc] init] autorelease]; }
++(XeePalette *)palette
+{
+	return [[[self alloc] init] autorelease];
+}
 
 -(id)init
 {
@@ -90,11 +95,7 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 	return self;
 }
 
--(int)numberOfColours { return numcolours; }
-
--(uint32_t)colourAtIndex:(int)index { if(index>=0&&index<256) return pal[index]; else return 0; }
-
--(BOOL)isTransparent { return istrans; }
+-(uint32_t)colourAtIndex:(NSInteger)index { if(index>=0&&index<256) return pal[index]; else return 0; }
 
 -(uint32_t *)colours { return pal; }
 
@@ -116,7 +117,7 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 	[self setColourAtIndex:index red:0 green:0 blue:0 alpha:0];
 }
 
--(void)convertIndexes:(uint8_t *)indexes count:(int)count depth:(int)depth toRGB8:(uint8_t *)dest
+-(void)convertIndexes:(uint8_t *)indexes count:(NSInteger)count depth:(NSInteger)depth toRGB8:(uint8_t *)dest
 {
 	switch(depth)
 	{
@@ -162,27 +163,26 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 	}
 }
 
--(void)convertIndexes:(uint8_t *)indexes count:(int)count depth:(int)depth toARGB8:(uint8_t *)dest
+-(void)convertIndexes:(uint8_t *)indexes count:(NSInteger)count depth:(NSInteger)depth toARGB8:(uint8_t *)dest
 {
 	uint32_t *destptr=(uint32_t *)dest;
 
-	switch(depth)
-	{
+	switch (depth) {
 		case 1:
 			for(int i=0;i<count;i++) destptr[i]=pal[(indexes[i>>3]>>((i&7)^7))&0x01];
-		break;
+			break;
 
 		case 2:
 			for(int i=0;i<count;i++) destptr[i]=pal[(indexes[i>>2]>>(((i&3)^3)<<1))&0x03];
-		break;
+			break;
 
 		case 4:
 			for(int i=0;i<count;i++) destptr[i]=pal[(indexes[i>>1]>>(((i&1)^1)<<2))&0x0f];
-		break;
+			break;
 
 		case 8:
 			for(int i=0;i<count;i++) destptr[i]=pal[indexes[i]];
-		break;
+			break;
 	}
 }
 

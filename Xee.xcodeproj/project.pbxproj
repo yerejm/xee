@@ -836,6 +836,7 @@
 		558A1FE41E71153900C41ADA /* Xee-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Xee-Bridging-Header.h"; sourceTree = "<group>"; };
 		558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XeeTypesAdditions.swift; sourceTree = "<group>"; };
 		558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XeeImageThumbnailing.swift; sourceTree = "<group>"; };
+		558DB12B1E78855E00566997 /* XeeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeParser.h; sourceTree = "<group>"; };
 		7FC411DD17DC0A8600626F23 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Xee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xee.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -951,6 +952,7 @@
 		1B2825C80C67B8C400AA7D9C /* Image Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				558DB12B1E78855E00566997 /* XeeParser.h */,
 				1BF142400B094403003A8D57 /* XeeEXIFParser.h */,
 				1BF142410B094403003A8D57 /* XeeEXIFParser.m */,
 				1B2825CC0C67B90C00AA7D9C /* XeeXMPParser.h */,

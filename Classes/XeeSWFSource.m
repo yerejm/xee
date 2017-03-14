@@ -191,13 +191,14 @@
 
 
 @implementation XeeSWFEntry
+@synthesize descriptiveName = name;
 
 -(id)initWithHandle:(CSHandle *)handle name:(NSString *)descname
 {
 	if(self=[super init])
 	{
 		originalhandle=[handle retain];
-		name=[descname retain];
+		name=[descname copy];
 	}
 	return self;
 }
@@ -209,9 +210,10 @@
 	[super dealloc];
 }
 
--(NSString *)descriptiveName { return name; }
-
--(CSHandle *)newHandle { return [[originalhandle copy] autorelease]; }
+-(CSHandle *)newHandle
+{
+	return [[originalhandle copy] autorelease];
+}
 
 @end
 

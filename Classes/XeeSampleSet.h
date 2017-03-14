@@ -10,17 +10,17 @@ typedef float (*XeeFilterFunction)(float,float);
 @interface XeeSampleSet:NSObject
 {
 	XeeSamplePoint *samples;
-	int num;
+	NSInteger num;
 }
 
--(id)initWithCount:(int)count;
+-(instancetype)initWithCount:(NSInteger)count;
 
 -(void)filterWithFunction:(XeeFilterFunction)filter;
 -(void)sortByWeight;
 
--(int)count;
+@property (readonly) NSInteger count;
 -(XeeSamplePoint *)samples;
 
-+(XeeSampleSet *)sampleSetWithCount:(int)count distribution:(NSString *)distname filter:(NSString *)filtername;
++(XeeSampleSet *)sampleSetWithCount:(NSInteger)count distribution:(NSString *)distname filter:(NSString *)filtername;
 
 @end

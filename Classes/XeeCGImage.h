@@ -8,9 +8,8 @@ typedef void *CGAccessSessionRef;
 	CGAccessSessionRef session;
 }
 
--(id)init;
--(id)initWithCGImage:(CGImageRef)cgimage;
--(void)dealloc;
+-(instancetype)init;
+-(instancetype)initWithCGImage:(CGImageRef)cgimage;
 
 -(BOOL)setCGImage:(CGImageRef)cgimageref;
 -(void)invertImage;

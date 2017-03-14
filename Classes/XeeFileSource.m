@@ -2,21 +2,24 @@
 #import "XeeImage.h"
 #import "XeeStringAdditions.h"
 
-#define XeeAdditionChange 0x0001
-#define XeeDeletionChange 0x0002
-#define XeeSortingChange 0x0004
-
 static NSString *findCoreAudioSoundNamed(NSString *name)
 {
-	return [NSString stringWithFormat:@"/System/Library/Components/CoreAudio.component/Contents/SharedSupport/SystemSounds/%@.aif", name];
+	// TODO: there has to be a better way...
+	NSURL *caURL = [[NSFileManager defaultManager] URLForDirectory:NSLibraryDirectory inDomain:NSSystemDomainMask appropriateForURL:nil create:NO error:NULL];
+	caURL = [[caURL URLByAppendingPathComponent:@"Components"] URLByAppendingPathComponent:@"CoreAudio.component"];
+	NSBundle *aBund = [NSBundle bundleWithURL:caURL];
+	NSURL *soundURL = aBund.sharedSupportURL;
+	soundURL = [soundURL URLByAppendingPathComponent:@"SystemSounds"];
+	soundURL = [soundURL URLByAppendingPathComponent:name];
+	soundURL = [soundURL URLByAppendingPathExtension:@"aif"];
+	return soundURL.path;
 }
 
 @implementation XeeFileSource
 
 -(id)init
 {
-	if(self=[super init])
-	{
+	if (self = [super init]) {
 	}
 	return self;
 }

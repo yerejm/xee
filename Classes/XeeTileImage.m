@@ -556,7 +556,7 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 -(NSInteger)bitsPerComponentForCGImage { return 0; }
 -(NSInteger)bytesPerPixelForCGImage { return 0; }
 -(CGColorSpaceRef)createColorSpaceForCGImage { return NULL; }
--(UInt32)bitmapInfoForCGImage { return 0; }
+-(CGBitmapInfo)bitmapInfoForCGImage { return 0; }
 -(XeeReadPixelFunction)readPixelFunctionForCGImage { return NULL; }
 
 

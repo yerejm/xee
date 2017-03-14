@@ -40,10 +40,10 @@
 @property (readonly, copy) NSString *losslessExtension;
 -(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
 
-@property (readonly) int width;
-@property (readonly) int height;
-@property (readonly) int fullWidth;
-@property (readonly) int fullHeight;
+@property (readonly) NSInteger width;
+@property (readonly) NSInteger height;
+@property (readonly) NSInteger fullWidth;
+@property (readonly) NSInteger fullHeight;
 //@property (readonly, copy) NSString *depth;
 //@property (readonly, retain) NSImage *depthIcon;
 @property (readonly) BOOL transparent;

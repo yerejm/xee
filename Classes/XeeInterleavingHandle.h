@@ -6,7 +6,7 @@
 	int n2,bits;
 }
 
--(id)initWithHandles:(NSArray<CSHandle*> *)handlearray elementSize:(int)bitsize;
+-(instancetype)initWithHandles:(NSArray<CSHandle*> *)handlearray elementSize:(int)bitsize;
 
 //-(off_t)fileSize;
 //-(off_t)offsetInFile;

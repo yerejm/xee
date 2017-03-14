@@ -6,18 +6,17 @@
 {
 	XeePalette *pal;
 	uint8_t *buffer;
-	int bitdepth,inbpr;
+	NSInteger bitdepth,inbpr;
 }
 
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
+-(instancetype)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
 palette:(XeePalette *)palette;
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
-palette:(XeePalette *)palette bytesPerRow:(int)bytesperinputrow;
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
+-(instancetype)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
+palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytesperinputrow;
+-(instancetype)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
 depth:(int)framedepth palette:(XeePalette *)palette;
--(id)initWithHandle:(CSHandle *)fh width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinputrow;
--(void)dealloc;
+-(instancetype)initWithHandle:(CSHandle *)fh width:(NSInteger)framewidth height:(NSInteger)frameheight
+depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytesperinputrow;
 
 -(void)load;
 
@@ -26,22 +25,22 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(int)bytesperinp
 @interface XeePalette:NSObject
 {
 	uint32_t pal[256];
-	int numcolours;
+	NSInteger numcolours;
 	BOOL istrans;
 }
 
 +(instancetype)palette;
 
--(int)numberOfColours;
--(uint32_t)colourAtIndex:(int)index;
+@property (readonly) NSInteger numberOfColours;
+-(uint32_t)colourAtIndex:(NSInteger)index;
 @property (readonly, getter=isTransparent) BOOL isTransparent;
--(uint32_t *)colours NS_RETURNS_INNER_POINTER;
+@property (readonly) uint32_t *colours NS_RETURNS_INNER_POINTER;
 
 -(void)setColourAtIndex:(int)index red:(uint8_t)red green:(uint8_t)green blue:(uint8_t)blue;
 -(void)setColourAtIndex:(int)index red:(uint8_t)red green:(uint8_t)green blue:(uint8_t)blue alpha:(uint8_t)alpha;
 -(void)setTransparent:(int)index;
 
--(void)convertIndexes:(uint8_t *)indexes count:(int)count depth:(int)depth toRGB8:(uint8_t *)dest;
--(void)convertIndexes:(uint8_t *)indexes count:(int)count depth:(int)depth toARGB8:(uint8_t *)dest;
+-(void)convertIndexes:(uint8_t *)indexes count:(NSInteger)count depth:(NSInteger)depth toRGB8:(uint8_t *)dest;
+-(void)convertIndexes:(uint8_t *)indexes count:(NSInteger)count depth:(NSInteger)depth toARGB8:(uint8_t *)dest;
 
 @end

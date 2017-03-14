@@ -11,7 +11,7 @@
 	int rgbatiles,zbuftiles;
 }
 
-+(id)fileTypes;
++(NSArray<NSString*>*)fileTypes;
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
 
 -(SEL)initLoader;

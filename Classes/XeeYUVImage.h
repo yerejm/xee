@@ -4,15 +4,15 @@
 
 -(instancetype)initWithWidth:(int)pixelwidth height:(int)pixelheight;
 
--(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(int)pixelwidth height:(int)pixelheight bytesPerRow:(int)bprow;
+-(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight bytesPerRow:(NSInteger)bprow;
 -(BOOL)allocWithWidth:(int)pixelwidth height:(int)pixelheight;
 
 -(void)fixYUVGamma;
 
--(int)bitsPerComponentForCGImage;
--(int)bytesPerPixelForCGImage;
+@property (readonly) NSInteger bitsPerComponentForCGImage;
+@property (readonly) NSInteger bytesPerPixelForCGImage;
 -(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
--(int)bitmapInfoForCGImage;
+@property (readonly) CGBitmapInfo bitmapInfoForCGImage;
 -(XeeReadPixelFunction)readPixelFunctionForCGImage;
 
 @end

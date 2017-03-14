@@ -7,6 +7,7 @@
 
 
 @implementation XeeClipboardSource
+@synthesize sizeOfCurrentImage = size;
 
 +(BOOL)canInitWithPasteboard:(NSPasteboard *)pboard
 {
@@ -88,8 +89,6 @@
 -(NSString *)windowTitle { return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard"); }
 
 -(NSString *)descriptiveNameOfCurrentImage { return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard"); }
-
--(uint64_t)sizeOfCurrentImage { return size; }
 
 -(void)pickImageAtIndex:(int)index next:(int)next
 {

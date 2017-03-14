@@ -30,8 +30,7 @@
 +(NSArray *)fileTypes;
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 
 -(SEL)initLoader;
 -(void)deallocLoader;
@@ -44,11 +43,10 @@
 -(void)renderImage;
 -(void)addCommentWithLabel:(NSString *)label data:(NSData *)commentdata;
 
--(uint32_t *)palette;
+@property (readonly) uint32_t *palette NS_RETURNS_INNER_POINTER;
 
--(BOOL)animated;
--(void)setAnimating:(BOOL)animating;
--(BOOL)animating;
+@property (readonly) BOOL animated;
+@property (nonatomic) BOOL animating;
 
 @end
 
@@ -65,8 +63,7 @@
 	XeeILBMImage *image;
 }
 
--(id)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)image;
--(void)dealloc;
+-(instancetype)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)image;
 -(BOOL)allocBuffers:(int)length;
 -(void)setIndexesFrom:(int)start to:(int)end reverse:(BOOL)reverse;
 -(void)setup;

@@ -34,19 +34,20 @@ static float XeeSincFilter(float u,float v)
 
 
 @implementation XeeSampleSet
+@synthesize count = num;
 
--(id)initWithCount:(int)count
+-(id)initWithCount:(NSInteger)count
 {
 	if(self=[super init])
 	{
-		if((samples=calloc(count, sizeof(XeeSamplePoint))))
+		if(!(samples=calloc(count, sizeof(XeeSamplePoint))))
 		{
-			num=count;
-			return self;
+			[self release];
+			return nil;
 		}
-		[self release];
+		num=count;
 	}
-	return nil;
+	return self;
 }
 
 -(void)dealloc
@@ -68,8 +69,6 @@ static int XeeSamplePointSorter(const void *a,const void *b)
 	qsort(samples,num,sizeof(XeeSamplePoint),XeeSamplePointSorter);
 //	for(int i=0;i<num;i++) NSLog(@"%f %f %f",samples[i].u,samples[i].v,samples[i].weight);
 }
-
--(int)count { return num; }
 
 -(XeeSamplePoint *)samples { return samples; }
 

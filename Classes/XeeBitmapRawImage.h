@@ -7,8 +7,8 @@
 	uint8_t *buffer;
 }
 
--(id)initWithHandle:(CSHandle *)fh width:(int)w height:(int)h;
--(id)initWithHandle:(CSHandle *)fh width:(int)w height:(int)h bytesPerRow:(int)bpr;
+-(instancetype)initWithHandle:(CSHandle *)fh width:(NSInteger)w height:(NSInteger)h;
+-(instancetype)initWithHandle:(CSHandle *)fh width:(NSInteger)w height:(NSInteger)h bytesPerRow:(NSInteger)bpr;
 
 -(void)setZeroPoint:(float)low onePoint:(float)high;
 

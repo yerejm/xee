@@ -10,15 +10,13 @@
 }
 
 +(BOOL)canSaveImage:(XeeImage *)img;
-+(NSArray *)saversForImage:(XeeImage *)img;
++(NSArray<__kindof XeeImageSaver*> *)saversForImage:(XeeImage *)img;
 +(void)registerSaverClass:(Class)saverclass;
 
--(id)initWithImage:(XeeImage *)img;
--(void)dealloc;
--(NSString *)format;
--(NSString *)extension;
+-(instancetype)initWithImage:(XeeImage *)img;
+@property (readonly, copy) NSString *format;
+@property (readonly, copy) NSString *extension;
 -(BOOL)save:(NSString *)filename;
--(XeeSLControl *)control;
--(void)setControl:(XeeSLControl *)newcontrol;
+@property (retain) XeeSLControl *control;
 
 @end

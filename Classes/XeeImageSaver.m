@@ -6,6 +6,7 @@
 
 
 @implementation XeeImageSaver
+@synthesize control;
 
 static NSMutableArray *saverclasses=nil;
 
@@ -61,13 +62,5 @@ static NSMutableArray *saverclasses=nil;
 -(NSString *)extension  { return nil; }
 
 -(BOOL)save:(NSString *)filename { return NO; }
-
--(XeeSLControl *)control { return control; }
-
--(void)setControl:(XeeSLControl *)newcontrol
-{
-	[control autorelease];
-	control=[newcontrol retain];
-}
 
 @end

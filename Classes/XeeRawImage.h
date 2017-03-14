@@ -1,19 +1,23 @@
 #import "XeeBitmapImage.h"
 
-#define XeeGreyRawColourSpace 1
-#define XeeRGBRawColourSpace 2
-#define XeeCMYKRawColourSpace 3
-#define XeeLabRawColourSpace 4
+typedef NS_ENUM(NSInteger, XeeRawColourSpace) {
+	XeeGreyRawColourSpace = 1,
+	XeeRGBRawColourSpace = 2,
+	XeeCMYKRawColourSpace = 3,
+	XeeLabRawColourSpace = 4,
+};
 
-#define XeeAlphaFirstRawFlag 0x0001
-#define XeeAlphaLastRawFlag 0x0002
-#define XeeNoAlphaRawFlag 0x0000
-#define XeeSkipAlphaRawFlag 0x0004
-#define XeeAlphaPremultipliedRawFlag 0x0004
-#define XeeAlphaPrecomposedRawFlag 0x0010
-#define XeeBigEndianRawFlag 0x0020
-#define XeeLittleEndianRawFlag 0x0000
-#define XeeFloatingPointRawFlag 0x0040
+typedef NS_OPTIONS(unsigned int, XeeRawAlphaFlags) {
+	XeeAlphaFirstRawFlag = 0x0001,
+	XeeAlphaLastRawFlag = 0x0002,
+	XeeNoAlphaRawFlag = 0x0000,
+	XeeSkipAlphaRawFlag = 0x0004,
+	XeeAlphaPremultipliedRawFlag = 0x0004,
+	XeeAlphaPrecomposedRawFlag = 0x0010,
+	XeeBigEndianRawFlag = 0x0020,
+	XeeLittleEndianRawFlag = 0x0000,
+	XeeFloatingPointRawFlag = 0x0040,
+};
 
 @interface XeeRawImage:XeeBitmapImage
 {
@@ -24,9 +28,9 @@
 }
 
 -(id)initWithHandle:(CSHandle *)inhandle width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth colourSpace:(int)space flags:(int)flags;
+depth:(int)framedepth colourSpace:(XeeRawColourSpace)space flags:(XeeRawAlphaFlags)flags;
 -(id)initWithHandle:(CSHandle *)inhandle width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth colourSpace:(int)space flags:(int)flags bytesPerRow:(int)byterperinputrow;
+depth:(int)framedepth colourSpace:(XeeRawColourSpace)space flags:(XeeRawAlphaFlags)flags bytesPerRow:(int)byterperinputrow;
 -(void)dealloc;
 
 -(void)setZeroPoint:(float)low onePoint:(float)high forChannel:(int)channel;

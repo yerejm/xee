@@ -41,11 +41,13 @@ static NSInteger XeePDFSortPages(id first,id second,void *context)
 		}
 		@catch(id e) {}
 
-		if(parser) return self;
+		if (!parser) {
+			[self release];
+			return nil;
+		}
 	}
 
-	[self release];
-	return nil;
+	return self;
 }
 
 -(void)dealloc
@@ -160,6 +162,7 @@ static NSInteger XeePDFSortPages(id first,id second,void *context)
 
 
 @implementation XeePDFEntry
+@synthesize descriptiveName = name;
 
 -(id)initWithPDFStream:(PDFStream *)stream name:(NSString *)descname
 {
@@ -178,8 +181,6 @@ static NSInteger XeePDFSortPages(id first,id second,void *context)
 	[name release];
 	[super dealloc];
 }
-
--(NSString *)descriptiveName { return name; }
 
 -(XeeImage *)produceImage
 {

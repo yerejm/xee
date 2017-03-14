@@ -3,12 +3,12 @@
 
 @implementation XeeBitmapRawImage
 
--(id)initWithHandle:(CSHandle *)fh width:(int)w height:(int)h
+-(id)initWithHandle:(CSHandle *)fh width:(NSInteger)w height:(NSInteger)h
 {
 	return [self initWithHandle:fh width:w height:h bytesPerRow:(w+7)/8];
 }
 
--(id)initWithHandle:(CSHandle *)fh width:(int)w height:(int)h bytesPerRow:(int)bpr
+-(id)initWithHandle:(CSHandle *)fh width:(NSInteger)w height:(NSInteger)h bytesPerRow:(NSInteger)bpr
 {
 	if(self=[super initWithHandle:fh])
 	{

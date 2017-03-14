@@ -45,7 +45,7 @@
 
 -(void)dealloc
 {
-	[[NSFileManager defaultManager] removeFileAtPath:tmpdir handler:nil];
+	[[NSFileManager defaultManager] removeItemAtPath:tmpdir error:NULL];
 
 	[parser release];
 	[tmpdir release];
@@ -115,13 +115,27 @@
 	return [NSString stringWithFormat:@"%@ (%@)",[filename lastPathComponent],[currentry descriptiveName]];
 }
 
--(NSString *)windowRepresentedFilename { return filename; }
+-(NSString *)windowRepresentedFilename
+{
+	return filename;
+}
 
 
 
--(BOOL)canBrowse { return currentry!=nil; }
--(BOOL)canSort { return currentry!=nil; }
--(BOOL)canCopyCurrentImage { return currentry!=nil; }
+-(BOOL)canBrowse
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canSort
+{
+	return currentry!=nil;
+}
+
+-(BOOL)canCopyCurrentImage
+{
+	return currentry!=nil;
+}
 
 
 
@@ -130,14 +144,17 @@
 
 
 @implementation XeeArchiveEntry
+@synthesize path;
+@synthesize size;
+@synthesize time;
 
 -(id)initWithArchiveParser:(XADArchiveParser *)parent entry:(NSDictionary *)entry realPath:(NSString *)realpath
 {
 	if(self=[super init])
 	{
 		parser=[parent retain];
-		dict=[entry retain];
-		path=[realpath retain];
+		dict=[entry copy];
+		path=[realpath copy];
 		ref=nil;
 
 		size=[[dict objectForKey:XADFileSizeKey] unsignedLongLongValue];
@@ -154,9 +171,9 @@
 	if(self=[super initAsCopyOf:other])
 	{
 		parser=[other->parser retain];
-		dict=[other->dict retain];
+		dict=[other->dict copy];
 		ref=[other->ref retain];
-		path=[other->path retain];
+		path=[other->path copy];
 		size=other->size;
 		time=other->time;
 	}
@@ -172,7 +189,10 @@
 	[super dealloc];
 }
 
--(NSString *)descriptiveName { return [[dict objectForKey:XADFileNameKey] string]; }
+-(NSString *)descriptiveName
+{
+	return [[dict objectForKey:XADFileNameKey] string];
+}
 
 -(XeeFSRef *)ref
 {
@@ -208,14 +228,23 @@
 	return ref;
 }
 
-@synthesize path;
-@synthesize size;
-@synthesize time;
+-(NSString *)filename
+{
+	//return [[NSFileManager defaultManager] displayNameAtPath:[[dict objectForKey:XADFileNameKey] string]];
+	return [[[dict objectForKey:XADFileNameKey] string] lastPathComponent];
+}
 
--(NSString *)filename { return [[[dict objectForKey:XADFileNameKey] string] lastPathComponent]; }
+-(BOOL)isEqual:(XeeArchiveEntry *)other
+{
+	if (![other isKindOfClass:[XeeArchiveEntry class]]) {
+		return NO;
+	}
+	return parser==other->parser&&dict==other->dict;
+}
 
--(BOOL)isEqual:(XeeArchiveEntry *)other { return parser==other->parser&&dict==other->dict; }
-
--(NSUInteger)hash { return (uintptr_t)parser^(uintptr_t)dict; }
+-(NSUInteger)hash
+{
+	return (uintptr_t)parser^(uintptr_t)dict;
+}
 
 @end

@@ -1,23 +1,24 @@
 #import <Cocoa/Cocoa.h>
+#import "XeeParser.h"
 
 #import "XeeTypes.h"
 #import <XADMaster/CSHandle.h>
+@class XeePropertyItem;
 
 @interface Xee8BIMParser:NSObject
 {
 	NSMutableArray *props;
 	NSArray *xmpprops,*iptcprops,*exifprops;
 
-	int numcolours,trans;
+	NSInteger numcolours,trans;
 	BOOL hasmerged,copyrighted,watermarked,untagged;
 }
 
--(id)initWithHandle:(CSHandle *)handle;
--(void)dealloc;
+-(instancetype)initWithHandle:(CSHandle *)handle;
 
--(BOOL)hasMergedImage;
--(int)numberOfIndexedColours;
--(int)indexOfTransparentColour;
+@property (readonly) BOOL hasMergedImage;
+@property (readonly) NSInteger numberOfIndexedColours;
+@property (readonly) NSInteger indexOfTransparentColour;
 
--(NSArray *)propertyArrayWithPhotoshopFirst:(BOOL)psfirst;
+-(NSArray<XeePropertyItem*> *)propertyArrayWithPhotoshopFirst:(BOOL)psfirst;
 @end

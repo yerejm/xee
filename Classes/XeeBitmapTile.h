@@ -17,10 +17,9 @@
 	GLuint lists;
 }
 
--(id)initWithTarget:(GLuint)tt internalFormat:(GLuint)tif
-	x:(NSInteger)x y:(NSInteger)y width:(NSInteger)width height:(NSInteger)height
-	format:(GLuint)tf type:(GLuint)tt data:(void *)d;
--(void)dealloc;
+-(instancetype)initWithTarget:(GLuint)tt internalFormat:(GLuint)tif
+							x:(NSInteger)x y:(NSInteger)y width:(NSInteger)width height:(NSInteger)height
+					   format:(GLuint)tf type:(GLuint)tt data:(void *)d;
 
 -(void)uploadWithCompletedSpan:(XeeSpan)global_completed;
 -(void)invalidate;

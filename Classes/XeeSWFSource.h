@@ -12,13 +12,12 @@
 +(NSArray *)fileTypes;
 
 -(id)initWithFile:(NSString *)swfname;
--(void)dealloc;
 
 -(void)start;
 
--(NSString *)windowTitle;
--(NSString *)windowRepresentedFilename;
--(BOOL)canBrowse;
+@property (readonly, retain) NSString *windowTitle;
+@property (readonly, retain) NSString *windowRepresentedFilename;
+@property (readonly) BOOL canBrowse;
 
 @end
 
@@ -31,8 +30,8 @@
 }
 
 -(id)initWithHandle:(CSHandle *)handle name:(NSString *)descname;
--(void)dealloc;
--(NSString *)descriptiveName;
+
+@property (readonly, copy) NSString *descriptiveName;
 
 -(CSHandle *)newHandle NS_RETURNS_NOT_RETAINED;
 

@@ -6,8 +6,8 @@
 	NSBitmapImageRep *rep;
 }
 
--(id)init;
--(id)initWithNSBitmapImageRep:(NSBitmapImageRep *)imagerep;
+-(instancetype)init;
+-(instancetype)initWithNSBitmapImageRep:(NSBitmapImageRep *)imagerep;
 //-(id)initWithConvertedNSImageRep:(NSImageRep *)imagerep type:(int)pixeltype;
 
 -(BOOL)setNSBitmapImageRep:(NSBitmapImageRep *)imagerep;

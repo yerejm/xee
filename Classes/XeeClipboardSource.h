@@ -7,17 +7,16 @@
 }
 
 +(BOOL)canInitWithPasteboard:(NSPasteboard *)pboard;
-+(BOOL)canInitWithGeneralPasteboard;
+@property (class, readonly) BOOL canInitWithGeneralPasteboard;
 
--(id)initWithPasteboard:(NSPasteboard *)pboard;
--(id)initWithGeneralPasteboard;
--(void)dealloc;
+-(instancetype)initWithPasteboard:(NSPasteboard *)pboard;
+-(instancetype)initWithGeneralPasteboard;
 
--(NSInteger)numberOfImages;
+@property (readonly) NSInteger numberOfImages;
 -(NSInteger)indexOfCurrentImage;
--(NSString *)windowTitle;
--(NSString *)descriptiveNameOfCurrentImage;
--(uint64_t)sizeOfCurrentImage;
+@property (readonly, retain) NSString *windowTitle;
+@property (readonly, retain) NSString *descriptiveNameOfCurrentImage;
+@property (readonly) uint64_t sizeOfCurrentImage;
 
 -(void)pickImageAtIndex:(int)index next:(int)next;
 
