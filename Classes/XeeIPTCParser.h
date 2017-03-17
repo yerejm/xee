@@ -7,7 +7,7 @@
 	NSMutableArray *props;
 }
 
--(id)initWithHandle:(CSHandle *)handle;
+-(instancetype)initWithHandle:(CSHandle *)handle;
 
 -(NSArray<XeePropertyItem*> *)propertyArray;
 

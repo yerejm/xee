@@ -139,7 +139,7 @@
 "Caption" = "Caption";
 
 /* Destination list entry for picking a new folder */
-"Choose a folder..." = "Choose a folder...";
+"Choose a folder..." = "Choose a folder…";
 
 /* Photoshop layer color blending mode name property value */
 "Color" = "Color";
@@ -224,7 +224,7 @@
 "Couldn't delete file" = "Couldn't delete file";
 
 /* Statusbar message when image loading fails to even identify a file */
-"Couldn't display file \"%@\"." = "Couldn't display file \"%@\".";
+"Couldn't display file \"%@\"." = "Couldn't display file “%@”.";
 
 /* Title of the move failure dialog */
 "Couldn't move file" = "Couldn't move file";
@@ -233,7 +233,7 @@
 "Couldn't rename file" = "Couldn't rename file";
 
 /* Content of the file saving failure dialog */
-"Couldn't save the file \"%@\"." = "Couldn't save the file \"%@\".";
+"Couldn't save the file \"%@\"." = "Couldn't save the file “%@”.";
 
 /* Creation date property label */
 "Creation date" = "Creation date";
@@ -300,16 +300,16 @@
 "Dissolve" = "Dissolve";
 
 /* Content of the delete confirmation dialog */
-"Do you want to delete the image file \"%@\"?" = "Do you want to delete the image file \"%@\"?";
+"Do you want to delete the image file \"%@\"?" = "Do you want to delete the image file “%@”?";
 
 /* Content of the delete confirmation dialog for remote files */
-"Do you want to delete the image file \"%@\"?\nThe file will be removed immediately." = "Do you want to delete the image file \"%@\"?\nThe file will be removed immediately.";
+"Do you want to delete the image file \"%@\"?\nThe file will be removed immediately." = "Do you want to delete the image file “%@”?\nThe file will be removed immediately.";
 
 /* Ducky APP12 marker property title */
 "Ducky APP12 marker" = "Ducky APP12 marker";
 
 /* Statusbar message when image loading fails */
-"Error loading image \"%@\"." = "Error loading image \"%@\".";
+"Error loading image \"%@\"." = "Error loading image “%@”.";
 
 /* Photoshop layer exclusion blending mode name property value */
 "Exclusion" = "Exclusion";
@@ -465,7 +465,7 @@
 "Lighten" = "Lighten";
 
 /* Statusbar message while loading */
-"Loading \"%@\"..." = "Loading \"%@\"...";
+"Loading \"%@\"..." = "Loading “%@”…";
 
 /* Label for lossless quality */
 "Lossless" = "Lossless";
@@ -572,10 +572,10 @@
 "Optimized" = "Optimized";
 
 /* Menu item for other delay in slideshow menu when selected */
-"Other (%d Seconds)..." = "Other (%d Seconds)...";
+"Other (%d Seconds)..." = "Other (%d Seconds)…";
 
 /* Menu item for other delay in slideshow menu when not selected */
-"Other..." = "Other...";
+"Other..." = "Other…";
 
 /* Photoshop layer overlay blending mode name property value */
 "Overlay" = "Overlay";
@@ -679,10 +679,10 @@
 "Save For Web JPEG quality" = "Save For Web JPEG quality";
 
 /* Message when saving an image as */
-"Saving as \"%@\"..." = "Saving as \"%@\"...";
+"Saving as \"%@\"..." = "Saving as “%@”…";
 
 /* Message when saving an image */
-"Saving..." = "Saving...";
+"Saving..." = "Saving…";
 
 /* Photoshop layer screen blending mode name property value */
 "Screen" = "Screen";
@@ -724,22 +724,22 @@
 "Text layer fonts" = "Text layer fonts";
 
 /* Title of the file exists dialog */
-"The file \"%@\" already exists." = "The file \"%@\" already exists.";
+"The file \"%@\" already exists." = "The file “%@” already exists.";
 
 /* Content of the copy failure dialog */
-"The file \"%@\" could not be copied to the folder \"%@\"." = "The file \"%1$@\" could not be copied to the folder \"%2$@\".";
+"The file \"%@\" could not be copied to the folder \"%@\"." = "The file “%1$@” could not be copied to the folder “%2$@”.";
 
 /* Content of the delet failure dialog */
-"The file \"%@\" could not be deleted." = "The file \"%@\" could not be deleted.";
+"The file \"%@\" could not be deleted." = "The file “%@” could not be deleted.";
 
 /* Content of the move failure dialog */
-"The file \"%@\" could not be moved to the folder \"%@\"." = "The file \"%1$@\" could not be moved to the folder \"%2$@\".";
+"The file \"%@\" could not be moved to the folder \"%@\"." = "The file “%1$@” could not be moved to the folder \"%2$@\".";
 
 /* Content of the rename collision dialog */
-"The file \"%@\" could not be renamed because another file with the same name already exists." = "The file \"%@\" could not be renamed because another file with the same name already exists.";
+"The file \"%@\" could not be renamed because another file with the same name already exists." = "The file “%@” could not be renamed because another file with the same name already exists.";
 
 /* Content of the rename error dialog */
-"The file \"%@\" could not be renamed." = "The file \"%@\" could not be renamed.";
+"The file \"%@\" could not be renamed." = "The file “%@” could not be renamed.";
 
 /* Content of the move/copy to same folder dialog */
 "The source and destination locations are the same." = "The source and destination locations are the same.";

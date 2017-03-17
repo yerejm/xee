@@ -10,19 +10,19 @@
 	BOOL big_endian;
 }
 
--(id)initWithFilePointer:(FILE *)file closeOnDealloc:(BOOL)closeondealloc description:(NSString *)description fileType:(uint32_t)type;
+-(instancetype)initWithFilePointer:(FILE *)file closeOnDealloc:(BOOL)closeondealloc description:(NSString *)description fileType:(uint32_t)type;
 
--(BOOL)isShort;
+@property (readonly) BOOL isShort;
 
--(uint32_t)fileID;
--(uint32_t)fileType;
+@property (readonly) uint32_t fileID;
+@property (readonly) uint32_t fileType;
 
 -(uint32_t)nextChunk;
 
--(uint32_t)offsetInChunk;
--(uint32_t)chunkSize;
--(uint32_t)chunkID;
--(uint32_t)bytesLeft;
+@property (readonly) uint32_t offsetInChunk;
+@property (readonly) uint32_t chunkSize;
+@property (readonly) uint32_t chunkID;
+@property (readonly) uint32_t bytesLeft;
 
 -(void)seekToChunkOffset:(off_t)offs;
 -(void)seekToEndOfFile;
@@ -70,9 +70,9 @@
 
 -(void)_raiseChunk;
 
--(NSString *)description;
+//-(NSString *)description;
 
-+(id)IFFHandleWithPath:(NSString *)path;
-+(id)IFFHandleWithPath:(NSString *)path fileType:(uint32_t)type;
++(instancetype)IFFHandleWithPath:(NSString *)path;
++(instancetype)IFFHandleWithPath:(NSString *)path fileType:(uint32_t)type;
 
 @end

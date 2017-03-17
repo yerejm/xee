@@ -39,7 +39,7 @@
 
 +(void)updateTables;
 +(void)suggestInsertion:(NSString *)directory;
-+(void)addDestinations:(NSArray *)directories index:(NSInteger)index;
++(void)addDestinations:(NSArray<NSString*> *)directories index:(NSInteger)index;
 +(NSInteger)findDestination:(NSString *)directory;
 +(void)loadArray;
 +(void)saveArray;

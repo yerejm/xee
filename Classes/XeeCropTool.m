@@ -4,7 +4,7 @@
 #import "XeeGraphicsStuff.h"
 #import "XeeController.h"
 
-#import <OpenGL/GL.h>
+#include <OpenGL/GL.h>
 
 
 
@@ -162,7 +162,7 @@ static void XeeGLRect(float x1,float y1,float x2,float y2);
 -(void)mouseDoubleClickedAt:(NSPoint)position
 {
 	[self retain]; // The tool gets released in confirm:, so make sure we don't die quite yet.
-	[[view delegate] confirm:nil];
+	[(XeeController*)[view delegate] confirm:nil];
 	[[view image] triggerPropertyChangeAction]; 
 	[self release];
 }

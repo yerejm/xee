@@ -43,18 +43,20 @@ void XeePlayPoof(NSWindow *somewindow);
 {
 	NSString *ident=[column identifier];
 
-	if(row==0)
-	{
-		if([ident isEqual:@"filename"]) return NSLocalizedString(@"Choose a folder...",@"Destination list entry for picking a new folder");
-		else return nil;
-	}
-	else
-	{
-		if([ident isEqual:@"shortcut"]) return [self shortcutForRow:row];
-		else
-		{
-			NSInteger index=[self indexForRow:row];
-			if(index<0) return nil;
+	if (row == 0) {
+		if ([ident isEqual:@"filename"]) {
+			return NSLocalizedString(@"Choose a folder...", @"Destination list entry for picking a new folder");
+		} else {
+			return nil;
+		}
+	} else {
+		if([ident isEqual:@"shortcut"]){
+			return [self shortcutForRow:row];
+		} else {
+			NSInteger index = [self indexForRow:row];
+			if (index < 0) {
+				return nil;
+			}
 			NSMutableDictionary *dict=[destinations objectAtIndex:index];
 			return [dict objectForKey:ident];
 		}
@@ -72,19 +74,16 @@ void XeePlayPoof(NSWindow *somewindow);
 {
 	NSInteger index=[self indexForRow:row];
 
-	if(index>=0&&![self isRowSelected:row])
-	{
+	if (index >= 0 && ![self isRowSelected:row]) {
 		NSColor *col=[[destinations objectAtIndex:index] objectForKey:@"color"];
 
-		if(col)
-		{
+		if (col) {
 			[col set];
 			XeeDrawRoundedBar([self rectOfRow:row]);
 		}
 	}
 
-	if(row>=droprow&&row<droprow+dropnum)
-	{
+	if (row >= droprow && row < droprow + dropnum) {
 //		[[[NSColor blueColor] colorWithAlphaComponent:0.2] set];
 		[[NSColor colorWithDeviceWhite:0 alpha:0.2] set];
 		XeeDrawRoundedBar([self rectOfRow:row]);
@@ -98,35 +97,31 @@ void XeePlayPoof(NSWindow *somewindow);
 	NSRect rect=[self rectOfRow:row];
 	rect.size.height-=1;
 
-	if(column==0)
-	{
+	if (column == 0) {
 		rect.origin.x+=2;
 		rect.origin.y+=1;
 		rect.size.width=rect.size.height=16;
 		return rect;
-	}
-	else if(column==1)
-	{
+	} else if (column == 1) {
 		rect.size.width-=20;
 		rect.origin.x+=20;
 
 		NSString *shortcut=[self shortcutForRow:row];
-		if(shortcut&&!surpressshortcut)
-		{
+		if (shortcut && !surpressshortcut) {
 			NSFont *font=[[[self tableColumnWithIdentifier:@"shortcut"] dataCell] font];
 			NSDictionary *attrs=[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
 			NSSize size=[shortcut sizeWithAttributes:attrs];
 			rect.size.width-=size.width+2;
 		}
 
-		if(rect.size.width<0) return NSZeroRect;
-		else return rect;
-	}
-	else if(column==2)
-	{
+		if (rect.size.width < 0) {
+			return NSZeroRect;
+		} else {
+			return rect;
+		}
+	} else if (column == 2) {
 		NSString *shortcut=[self shortcutForRow:row];
-		if(shortcut&&!surpressshortcut)
-		{
+		if (shortcut && !surpressshortcut) {
 			NSFont *font=[[[self tableColumnWithIdentifier:@"shortcut"] dataCell] font];
 			NSDictionary *attrs=[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
 			NSSize size=[shortcut sizeWithAttributes:attrs];
@@ -136,8 +131,9 @@ void XeePlayPoof(NSWindow *somewindow);
 			rect.size.width=size.width+4;
 			rect.size.height-=2;
 			return rect;
+		} else {
+			return NSZeroRect;
 		}
-		else return NSZeroRect;
 	}
 	return NSZeroRect;
 }
@@ -149,8 +145,11 @@ void XeePlayPoof(NSWindow *somewindow);
 {
 	unichar c=[[event characters] characterAtIndex:0];
 
-	if(c==13||c==3) [[NSApplication sharedApplication] sendAction:@selector(destinationListClick:) to:nil from:self];
-	else [super keyDown:event];
+	if (c == 13 || c == 3) {
+		[[NSApplication sharedApplication] sendAction:@selector(destinationListClick:) to:nil from:self];
+	} else {
+		[super keyDown:event];
+	}
 }
 
 -(NSMenu*)menuForEvent:(NSEvent *)event
@@ -267,7 +266,8 @@ void XeePlayPoof(NSWindow *somewindow);
 		[self setDropRow:row num:1];
 	}
 
-	if([[pboard types] containsObject:@"XeeDestinationPath"]) [[NSCursor arrowCursor] set];
+	if([[pboard types] containsObject:@"XeeDestinationPath"])
+		[[NSCursor arrowCursor] set];
 
 	return NSDragOperationMove;
 }
@@ -462,13 +462,10 @@ void XeePlayPoof(NSWindow *somewindow);
 	[self saveArray];
 }
 
-+(void)addDestinations:(NSArray *)directories index:(NSInteger)index
++(void)addDestinations:(NSArray<NSString*> *)directories index:(NSInteger)index
 {
 	NSMutableArray *destinations=[self defaultArray];
-	NSEnumerator *enumerator=[directories reverseObjectEnumerator];
-	NSString *directory;
-	while(directory=[enumerator nextObject])
-	{
+	for (NSString *directory in directories) {
 		NSString *dirname=[directory lastPathComponent];
 		NSImage *icon=[[NSWorkspace sharedWorkspace] iconForFile:directory];
 		NSColor *color=[NSColor clearColor];

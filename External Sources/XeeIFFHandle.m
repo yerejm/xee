@@ -1,6 +1,10 @@
 #import "XeeIFFHandle.h"
 
 @implementation XeeIFFHandle
+@synthesize fileID = file_id;
+@synthesize fileType = file_type;
+@synthesize chunkSize = curr_size;
+@synthesize chunkID = curr_id;
 
 -(id)initWithFilePointer:(FILE *)file closeOnDealloc:(BOOL)closeondealloc description:(NSString *)description fileType:(uint32_t)type
 {
@@ -47,19 +51,14 @@
 
 -(BOOL)isShort
 {
-	return file_end>=[self fileSize];
+	return file_end >= [self fileSize];
 }
-
--(uint32_t)fileID { return file_id; }
-
--(uint32_t)fileType { return file_type; }
 
 
 
 -(uint32_t)nextChunk
 {
-	if(next_chunk>=file_end)
-	{
+	if (next_chunk >= file_end) {
 		curr_id=0;
 		curr_size=0;
 		curr_start=0;
@@ -79,28 +78,35 @@
 
 
 
--(uint32_t)offsetInChunk { return [self offsetInFile]-curr_start; }
+-(uint32_t)offsetInChunk
+{
+	return (uint32_t)([self offsetInFile] - curr_start);
+}
 
--(uint32_t)chunkSize { return curr_size; }
-
--(uint32_t)chunkID { return curr_id; }
-
--(uint32_t)bytesLeft { return curr_start+curr_size-[self offsetInFile]; }
+-(uint32_t)bytesLeft
+{
+	return (uint32_t)(curr_start + curr_size - [self offsetInFile]);
+}
 
 
 
 -(void)seekToChunkOffset:(off_t)offs
 {
 	uint32_t newpos=curr_start+offs;
-	if(newpos<curr_start||newpos>=curr_start+curr_size) [self _raiseChunk];
+	if (newpos < curr_start || newpos >= curr_start + curr_size)
+		[self _raiseChunk];
 	[super seekToFileOffset:newpos];
 }
 
--(void)seekToEndOfFile { [self _raiseNotSupported:_cmd]; }
+-(void)seekToEndOfFile
+{
+	[self _raiseNotSupported:_cmd];
+}
 
 -(void)seekToFileOffset:(off_t)offs
 {
-	if(offs<curr_start||offs>=curr_start+curr_size) [self _raiseChunk];
+	if (offs < curr_start || offs >= curr_start + curr_size)
+		[self _raiseChunk];
 	[super seekToFileOffset:offs];
 }
 
@@ -109,50 +115,65 @@
 
 -(int16_t)readInt16
 {
-	if(big_endian) return [self readInt16BE];
-	else return [self readInt16LE];
+	if (big_endian)
+		return [self readInt16BE];
+	else
+		return [self readInt16LE];
 }
 
 -(int32_t)readInt32
 {
-	if(big_endian) return [self readInt32BE];
-	else return [self readInt32LE];
+	if (big_endian)
+		return [self readInt32BE];
+	else
+		return [self readInt32LE];
 }
 
 -(int64_t)readInt64
 {
-	if(big_endian) return [self readInt64BE];
-	else return [self readInt64LE];
+	if (big_endian)
+		return [self readInt64BE];
+	else
+		return [self readInt64LE];
 }
 
 -(uint16_t)readUInt16
 {
-	if(big_endian) return [self readUInt16BE];
-	else return [self readUInt16LE];
+	if (big_endian)
+		return [self readUInt16BE];
+	else
+		return [self readUInt16LE];
 }
 
 -(uint32_t)readUInt32
 {
-	if(big_endian) return [self readUInt32BE];
-	else return [self readUInt32LE];
+	if (big_endian)
+		return [self readUInt32BE];
+	else
+		return [self readUInt32LE];
 }
 
 -(uint64_t)readUInt64
 {
-	if(big_endian) return [self readUInt64BE];
-	else return [self readUInt64LE];
+	if (big_endian)
+		return [self readUInt64BE];
+	else
+		return [self readUInt64LE];
 }
 
 -(uint32_t)_readHeaderUint32
 {
-	if(big_endian) return [super readUInt32BE];
-	else return [super readUInt32LE];
+	if (big_endian)
+		return [super readUInt32BE];
+	else
+		return [super readUInt32LE];
 }
 
 #define XeeIFFReadValueImpl(type,name) \
 -(type)name \
 { \
-	if([self bytesLeft]<sizeof(type)) [self _raiseChunk]; \
+	if ([self bytesLeft] < sizeof(type)) \
+		[self _raiseChunk]; \
 	return [super name]; \
 } 
 
@@ -177,13 +198,22 @@ XeeIFFReadValueImpl(uint32_t,readID)
 
 
 
--(void)pushBackByte:(int)byte { [self _raiseNotSupported:_cmd]; }
+-(void)pushBackByte:(int)byte
+{
+	[self _raiseNotSupported:_cmd];
+}
 
 
 
--(NSData *)chunkContents { return [[self copyChunkContents] autorelease]; }
+-(NSData *)chunkContents
+{
+	return [[self copyChunkContents] autorelease];
+}
 
--(NSData *)remainingChunkContents { return [[self copyRemainingChunkContents] autorelease]; }
+-(NSData *)remainingChunkContents
+{
+	return [[self copyRemainingChunkContents] autorelease];
+}
 
 -(NSData *)copyChunkContents
 {
@@ -196,13 +226,22 @@ XeeIFFReadValueImpl(uint32_t,readID)
 	return [super copyDataOfLength:[self bytesLeft]];
 }
 
--(NSData *)fileContents { [self _raiseNotSupported:_cmd]; return nil; }
+-(NSData *)fileContents
+{
+	[self _raiseNotSupported:_cmd];
+	return nil;
+}
 
--(NSData *)remainingFileContents { [self _raiseNotSupported:_cmd]; return nil; }
+-(NSData *)remainingFileContents
+{
+	[self _raiseNotSupported:_cmd];
+	return nil;
+}
 
 -(void)readBytes:(int)num toBuffer:(void *)buffer
 {
-	if([self offsetInFile]+num>curr_start+curr_size) [self _raiseChunk];
+	if ([self offsetInFile]+num>curr_start+curr_size)
+		[self _raiseChunk];
 	[super readBytes:num toBuffer:buffer];
 }
 
@@ -210,7 +249,8 @@ XeeIFFReadValueImpl(uint32_t,readID)
 
 -(XeeIFFHandle *)IFFHandleForChunk
 {
-	if(!curr_start) [self _raiseChunk];
+	if(!curr_start)
+		[self _raiseChunk];
 	[super seekToFileOffset:curr_start-8];
 	return [[[XeeIFFHandle alloc] initWithFilePointer:fh closeOnDealloc:NO description:name fileType:0] autorelease];
 }
@@ -233,14 +273,17 @@ XeeIFFReadValueImpl(uint32_t,readID)
 
 
 
-+(id)IFFHandleWithPath:(NSString *)path { return [self IFFHandleWithPath:path fileType:0]; }
++(id)IFFHandleWithPath:(NSString *)path
+{
+	return [self IFFHandleWithPath:path fileType:0];
+}
 
 +(id)IFFHandleWithPath:(NSString *)path fileType:(uint32_t)type
 {
 	if(!path) return nil;
 
 	FILE *fh=fopen([path fileSystemRepresentation],"rb");
-	CSFileHandle *handle=[[[XeeIFFHandle alloc] initWithFilePointer:fh closeOnDealloc:YES description:path fileType:type] autorelease];
+	XeeIFFHandle *handle=[[[self alloc] initWithFilePointer:fh closeOnDealloc:YES description:path fileType:type] autorelease];
 	if(handle) return handle;
 
 	fclose(fh);

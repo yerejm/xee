@@ -1,10 +1,11 @@
 #import "SWFParser.h"
 #import <XADMaster/CSFileHandle.h>
 #import <XADMaster/CSZlibHandle.h>
+#import <XADMaster/XADSWFTagParser.h>
 
 
-NSString *SWFWrongMagicException=@"SWFWrongMagicException";
-NSString *SWFNoMoreTagsException=@"SWFNoMoreTagsException";
+//NSString *SWFWrongMagicException=@"SWFWrongMagicException";
+//NSString *SWFNoMoreTagsException=@"SWFNoMoreTagsException";
 
 
 @implementation SWFParser
