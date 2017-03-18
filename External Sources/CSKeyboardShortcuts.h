@@ -17,29 +17,28 @@
 
 @interface CSKeyboardShortcuts:NSObject
 {
-	NSArray *actions;
+	NSArray<CSAction*> *actions;
 }
 
-+(NSArray *)parseMenu:(NSMenu *)menu;
-+(NSArray *)parseMenu:(NSMenu *)menu namespace:(NSMutableSet *)namespace;
++(NSArray<CSAction*> *)parseMenu:(NSMenu *)menu;
++(NSArray<CSAction*> *)parseMenu:(NSMenu *)menu namespace:(NSMutableSet<NSString*> *)aNamespace;
 
-+(CSKeyboardShortcuts *)defaultShortcuts;
+@property (class, readonly, retain) CSKeyboardShortcuts *defaultShortcuts;
 +(void)installWindowClass;
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 
--(NSArray *)actions;
+-(NSArray<CSAction*> *)actions;
 
--(void)addActions:(NSArray *)actions;
+-(void)addActions:(NSArray<CSAction*> *)actions;
 -(void)addActionsFromMenu:(NSMenu *)mainmenu;
--(void)addShortcuts:(NSDictionary *)shortcuts;
+-(void)addShortcuts:(NSDictionary<NSString*,NSArray<CSAction*>*> *)shortcuts;
 
 -(void)resetToDefaults;
 
 -(BOOL)handleKeyEvent:(NSEvent *)event;
 -(CSAction *)actionForEvent:(NSEvent *)event;
--(CSAction *)actionForEvent:(NSEvent *)event ignoringModifiers:(int)ignoredmods;
+-(CSAction *)actionForEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods;
 -(CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(int *)index;
 
 @end
@@ -66,12 +65,11 @@
 
 -(id)initWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector target:(id)acttarget defaultShortcut:(CSKeyStroke *)defshortcut;
 -(id)initWithMenuItem:(NSMenuItem *)menuitem namespace:(NSMutableSet *)namespace;
--(void)dealloc;
 
--(NSString *)title;
--(NSString *)identifier;
+@property (readonly) NSString *title;
+@property (readonly) NSString *identifier;
 -(SEL)selector;
--(BOOL)isMenuItem;
+@property (readonly, getter=isMenuItem) BOOL menuItem;
 
 -(void)setDefaultShortcuts:(NSArray *)shortcutarray;
 -(void)addDefaultShortcut:(CSKeyStroke *)shortcut;
@@ -96,7 +94,6 @@
 -(NSPoint)findLocationOfKey:(CSKeyStroke *)searchkey offset:(NSPoint)offset;
 -(CSKeyStroke *)findKeyAfterDropPoint:(NSPoint)point offset:(NSPoint)offset;
 
--(NSString *)description;
 -(NSComparisonResult)compare:(CSAction *)other;
 
 @end
@@ -106,29 +103,29 @@
 @interface CSKeyStroke:NSObject
 {
 	NSString *chr;
-	unsigned int mod;
+	NSEventModifierFlags mod;
 	NSImage *img;
 }
 
-+(CSKeyStroke *)keyForCharacter:(NSString *)character modifiers:(unsigned int)modifiers;
-+(CSKeyStroke *)keyForCharCode:(unichar)character modifiers:(unsigned int)modifiers;
++(CSKeyStroke *)keyForCharacter:(NSString *)character modifiers:(NSEventModifierFlags)modifiers;
++(CSKeyStroke *)keyForCharCode:(unichar)character modifiers:(NSEventModifierFlags)modifiers;
 +(CSKeyStroke *)keyFromMenuItem:(NSMenuItem *)item;
 +(CSKeyStroke *)keyFromEvent:(NSEvent *)event;
 +(CSKeyStroke *)keyFromDictionary:(NSDictionary *)dict;
 
-+(NSArray *)keysFromDictionaries:(NSArray *)dicts;
-+(NSArray *)dictionariesFromKeys:(NSArray *)keys;
++(NSArray<CSKeyStroke *> *)keysFromDictionaries:(NSArray<NSDictionary<NSString*,id>*> *)dicts;
++(NSArray<NSDictionary<NSString*,id>*> *)dictionariesFromKeys:(NSArray<CSKeyStroke *> *)keys;
 
--(id)initWithCharacter:(NSString *)character modifiers:(unsigned int)modifiers;
+-(id)initWithCharacter:(NSString *)character modifiers:(NSEventModifierFlags)modifiers;
 -(void)dealloc;
 
--(NSString *)character;
--(unsigned int)modifiers;
--(NSDictionary *)dictionary;
+@property (readonly, copy) NSString *character;
+@property (readonly) NSEventModifierFlags modifiers;
+-(NSDictionary<NSString*,id> *)dictionary;
 
 -(NSImage *)image;
 
--(BOOL)matchesEvent:(NSEvent *)event ignoringModifiers:(int)ignoredmods;
+-(BOOL)matchesEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods;
 
 -(NSString *)description;
 -(NSString *)descriptionOfModifiers;
@@ -155,7 +152,6 @@
 }
 
 -(id)initWithCoder:(NSCoder *)decoder;
--(void)dealloc;
 
 -(void)awakeFromNib;
 

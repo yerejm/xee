@@ -288,7 +288,7 @@ static NSInteger XeePDFSortPages(id first,id second,void *context)
 			if(palettedata)
 			{
 				const uint8_t *palettebytes=[palettedata bytes];
-				int count=[palettedata length]/3;
+				int count=(int)([palettedata length]/3);
 				if(count>256) count=256;
 
 				XeePalette *pal=[XeePalette palette];

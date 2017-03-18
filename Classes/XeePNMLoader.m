@@ -121,7 +121,7 @@
 			{
 				CSHandle *fh=[self handle];
 				uint8_t *data=[(XeeBitmapImage *)image data];
-				int bytesperrow=[(XeeBitmapImage *)image bytesPerRow];
+				NSInteger bytesperrow=[(XeeBitmapImage *)image bytesPerRow];
 
 				for(int y=0;y<imgheight;y++)
 				{
@@ -149,7 +149,7 @@
 				else channels=3;
 
 				uint8_t *data=[(XeeBitmapImage *)image data];
-				int bytesperrow=[(XeeBitmapImage *)image bytesPerRow];
+				NSInteger bytesperrow=[(XeeBitmapImage *)image bytesPerRow];
 
 				for(int y=0;y<imgheight;y++)
 				{

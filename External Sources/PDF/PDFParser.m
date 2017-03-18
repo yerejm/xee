@@ -40,12 +40,10 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 		encryption=nil;
 
-		@try
-		{
+		@try {
 			if([fh readUInt8]!='%'||[fh readUInt8]!='P'||[fh readUInt8]!='D'||[fh readUInt8]!='F'||[fh readUInt8]!='-')
 			[NSException raise:PDFWrongMagicException format:@"Not a PDF file."];
-		}
-		@catch(NSException *e) {
+		} @catch(NSException *e) {
 			@throw;
 		}
 	}
@@ -578,8 +576,12 @@ static BOOL IsWhiteSpace(uint8_t c);
 
 	NSInteger length=[start length];
 	const uint8_t *bytes=[start bytes];
-	int skip=0;
-	for(int i=0;i<length;i++) if(bytes[i]=='\n'||bytes[i]=='\r') skip=i+1;
+	NSInteger skip=0;
+	for (NSInteger i=0;i<length;i++) {
+		if(bytes[i]=='\n'||bytes[i]=='\r') {
+			skip=i+1;
+		}
+	}
 	NSString *startstr=[[NSString alloc] initWithBytes:bytes+skip length:length-skip encoding:NSISOLatin1StringEncoding];
 
 	NSData *end=[fh readDataOfLengthAtMost:100];
@@ -623,7 +625,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 	NSInteger length=[characters length];
 	const unsigned char *bytes=[characters bytes];
 	if(length>=2&&bytes[0]==0xfe&&bytes[1]==0xff) return [[NSString alloc] initWithBytes:bytes+2 length:length-2
-	encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)];
+	encoding:NSUTF16BigEndianStringEncoding];
 	else return [[NSString alloc] initWithData:characters encoding:NSISOLatin1StringEncoding];
 }
 
@@ -632,7 +634,10 @@ static BOOL IsWhiteSpace(uint8_t c);
 	return [other isKindOfClass:[PDFString class]]&&[data isEqual:((PDFString *)other)->data];
 }
 
--(NSUInteger)hash { return [data hash]; }
+-(NSUInteger)hash
+{
+	return [data hash];
+}
 
 -(id)copyWithZone:(NSZone *)zone
 {
@@ -678,9 +683,15 @@ static BOOL IsWhiteSpace(uint8_t c);
 	return [other isKindOfClass:[PDFObjectReference class]]&&((PDFObjectReference *)other)->num==num&&((PDFObjectReference *)other)->gen==gen;
 }
 
--(NSUInteger)hash { return num^(gen*69069); }
+-(NSUInteger)hash
+{
+	return num^(gen*69069);
+}
 
--(id)copyWithZone:(NSZone *)zone { return [[[self class] allocWithZone:zone] initWithNumber:num generation:gen]; }
+-(id)copyWithZone:(NSZone *)zone
+{
+	return [[[self class] allocWithZone:zone] initWithNumber:num generation:gen];
+}
 
 -(NSString *)description { return [NSString stringWithFormat:@"<Reference to object %d, generation %d>",num,gen]; }
 

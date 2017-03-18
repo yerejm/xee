@@ -29,7 +29,6 @@ extern NSString *CCITTCodeException;
 }
 
 -(instancetype)initWithHandle:(CSHandle *)handle columns:(int)columns white:(int)whitevalue;
--(void)dealloc;
 
 -(void)resetByteStream;
 -(void)startNewLine;

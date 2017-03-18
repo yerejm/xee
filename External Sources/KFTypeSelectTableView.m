@@ -1187,7 +1187,7 @@ static NSMutableDictionary *idToSimulatedIvarsMap = nil;
     if (pattern == nil)
         pattern = @"";
     
-    return [[pattern retain] autorelease];
+    return [[pattern copy] autorelease];
 }
 
 static KFTypeSelectMatchAlgorithm defaultMatchAlgorith = KFPrefixMatchAlgorithm;

@@ -527,7 +527,7 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 		CGDataProviderSequentialCallbacks callbacks=
 		{ 0, XeeTileImageGetBytes,XeeTileImageSkipBytes,XeeTileImageRewind,XeeTileImageReleaseInfo };
 
-		CGDataProviderRef provider=CGDataProviderCreateSequential(info,&callbacks);
+		CGDataProviderRef provider=CGDataProviderCreateSequential(info, &callbacks);
 
 		if(provider)
 		{

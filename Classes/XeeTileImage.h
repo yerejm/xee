@@ -2,8 +2,8 @@
 #import "XeeBitmapTile.h"
 #import "XeeSampleSet.h"
 
-#import <OpenGL/GL.h>
-#import <OpenGL/GLu.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 
 typedef void (*XeeReadPixelFunction)(uint8_t *row,NSInteger x,NSInteger pixelsize,uint8_t *dest);
 

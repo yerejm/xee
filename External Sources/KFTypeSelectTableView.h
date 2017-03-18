@@ -55,30 +55,30 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 
 #pragma mark action methods
 
-// these beep if the operation cannot be performed
+//! these beep if the operation cannot be performed
 - (void)findNext:(id)sender;
 - (void)findPrevious:(id)sender;
 
 #pragma mark accessors
-// the current 
-// pattern of @"" indicates no search, anything else means a search is in progress, or has finished
-// but could still be extended by further user input.  See documentation of the notifications below
-// for more detail.
-// KVO-compliant
-- (NSString *)pattern;
+//! the current
+//! pattern of @"" indicates no search, anything else means a search is in progress, or has finished
+//! but could still be extended by further user input.  See documentation of the notifications below
+//! for more detail.
+//! KVO-compliant
+@property (readonly, copy) NSString *pattern;
 
-// a tableview with no match algorithm set uses defaultMatchAlgorithm
-// defaultMatchAlgorithm defaults to KFPrefixMatchAlgorithm
+//! a tableview with no match algorithm set uses \c defaultMatchAlgorithm
+//! \c defaultMatchAlgorithm defaults to \c KFPrefixMatchAlgorithm
 @property (class) KFTypeSelectMatchAlgorithm defaultMatchAlgorithm;
 
 @property KFTypeSelectMatchAlgorithm matchAlgorithm;
 
-// defaults to NO
+//! defaults to \c NO
 @property BOOL searchWraps;
 
-// supply a set of identifiers to limit columns searched for match.
-// Only columns with identifiers in the provided set are searched.
-// nil identifiers means search all columns.  defaults to nil.
+//! supply a set of identifiers to limit columns searched for match.
+//! Only columns with identifiers in the provided set are searched.
+//! nil identifiers means search all columns.  defaults to nil.
 @property (copy) NSSet<NSString*> *searchColumnIdentifiers;
 
 @end
@@ -87,20 +87,20 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 
 #pragma mark configuration methods 
 
-// Implement this method if the table uses bindings for data.
-// Use something like
-//     return [[[arrayController arrangedObjects] objectAtIndex:row] valueForKey:[column identifier]];
-// Could also use it to supply string representations for non-string data, or to search only part of visible text.
+//! Implement this method if the table uses bindings for data.
+//! Use something like
+//!     return [[[arrayController arrangedObjects] objectAtIndex:row] valueForKey:[column identifier]];
+//! Could also use it to supply string representations for non-string data, or to search only part of visible text.
 - (NSString *)typeSelectTableView:(id)tableView stringValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row;
 
-// defaults to YES
+//! defaults to YES
 - (BOOL)typeSelectTableViewSearchTopToBottom:(id)tableView; 
 
- // defaults to first or last row, depending on direction of search
-- (int)typeSelectTableViewInitialSearchRow:(id)tableView;   
+//! defaults to first or last row, depending on direction of search
+- (NSInteger)typeSelectTableViewInitialSearchRow:(id)tableView;
 
-// A hook for cases (like mail plugin) where there's no good place to configure the table.
-// Will be called before type-select is used with any particular delegate.
+//! A hook for cases (like mail plugin) where there's no good place to configure the table.
+//! Will be called before type-select is used with any particular delegate.
 - (void)configureTypeSelectTableView:(id)tableView;
 
 #pragma mark reporting methods
@@ -112,7 +112,7 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 //    x seconds after a search either succeeds or fails, where x is a timeout period
 - (void)typeSelectTableViewPatternDidChange:(NSNotification *)aNotification; 
 - (void)typeSelectTableView:(id)tableView didFindMatch:(NSString *)match range:(NSRange)matchedRange forPattern:(NSString *)pattern;
-- (void)typeSelectTableView:(id)tableView didFailToFindMatchForPattern:(NSString *)pattern; // fallback is a beep if delegate does not implement
+- (void)typeSelectTableView:(id)tableView didFailToFindMatchForPattern:(NSString *)pattern; //!< fallback is a beep if delegate does not implement
 
 @end
 

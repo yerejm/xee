@@ -65,7 +65,7 @@ NSString *PDFMD5FinishedException=@"PDFMD5FinishedException";
 
 -(NSData *)digest
 {
-	if(!done) {
+	if (!done) {
 		CC_MD5_Final(digest_bytes,&md5);
 		done=YES;
 	}
@@ -74,7 +74,10 @@ NSString *PDFMD5FinishedException=@"PDFMD5FinishedException";
 
 -(NSString *)hexDigest
 {
-	if(!done) { CC_MD5_Final(digest_bytes,&md5); done=YES; }
+	if (!done) {
+		CC_MD5_Final(digest_bytes,&md5);
+		done=YES;
+	}
 	return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
 	digest_bytes[0],digest_bytes[1],digest_bytes[2],digest_bytes[3],
 	digest_bytes[4],digest_bytes[5],digest_bytes[6],digest_bytes[7],
@@ -109,8 +112,8 @@ NSString *PDFMD5FinishedException=@"PDFMD5FinishedException";
 {
 	if(self=[super initWithName:[handle name]])
 	{
-		parent=handle;
-		key=[keydata copy];
+		parent = handle;
+		key = [keydata copy];
 
 		iv=[parent copyDataOfLength:16];
 		startoffs=[parent offsetInFile];
