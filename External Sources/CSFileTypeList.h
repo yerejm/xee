@@ -2,8 +2,8 @@
 
 @interface CSFileTypeList:NSTableView
 
--(id)initWithCoder:(NSCoder *)coder;
--(id)initWithFrame:(NSRect)frame;
+-(instancetype)initWithCoder:(NSCoder *)coder;
+-(instancetype)initWithFrame:(NSRect)frame;
 
 -(IBAction)selectAll:(id)sender;
 -(IBAction)deselectAll:(id)sender;
@@ -23,8 +23,8 @@
 	NSArray *filetypes;
 }
 
--(id)init;
--(NSArray *)readFileTypes;
+-(instancetype)init;
+@property (readonly, copy) NSArray<NSDictionary<NSString*,id>*> *readFileTypes;
 
 -(void)claimAllTypes;
 -(void)surrenderAllTypes;
