@@ -8,6 +8,9 @@
 
 
 @implementation Xee8BIMParser
+@synthesize indexOfTransparentColour = trans;
+@synthesize hasMergedImage = hasmerged;
+@synthesize numberOfIndexedColours = numcolours;
 
 -(id)initWithHandle:(CSHandle *)handle
 {
@@ -229,12 +232,6 @@
 
 	[super dealloc];
 }
-
--(BOOL)hasMergedImage { return hasmerged; }
-
--(int)numberOfIndexedColours { return numcolours; }
-
--(int)indexOfTransparentColour { return trans; }
 
 -(NSArray *)propertyArrayWithPhotoshopFirst:(BOOL)psfirst
 {

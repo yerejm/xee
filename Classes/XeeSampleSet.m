@@ -70,14 +70,17 @@ static int XeeSamplePointSorter(const void *a,const void *b)
 //	for(int i=0;i<num;i++) NSLog(@"%f %f %f",samples[i].u,samples[i].v,samples[i].weight);
 }
 
--(XeeSamplePoint *)samples { return samples; }
+-(XeeSamplePoint *)samples
+{
+	return samples;
+}
 
-+(XeeSampleSet *)sampleSetWithCount:(int)count distribution:(NSString *)distname filter:(NSString *)filtername;
++(XeeSampleSet *)sampleSetWithCount:(NSInteger)count distribution:(NSString *)distname filter:(NSString *)filtername;
 {
 	static NSMutableDictionary *setdict=nil;
 	if(!setdict) setdict=[[NSMutableDictionary alloc] init];
 
-	NSString *name=[NSString stringWithFormat:@"%@-%@-%d",distname,filtername,count];
+	NSString *name=[NSString stringWithFormat:@"%@-%@-%ld",distname,filtername,(long)count];
 	XeeSampleSet *set=[setdict objectForKey:name];
 	if(!set)
 	{

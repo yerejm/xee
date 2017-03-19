@@ -9,6 +9,7 @@
 static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 @implementation CSKeyboardShortcuts
+@synthesize actions;
 
 +(NSArray *)parseMenu:(NSMenu *)menu
 {
@@ -59,11 +60,6 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	[super dealloc];
 }
 
--(NSArray *)actions
-{
-	return actions;
-}
-
 -(void)addActions:(NSArray *)moreactions
 {
 	[actions autorelease];
@@ -104,7 +100,10 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	return NO;
 }
 
--(CSAction *)actionForEvent:(NSEvent *)event { return [self actionForEvent:event ignoringModifiers:0]; }
+-(CSAction *)actionForEvent:(NSEvent *)event
+{
+	return [self actionForEvent:event ignoringModifiers:0];
+}
 
 -(CSAction *)actionForEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods
 {
@@ -122,9 +121,9 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	return nil;
 }
 
--(CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(int *)index
+-(CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(NSInteger *)index
 {
-	for(int i=0;i<[actions count];i++)
+	for(NSInteger i=0;i<[actions count];i++)
 	{
 		CSAction *action=[actions objectAtIndex:i];
 
@@ -149,6 +148,9 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 // CSAction
 
 @implementation CSAction
+@synthesize title;
+@synthesize identifier;
+@synthesize selector = sel;
 
 +(CSAction *)actionWithTitle:(NSString *)acttitle selector:(SEL)selector
 {
@@ -239,13 +241,10 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	[super dealloc];
 }
 
--(NSString *)title { return title; }
-
--(NSString *)identifier { return identifier; }
-
--(SEL)selector { return sel; }
-
--(BOOL)isMenuItem { return item?YES:NO; }
+-(BOOL)isMenuItem
+{
+	return item ? YES : NO;
+}
 
 
 
@@ -295,7 +294,10 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	[self clearImage];
 }
 
--(NSArray *)shortcuts { return shortcuts?shortcuts:defshortcuts; }
+-(NSArray *)shortcuts
+{
+	return shortcuts ?: defshortcuts;
+}
 
 
 
@@ -520,7 +522,10 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 
 
--(NSString *)description { return identifier; }
+-(NSString *)description
+{
+	return identifier;
+}
 
 -(NSComparisonResult)compare:(CSAction *)other
 {
@@ -572,10 +577,10 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 +(NSArray *)keysFromDictionaries:(NSArray *)dicts
 {
 	NSMutableArray *keys=[NSMutableArray arrayWithCapacity:[dicts count]];
-	NSEnumerator *enumerator=[dicts objectEnumerator];
-	NSDictionary *dict;
 
-	while(dict=[enumerator nextObject]) [keys addObject:[CSKeyStroke keyFromDictionary:dict]];
+	for (NSDictionary *dict in dicts) {
+		[keys addObject:[CSKeyStroke keyFromDictionary:dict]];
+	}
 
 	return keys;
 }
@@ -687,19 +692,19 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 {
 //	return [event _matchesKeyEquivalent:chr modifierMask:mod];
 
-	NSEventModifierFlags eventmod=[event modifierFlags]&(NSCommandKeyMask|NSAlternateKeyMask|NSControlKeyMask|NSShiftKeyMask)&~ignoredmods;
-	NSEventModifierFlags maskedmod=mod&~ignoredmods;
+	NSEventModifierFlags eventmod=[event modifierFlags] & (NSCommandKeyMask|NSAlternateKeyMask|NSControlKeyMask|NSShiftKeyMask) & ~ignoredmods;
+	NSEventModifierFlags maskedmod=mod & ~ignoredmods;
 	NSString *eventchr=[event remappedCharacters];
 	NSString *nomodchr=[event remappedCharactersIgnoringAllModifiers];
 
 	if(![eventchr isEqual:nomodchr])
-	if([chr isEqual:eventchr])
-	if(((maskedmod^eventmod)&~((NSAlternateKeyMask|NSShiftKeyMask)&eventmod))==0)
-	return YES;
+		if([chr isEqual:eventchr])
+			if(((maskedmod^eventmod)&~((NSAlternateKeyMask|NSShiftKeyMask)&eventmod))==0)
+				return YES;
 
 	if([chr isEqual:nomodchr])
-	if((maskedmod^eventmod)==0)
-	return YES;
+		if((maskedmod^eventmod)==0)
+			return YES;
 
 	return NO;
 }
@@ -713,14 +718,18 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 -(NSString *)descriptionOfModifiers
 {
-	NSString *str=@"";
+	NSMutableString *str=[NSMutableString string];
 
-	if(mod&NSCommandKeyMask) str=[NSString stringWithFormat:@"%@%C",str,0x2318];
-	if(mod&NSAlternateKeyMask) str=[NSString stringWithFormat:@"%@%C",str,0x2325];
-	if(mod&NSControlKeyMask) str=[NSString stringWithFormat:@"%@%C",str,0x2303];
-	if((mod&NSShiftKeyMask)||![[chr lowercaseString] isEqual:chr]) str=[NSString stringWithFormat:@"%@%C",str,0x21e7];
+	if (mod & NSCommandKeyMask)
+		[str appendString:@"\u2318"];
+	if (mod & NSAlternateKeyMask)
+		[str appendString:@"\u2325"];
+	if (mod & NSControlKeyMask)
+		[str appendString:@"\u2303"];
+	if ((mod & NSShiftKeyMask) || ![[chr lowercaseString] isEqual:chr])
+		[str appendString:@"\u21e7"];
 
-	return str;
+	return [NSString stringWithString:str];
 }
 
 -(NSString *)descriptionOfCharacter
@@ -1098,7 +1107,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 	if(event&&[event type]==NSKeyDown)
 	{
-		int otherrow;
+		NSInteger otherrow;
 		CSKeyStroke *other=[keyboardShortcuts findKeyStrokeForEvent:event index:&otherrow];
 
 		if(other)

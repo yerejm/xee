@@ -34,7 +34,7 @@
 @property (readonly, getter=isCMYK) BOOL CMYK;
 @property (readonly, getter=isLab) BOOL lab;
 -(NSString *)finalFilter;
--(int)bitsPerComponent;
+@property (readonly) int bitsPerComponent;
 
 -(NSString *)colourSpaceOrAlternate;
 -(NSString *)subColourSpaceOrAlternate;

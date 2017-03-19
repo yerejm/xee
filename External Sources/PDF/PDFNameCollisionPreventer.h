@@ -12,9 +12,6 @@
 #define PDFParser XeePDFParser
 #define PDFString XeePDFString
 #define PDFObjectReference XeePDFObjectReference
-#define PDFParser XeePDFParser
-#define PDFObjectReference XeePDFObjectReference
-#define PDFASCII85Handle XeePDFASCII85Handle
 #define PDFEncryptionHandler XeePDFEncryptionHandler
 #define PDFAESAlgorithm XeePDFAESAlgorithm
 #define PDFEncryptionAlgorithm XeePDFEncryptionAlgorithm
@@ -23,6 +20,12 @@
 #define PDFRC4Algorithm XeePDFRC4Algorithm
 #define PDFMD5Engine XeePDFMD5Engine
 #define PDFAESHandle XeePDFAESHandle
+
+#define PDFStream XeePDFStream
+#define PDFASCII85Handle XeePDFASCII85Handle
+#define PDFTIFFPredictorHandle XeePDFTIFFPredictorHandle
+#define PDFPNGPredictorHandle XeePDFPNGPredictorHandle
+
 #define CCITTFaxHandle XeeCCITTFaxHandle
 #define CCITTFaxT6Handle XeeCCITTFaxT6Handle
 #define LZWHandle XeeLZWHandle

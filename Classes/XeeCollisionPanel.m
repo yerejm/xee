@@ -55,15 +55,15 @@ delegate:(id)delegate didEndSelector:(SEL)selector
 
 	if(destimage)
 	{
-		[oldformat setStringValue:[NSString stringWithFormat:@"%dx%d\n%@ %@",
-		[destimage width],[destimage height],[destimage depth],[destimage format]]];
+		[oldformat setStringValue:[NSString stringWithFormat:@"%ldx%ld\n%@ %@",
+								   (long)[destimage width],(long)[destimage height],[destimage depth],[destimage format]]];
 	}
 	else [oldformat setStringValue:@""];
 
 	if(srcimage)
 	{
-		[newformat setStringValue:[NSString stringWithFormat:@"%dx%d\n%@ %@",
-		[srcimage width],[srcimage height],[srcimage depth],[srcimage format]]];
+		[newformat setStringValue:[NSString stringWithFormat:@"%ldx%ld\n%@ %@",
+								   (long)[srcimage width],(long)[srcimage height],[srcimage depth],[srcimage format]]];
 	}
 	else [newformat setStringValue:@""];
 

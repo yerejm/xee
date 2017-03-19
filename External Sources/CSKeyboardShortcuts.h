@@ -28,7 +28,7 @@
 
 -(instancetype)init;
 
--(NSArray<CSAction*> *)actions;
+@property (readonly, copy) NSArray<CSAction*> *actions;
 
 -(void)addActions:(NSArray<CSAction*> *)actions;
 -(void)addActionsFromMenu:(NSMenu *)mainmenu;
@@ -39,7 +39,7 @@
 -(BOOL)handleKeyEvent:(NSEvent *)event;
 -(CSAction *)actionForEvent:(NSEvent *)event;
 -(CSAction *)actionForEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods;
--(CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(int *)index;
+-(CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(NSInteger *)index;
 
 @end
 
@@ -61,20 +61,21 @@
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector;
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector defaultShortcut:(CSKeyStroke *)defshortcut;
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident;
-+(CSAction *)actionFromMenuItem:(NSMenuItem *)item namespace:(NSMutableSet *)namespace;
++(CSAction *)actionFromMenuItem:(NSMenuItem *)item namespace:(NSMutableSet<NSString*> *)aNamespace NS_SWIFT_UNAVAILABLE("use CSAction(menuItem:namespace:) instead");
 
--(id)initWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector target:(id)acttarget defaultShortcut:(CSKeyStroke *)defshortcut;
--(id)initWithMenuItem:(NSMenuItem *)menuitem namespace:(NSMutableSet *)namespace;
+-(instancetype)initWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector target:(id)acttarget defaultShortcut:(CSKeyStroke *)defshortcut;
+-(instancetype)initWithMenuItem:(NSMenuItem *)menuitem namespace:(NSMutableSet<NSString*> *)namespace;
 
 @property (readonly) NSString *title;
 @property (readonly) NSString *identifier;
--(SEL)selector;
+@property (readonly) SEL selector;
 @property (readonly, getter=isMenuItem) BOOL menuItem;
 
 -(void)setDefaultShortcuts:(NSArray *)shortcutarray;
 -(void)addDefaultShortcut:(CSKeyStroke *)shortcut;
 -(void)addDefaultShortcuts:(NSArray *)shortcutarray;
 
+@property (copy) NSArray *shortcuts;
 -(void)setShortcuts:(NSArray *)shortcutarray;
 -(NSArray *)shortcuts;
 
@@ -116,12 +117,11 @@
 +(NSArray<CSKeyStroke *> *)keysFromDictionaries:(NSArray<NSDictionary<NSString*,id>*> *)dicts;
 +(NSArray<NSDictionary<NSString*,id>*> *)dictionariesFromKeys:(NSArray<CSKeyStroke *> *)keys;
 
--(id)initWithCharacter:(NSString *)character modifiers:(NSEventModifierFlags)modifiers;
--(void)dealloc;
+-(instancetype)initWithCharacter:(NSString *)character modifiers:(NSEventModifierFlags)modifiers;
 
 @property (readonly, copy) NSString *character;
 @property (readonly) NSEventModifierFlags modifiers;
--(NSDictionary<NSString*,id> *)dictionary;
+@property (readonly) NSDictionary<NSString*,id> *dictionary;
 
 -(NSImage *)image;
 
@@ -151,7 +151,7 @@
 	IBOutlet NSControl *resetButton;
 }
 
--(id)initWithCoder:(NSCoder *)decoder;
+-(instancetype)initWithCoder:(NSCoder *)decoder;
 
 -(void)awakeFromNib;
 

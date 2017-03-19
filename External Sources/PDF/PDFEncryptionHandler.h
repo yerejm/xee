@@ -21,7 +21,7 @@ extern NSString *PDFUnsupportedEncryptionException;
 	PDFEncryptionAlgorithm *streamalgorithm,*stringalgorithm;
 }
 
--(id)initWithParser:(PDFParser *)parser;
+-(instancetype)initWithParser:(PDFParser *)parser;
 
 @property (readonly) BOOL needsPassword;
 -(BOOL)setPassword:(NSString *)newpassword;

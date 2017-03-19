@@ -41,8 +41,7 @@ extern NSString *XeeErrorDomain;
 	NSInteger rand_size;
 }
 
--(id)init;
--(void)dealloc;
+-(instancetype)init;
 
 -(void)start;
 -(void)stop;
