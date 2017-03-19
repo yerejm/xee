@@ -66,8 +66,12 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 	}
 
 	// Check for unsupported (non-host) byte ordering
-	int byteorder=bitmapinfo&kCGBitmapByteOrderMask;
-	if(byteorder==kCGBitmapByteOrder16Host||byteorder==kCGBitmapByteOrder32Host) return NO;
+	CGBitmapInfo byteorder=bitmapinfo&kCGBitmapByteOrderMask;
+	#ifdef __BIG_ENDIAN__
+	if(byteorder==kCGBitmapByteOrder16Little||byteorder==kCGBitmapByteOrder32Little) return NO;
+	#else
+	if(byteorder==kCGBitmapByteOrder16Big||byteorder==kCGBitmapByteOrder32Big) return NO;
+	#endif
 
 	CGDataProviderRef provider=CGImageGetDataProvider(cgimage);
 	if(!provider)
