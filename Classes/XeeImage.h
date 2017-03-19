@@ -48,7 +48,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	__unsafe_unretained id<XeeImageDelegate> delegate;
 }
 
--(instancetype)init;
+-(instancetype)init NS_DESIGNATED_INITIALIZER;
 -(instancetype)initWithHandle:(CSHandle *)fh;
 -(instancetype)initWithHandle:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
 -(instancetype)initWithHandle2:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
@@ -122,7 +122,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 -(NSArray *)properties;
 
--(NSDictionary *)attributes;
+@property (readonly, retain) NSDictionary<NSString*,id> *attributes;
 @property (readonly) uint64_t fileSize;
 @property (readonly) NSDate *date;
 @property (readonly, copy) NSString *descriptiveFilename;
