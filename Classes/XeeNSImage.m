@@ -18,17 +18,11 @@
 	{
 		rep=nil;
 
-		if([self setNSBitmapImageRep:imagerep]) return self;
-		[self release];
+		if(![self setNSBitmapImageRep:imagerep]) {
+			return nil;
+		}
 	}
-	return nil;
-}
-
-
--(void)dealloc
-{
-	[rep release];
-	[super dealloc];
+	return self;
 }
 
 -(BOOL)setNSBitmapImageRep:(NSBitmapImageRep *)imagerep
@@ -82,8 +76,6 @@
 	bitsPerPixel:bppixel bitsPerComponent:bpcomponent bytesPerRow:bprow
 	mode:mode alphaType:alpha flags:flags]) return NO;
 
-	[imagerep retain];
-	[rep release];
 	rep=imagerep;
 
 	[self setCompleted];

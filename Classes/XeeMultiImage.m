@@ -14,23 +14,12 @@
 		currloading=nil;
 
 		if (!subimages) {
-			[self release];
 			return nil;
 		}
 	}
 
 	return self;
 }
-
--(void)dealloc
-{
-	[subimages release];
-	[currloading release];
-
-	[super dealloc];
-}
-
-
 
 -(void)addSubImage:(XeeImage *)subimage
 {
@@ -99,7 +88,7 @@
 
 -(void)runLoaderOnSubImage:(XeeImage *)image
 {
-	currloading=[image retain];
+	currloading=image;
 
 	while([currloading needsLoading])
 	{
@@ -107,7 +96,6 @@
 		XeeImageLoaderYield();
 	}
 
-	[currloading autorelease];
 	currloading=nil;
 }
 

@@ -25,7 +25,6 @@
 -(void)dealloc
 {
 	free(buffer);
-	[super dealloc];
 }
 
 -(void)setZeroPoint:(float)low onePoint:(float)high

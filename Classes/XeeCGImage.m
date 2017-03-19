@@ -1,6 +1,7 @@
 #import "XeeCGImage.h"
 
 
+typedef struct CGAccessSession *CGAccessSessionRef;
 
 // Reverse-engineered API calls. Evil!
 
@@ -12,6 +13,10 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 
 
 @implementation XeeCGImage
+{
+	CGImageRef imageref;
+	CGAccessSessionRef session;
+}
 
 -(id)init
 {
@@ -30,18 +35,18 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 		imageref=NULL;
 		session=NULL;
 
-		if([self setCGImage:cgimage]) return self;
-		[self release];
+		if(![self setCGImage:cgimage]) {
+			return nil;
+		}
 	}
-	return nil;
+	return self;
 }
 
 -(void)dealloc
 {
-	if(session) CGAccessSessionRelease(session);
+	if (session)
+		CGAccessSessionRelease(session);
 	CGImageRelease(imageref);
-
-	[super dealloc];
 }
 
 -(BOOL)setCGImage:(CGImageRef)cgimage

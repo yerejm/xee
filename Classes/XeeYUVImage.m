@@ -11,13 +11,13 @@ static void XeeBuildYUVConversionTables();
 
 -(id)initWithWidth:(int)pixelwidth height:(int)pixelheight
 {
-	if(self=[super init])
-	{
-		if([self allocWithWidth:pixelwidth height:pixelheight]) return self;
-		[self release];
+	if (self = [super init]) {
+		if (![self allocWithWidth:pixelwidth height:pixelheight]) {
+			return nil;
+		}
 	}
 
-	return nil;
+	return self;
 }
 
 

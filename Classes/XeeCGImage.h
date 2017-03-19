@@ -1,12 +1,6 @@
 #include "XeeBitmapImage.h"
 
-typedef void *CGAccessSessionRef;
-
 @interface XeeCGImage:XeeBitmapImage
-{
-	CGImageRef imageref;
-	CGAccessSessionRef session;
-}
 
 -(instancetype)init;
 -(instancetype)initWithCGImage:(CGImageRef)cgimage;

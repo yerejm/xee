@@ -26,7 +26,7 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytes
 {
 	if(self=[super initWithHandle:fh])
 	{
-		pal=[palette retain];
+		pal=palette;
 		width=framewidth;
 		height=frameheight;
 		bitdepth=framedepth;
@@ -38,8 +38,6 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytes
 -(void)dealloc
 {
 	free(buffer);
-	[pal release];
-	[super dealloc];
 }
 
 -(void)load
@@ -82,7 +80,7 @@ depth:(int)framedepth palette:(XeePalette *)palette bytesPerRow:(NSInteger)bytes
 
 +(XeePalette *)palette
 {
-	return [[[self alloc] init] autorelease];
+	return [[self alloc] init];
 }
 
 -(id)init

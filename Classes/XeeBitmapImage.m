@@ -24,20 +24,13 @@ static void XeeBitmapImageReadPixel(uint8_t *row,NSInteger x,NSInteger pixelsize
 		bitsperpixel=bitspercomponent=0;
 		colourmode=alphatype=modeflags=0;
 
-		if([self allocWithType:pixelgltype width:framewidth height:frameheight]) return self;
-		[self release];
+		if (![self allocWithType:pixelgltype width:framewidth height:frameheight]) {
+			return nil;
+		}
 	}
 
-	return nil;
+	return self;
 }
-
--(void)dealloc
-{
-	[super dealloc];
-}
-
-
-
 
 -(BOOL)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
   bitsPerPixel:(NSInteger)bppixel bitsPerComponent:(NSInteger)bpcomponent bytesPerRow:(NSInteger)bprow

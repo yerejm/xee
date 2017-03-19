@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1B00E3590A796D980094B997 /* XeeTileImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B00E3580A796D980094B997 /* XeeTileImage.m */; };
-		1B00E36A0A7999070094B997 /* XeeYUVImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B00E3690A7999070094B997 /* XeeYUVImage.m */; };
+		1B00E36A0A7999070094B997 /* XeeYUVImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B00E3690A7999070094B997 /* XeeYUVImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B07078C0C9F3DA700FA8EBD /* SWFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B07078A0C9F3DA700FA8EBD /* SWFParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B071A440CB159D600FA8EBD /* XeeExperimentalImage1Saver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B071A430CB159D600FA8EBD /* XeeExperimentalImage1Saver.m */; };
 		1B0F15370CB17CBF000CED68 /* XeePhotoshopPICTLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0F15360CB17CBF000CED68 /* XeePhotoshopPICTLoader.m */; };
 		1B16F6070C0BB10F002B0008 /* XeeStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B16F6060C0BB10F002B0008 /* XeeStringAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B1B96580B06AD5B00EC8324 /* XeeBitmapTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1B96570B06AD5B00EC8324 /* XeeBitmapTile.m */; };
-		1B1D48E80AFD44C0009AA7EB /* XeeMultiImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D48E70AFD44C0009AA7EB /* XeeMultiImage.m */; };
+		1B1D48E80AFD44C0009AA7EB /* XeeMultiImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D48E70AFD44C0009AA7EB /* XeeMultiImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B1D4C320AFE97B6009AA7EB /* XeeJPEGLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5DEAF0A7E9B5D00967AD2 /* XeeJPEGLoader.m */; };
 		1B1D4D670AFECED5009AA7EB /* XeePNGLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C03B08E0DC5500859EE2 /* XeePNGLoader.m */; };
 		1B1D4DCC0AFED947009AA7EB /* XeeGIFLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B262C3908BE6A5900648EBC /* XeeGIFLoader.m */; };
@@ -25,8 +25,8 @@
 		1B1D523C0B02A34C009AA7EB /* XeeSavePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D523B0B02A34C009AA7EB /* XeeSavePanel.m */; };
 		1B1D524D0B02A40A009AA7EB /* XeeImageIOSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D524C0B02A40A009AA7EB /* XeeImageIOSaver.m */; };
 		1B1D52500B02A419009AA7EB /* XeeLosslessSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D524F0B02A419009AA7EB /* XeeLosslessSaver.m */; };
-		1B1D53140B03F876009AA7EB /* XeeCGImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D53130B03F876009AA7EB /* XeeCGImage.m */; };
-		1B1D53510B0405F4009AA7EB /* XeeNSImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D53500B0405F4009AA7EB /* XeeNSImage.m */; };
+		1B1D53140B03F876009AA7EB /* XeeCGImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D53130B03F876009AA7EB /* XeeCGImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1B1D53510B0405F4009AA7EB /* XeeNSImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B1D53500B0405F4009AA7EB /* XeeNSImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B262DD008BF8CF200648EBC /* BrowserWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B262DCF08BF8CF200648EBC /* BrowserWindow.xib */; };
 		1B262E6608BF97B000648EBC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1B262E6508BF97B000648EBC /* Localizable.strings */; };
 		1B2823C70C63F33800AA7D9C /* jpeg_quant.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1B2823C60C63F33800AA7D9C /* jpeg_quant.txt */; };
@@ -36,8 +36,8 @@
 		1B2825CE0C67B90C00AA7D9C /* XeeXMPParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2825CD0C67B90C00AA7D9C /* XeeXMPParser.m */; };
 		1B2826560C67DD9500AA7D9C /* XeeDuckyParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2826550C67DD9500AA7D9C /* XeeDuckyParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B2B5B3F0C7510B30057B42F /* XeePhotoshopLayerParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5B3E0C7510B30057B42F /* XeePhotoshopLayerParser.m */; };
-		1B2B5DAE0C78AEDD0057B42F /* XeeBitmapRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DAD0C78AEDD0057B42F /* XeeBitmapRawImage.m */; };
-		1B2B5DB70C78AF140057B42F /* XeeIndexedRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DB60C78AF140057B42F /* XeeIndexedRawImage.m */; };
+		1B2B5DAE0C78AEDD0057B42F /* XeeBitmapRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DAD0C78AEDD0057B42F /* XeeBitmapRawImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1B2B5DB70C78AF140057B42F /* XeeIndexedRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DB60C78AF140057B42F /* XeeIndexedRawImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B2B5DBC0C78AF1F0057B42F /* XeeRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DBB0C78AF1F0057B42F /* XeeRawImage.m */; };
 		1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3D30D809351D7A00345FD0 /* Carbon.framework */; };
 		1B3D33620937B89200345FD0 /* CSKeyboardShortcuts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */; };
@@ -107,7 +107,7 @@
 		1BE5E4AE0A8249BD00967AD2 /* XeeSegmentedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5E4AD0A8249BD00967AD2 /* XeeSegmentedItem.m */; };
 		1BE5E4F30A824FA300967AD2 /* XeeSampleSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5E4F20A824FA300967AD2 /* XeeSampleSet.m */; };
 		1BE5E9050A86CA0300967AD2 /* XeeTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5E9040A86CA0300967AD2 /* XeeTypes.m */; };
-		1BE66CB108D1F11200387D3D /* XeeBitmapImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE66CB008D1F11200387D3D /* XeeBitmapImage.m */; };
+		1BE66CB108D1F11200387D3D /* XeeBitmapImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE66CB008D1F11200387D3D /* XeeBitmapImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1BE782AE10A74D5C007EA6F6 /* PasswordPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BE782AC10A74D5C007EA6F6 /* PasswordPanel.xib */; };
 		1BE782B910A77EE1007EA6F6 /* XeePasswordPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE782B810A77EE1007EA6F6 /* XeePasswordPanel.m */; };
 		1BE7849210ABA3AE007EA6F6 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1BDBF88308E9E7E800C83392 /* Credits.rtf */; };
