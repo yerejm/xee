@@ -134,9 +134,7 @@ static NSDictionary *attributes;
 	[super dealloc];
 }
 
--(void)setTitle:(NSString *)title { [titlestring autorelease]; titlestring=[title retain]; }
-
--(NSString *)title { return titlestring; }
+@synthesize title = titlestring;
 
 -(NSSize)cellSize
 {

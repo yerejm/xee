@@ -3,6 +3,7 @@
 
 
 @implementation XeeSimpleLayout:NSView
+@synthesize delegate;
 
 -(id)initWithControl:(XeeSLControl *)content
 {
@@ -42,18 +43,7 @@
 	[self layout];
 
 	if(delegate&&[delegate respondsToSelector:@selector(xeeSLUpdated:)])
-	[delegate performSelectorOnMainThread:@selector(xeeSLUpdated:) withObject:self waitUntilDone:NO];
-}
-
--(void)setDelegate:(id)newdelegate
-{
-	[delegate autorelease];
-	delegate=[newdelegate retain];
-}
-
--(id)delegate
-{
-	return delegate;
+	[(NSObject*)delegate performSelectorOnMainThread:@selector(xeeSLUpdated:) withObject:self waitUntilDone:NO];
 }
 
 @end
@@ -61,6 +51,7 @@
 
 
 @implementation XeeSLControl
+@synthesize delegate;
 
 -(id)initWithTitle:(NSString *)title
 {
@@ -114,17 +105,6 @@
 -(void)setHidden:(BOOL)hidden
 {
 	[titlefield setHidden:hidden];
-}
-
--(void)setDelegate:(id)newdelegate
-{
-	[delegate autorelease];
-	delegate=[newdelegate retain];
-}
-
--(id)delegate
-{
-	return delegate;
 }
 
 @end
@@ -398,7 +378,7 @@
 
 @implementation XeeSLSlider:XeeSLControl
 
--(id)initWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(float)minval max:(float)maxval defaultValue:(float)def
+-(id)initWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def
 {
 	if(self=[super initWithTitle:title])
 	{
@@ -471,12 +451,16 @@
 	[maxfield setHidden:hidden];
 }
 
--(float)value
+-(CGFloat)value
 {
+#if CGFLOAT_IS_DOUBLE
+	return [slider doubleValue];
+#else
 	return [slider floatValue];
+#endif
 }
 
-+(XeeSLSlider *)sliderWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(float)minval max:(float)maxval defaultValue:(float)def
++(XeeSLSlider *)sliderWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def
 {
 	return [[[XeeSLSlider alloc] initWithTitle:title minLabel:minlabel maxLabel:maxlabel min:minval max:maxval defaultValue:def] autorelease];
 }

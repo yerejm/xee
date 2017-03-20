@@ -17,6 +17,8 @@ static GLuint make_resize_texture();
 
 @implementation XeeView
 @synthesize delegate;
+@synthesize image;
+@synthesize tool;
 
 -(id)initWithFrame:(NSRect)frameRect
 {
@@ -30,22 +32,21 @@ static GLuint make_resize_texture();
 		(NSOpenGLPixelFormatAttribute)0};
 	NSOpenGLPixelFormat *format=[[[NSOpenGLPixelFormat alloc] initWithAttributes:attrs] autorelease];
 */
-	if(self=[super initWithFrame:frameRect/* pixelFormat:format*/])
-	{
-		image=nil;
-		tool=nil;
+	if(self=[super initWithFrame:frameRect/* pixelFormat:format*/]) {
+		image = nil;
+		tool = nil;
 
-		invalidated=NO;
+		invalidated = NO;
 
-		drawresize=NO;
-		lowquality=NO;
-		inside=NO;
-		clicking=NO;
+		drawresize = NO;
+		lowquality = NO;
+		inside = NO;
+		clicking = NO;
 
-		scrolltimer=nil;
-		up=down=left=right=NO;
+		scrolltimer = nil;
+		up = down = left = right = NO;
 
-		delegate=nil;
+		delegate = nil;
 
 		NSRect bounds=[self bounds];
         // Retina Support
@@ -64,8 +65,9 @@ static GLuint make_resize_texture();
 		[self registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
 
         // Retina Support
-        if ([self respondsToSelector:@selector(setWantsBestResolutionOpenGLSurface:)])
-            [self setWantsBestResolutionOpenGLSurface:YES];
+		if ([self respondsToSelector:@selector(setWantsBestResolutionOpenGLSurface:)]) {
+			self.wantsBestResolutionOpenGLSurface = YES;
+		}
 	}
 	return self;
 }
@@ -91,11 +93,20 @@ static GLuint make_resize_texture();
 }
 
 
--(BOOL)acceptsFirstResponder { return YES; }
+-(BOOL)acceptsFirstResponder
+{
+	return YES;
+}
 
--(BOOL)isOpaque { return YES; }
+-(BOOL)isOpaque
+{
+	return YES;
+}
 
--(BOOL)isFlipped { return YES; }
+-(BOOL)isFlipped
+{
+	return YES;
+}
 
 
 
@@ -494,12 +505,6 @@ static GLuint make_resize_texture();
 {
 	return XeeTransformRectToRectMatrix([self imageRect],NSMakeRect(0,0,[image width],[image height]));
 }
-
--(XeeImage *)image { return image; }
-
--(XeeTool *)tool { return tool; }
-
-
 
 -(void)setImage:(XeeImage *)img
 {

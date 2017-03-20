@@ -1,9 +1,10 @@
 #import <Cocoa/Cocoa.h>
+#import "XeeSimpleLayout.h"
 
 @class XeeImage,XeeController,XeeSLPages,XeeSimpleLayout;
 @class XeeImageSaver;
 
-@interface XeeSavePanel:NSSavePanel
+@interface XeeSavePanel:NSSavePanel <XeeSimpleLayoutDelegate>
 {
 	XeeImage *image;
 	XeeController *controller;

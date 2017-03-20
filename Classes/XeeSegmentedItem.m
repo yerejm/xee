@@ -128,7 +128,7 @@
 paletteLabel:(NSString *)pallabel imageName:(NSString *)imagename longLabel:(NSString *)longlabel
 action:(SEL)action activeSelector:(SEL)activeselector target:(id)activetarget
 {
-	return [[[XeeToolItem alloc] initWithItemIdentifier:identifier label:label
+	return [[[self alloc] initWithItemIdentifier:identifier label:label
 	paletteLabel:pallabel imageName:imagename longLabel:longlabel action:action
 	activeSelector:activeselector target:activetarget] autorelease];
 }

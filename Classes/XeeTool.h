@@ -8,10 +8,9 @@
 	BOOL clicking;
 }
 
-+(XeeTool *)toolForView:(XeeView *)ownerview;
++(instancetype)toolForView:(XeeView *)ownerview;
 
--(id)initWithView:(XeeView *)view;
--(void)dealloc;
+-(instancetype)initWithView:(XeeView *)view;
 
 -(void)begin;
 -(void)end;

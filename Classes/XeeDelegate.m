@@ -15,7 +15,7 @@
 #import "XeeClipboardSource.h"
 
 #import "XeeImageIOLoader.h"
-//#import "XeeQuicktimeLoader.h"
+#import "XeeQuicktimeLoader.h"
 #import "XeeJPEGLoader.h"
 #import "XeePNGLoader.h"
 #import "XeeGIFLoader.h"
@@ -86,7 +86,9 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	[XeeImage registerImageClass:[XeeXBMImage class]];
 	[XeeImage registerImageClass:[XeeXPMImage class]];
 	[XeeImage registerImageClass:[XeeImageIOImage class]];
-	//[XeeImage registerImageClass:[XeeQuicktimeImage class]];
+#if __i386__
+	[XeeImage registerImageClass:[XeeQuicktimeImage class]];
+#endif
 
 	[XeeImageSaver registerSaverClass:[XeeLosslessSaver class]];
 	[XeeImageSaver registerSaverClass:[XeePNGSaver class]];

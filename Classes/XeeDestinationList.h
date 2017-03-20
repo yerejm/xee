@@ -13,7 +13,6 @@
 	IBOutlet XeeController *controller;
 }
 
--(void)dealloc;
 -(void)awakeFromNib;
 
 -(void)drawRow:(NSInteger)row clipRect:(NSRect)clipRect;

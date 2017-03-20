@@ -19,20 +19,20 @@ NSInteger XeeNumberOfZoomLevels=21;
 
 -(IBAction)copy:(id)sender
 {
-	if(currimage)
-	{
+	if (currimage) {
 		CGImageRef cgimage=[currimage createCGImage];
 
-		if(cgimage)
-		{
-			[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObjects:NSTIFFPboardType,NSPICTPboardType,nil] owner:self];
+		if (cgimage) {
+			[[NSPasteboard generalPasteboard] declareTypes:@[NSTIFFPboardType, NSPICTPboardType] owner:self];
 
 			copiedcgimage=cgimage;
 			[self retain];
+		} else {
+			NSBeep();
 		}
-		else NSBeep();
+	} else {
+		NSBeep();
 	}
-	else NSBeep();
 }
 
 -(void)pasteboard:(NSPasteboard *)pboard provideDataForType:(NSString *)type
@@ -51,26 +51,35 @@ NSInteger XeeNumberOfZoomLevels=21;
 
 		[pboard setData:data forType:type];
 	}
-#if 0
+#if __i386__
 	else if([type isEqual:NSPICTPboardType])
 	{
+		// BEGIN old QuickTime declarations
+		typedef ComponentInstance               GraphicsExportComponent;
+		enum {
+			GraphicsExporterComponentType = 'grex',
+			kBaseGraphicsExporterSubType  = 'base',
+			kQTFileTypePicture            = 'PICT',
+
+		};
+		extern ComponentResult GraphicsExportSetInputCGImage(GraphicsExportComponent, CGImageRef);
+		extern ComponentResult GraphicsExportSetOutputHandle(GraphicsExportComponent, Handle);
+		extern ComponentResult GraphicsExportDoExport(GraphicsExportComponent, unsigned long *);
+		// END old QuickTime declarations
 		BOOL res=NO;
 
 		Handle outhandle=NewHandle(0);
-		if(outhandle)
-		{
+		if (outhandle) {
 			GraphicsExportComponent exporter;
-			if(OpenADefaultComponent(GraphicsExporterComponentType,kQTFileTypePicture,&exporter)==noErr)
-			{
+			if (OpenADefaultComponent(GraphicsExporterComponentType,kQTFileTypePicture,&exporter)==noErr) {
 				GraphicsExportSetInputCGImage(exporter,copiedcgimage);
 				GraphicsExportSetOutputHandle(exporter,outhandle);
 				//GraphicsExportSetOutputDataReference(exporter,dataRef, dataRefType);
 
 				unsigned long size;
-				if(GraphicsExportDoExport(exporter,&size)==noErr)
-				{
+				if (GraphicsExportDoExport(exporter, &size) == noErr) {
 					NSData *data=[NSData dataWithBytes:*outhandle+512 length:size-512];
-NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
+					NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 					[pboard setData:data forType:type];
 					res=YES;
 				}
@@ -79,7 +88,9 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 			}
 			DisposeHandle(outhandle);
 		}
-		if(!res) NSBeep();
+		if (!res) {
+			NSBeep();
+		}
 	}
 #endif
 }
@@ -96,7 +107,11 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 
 -(IBAction)save:(id)sender
 {
-	if(![self validateAction:_cmd]) { NSBeep(); return; }
+	if(![self validateAction:_cmd])
+	{
+		NSBeep();
+		return;
+	}
 
 	[source beginSavingImage:currimage];
 
@@ -107,8 +122,7 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 -(void)saveTask:(XeeImage *)saveimage
 {
 	NSString *filename=[saveimage filename];
-	if(![saveimage losslessSaveTo:filename flags:XeeRetainUntransformableBlocksFlag])
-	{
+	if (![saveimage losslessSaveTo:filename flags:XeeRetainUntransformableBlocksFlag]) {
 		NSAlert *alert=[[[NSAlert alloc] init] autorelease];
 		[alert setMessageText:NSLocalizedString(@"Image saving failed",@"Title of the file saving failure dialog")];
 		[alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Couldn't save the file \"%@\".",
@@ -118,16 +132,15 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 
 		[source performSelectorOnMainThread:@selector(endSavingImage:) withObject:saveimage waitUntilDone:YES];
 		[saveimage release];
-	}
-	else
-	{
+	} else {
 		[self performSelectorOnMainThread:@selector(finishSave:) withObject:saveimage waitUntilDone:YES];
 	}
 }
 
 -(void)finishSave:(XeeImage *)saveimage
 {
-	if(currimage==saveimage) [undo removeAllActions];
+	if (currimage == saveimage)
+		[undo removeAllActions];
 
 	[source endSavingImage:saveimage];
 	[saveimage release];
@@ -135,7 +148,11 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 
 -(IBAction)saveAs:(id)sender
 {
-	if(![self validateAction:_cmd]) { NSBeep(); return; }
+	if(![self validateAction:_cmd])
+	{
+		NSBeep();
+		return;
+	}
 
 	[XeeSavePanel runSavePanelForImage:currimage controller:self];
 }
@@ -145,8 +162,7 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 -(IBAction)frameSkipNext:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
-	if(currimage)
-	{
+	if(currimage) {
 		int frame=[currimage frame];
 		int frames=[currimage frames];
 		[self setFrame:(frame+1)%frames];
@@ -192,7 +208,11 @@ NSLog(@"%@",[data subdataWithRange:NSMakeRange(0,2*1024)]);
 	[self setResizeBlockFromSender:sender];
 
 	NSInteger i;
-	for(i=XeeNumberOfZoomLevels-1;i>0;i--) if(XeeZoomLevels[i]<zoom) break;
+	for (i = XeeNumberOfZoomLevels - 1; i > 0; i--) {
+		if (XeeZoomLevels[i] < zoom) {
+			break;
+		}
+	}
 
 	[self setZoom:XeeZoomLevels[i]];
 

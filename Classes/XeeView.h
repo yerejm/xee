@@ -1,8 +1,8 @@
 #import "XeeTypes.h"
 #import "XeeImage.h"
 
-#import <OpenGL/GL.h>
-#import <OpenGL/GLu.h>
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
 
 @class XeeImage,XeeController,XeeTool;
 @protocol XeeViewDelegate;
@@ -26,11 +26,10 @@
 
 	GLuint resizetex;
 
-	id<XeeViewDelegate> delegate;
+	__unsafe_unretained id<XeeViewDelegate> delegate;
 }
 
 -(instancetype)initWithFrame:(NSRect)frameRect;
--(void)dealloc;
 
 -(BOOL)acceptsFirstResponder;
 -(BOOL)isOpaque;
@@ -69,8 +68,8 @@
 @property (readonly) XeeMatrix imageToViewTransformMatrix;
 @property (readonly) XeeMatrix viewToImageTransformMatrix;
 @property (assign) id<XeeViewDelegate> delegate;
-@property (retain) XeeImage *image;
-@property (retain) XeeTool *tool;
+@property (nonatomic, retain) XeeImage *image;
+@property (nonatomic, retain) XeeTool *tool;
 
 -(void)setImageSize:(NSSize)size;
 -(void)setDrawResizeCorner:(BOOL)draw;

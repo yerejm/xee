@@ -8,8 +8,7 @@
 	CGShadingRef shading;
 }
 
--(id)initWithFrame:(NSRect)frame;
--(void)dealloc;
+-(instancetype)initWithFrame:(NSRect)frame;
 
 -(void)drawRect:(NSRect)rect;
 
@@ -30,11 +29,9 @@
 	NSString *titlestring;
 }
 
--(id)initWithImage:(NSImage *)image title:(NSString *)title;
--(void)dealloc;
+-(instancetype)initWithImage:(NSImage *)image title:(NSString *)title;
 
--(void)setTitle:(NSString *)title;
--(NSString *)title;
+@property (copy) NSString *title;
 
 -(NSSize)cellSize;
 -(void)drawInteriorWithFrame:(NSRect)frame inView:(NSView *)view;

@@ -26,8 +26,7 @@
 
 -(id)init
 {
-	if(self=[super init])
-	{
+	if (self = [super init]) {
 		image=nil;
 	}
 	return self;

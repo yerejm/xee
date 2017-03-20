@@ -136,6 +136,7 @@
 		1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFF73280B6AF5C500E0900B /* IOKit.framework */; };
 		5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAA81E70A3DF00697829 /* Security.framework */; };
 		5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5571AAB21E70AE9200697829 /* Icons.xcassets */; };
+		558372A21E7F71DD007221B7 /* XeeQuicktimeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B262C3408BE6A4900648EBC /* XeeQuicktimeLoader.m */; };
 		558A1EE41E70E63300C41ADA /* asahi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1420F0B094080003A8D57 /* asahi.c */; };
 		558A1EE51E70E63300C41ADA /* canon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142100B094080003A8D57 /* canon.c */; };
 		558A1EE61E70E63300C41ADA /* casio.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142110B094080003A8D57 /* casio.c */; };
@@ -2037,6 +2038,7 @@
 				1BFB0E4C0B139D370088CDB4 /* XeeDirectorySource.m in Sources */,
 				1BFB0E4F0B139D420088CDB4 /* XeeArchiveSource.m in Sources */,
 				1BFB0E520B139D4C0088CDB4 /* XeeClipboardSource.m in Sources */,
+				558372A21E7F71DD007221B7 /* XeeQuicktimeLoader.m in Sources */,
 				1BB983620B187BAA000B4425 /* XeeControllerImageActions.m in Sources */,
 				1BB983670B187BB8000B4425 /* XeeControllerNavigationActions.m in Sources */,
 				1BB9836C0B187BC7000B4425 /* XeeControllerFileActions.m in Sources */,

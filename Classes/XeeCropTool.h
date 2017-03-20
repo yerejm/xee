@@ -28,7 +28,6 @@
 }
 
 -(id)initWithView:(XeeView *)ownerview;
--(void)dealloc;
 
 -(void)mouseDownAt:(NSPoint)position;
 -(void)mouseUpAt:(NSPoint)position;

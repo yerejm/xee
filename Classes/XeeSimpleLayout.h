@@ -4,21 +4,27 @@
 
 @class XeeSLControl,XeeSLGroup,XeeSLPopUp,XeeSLSwitch,XeeSLSlider,XeeSLPages;
 
+@protocol XeeSimpleLayoutDelegate;
+
 @interface XeeSimpleLayout:NSView
 {
 	XeeSLControl *control;
-	id delegate;
+	id<XeeSimpleLayoutDelegate> delegate;
 }
 
 -(id)initWithControl:(XeeSLControl *)content;
--(void)dealloc;
 -(BOOL)isFlipped;
 
 -(void)layout;
 -(void)requestLayout;
 
--(void)setDelegate:(id)delegate;
--(id)delegate;
+@property (retain) id<XeeSimpleLayoutDelegate> delegate;
+
+@end
+
+@protocol XeeSimpleLayoutDelegate <NSObject>
+
+-(void)xeeSLUpdated:(XeeSimpleLayout *)alsoview;
 
 @end
 
@@ -43,8 +49,7 @@
 -(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect;
 -(void)setHidden:(BOOL)hidden;
 
--(void)setDelegate:(id)delegate;
--(id)delegate;
+@property (retain) id delegate;
 
 @end
 
@@ -68,7 +73,7 @@
 -(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect;
 -(void)setHidden:(BOOL)hidden;
 
-+(XeeSLGroup *)groupWithControls:(XeeSLControl *)control,...;
++(XeeSLGroup *)groupWithControls:(XeeSLControl *)control,... NS_REQUIRES_NIL_TERMINATION;
 
 @end
 
@@ -81,7 +86,6 @@
 }
 
 -(instancetype)initWithTitle:(NSString *)title contents:(NSArray *)contents defaultValue:(int)def;
--(void)dealloc;
 
 -(int)height;
 -(int)topSpacing;
@@ -106,7 +110,6 @@
 }
 
 -(id)initWithTitle:(NSString *)title label:(NSString *)label defaultValue:(BOOL)def;
--(void)dealloc;
 
 -(int)height;
 -(int)topSpacing;
@@ -131,8 +134,7 @@
 	NSTextField *minfield,*maxfield;
 }
 
--(id)initWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(float)minval max:(float)maxval defaultValue:(float)def;
--(void)dealloc;
+-(id)initWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def;
 
 -(int)height;
 -(int)topSpacing;
@@ -143,9 +145,9 @@
 -(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect;
 -(void)setHidden:(BOOL)hidden;
 
--(float)value;
+@property (readonly) CGFloat value;
 
-+(XeeSLSlider *)sliderWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(float)minval max:(float)maxval defaultValue:(float)def;
++(XeeSLSlider *)sliderWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def;
 
 @end
 
@@ -156,8 +158,7 @@
 	NSArray *pages;
 }
 
--(id)initWithTitle:(NSString *)title pages:(NSArray *)pagearray names:(NSArray *)namearray defaultValue:(int)def;
--(void)dealloc;
+-(instancetype)initWithTitle:(NSString *)title pages:(NSArray *)pagearray names:(NSArray *)namearray defaultValue:(int)def;
 
 -(int)height;
 -(int)bottomSpacing;

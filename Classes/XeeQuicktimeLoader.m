@@ -4,14 +4,94 @@
 
 
 //#define USE_CGIMAGE
-
+#if __i386__
 
 static void XeeSetQTDepth(XeeImage *image,int qtdepth);
 static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 
+// BEGIN old QuickTime definitions
+typedef OSType                          CodecType;
+typedef UInt16                          CodecFlags;
+typedef UInt32                          CodecQ;
+
+#pragma pack(push, 2)
+
+struct ImageDescription {
+	SInt32              idSize;                 /* total size of ImageDescription including extra data ( CLUTs and other per sequence data ) */
+	CodecType           cType;                  /* what kind of codec compressed this data */
+	SInt32              resvd1;                 /* reserved for Apple use */
+	SInt16              resvd2;                 /* reserved for Apple use */
+	SInt16              dataRefIndex;           /* set to zero  */
+	SInt16              version;                /* which version is this data */
+	SInt16              revisionLevel;          /* what version of that codec did this */
+	SInt32              vendor;                 /* whose  codec compressed this data */
+	CodecQ              temporalQuality;        /* what was the temporal quality factor  */
+	CodecQ              spatialQuality;         /* what was the spatial quality factor */
+	SInt16              width;                  /* how many pixels wide is this data */
+	SInt16              height;                 /* how many pixels high is this data */
+	Fixed               hRes;                   /* horizontal resolution */
+	Fixed               vRes;                   /* vertical resolution */
+	SInt32              dataSize;               /* if known, the size of data for this image descriptor */
+	SInt16              frameCount;             /* number of frames this description applies to */
+	Str31               name;                   /* name of codec ( in case not installed )  */
+	SInt16              depth;                  /* what depth is this data (1-32) or ( 33-40 grayscale ) */
+	SInt16              clutID;                 /* clut id or if 0 clut follows  or -1 if no clut */
+};
+typedef struct ImageDescription         ImageDescription;
+typedef ImageDescription *              ImageDescriptionPtr;
+typedef ImageDescriptionPtr *           ImageDescriptionHandle;
+typedef ComponentInstance               GraphicsImportComponent;
+
+typedef ComponentInstance               GraphicsExportComponent;
+enum {
+	GraphicsExporterComponentType = 'grex',
+	kBaseGraphicsExporterSubType  = 'base'
+};
+
+enum {
+	codecLosslessQuality          = 0x00000400,
+	codecMaxQuality               = 0x000003FF,
+	codecMinQuality               = 0x00000000,
+	codecLowQuality               = 0x00000100,
+	codecNormalQuality            = 0x00000200,
+	codecHighQuality              = 0x00000300
+};
+
+
+typedef CALLBACK_API( OSErr , ICMProgressProcPtr )(short message, Fixed completeness, long refcon);
+typedef STACK_UPP_TYPE(ICMProgressProcPtr) ICMProgressUPP;
+
+
+struct ICMProgressProcRecord {
+	ICMProgressUPP      progressProc;
+	long                progressRefCon;
+};
+typedef struct ICMProgressProcRecord    ICMProgressProcRecord;
+typedef ICMProgressProcRecord *         ICMProgressProcRecordPtr;
+
+
+#pragma pack(pop)
+
+extern OSErr GetGraphicsImporterForFile(const FSSpec *, ComponentInstance *) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportGetImageDescription(GraphicsImportComponent, ImageDescriptionHandle *) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportGetImageCount(GraphicsImportComponent, unsigned long*) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportSetImageIndexToThumbnail(GraphicsImportComponent ci) AVAILABLE_MAC_OS_X_VERSION_10_2_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportSetImageIndex(GraphicsImportComponent, unsigned long) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsExportSetProgressProc(GraphicsExportComponent, ICMProgressProcRecordPtr) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportSetProgressProc(GraphicsImportComponent, ICMProgressProcRecordPtr) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportSetQuality(GraphicsImportComponent, CodecQ) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern OSErr QTNewGWorldFromPtr(GWorldPtr *, OSType, const Rect *, CTabHandle, GDHandle, GWorldFlags, void *, long) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportSetGWorld(GraphicsImportComponent, CGrafPtr, GDHandle) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern ComponentResult GraphicsImportDraw(GraphicsImportComponent) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern OSErr EnterMovies(void);
+extern OSErr EnterMoviesOnThread(UInt32 inFlags);
+extern OSErr ExitMoviesOnThread(void);
+
+// END old QuickTime definitions
 
 
 @implementation XeeQuicktimeImage
+@synthesize currentHeight = current_height;
 
 +(BOOL)canOpenFile:(NSString *)filename firstBlock:(NSData *)block attributes:(NSDictionary *)attrs;
 {
@@ -36,10 +116,12 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 	NSURL *url=[NSURL fileURLWithPath:[self filename]];
 
 	FSRef fsref;
-	if(!CFURLGetFSRef((CFURLRef)url,&fsref)) return NULL;
+	if(!CFURLGetFSRef((CFURLRef)url, &fsref))
+		return NULL;
 
 	FSSpec fsspec;
-	if(FSGetCatalogInfo(&fsref,kFSCatInfoNone,NULL,NULL,&fsspec,NULL)!=noErr) return NULL;
+	if (FSGetCatalogInfo(&fsref, kFSCatInfoNone,NULL,NULL,&fsspec,NULL)!=noErr)
+		return NULL;
 
 	if(GetGraphicsImporterForFile(&fsspec,&gi)!=noErr) return NULL;
 
@@ -57,14 +139,16 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 
 	DisposeHandle((Handle)desc);
 
-	current_image=-1;
+	current_image = -1;
 
 	return @selector(loadNextImage);
 }
 
 -(void)deallocLoader
 {
-	if(gi) CloseComponent(gi);
+	if (gi) {
+		CloseComponent(gi);
+	}
 }
 
 
@@ -75,30 +159,23 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 
 	current_image++;
 
-	if(thumbonly)
-	{
-		if(current_image==0)
-		{
-			if(GraphicsImportSetImageIndexToThumbnail(gi)!=noErr)
-			if(GraphicsImportSetImageIndex(gi,1)!=noErr)
-			return NULL;
-		}
-		else
-		{
+	if (thumbonly) {
+		if (current_image == 0) {
+			if (GraphicsImportSetImageIndexToThumbnail(gi) != noErr)
+				if (GraphicsImportSetImageIndex(gi,1) != noErr)
+					return NULL;
+		} else {
 			loaded=YES;
 			return NULL;
 		}
-	}
-	else
-	{
-		if(current_image==count)
-		{
+	} else {
+		if (current_image == count) {
 			loaded=YES;
 			return NULL;
-		}
-		else
-		{
-			if(GraphicsImportSetImageIndex(gi,current_image+1)!=noErr) return @selector(loadNextImage);
+		} else {
+			if (GraphicsImportSetImageIndex(gi,current_image+1)!=noErr) {
+				return @selector(loadNextImage);
+			}
 		}
 	}
 	return @selector(loadImage);
@@ -114,7 +191,8 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 	GraphicsImportSetQuality(gi,codecLosslessQuality);
 
 	ImageDescriptionHandle desc;
-	if(GraphicsImportGetImageDescription(gi,&desc)!=noErr) return @selector(loadNextImage);
+	if (GraphicsImportGetImageDescription(gi, &desc) != noErr)
+		return @selector(loadNextImage);
 
 	int framewidth=(*desc)->width;
 	int frameheight=(*desc)->height;
@@ -146,8 +224,7 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 	int type;
 	OSType pixelformat;
 
-	if(framedepth>32)
-	{
+	if (framedepth > 32) {
 		type=XeeBitmapTypeLuma8;
 		pixelformat=k8IndexedGrayPixelFormat;
 	}
@@ -156,7 +233,7 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 	//	type=XeeBitmapTypeYUV422;
 	//	pixelformat=k2vuyPixelFormat;
 	//}
-	else if(framedepth==32||framedepth==16)
+	else if(framedepth == 32 || framedepth == 16)
 	{
 		pixelformat=k32ARGBPixelFormat;
 		type=XeeBitmapTypeARGB8;
@@ -176,17 +253,16 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 	Rect rect;
 	void SetRect(Rect *, int, int, int, int);
 	SetRect(&rect,0,0,framewidth,frameheight);
-	if(QTNewGWorldFromPtr(&gw,pixelformat,&rect,NULL,NULL,0,[image data],[image bytesPerRow])!=noErr) return @selector(loadNextImage);
+	if (QTNewGWorldFromPtr(&gw,pixelformat,&rect,NULL,NULL,0,[image data],[image bytesPerRow])!=noErr) {
+		return @selector(loadNextImage);
+	}
 
-	if(GraphicsImportSetGWorld(gi,gw,NULL)==noErr)
-	{
+	if (GraphicsImportSetGWorld(gi, gw, NULL) == noErr) {
 //		[self addSubImage:image];
 
-		if(GraphicsImportDraw(gi)==noErr)
-		{
+		if (GraphicsImportDraw(gi) == noErr) {
 			//if(type==XeeBitmapTypeYUV422) [image fixYUVGamma];
-			if(type==XeeBitmapTypeLuma8)
-			{
+			if (type == XeeBitmapTypeLuma8) {
 				unsigned long *ptr=(unsigned long *)[image data];
 				int n=[image bytesPerRow]*frameheight/4;
 				while(n--) {
@@ -200,7 +276,7 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 		}
 	}
 	
-	void DisposeGWorld ( GWorldPtr offscreenGWorld );
+	void DisposeGWorld(GWorldPtr);
 	DisposeGWorld(gw);
 	#endif
 
@@ -210,10 +286,6 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
 }
 
 -(XeeBitmapImage *)currentImage { return [subimages objectAtIndex:[subimages count]-1]; }
-
--(int)currentHeight { return current_height; }
-
-
 
 +(void)load
 {
@@ -298,7 +370,11 @@ static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon)
 {
 	XeeQuicktimeImage *image=(XeeQuicktimeImage *)refcon; // ow ow ow, 64-bit issues!
 
-	if([image hasBeenStopped]) return codecAbortErr;
+	if ([image hasBeenStopped]) {
+		return codecAbortErr;
+	}
 
 	return noErr;
 }
+
+#endif

@@ -7,12 +7,11 @@
 	SEL *actions;
 }
 
-+(XeeSegmentedItem *)itemWithIdentifier:(NSString *)identifier label:(NSString *)label
++(instancetype)itemWithIdentifier:(NSString *)identifier label:(NSString *)label
 paletteLabel:(NSString *)pallabel segments:(int)segments;
 
--(id)initWithItemIdentifier:(NSString *)identifier label:(NSString *)label
+-(instancetype)initWithItemIdentifier:(NSString *)identifier label:(NSString *)label
 paletteLabel:(NSString *)pallabel segments:(int)segments;
--(void)dealloc;
 
 -(void)validate;
 
@@ -33,11 +32,11 @@ paletteLabel:(NSString *)pallabel segments:(int)segments;
 	id target;
 }
 
-+(XeeSegmentedItem *)itemWithIdentifier:(NSString *)identifier label:(NSString *)label
++(instancetype)itemWithIdentifier:(NSString *)identifier label:(NSString *)label
 paletteLabel:(NSString *)pallabel imageName:(NSString *)imagename longLabel:(NSString *)longlabel
 action:(SEL)action activeSelector:(SEL)activeselector target:(id)activetarget;
 
--(id)initWithItemIdentifier:(NSString *)identifier label:(NSString *)label
+-(instancetype)initWithItemIdentifier:(NSString *)identifier label:(NSString *)label
 paletteLabel:(NSString *)pallabel imageName:(NSString *)imagename longLabel:(NSString *)longlabel
 action:(SEL)action activeSelector:(SEL)activeselector target:(id)activetarget;
 -(void)validate;

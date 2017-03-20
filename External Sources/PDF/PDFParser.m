@@ -693,7 +693,10 @@ static BOOL IsWhiteSpace(uint8_t c);
 	return [[[self class] allocWithZone:zone] initWithNumber:num generation:gen];
 }
 
--(NSString *)description { return [NSString stringWithFormat:@"<Reference to object %d, generation %d>",num,gen]; }
+-(NSString *)description
+{
+	return [NSString stringWithFormat:@"<Reference to object %d, generation %d>",num,gen];
+}
 
 @end
 
