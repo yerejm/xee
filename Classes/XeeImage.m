@@ -544,9 +544,16 @@
 	[self triggerPropertyChangeAction];
 }
 
--(void)setDepthIconName:(NSString *)iconname { [self setDepthIcon:[NSImage imageNamed:iconname]]; }
+-(void)setDepthIconName:(NSString *)iconname
+{
+	[self setDepthIcon:[NSImage imageNamed:iconname]];
+}
 
--(void)setDepth:(NSString *)d iconName:(NSString *)iconname { [self setDepth:d]; [self setDepthIconName:iconname]; }
+-(void)setDepth:(NSString *)d iconName:(NSString *)iconname
+{
+	[self setDepth:d];
+	[self setDepthIconName:iconname];
+}
 
 -(void)setDepthBitmap
 {

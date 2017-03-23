@@ -11,7 +11,6 @@
 {
 	FSRef tmpRef;
 	if (FSPathMakeRef((const UInt8 *)[path fileSystemRepresentation], &tmpRef, NULL) != noErr) {
-		[self release];
 		return nil;
 	}
 	

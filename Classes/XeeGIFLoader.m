@@ -5,7 +5,7 @@
 
 +(NSArray *)fileTypes
 {
-	return [NSArray arrayWithObjects:@"gif",NSFileTypeForHFSTypeCode('GIFf'),NSFileTypeForHFSTypeCode('GIF '),nil];
+	return @[@"gif",NSFileTypeForHFSTypeCode('GIFf'),NSFileTypeForHFSTypeCode('GIF '),(NSString*)kUTTypeGIF,];
 }
 
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes

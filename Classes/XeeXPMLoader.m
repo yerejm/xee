@@ -15,7 +15,7 @@ static int ConvertHex(int x)
 
 +(NSArray *)fileTypes
 {
-	return [NSArray arrayWithObject:@"xpm"];
+	return @[@"xpm"];
 }
 
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;

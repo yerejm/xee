@@ -3,8 +3,8 @@
 #import "XeeBitmapImage.h"
 
 
+#if !__LP64__
 //#define USE_CGIMAGE
-#if __i386__
 
 static void XeeSetQTDepth(XeeImage *image,int qtdepth);
 static OSErr XeeQTProgressFunc(short message,Fixed completeness,long refcon);
@@ -17,25 +17,25 @@ typedef UInt32                          CodecQ;
 #pragma pack(push, 2)
 
 struct ImageDescription {
-	SInt32              idSize;                 /* total size of ImageDescription including extra data ( CLUTs and other per sequence data ) */
-	CodecType           cType;                  /* what kind of codec compressed this data */
-	SInt32              resvd1;                 /* reserved for Apple use */
-	SInt16              resvd2;                 /* reserved for Apple use */
-	SInt16              dataRefIndex;           /* set to zero  */
-	SInt16              version;                /* which version is this data */
-	SInt16              revisionLevel;          /* what version of that codec did this */
-	SInt32              vendor;                 /* whose  codec compressed this data */
-	CodecQ              temporalQuality;        /* what was the temporal quality factor  */
-	CodecQ              spatialQuality;         /* what was the spatial quality factor */
-	SInt16              width;                  /* how many pixels wide is this data */
-	SInt16              height;                 /* how many pixels high is this data */
-	Fixed               hRes;                   /* horizontal resolution */
-	Fixed               vRes;                   /* vertical resolution */
-	SInt32              dataSize;               /* if known, the size of data for this image descriptor */
-	SInt16              frameCount;             /* number of frames this description applies to */
-	Str31               name;                   /* name of codec ( in case not installed )  */
-	SInt16              depth;                  /* what depth is this data (1-32) or ( 33-40 grayscale ) */
-	SInt16              clutID;                 /* clut id or if 0 clut follows  or -1 if no clut */
+	SInt32              idSize;
+	CodecType           cType;
+	SInt32              resvd1;
+	SInt16              resvd2;
+	SInt16              dataRefIndex;
+	SInt16              version;
+	SInt16              revisionLevel;
+	SInt32              vendor;
+	CodecQ              temporalQuality;
+	CodecQ              spatialQuality;
+	SInt16              width;
+	SInt16              height;
+	Fixed               hRes;
+	Fixed               vRes;
+	SInt32              dataSize;
+	SInt16              frameCount;
+	Str31               name;
+	SInt16              depth;
+	SInt16              clutID;
 };
 typedef struct ImageDescription         ImageDescription;
 typedef ImageDescription *              ImageDescriptionPtr;
@@ -83,9 +83,9 @@ extern ComponentResult GraphicsImportSetQuality(GraphicsImportComponent, CodecQ)
 extern OSErr QTNewGWorldFromPtr(GWorldPtr *, OSType, const Rect *, CTabHandle, GDHandle, GWorldFlags, void *, long) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
 extern ComponentResult GraphicsImportSetGWorld(GraphicsImportComponent, CGrafPtr, GDHandle) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
 extern ComponentResult GraphicsImportDraw(GraphicsImportComponent) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
-extern OSErr EnterMovies(void);
-extern OSErr EnterMoviesOnThread(UInt32 inFlags);
-extern OSErr ExitMoviesOnThread(void);
+extern OSErr EnterMovies(void) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern OSErr EnterMoviesOnThread(UInt32 inFlags) AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
+extern OSErr ExitMoviesOnThread(void) AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
 
 // END old QuickTime definitions
 
@@ -285,7 +285,10 @@ extern OSErr ExitMoviesOnThread(void);
 	return @selector(loadNextImage);
 }
 
--(XeeBitmapImage *)currentImage { return [subimages objectAtIndex:[subimages count]-1]; }
+-(XeeBitmapImage *)currentImage
+{
+	return subimages.lastObject;
+}
 
 +(void)load
 {
@@ -299,41 +302,50 @@ extern OSErr ExitMoviesOnThread(void);
 		@"jpeg",
 		@"jpe",
 		NSFileTypeForHFSTypeCode('JPEG'),
+		(NSString*)kUTTypeJPEG,
 
 		@"png", // Portable Network Graphics
 		NSFileTypeForHFSTypeCode('PNG '),
 		NSFileTypeForHFSTypeCode('PNGf'),
+		(NSString*)kUTTypePNG,
 
 		@"gif", // Graphics Interchange Format
 		NSFileTypeForHFSTypeCode('GIFf'),
 		NSFileTypeForHFSTypeCode('GIF '),
+		(NSString*)kUTTypeGIF,
 
 		@"tif", // TIFF Image
 		@"tiff", 
 		NSFileTypeForHFSTypeCode('TIFF'),
+		(NSString*)kUTTypeTIFF,
 
 		@"bmp", // Windows Bitmap Image
 		@"dib", //?
 		NSFileTypeForHFSTypeCode('BMP '),
 		NSFileTypeForHFSTypeCode('BMPf'),
 		NSFileTypeForHFSTypeCode('BMPp'),
+		(NSString*)kUTTypeBMP,
 
 		@"psd", // Adobe Photoshop Image
 		NSFileTypeForHFSTypeCode('8BPS'),
+		//(NSString*)kUTTypePhotoshop,
 
 		@"tga", // Targa Image
 		NSFileTypeForHFSTypeCode('TPIC'),
+		//(NSString*)kUTTypeTGA,
 
 		@"jp2", // JPEG 2000 Image
 		NSFileTypeForHFSTypeCode('jp2 '),
+		(NSString*)kUTTypeJPEG2000,
 
 		@"pict", // PICT Image
 		@"pct", 
 		@"pic",
 		NSFileTypeForHFSTypeCode('PICT'),
+		(NSString*)kUTTypePICT,
 
 		@"fpx", // FlashPix Image
-		@"'FPix'", 
+		NSFileTypeForHFSTypeCode('FPix'),
 
 		@"qtif", // Apple Quicktime Image
 		@"qti",

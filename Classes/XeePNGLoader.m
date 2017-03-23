@@ -12,7 +12,7 @@ static void XeePNGReadData(png_structp png,png_bytep buf,png_size_t len)
 
 +(NSArray *)fileTypes
 {
-	return [NSArray arrayWithObjects:@"png",NSFileTypeForHFSTypeCode('PNG '),NSFileTypeForHFSTypeCode('PNGf'),nil];
+	return @[@"png",NSFileTypeForHFSTypeCode('PNG '),NSFileTypeForHFSTypeCode('PNGf'),		(NSString*)kUTTypePNG];
 }
 
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;

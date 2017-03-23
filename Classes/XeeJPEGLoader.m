@@ -19,7 +19,7 @@
 
 +(NSArray *)fileTypes
 {
-	return [NSArray arrayWithObjects:@"jpg",@"jpeg",@"jpe",NSFileTypeForHFSTypeCode('JPEG'),nil];
+	return @[@"jpg",@"jpeg",@"jpe",NSFileTypeForHFSTypeCode('JPEG'),(NSString*)kUTTypeJPEG];
 }
 
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;

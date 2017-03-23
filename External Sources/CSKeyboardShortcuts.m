@@ -1217,13 +1217,13 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	static NSDictionary *remapdictionary=nil;
 	if(!remapdictionary)
 	{
-		remapdictionary=[[NSDictionary dictionaryWithObjectsAndKeys:
+		remapdictionary=[[NSDictionary alloc] initWithObjectsAndKeys:
 			[NSString stringWithFormat:@"%C",(unichar)NSBackspaceCharacter],
 			[NSString stringWithFormat:@"%C",(unichar)NSDeleteCharacter],
 
 			[NSString stringWithFormat:@"%C",(unichar)NSDeleteCharacter],
 			[NSString stringWithFormat:@"%C",(unichar)NSDeleteFunctionKey],
-		nil] retain];
+		nil];
 	}
 
 	NSString *remapped=[remapdictionary objectForKey:characters];
@@ -1233,24 +1233,28 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 -(NSString *)charactersIgnoringAllModifiers
 {
-	unsigned short keycode=[self keyCode];
+	unsigned short keycode = [self keyCode];
 
 	TISInputSourceRef layout;
 	const void *uchr = NULL;
 	layout = TISCopyCurrentKeyboardLayoutInputSource();
-	uchr = TISGetInputSourceProperty(layout, kTISPropertyUnicodeKeyLayoutData);
+	NSData *tmpData = (id)TISGetInputSourceProperty(layout, kTISPropertyUnicodeKeyLayoutData);
+	[[tmpData retain] autorelease];
+	uchr = [tmpData bytes];
+	CFRelease(layout);
 
-	if(uchr)
-	{
+	if (uchr) {
 		UInt32 state=0;
 		UniCharCount strlen;
 		UniChar c;
 
 		UCKeyTranslate(uchr,keycode,kUCKeyActionDown,0,LMGetKbdType(),0,&state,1,&strlen,&c);
-		if(state!=0) UCKeyTranslate(uchr,keycode,kUCKeyActionDown,0,LMGetKbdType(),0,&state,1,&strlen,&c);
+		if (state!=0)
+			UCKeyTranslate(uchr, keycode, kUCKeyActionDown, 0, LMGetKbdType(), 0, &state, 1, &strlen, &c);
 
-		if(strlen&&c>=32&&c!=127) // control chars are not reliable!
-		return [NSString stringWithCharacters:&c length:strlen];
+		if (strlen && c >= 32 && c != 127) { // control chars are not reliable!
+			return [NSString stringWithCharacters:&c length:strlen];
+		}
 	}
 
 	return [[self charactersIgnoringModifiers] lowercaseString];

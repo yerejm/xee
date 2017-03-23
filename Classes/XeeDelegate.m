@@ -86,7 +86,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	[XeeImage registerImageClass:[XeeXBMImage class]];
 	[XeeImage registerImageClass:[XeeXPMImage class]];
 	[XeeImage registerImageClass:[XeeImageIOImage class]];
-#if __i386__
+#if !__LP64__
 	[XeeImage registerImageClass:[XeeQuicktimeImage class]];
 #endif
 
