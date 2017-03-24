@@ -18,7 +18,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 +(NSArray *)parseMenu:(NSMenu *)menu namespace:(NSMutableSet *)namespace
 {
-	NSMutableArray *array=[NSMutableArray array];
+	NSMutableArray *array=[[NSMutableArray alloc] init];
 
 	NSInteger count=[menu numberOfItems];
 	for(NSInteger i=0;i<count;i++)
@@ -31,7 +31,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 		else if(sel) [array addObject:[CSAction actionFromMenuItem:item namespace:namespace]];
 	}
 
-	return array;
+	return [array copy];
 }
 
 +(CSKeyboardShortcuts *)defaultShortcuts
@@ -39,31 +39,27 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	return defaultshortcuts;
 }
 
-+(void)installWindowClass { [CSKeyListenerWindow install]; }
++(void)installWindowClass
+{
+	[CSKeyListenerWindow install];
+}
 
 
 
 -(id)init
 {
-	if(self=[super init])
-	{
-		actions=[[NSArray alloc] init];
-		if(!defaultshortcuts) defaultshortcuts=self;
+	if (self = [super init]) {
+		actions = [[NSArray alloc] init];
+		if (!defaultshortcuts) {
+			defaultshortcuts=self;
+		}
 	}
 	return self;
 }
 
--(void)dealloc
-{
-	[actions release];
-
-	[super dealloc];
-}
-
 -(void)addActions:(NSArray *)moreactions
 {
-	[actions autorelease];
-	actions=[[[actions arrayByAddingObjectsFromArray:moreactions] sortedArrayUsingSelector:@selector(compare:)] retain];
+	actions = [[actions arrayByAddingObjectsFromArray:moreactions] sortedArrayUsingSelector:@selector(compare:)];
 }
 
 -(void)addActionsFromMenu:(NSMenu *)menu
@@ -73,13 +69,11 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 -(void)addShortcuts:(NSDictionary *)shortcuts
 {
-	NSEnumerator *enumerator=[actions objectEnumerator];
-	CSAction *action;
-
-	while(action=[enumerator nextObject])
-	{
-		NSArray *defkeys=[shortcuts objectForKey:[action identifier]];
-		if(defkeys) [action addDefaultShortcuts:defkeys];
+	for (CSAction *action in actions) {
+		NSArray *defkeys = [shortcuts objectForKey:[action identifier]];
+		if (defkeys) {
+			[action addDefaultShortcuts:defkeys];
+		}
 	}
 }
 
@@ -94,7 +88,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 -(BOOL)handleKeyEvent:(NSEvent *)event
 {
-	CSAction *action=[self actionForEvent:event ignoringModifiers:0];
+	CSAction *action = [self actionForEvent:event ignoringModifiers:0];
 	if (action && [action perform:event])
 		return YES;
 	return NO;
@@ -113,8 +107,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	{
 		NSEnumerator *keyenumerator=[[action shortcuts] objectEnumerator];
 		CSKeyStroke *key;
-		while(key=[keyenumerator nextObject])
-		{
+		while (key=[keyenumerator nextObject]) {
 			if([key matchesEvent:event ignoringModifiers:ignoredmods]) return action;
 		}
 	}
@@ -129,11 +122,11 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 		NSEnumerator *keyenumerator=[[action shortcuts] objectEnumerator];
 		CSKeyStroke *key;
-		while(key=[keyenumerator nextObject])
-		{
-			if([key matchesEvent:event ignoringModifiers:0])
-			{
-				if(index) *index=i;
+		for (key in keyenumerator) {
+			if([key matchesEvent:event ignoringModifiers:0]) {
+				if(index) {
+					*index = i;
+				}
 				return key;
 			}
 		}
@@ -154,41 +147,41 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 +(CSAction *)actionWithTitle:(NSString *)acttitle selector:(SEL)selector
 {
-	return [[[CSAction alloc] initWithTitle:acttitle identifier:nil selector:selector target:nil defaultShortcut:nil] autorelease];
+	return [[CSAction alloc] initWithTitle:acttitle identifier:nil selector:selector target:nil defaultShortcut:nil];
 }
 
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector
 {
-	return [[[CSAction alloc] initWithTitle:acttitle identifier:ident selector:selector target:nil defaultShortcut:nil] autorelease];
+	return [[CSAction alloc] initWithTitle:acttitle identifier:ident selector:selector target:nil defaultShortcut:nil];
 }
 
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector defaultShortcut:(CSKeyStroke *)defshortcut
 {
-	return [[[CSAction alloc] initWithTitle:acttitle identifier:ident selector:selector target:nil defaultShortcut:defshortcut] autorelease];
+	return [[CSAction alloc] initWithTitle:acttitle identifier:ident selector:selector target:nil defaultShortcut:defshortcut];
 }
 
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident
 {
-	return [[[CSAction alloc] initWithTitle:acttitle identifier:ident selector:0 target:nil defaultShortcut:nil] autorelease];
+	return [[CSAction alloc] initWithTitle:acttitle identifier:ident selector:0 target:nil defaultShortcut:nil];
 }
 
 +(CSAction *)actionFromMenuItem:(NSMenuItem *)item namespace:(NSMutableSet *)namespace
 {
-	return [[[CSAction alloc] initWithMenuItem:item namespace:namespace] autorelease];
+	return [[CSAction alloc] initWithMenuItem:item namespace:namespace];
 }
 
 -(id)initWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector target:(id)acttarget defaultShortcut:(CSKeyStroke *)defshortcut
 {
 	if(self=[super init])
 	{
-		title=[acttitle retain];
-		if(ident) identifier=[ident retain];
-		else identifier=[NSStringFromSelector(selector) retain];
+		title=[acttitle copy];
+		if(ident) identifier=[ident copy];
+		else identifier=NSStringFromSelector(selector);
 		sel=selector;
-		target=[acttarget retain];
+		target=acttarget;
 
 		shortcuts=nil;
-		defshortcuts=[[NSMutableArray array] retain];
+		defshortcuts=[[NSMutableArray alloc] init];
 
 		item=nil;
 		fullimage=nil;
@@ -222,23 +215,10 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	selector:[menuitem action] target:[menuitem target]
 	defaultShortcut:[CSKeyStroke keyFromMenuItem:menuitem]])
 	{
-		item=[menuitem retain];
+		item=menuitem;
 		[self updateMenuItem];
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[title release];
-	[identifier release];
-	[target release];
-	[shortcuts release];
-	[defshortcuts release];
-	[item release];
-	[fullimage release];
-
-	[super dealloc];
 }
 
 -(BOOL)isMenuItem
@@ -274,8 +254,6 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 -(void)setShortcuts:(NSArray *)shortcutarray
 {
-	[shortcuts autorelease];
-
 	NSString *key=[@"shortcuts." stringByAppendingString:identifier];
 	if(!shortcutarray||[shortcutarray isEqual:defshortcuts])
 	{
@@ -284,7 +262,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	}
 	else
 	{
-		shortcuts=(NSMutableArray *)[shortcutarray retain];
+		shortcuts=[shortcutarray mutableCopy];
 		NSArray *dictionaries=[CSKeyStroke dictionariesFromKeys:shortcuts];
 		[[NSUserDefaults standardUserDefaults] setObject:dictionaries forKey:key];
 	}
@@ -313,8 +291,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 	if(dictionaries)
 	{
-		[shortcuts autorelease];
-		shortcuts=(NSMutableArray *)[[CSKeyStroke keysFromDictionaries:dictionaries] retain];
+		shortcuts=(NSMutableArray *)[CSKeyStroke keysFromDictionaries:dictionaries];
 		[self updateMenuItem];
 		[self clearImage];
 	}
@@ -348,8 +325,8 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 		[[item menu] update];
 		if([item isEnabled])
 		{
-			NSString *keyequivalent=[[item keyEquivalent] retain];
-			unsigned int modifiermask=[item keyEquivalentModifierMask];
+			NSString *keyequivalent=[item keyEquivalent];
+			NSEventModifierFlags modifiermask=[item keyEquivalentModifierMask];
 
 			[item setKeyEquivalent:@"\020"];
 			[item setKeyEquivalentModifierMask:CSCmd|CSShift|CSAlt|CSCtrl];
@@ -367,7 +344,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 			BOOL res=[[item menu] performKeyEquivalent:keyevent];
 
-			[item setKeyEquivalent:[keyequivalent autorelease]];
+			[item setKeyEquivalent:keyequivalent];
 			[item setKeyEquivalentModifierMask:modifiermask];
 
 			return res;
@@ -401,7 +378,6 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 -(void)clearImage
 {
-	[fullimage release];
 	fullimage=nil;
 }
 
@@ -544,7 +520,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 +(CSKeyStroke *)keyForCharacter:(NSString *)character modifiers:(NSEventModifierFlags)modifiers
 {
-	return [[[CSKeyStroke alloc] initWithCharacter:character modifiers:modifiers] autorelease];
+	return [[CSKeyStroke alloc] initWithCharacter:character modifiers:modifiers];
 }
 
 +(CSKeyStroke *)keyForCharCode:(unichar)character modifiers:(NSEventModifierFlags)modifiers;
@@ -606,13 +582,6 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 		img=nil;
 	}
 	return self;
-}
-
--(void)dealloc
-{
-	[chr release];
-	[img release];
-	[super dealloc];
 }
 
 -(NSDictionary *)dictionary
@@ -750,21 +719,41 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 		case NSDownArrowFunctionKey: return @"\u2193";
 		case NSLeftArrowFunctionKey: return @"\u2190";
 		case NSRightArrowFunctionKey: return @"\u2192";
-		case NSF1FunctionKey: return @"F1";
-		case NSF2FunctionKey: return @"F2";
-		case NSF3FunctionKey: return @"F3";
-		case NSF4FunctionKey: return @"F4";
-		case NSF5FunctionKey: return @"F5";
-		case NSF6FunctionKey: return @"F6";
-		case NSF7FunctionKey: return @"F7";
-		case NSF8FunctionKey: return @"F8";
-		case NSF9FunctionKey: return @"F9";
-		case NSF10FunctionKey: return @"F10";
-		case NSF11FunctionKey: return @"F11";
-		case NSF12FunctionKey: return @"F12";
-		case NSF13FunctionKey: return @"F13";
-		case NSF14FunctionKey: return @"F14";
-		case NSF15FunctionKey: return @"F15";
+		case NSF1FunctionKey: return @"\uF860F1";
+		case NSF2FunctionKey: return @"\uF860F2";
+		case NSF3FunctionKey: return @"\uF860F3";
+		case NSF4FunctionKey: return @"\uF860F4";
+		case NSF5FunctionKey: return @"\uF860F5";
+		case NSF6FunctionKey: return @"\uF860F6";
+		case NSF7FunctionKey: return @"\uF860F7";
+		case NSF8FunctionKey: return @"\uF860F8";
+		case NSF9FunctionKey: return @"\uF860F9";
+		case NSF10FunctionKey: return @"\uF861F10";
+		case NSF11FunctionKey: return @"\uF861F11";
+		case NSF12FunctionKey: return @"\uF861F12";
+		case NSF13FunctionKey: return @"\uF861F13";
+		case NSF14FunctionKey: return @"\uF861F14";
+		case NSF15FunctionKey: return @"\uF861F15";
+		case NSF16FunctionKey: return @"\uF861F16";
+		case NSF17FunctionKey: return @"\uF861F17";
+		case NSF18FunctionKey: return @"\uF861F18";
+		case NSF19FunctionKey: return @"\uF861F19";
+		case NSF20FunctionKey: return @"\uF861F20";
+		case NSF21FunctionKey: return @"\uF861F21";
+		case NSF22FunctionKey: return @"\uF861F22";
+		case NSF23FunctionKey: return @"\uF861F23";
+		case NSF24FunctionKey: return @"\uF861F24";
+		case NSF25FunctionKey: return @"\uF861F25";
+		case NSF26FunctionKey: return @"\uF861F26";
+		case NSF27FunctionKey: return @"\uF861F27";
+		case NSF28FunctionKey: return @"\uF861F28";
+		case NSF29FunctionKey: return @"\uF861F29";
+		case NSF30FunctionKey: return @"\uF861F30";
+		case NSF31FunctionKey: return @"\uF861F31";
+		case NSF32FunctionKey: return @"\uF861F32";
+		case NSF33FunctionKey: return @"\uF861F33";
+		case NSF34FunctionKey: return @"\uF861F34";
+		case NSF35FunctionKey: return @"\uF861F35";
 		case NSInsertFunctionKey: return @"Insert";
 		//case NSDeleteFunctionKey: return [NSString stringWithFormat:@"%C",0x2326];
 		case NSDeleteFunctionKey: return @"(invalid)";
@@ -786,6 +775,12 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 // CSKeyboardList
 
 @implementation CSKeyboardList
+@synthesize keyboardShortcuts = keyboardShortcuts;
+
+-(CSKeyboardShortcuts *)keybardShortcuts
+{
+	return self.keyboardShortcuts;
+}
 
 -(id)initWithCoder:(NSCoder *)decoder
 {
@@ -801,12 +796,6 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	return self;
 }
 
--(void)dealloc
-{
-	[keyboardShortcuts release];
-	[super dealloc];
-}
-
 -(void)awakeFromNib
 {
 	NSImageCell *cell=[[self tableColumnWithIdentifier:@"shortcuts"] dataCell];
@@ -818,7 +807,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 	[self setDoubleAction:@selector(addShortcut:)];
 
-	if(!keyboardShortcuts) keyboardShortcuts=[[CSKeyboardShortcuts defaultShortcuts] retain];
+	if(!keyboardShortcuts) keyboardShortcuts=[CSKeyboardShortcuts defaultShortcuts];
 
 	[self registerForDraggedTypes:[NSArray arrayWithObjects:@"CSKeyStroke",nil]];
 
@@ -843,7 +832,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 		if(action==dropaction)
 		{
-			NSImage *image=[[[NSImage alloc] initWithSize:[action imageSizeWithDropSize:dropsize]] autorelease];
+			NSImage *image=[[NSImage alloc] initWithSize:[action imageSizeWithDropSize:dropsize]];
 			[image lockFocus];
 			[action drawAtPoint:NSZeroPoint selected:selected dropBefore:dropbefore dropSize:dropsize];
 			[image unlockFocus];
@@ -852,7 +841,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 		else if(row==[self selectedRow]&&selected)
 		{
 			if(![[action shortcuts] count]) return nil;
-			NSImage *image=[[[NSImage alloc] initWithSize:[action imageSizeWithDropSize:NSZeroSize]] autorelease];
+			NSImage *image=[[NSImage alloc] initWithSize:[action imageSizeWithDropSize:NSZeroSize]];
 			[image lockFocus];
 			[action drawAtPoint:NSZeroPoint selected:selected dropBefore:nil dropSize:NSZeroSize];
 			[image unlockFocus];
@@ -932,7 +921,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 
 				NSImage *keyimage=[clicked image];
 				NSSize keysize=[keyimage size];
-				NSImage *dragimage=[[[NSImage alloc] initWithSize:keysize] autorelease];
+				NSImage *dragimage=[[NSImage alloc] initWithSize:keysize];
 
 				[dragimage lockFocus];
 				[keyimage drawAtPoint:NSMakePoint(0,0) fromRect:NSMakeRect(0,0,keysize.width,keysize.height)
@@ -1075,18 +1064,13 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	[resetButton setEnabled:rowsel];
 }
 
-
-
 -(void)setKeyboardShortcuts:(CSKeyboardShortcuts *)shortcuts
 {
-	[keyboardShortcuts autorelease];
-	keyboardShortcuts=[shortcuts retain];
+	keyboardShortcuts=shortcuts;
 
 	[self setDataSource:(id)self];
 	[self reloadData];
 }
-
--(CSKeyboardShortcuts *)keybardShortcuts { return keyboardShortcuts; }
 
 -(CSAction *)getSelectedAction
 {
@@ -1238,8 +1222,7 @@ static CSKeyboardShortcuts *defaultshortcuts=nil;
 	TISInputSourceRef layout;
 	const void *uchr = NULL;
 	layout = TISCopyCurrentKeyboardLayoutInputSource();
-	NSData *tmpData = (id)TISGetInputSourceProperty(layout, kTISPropertyUnicodeKeyLayoutData);
-	[[tmpData retain] autorelease];
+	NSData *tmpData = (__bridge id)TISGetInputSourceProperty(layout, kTISPropertyUnicodeKeyLayoutData);
 	uchr = [tmpData bytes];
 	CFRelease(layout);
 

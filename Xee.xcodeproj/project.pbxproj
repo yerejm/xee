@@ -40,7 +40,7 @@
 		1B2B5DB70C78AF140057B42F /* XeeIndexedRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DB60C78AF140057B42F /* XeeIndexedRawImage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B2B5DBC0C78AF1F0057B42F /* XeeRawImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B5DBB0C78AF1F0057B42F /* XeeRawImage.m */; };
 		1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B3D30D809351D7A00345FD0 /* Carbon.framework */; };
-		1B3D33620937B89200345FD0 /* CSKeyboardShortcuts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */; };
+		1B3D33620937B89200345FD0 /* CSKeyboardShortcuts.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3D33610937B89200345FD0 /* CSKeyboardShortcuts.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B3E45920C6E1EDD00D63BC0 /* XeeProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B3E45910C6E1EDD00D63BC0 /* XeeProperties.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B4072A80EB40787008D5F17 /* CCITTHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BCA0D2B0EABF4B20016D207 /* CCITTHandle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1B40762F0EB7C325008D5F17 /* LZWHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B40762E0EB7C325008D5F17 /* LZWHandle.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };

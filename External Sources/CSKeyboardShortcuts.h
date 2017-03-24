@@ -13,7 +13,7 @@
 
 @class CSKeyStroke,CSAction;
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 @interface CSKeyboardShortcuts:NSObject
 {
@@ -23,7 +23,7 @@
 +(NSArray<CSAction*> *)parseMenu:(NSMenu *)menu;
 +(NSArray<CSAction*> *)parseMenu:(NSMenu *)menu namespace:(NSMutableSet<NSString*> *)aNamespace;
 
-@property (class, readonly, retain) CSKeyboardShortcuts *defaultShortcuts;
+@property (class, readonly, strong, nullable) CSKeyboardShortcuts *defaultShortcuts;
 +(void)installWindowClass;
 
 -(instancetype)init;
@@ -37,9 +37,9 @@
 -(void)resetToDefaults;
 
 -(BOOL)handleKeyEvent:(NSEvent *)event;
--(CSAction *)actionForEvent:(NSEvent *)event;
--(CSAction *)actionForEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods;
--(CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(NSInteger *)index;
+-(nullable CSAction *)actionForEvent:(NSEvent *)event;
+-(nullable CSAction *)actionForEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods;
+-(nullable CSKeyStroke *)findKeyStrokeForEvent:(NSEvent *)event index:(NSInteger *)index;
 
 @end
 
@@ -58,26 +58,24 @@
 }
 
 +(CSAction *)actionWithTitle:(NSString *)acttitle selector:(SEL)selector;
-+(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector;
-+(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector defaultShortcut:(CSKeyStroke *)defshortcut;
++(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(nullable NSString *)ident selector:(SEL)selector;
++(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(nullable NSString *)ident selector:(SEL)selector defaultShortcut:(CSKeyStroke *)defshortcut;
 +(CSAction *)actionWithTitle:(NSString *)acttitle identifier:(NSString *)ident;
 +(CSAction *)actionFromMenuItem:(NSMenuItem *)item namespace:(NSMutableSet<NSString*> *)aNamespace NS_SWIFT_UNAVAILABLE("use CSAction(menuItem:namespace:) instead");
 
--(instancetype)initWithTitle:(NSString *)acttitle identifier:(NSString *)ident selector:(SEL)selector target:(id)acttarget defaultShortcut:(CSKeyStroke *)defshortcut;
+-(instancetype)initWithTitle:(NSString *)acttitle identifier:(nullable NSString *)ident selector:(nullable SEL)selector target:(nullable id)acttarget defaultShortcut:(nullable CSKeyStroke *)defshortcut;
 -(instancetype)initWithMenuItem:(NSMenuItem *)menuitem namespace:(NSMutableSet<NSString*> *)namespace;
 
-@property (readonly) NSString *title;
-@property (readonly) NSString *identifier;
-@property (readonly) SEL selector;
+@property (readonly, copy) NSString *title;
+@property (readonly, copy) NSString *identifier;
+@property (readonly, nullable) SEL selector;
 @property (readonly, getter=isMenuItem) BOOL menuItem;
 
--(void)setDefaultShortcuts:(NSArray *)shortcutarray;
+-(void)setDefaultShortcuts:(NSArray<CSKeyStroke*> *)shortcutarray;
 -(void)addDefaultShortcut:(CSKeyStroke *)shortcut;
--(void)addDefaultShortcuts:(NSArray *)shortcutarray;
+-(void)addDefaultShortcuts:(NSArray<CSKeyStroke*> *)shortcutarray;
 
-@property (copy) NSArray *shortcuts;
--(void)setShortcuts:(NSArray *)shortcutarray;
--(NSArray *)shortcuts;
+@property (copy, null_resettable) NSArray<CSKeyStroke*> *shortcuts;
 
 -(void)resetToDefaults;
 -(void)loadCustomizations;
@@ -85,15 +83,15 @@
 
 -(BOOL)perform:(NSEvent *)event;
 
--(NSImage *)shortcutsImage;
+-(nullable NSImage *)shortcutsImage;
 -(void)clearImage;
 
 -(NSSize)imageSizeWithDropSize:(NSSize)dropsize;
--(void)drawAtPoint:(NSPoint)point selected:(CSKeyStroke *)selected dropBefore:(CSKeyStroke *)dropbefore dropSize:(NSSize)dropsize;
+-(void)drawAtPoint:(NSPoint)point selected:(nullable CSKeyStroke *)selected dropBefore:(nullable CSKeyStroke *)dropbefore dropSize:(NSSize)dropsize;
 
--(CSKeyStroke *)findKeyAtPoint:(NSPoint)point offset:(NSPoint)offset;
+-(nullable CSKeyStroke *)findKeyAtPoint:(NSPoint)point offset:(NSPoint)offset;
 -(NSPoint)findLocationOfKey:(CSKeyStroke *)searchkey offset:(NSPoint)offset;
--(CSKeyStroke *)findKeyAfterDropPoint:(NSPoint)point offset:(NSPoint)offset;
+-(nullable CSKeyStroke *)findKeyAfterDropPoint:(NSPoint)point offset:(NSPoint)offset;
 
 -(NSComparisonResult)compare:(CSAction *)other;
 
@@ -110,7 +108,7 @@
 
 +(CSKeyStroke *)keyForCharacter:(NSString *)character modifiers:(NSEventModifierFlags)modifiers;
 +(CSKeyStroke *)keyForCharCode:(unichar)character modifiers:(NSEventModifierFlags)modifiers;
-+(CSKeyStroke *)keyFromMenuItem:(NSMenuItem *)item;
++(nullable CSKeyStroke *)keyFromMenuItem:(NSMenuItem *)item;
 +(CSKeyStroke *)keyFromEvent:(NSEvent *)event;
 +(CSKeyStroke *)keyFromDictionary:(NSDictionary *)dict;
 
@@ -144,32 +142,33 @@
 	CSKeyStroke *dropbefore;
 	NSSize dropsize;
 
-	IBOutlet CSKeyboardShortcuts *keyboardShortcuts;
+	//IBOutlet CSKeyboardShortcuts *keyboardShortcuts;
 	IBOutlet NSTextField *infoTextField;
 	IBOutlet NSControl *addButton;
 	IBOutlet NSControl *removeButton;
 	IBOutlet NSControl *resetButton;
 }
 
--(instancetype)initWithCoder:(NSCoder *)decoder;
+-(nullable instancetype)initWithCoder:(NSCoder *)decoder;
 
 -(void)awakeFromNib;
 
 -(void)mouseDown:(NSEvent *)event;
 
--(CSAction *)getActionForLocation:(NSPoint)point hasFrame:(NSRect *)frame;
+-(nullable CSAction *)getActionForLocation:(NSPoint)point hasFrame:(nullable NSRect *)frame;
 
 -(void)updateButtons;
 
+@property (strong, nonatomic) IBOutlet CSKeyboardShortcuts *keyboardShortcuts;
 -(void)setKeyboardShortcuts:(CSKeyboardShortcuts *)shortcuts;
--(CSKeyboardShortcuts *)keybardShortcuts;
+-(CSKeyboardShortcuts *)keybardShortcuts DEPRECATED_ATTRIBUTE;
 
 -(CSAction *)getSelectedAction;
 
--(IBAction)addShortcut:(id)sender;
--(IBAction)removeShortcut:(id)sender;
--(IBAction)resetToDefaults:(id)sender;
--(IBAction)resetAll:(id)sender;
+-(IBAction)addShortcut:(nullable id)sender;
+-(IBAction)removeShortcut:(nullable id)sender;
+-(IBAction)resetToDefaults:(nullable id)sender;
+-(IBAction)resetAll:(nullable id)sender;
 
 @end
 
@@ -180,8 +179,6 @@
 
 
 @interface CSKeyListenerWindow:NSWindow
-{
-}
 
 +(void)install;
 
@@ -200,3 +197,5 @@
 -(NSString *)remappedCharactersIgnoringAllModifiers;
 
 @end
+
+NS_ASSUME_NONNULL_END
