@@ -25,25 +25,24 @@
 
 -(id)initWithPasteboard:(NSPasteboard *)pboard
 {
-	if(self=[super init])
-	{
-		image=nil;
+	if (self = [super init]) {
+		image = nil;
 
-		NSString *type=[pboard availableTypeFromArray:[NSArray arrayWithObjects:NSTIFFPboardType,NSPICTPboardType,nil]];
-		NSData *data=[pboard dataForType:type];
+		NSString *type=[pboard availableTypeFromArray:@[NSTIFFPboardType,NSPICTPboardType]];
+		NSData *data = [pboard dataForType:type];
 
-		size=[data length];
+		size = [data length];
 
 		CSHandle *handle;
-		if([type isEqual:NSPICTPboardType])
-		{
-			NSMutableData *head=[NSMutableData dataWithLength:512];
-			handle=[CSMultiHandle multiHandleWithHandles:
+		if([type isEqual:NSPICTPboardType]) {
+			NSMutableData *head = [NSMutableData dataWithLength:512];
+			handle = [CSMultiHandle multiHandleWithHandles:
 				[CSMemoryHandle memoryHandleForReadingData:head],
 				[CSMemoryHandle memoryHandleForReadingData:data],
 			nil];
+		} else {
+			handle = [CSMemoryHandle memoryHandleForReadingData:data];
 		}
-		else handle=[CSMemoryHandle memoryHandleForReadingData:data];
 
 /*NSLog(@"what");
 [[[[handle copy] autorelease] remainingFileContents] writeToFile:@"/Users/dag/Desktop/test.pict" atomically:NO];
@@ -82,13 +81,25 @@
 	[self triggerImageChangeAction:image];
 }
 
--(NSInteger)numberOfImages { return 1; }
+-(NSInteger)numberOfImages
+{
+	return 1;
+}
 
--(NSInteger)indexOfCurrentImage { return 0; }
+-(NSInteger)indexOfCurrentImage
+{
+	return 0;
+}
 
--(NSString *)windowTitle { return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard"); }
+-(NSString *)windowTitle
+{
+	return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard");
+}
 
--(NSString *)descriptiveNameOfCurrentImage { return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard"); }
+-(NSString *)descriptiveNameOfCurrentImage
+{
+	return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard");
+}
 
 -(void)pickImageAtIndex:(int)index next:(int)next
 {

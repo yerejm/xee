@@ -4,10 +4,10 @@
 
 
 
-#define CSCmd NSCommandKeyMask
-#define CSAlt NSAlternateKeyMask
-#define CSCtrl NSControlKeyMask
-#define CSShift NSShiftKeyMask
+#define CSCmd NSEventModifierFlagCommand
+#define CSAlt NSEventModifierFlagOption
+#define CSCtrl NSEventModifierFlagControl
+#define CSShift NSEventModifierFlagShift
 
 
 
@@ -43,8 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
-
 @interface CSAction:NSObject
 {
 	NSString *title,*identifier;
@@ -64,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 +(CSAction *)actionFromMenuItem:(NSMenuItem *)item namespace:(NSMutableSet<NSString*> *)aNamespace NS_SWIFT_UNAVAILABLE("use CSAction(menuItem:namespace:) instead");
 
 -(instancetype)initWithTitle:(NSString *)acttitle identifier:(nullable NSString *)ident selector:(nullable SEL)selector target:(nullable id)acttarget defaultShortcut:(nullable CSKeyStroke *)defshortcut;
--(instancetype)initWithMenuItem:(NSMenuItem *)menuitem namespace:(NSMutableSet<NSString*> *)namespace;
+-(instancetype)initWithMenuItem:(NSMenuItem *)menuitem namespace:(NSMutableSet<NSString*> *)aNamespace;
 
 @property (readonly, copy) NSString *title;
 @property (readonly, copy) NSString *identifier;
@@ -83,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(BOOL)perform:(NSEvent *)event;
 
--(nullable NSImage *)shortcutsImage;
+@property (readonly, retain, nullable) NSImage *shortcutsImage;
 -(void)clearImage;
 
 -(NSSize)imageSizeWithDropSize:(NSSize)dropsize;
@@ -121,35 +119,29 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSEventModifierFlags modifiers;
 @property (readonly) NSDictionary<NSString*,id> *dictionary;
 
--(NSImage *)image;
+@property (readonly, retain) NSImage *image;
 
 -(BOOL)matchesEvent:(NSEvent *)event ignoringModifiers:(NSEventModifierFlags)ignoredmods;
 
--(NSString *)description;
--(NSString *)descriptionOfModifiers;
--(NSString *)descriptionOfCharacter;
+@property (readonly, copy) NSString *description;
+@property (readonly, copy) NSString *descriptionOfModifiers;
+@property (readonly, copy) NSString *descriptionOfCharacter;
 
 @end
 
 
-
-
-
-@interface CSKeyboardList:KFTypeSelectTableView <NSTableViewDataSource, NSDraggingSource>
+@interface CSKeyboardList:KFTypeSelectTableView <NSTableViewDataSource, NSTableViewDelegate, NSDraggingSource, NSDraggingDestination>
 {
-	CSKeyStroke *selected;
-	CSAction *dropaction;
-	CSKeyStroke *dropbefore;
+	__unsafe_unretained CSKeyStroke *selected;
+	__unsafe_unretained CSAction *dropaction;
+	__unsafe_unretained CSKeyStroke *dropbefore;
 	NSSize dropsize;
 
-	//IBOutlet CSKeyboardShortcuts *keyboardShortcuts;
 	IBOutlet NSTextField *infoTextField;
 	IBOutlet NSControl *addButton;
 	IBOutlet NSControl *removeButton;
 	IBOutlet NSControl *resetButton;
 }
-
--(nullable instancetype)initWithCoder:(NSCoder *)decoder;
 
 -(void)awakeFromNib;
 
@@ -160,8 +152,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)updateButtons;
 
 @property (strong, nonatomic) IBOutlet CSKeyboardShortcuts *keyboardShortcuts;
--(void)setKeyboardShortcuts:(CSKeyboardShortcuts *)shortcuts;
--(CSKeyboardShortcuts *)keybardShortcuts DEPRECATED_ATTRIBUTE;
 
 -(CSAction *)getSelectedAction;
 
@@ -173,11 +163,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-
-
-
-
-
 @interface CSKeyListenerWindow:NSWindow
 
 +(void)install;
@@ -185,8 +170,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(BOOL)performKeyEquivalent:(NSEvent *)event;
 
 @end
-
-
 
 @interface NSEvent (CSKeyboardShortcutsAdditions)
 

@@ -1,25 +1,27 @@
 #import "XeeBitmapImage.h"
 
 @class XeeIFFHandle;
+@class XeeILBMRange;
+@class XeePropertyItem;
 
 @interface XeeILBMImage:XeeBitmapImage
 {
 	XeeIFFHandle *iff;
 
-	int realwidth,realheight;
-	int planes,masking,compression,trans;
-	int xasp,yasp,xscale,yscale;
+	int realwidth, realheight;
+	int planes, masking, compression, trans;
+	int xasp, yasp, xscale, yscale;
 	int rowbytes;
 
-	BOOL ham,ham8,ehb,ocscol,transparency;
+	BOOL ham, ham8, ehb, ocscol, transparency;
 
 	uint8_t *image;
 	uint8_t *mask;
 
 	uint32_t palette[256];
 
-	NSMutableArray *ranges;
-	NSMutableArray *comments;
+	NSMutableArray<XeeILBMRange*> *ranges;
+	NSMutableArray<XeePropertyItem*> *comments;
 
 	int current_line;
 
@@ -60,7 +62,7 @@
 	float interval;
 	float next;
 
-	XeeILBMImage *image;
+	__unsafe_unretained XeeILBMImage *image;
 }
 
 -(instancetype)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)image;

@@ -351,13 +351,15 @@ extern OSErr ExitMoviesOnThread(void) AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER_
 		@"qti",
 		@"qif", 
 		NSFileTypeForHFSTypeCode('qtif'),
+		(NSString*)kUTTypeQuickTimeImage, // UTI
 
 		@"sgi", // Silicon Graphics Image
 		NSFileTypeForHFSTypeCode('SGI '),
 		NSFileTypeForHFSTypeCode('.SGI'),
 
 		@"pntg", // Apple MacPaint image
-		NSFileTypeForHFSTypeCode('PNTG'), 
+		NSFileTypeForHFSTypeCode('PNTG'),
+		@"com.apple.macpaint-image", // UTI
 
 		@"mac", //?
 

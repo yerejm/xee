@@ -22,6 +22,8 @@
 extern CGFloat XeeZoomLevels[];
 extern NSInteger XeeNumberOfZoomLevels;
 
+NSString * const XeeFrontImageDidChangeNotification = @"XeeFrontImageDidChangeNotification";
+
 static NSMutableArray *controllers=nil;
 
 
@@ -116,13 +118,14 @@ static NSMutableArray *controllers=nil;
 	selector:@selector(refreshImageNotification:)
 	name:XeeRefreshImageNotification object:nil];
 
-	NSToolbar *toolbar=[[[NSToolbar alloc] initWithIdentifier:@"BrowserToolbar"] autorelease];
-	[toolbar setDelegate:(id)self];
-	[toolbar setDisplayMode:NSToolbarDisplayModeIconOnly];
-	[toolbar setAllowsUserCustomization:YES];
-	[toolbar setAutosavesConfiguration:YES];
+	NSToolbar *toolbar=[[NSToolbar alloc] initWithIdentifier:@"BrowserToolbar"];
+	toolbar.delegate = self;
+	toolbar.displayMode = NSToolbarDisplayModeIconOnly;
+	toolbar.allowsUserCustomization = YES;
+	toolbar.autosavesConfiguration = YES;
 	[self setupToolbarItems];
-	[window setToolbar:toolbar];
+	window.toolbar = toolbar;
+	[toolbar release];
 
 	[self setStatusBarHidden:[[NSUserDefaults standardUserDefaults] boolForKey:@"hideStatusBar"]];
 
@@ -133,7 +136,7 @@ static NSMutableArray *controllers=nil;
 
 -(void)dismantle
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"XeeFrontImageDidChangeNotification" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:XeeFrontImageDidChangeNotification object:nil];
 
 	[maindelegate controllerWillExit:self];
 
@@ -157,14 +160,14 @@ static NSMutableArray *controllers=nil;
 
 -(void)windowDidBecomeMain:(NSNotification *)notification
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"XeeFrontImageDidChangeNotification" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:XeeFrontImageDidChangeNotification object:self];
 	[statusbar setNeedsDisplay:YES];
 }
 
 -(void)windowDidResignMain:(NSNotification *)notification
 {
 	if(fullscreenwindow) return; // ignore messages when switching to and from the fullscreen window
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"XeeFrontImageDidChangeNotification" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:XeeFrontImageDidChangeNotification object:nil];
 	[statusbar setNeedsDisplay:YES];
 }
 
@@ -351,7 +354,7 @@ static NSMutableArray *controllers=nil;
 -(void)xeeView:(XeeView *)view imagePropertiesDidChange:(XeeImage *)image
 {
 	if([[NSApplication sharedApplication] mainWindow]==window)
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"XeeFrontImageDidChangeNotification" object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:XeeFrontImageDidChangeNotification object:self];
 
 	NSString *title=[source windowTitle];
 	if(title) [window setTitle:title];
@@ -549,8 +552,9 @@ static NSMutableArray *controllers=nil;
 	}
 
 	NSWindow *keywin=[[NSApplication sharedApplication] mainWindow];
-	if(keywin==window||keywin==fullscreenwindow)
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"XeeFrontImageDidChangeNotification" object:self];
+	if (keywin == window || keywin == fullscreenwindow) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:XeeFrontImageDidChangeNotification object:self];
+	}
 
 	[self updateStatusBar];
 
@@ -1255,22 +1259,29 @@ static NSMutableArray *controllers=nil;
 
 -(IBAction)confirm:(id)sender
 {
-	if([self isCropping]) [self crop:nil];
+	if ([self isCropping])
+		[self crop:nil];
 }
 
 -(IBAction)cancel:(id)sender
 {
 	NSInteger state=[drawer state];
 
-	if([self isCropping]) [imageview setTool:movetool];
-	else if(fullscreenwindow)
-	{
-		if(autofullscreen) [self dismantle];
-		else [self fullScreen:nil];
+	if ([self isCropping]) {
+		[imageview setTool:movetool];
+	} else if(fullscreenwindow) {
+		if (autofullscreen) {
+			[self dismantle];
+		} else {
+			[self fullScreen:nil];
+		}
+	} else if ([[maindelegate propertiesController] closeIfOpen]) {
+		return;
+	} else if (state == NSDrawerOpenState || state == NSDrawerOpeningState) {
+		[closebutton performClick:nil];
+	} else {
+		[[[NSApplication sharedApplication] keyWindow] performClose:nil];
 	}
-	else if([[maindelegate propertiesController] closeIfOpen]) return;
-	else if(state==NSDrawerOpenState||state==NSDrawerOpeningState) [closebutton performClick:nil];
-	else [[[NSApplication sharedApplication] keyWindow] performClose:nil];
 }
 
 @end
@@ -1279,8 +1290,14 @@ static NSMutableArray *controllers=nil;
 
 @implementation XeeFullScreenWindow
 
--(BOOL)canBecomeKeyWindow { return YES; }
+-(BOOL)canBecomeKeyWindow
+{
+	return YES;
+}
 
--(BOOL)canBecomeMainWindow { return YES; }
+-(BOOL)canBecomeMainWindow
+{
+	return YES;
+}
 
 @end

@@ -13,10 +13,6 @@
 	CSCoroutine *caller;
 	jmp_buf env;
 
-	SEL selector;
-	marg_list arguments;
-	int argsize;
-
 	NSInvocation *inv;
 }
 @property (class, readonly, retain) CSCoroutine *mainCoroutine;

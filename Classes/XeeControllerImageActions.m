@@ -23,7 +23,11 @@ NSInteger XeeNumberOfZoomLevels=21;
 		CGImageRef cgimage=[currimage createCGImage];
 
 		if (cgimage) {
-			[[NSPasteboard generalPasteboard] declareTypes:@[NSTIFFPboardType, NSPICTPboardType] owner:self];
+			[[NSPasteboard generalPasteboard] declareTypes:@[NSTIFFPboardType
+#if !__LP64__
+															 , NSPICTPboardType
+#endif
+															 ] owner:self];
 
 			copiedcgimage=cgimage;
 			[self retain];

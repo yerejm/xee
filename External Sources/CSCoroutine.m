@@ -1,3 +1,4 @@
+#include <Availability.h>
 #import <Foundation/Foundation.h>
 #ifndef MAC_OS_X_VERSION_MIN_REQUIRED
 #define MAC_OS_X_VERSION_MIN_REQUIRED MAC_OS_X_VERSION_10_1
@@ -17,15 +18,17 @@
 
 static pthread_key_t currkey,mainkey;
 
-static void CSCoroutineFreeMain(CSCoroutine *main) { [main release]; }
+static void CSCoroutineFreeMain(CSCoroutine *main)
+{
+	[main release];
+}
 
 static CSCoroutine *CSMainCoroutine()
 {
 	CSCoroutine *main=(CSCoroutine *)pthread_getspecific(mainkey);
-	if(!main)
-	{
-		main=[[CSCoroutine alloc] initWithTarget:nil stackSize:0];
-		pthread_setspecific(mainkey,main);
+	if (!main) {
+		main = [[CSCoroutine alloc] initWithTarget:nil stackSize:0];
+		pthread_setspecific(mainkey, main);
 	}
 	return main;
 }
@@ -33,27 +36,32 @@ static CSCoroutine *CSMainCoroutine()
 static CSCoroutine *CSCurrentCoroutine()
 {
 	CSCoroutine *curr=(CSCoroutine *)pthread_getspecific(currkey);
-	if(curr) return curr;
-	else return CSMainCoroutine();
+	if (curr) {
+		return curr;
+	} else {
+		return CSMainCoroutine();
+	}
 }
 
 static CSCoroutine *CSSetCurrentCoroutine(CSCoroutine *new)
 {
-	CSCoroutine *curr=CSCurrentCoroutine();
-	pthread_setspecific(currkey,new);
+	CSCoroutine *curr = CSCurrentCoroutine();
+	pthread_setspecific(currkey, new);
 	return curr;
 }
 
-static void CSSetEntryPoint(jmp_buf env,void (*entry)(),void *stack,int stacksize)
+static void CSSetEntryPoint(jmp_buf env,void (*entry)(),void *stack,long stacksize)
 {
 	#if defined(__i386__)
 	env[9]=(((int)stack+stacksize)&~15)-4; // -4 to pretend that a return address has just been pushed onto the stack
 	env[12]=(int)entry;
 	#elif defined(__x86_64__)
 	#warning TODO: implement!
-	#else
+	#elif defined(__ppc__)
 	env[0]=((int)stack+stacksize-64)&~3;
 	env[21]=(int)entry;
+	#else
+	#error unknown architecture
 	#endif
 }
 
@@ -65,24 +73,38 @@ static void CSSetEntryPoint(jmp_buf env,void (*entry)(),void *stack,int stacksiz
 	pthread_key_create(&mainkey,(void (*)())CSCoroutineFreeMain);
 }
 
-+(CSCoroutine *)mainCoroutine { return CSMainCoroutine(); }
++(CSCoroutine *)mainCoroutine
+{
+	return CSMainCoroutine();
+}
 
-+(CSCoroutine *)currentCoroutine { return CSCurrentCoroutine(); }
++(CSCoroutine *)currentCoroutine
+{
+	return CSCurrentCoroutine();
+}
 
-+(void)setCurrentCoroutine:(CSCoroutine *)curr { CSSetCurrentCoroutine(curr); }
++(void)setCurrentCoroutine:(CSCoroutine *)curr
+{
+	CSSetCurrentCoroutine(curr);
+}
 
-+(void)returnFromCurrent { [CSCurrentCoroutine() returnFrom]; }
++(void)returnFromCurrent
+{
+	[CSCurrentCoroutine() returnFrom];
+}
 
 -(id)initWithTarget:(id)targetobj stackSize:(size_t)stackbytes
 {
-	target=targetobj;
-	stacksize=stackbytes;
-	if(stacksize) stack=malloc(stacksize);
-	fired=target?NO:YES;
-
-	caller=nil;
-	inv=nil;
-
+	target = targetobj;
+	stacksize = stackbytes;
+	if (stacksize) {
+		stack = malloc(stacksize);
+	}
+	fired = target ? NO : YES;
+	
+	caller = nil;
+	inv = nil;
+	
 	return self;
 }
 
@@ -97,46 +119,23 @@ static void CSSetEntryPoint(jmp_buf env,void (*entry)(),void *stack,int stacksiz
 {
 	CSCoroutine *curr=CSSetCurrentCoroutine(self);
 	caller=curr;
-	if(_setjmp(curr->env)==0) _longjmp(env,1);
+	if (_setjmp(curr->env) == 0) {
+		_longjmp(env,1);
+	}
 }
 
 -(void)returnFrom
 {
 	/*CSCoroutine *curr=*/CSSetCurrentCoroutine(caller);
-	if(_setjmp(env)==0) _longjmp(caller->env,1);
+	if (_setjmp(env) == 0) {
+		_longjmp(caller->env,1);
+	}
 }
 
-#if 0
-static void CSTigerCoroutineStart()
+-(NSMethodSignature *)methodSignatureForSelector:(SEL)sel
 {
-	CSCoroutine *coro=CSCurrentCoroutine();
-	objc_msgSendv(coro->target,coro->selector,coro->argsize,coro->arguments);
-	[coro returnFrom];
-	[NSException raise:@"CSCoroutineException" format:@"Attempted to switch to a coroutine that has ended"];
+	return [target methodSignatureForSelector:sel];
 }
-
--forward:(SEL)sel :(marg_list)args // Tiger forwarding
-{
-#if 0
-	if(fired) [NSException raise:@"CSCoroutineException" format:@"Attempted to start a coroutine that is already running"];
-	fired=YES;
-
-	selector=sel;
-	arguments=args;
-	Method method=class_getInstanceMethod([target class],sel);
-	if(!method) { [self doesNotRecognizeSelector:sel]; return nil; }
-	argsize=method_getSizeOfArguments(method);
-
-	_setjmp(env);
-	CSSetEntryPoint(env,CSTigerCoroutineStart,stack,stacksize);
-
-	[self switchTo];
-#endif
-	return nil;
-}
-#endif
-
--(NSMethodSignature *)methodSignatureForSelector:(SEL)sel { return [target methodSignatureForSelector:sel]; }
 
 static void CSLeopardCoroutineStart()
 {
@@ -148,14 +147,16 @@ static void CSLeopardCoroutineStart()
 
 -(void)forwardInvocation:(NSInvocation *)invocation
 {
-	if(fired) [NSException raise:@"CSCoroutineException" format:@"Attempted to start a coroutine that is already running"];
-	fired=YES;
+	if (fired) {
+		[NSException raise:@"CSCoroutineException" format:@"Attempted to start a coroutine that is already running"];
+	}
+	fired = YES;
 
-	inv=[invocation retain];
+	inv = [invocation retain];
 	[inv setTarget:target];
 
 	_setjmp(env);
-	CSSetEntryPoint(env,CSLeopardCoroutineStart,stack,stacksize);
+	CSSetEntryPoint(env, CSLeopardCoroutineStart, stack, stacksize);
 
 	[self switchTo];
 }
@@ -165,9 +166,13 @@ static void CSLeopardCoroutineStart()
 @implementation NSObject (CSCoroutine)
 
 -(CSCoroutine *)newCoroutine
-{ return [[CSCoroutine alloc] initWithTarget:self stackSize:1024*1024]; }
+{
+	return [[CSCoroutine alloc] initWithTarget:self stackSize:1024*1024];
+}
 
 -(CSCoroutine *)newCoroutineWithStackSize:(size_t)stacksize
-{ return [[CSCoroutine alloc] initWithTarget:self stackSize:stacksize]; }
+{
+	return [[CSCoroutine alloc] initWithTarget:self stackSize:stacksize];
+}
 
 @end

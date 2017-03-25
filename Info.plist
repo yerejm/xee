@@ -194,8 +194,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -217,8 +215,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -242,8 +238,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -258,8 +252,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -279,8 +271,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -300,8 +290,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -325,8 +313,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -350,8 +336,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -371,8 +355,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -392,8 +374,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -417,8 +397,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -438,8 +416,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -459,8 +435,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -557,8 +531,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -602,8 +574,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -657,8 +627,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -682,8 +650,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -755,8 +721,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -771,8 +735,6 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -787,8 +749,6 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -804,8 +764,6 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -829,8 +787,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -841,8 +797,6 @@
 			<string>Editor</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -862,8 +816,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -883,8 +835,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFile</key>
@@ -899,8 +849,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -931,8 +879,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -961,8 +907,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -986,8 +930,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -1017,8 +959,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -1050,8 +990,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -1066,8 +1004,6 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -1115,7 +1051,7 @@
 	<key>CFBundleVersion</key>
 	<string>2.3</string>
 	<key>CFShortVersion</key>
-	<string>2.2.1</string>
+	<string>2.3</string>
 	<key>CSHiddenDocumentTypes</key>
 	<array>
 		<string>public.zip-archive</string>
@@ -1125,6 +1061,8 @@
 		<string>cx.c3.lha-archive</string>
 		<string>com.allume.stuffit-archive</string>
 	</array>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSMainNibFile</key>

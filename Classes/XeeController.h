@@ -11,13 +11,15 @@ typedef NS_ENUM(int, XeeDrawerMode) {
 
 #define XeeDrawerEdgeWidth 6.0
 
+extern NSString * const XeeFrontImageDidChangeNotification;
+
 @class XeeImage,XeeImageSource,XeeView,XeeDisplayWindow,XeeFullScreenWindow;
 @class XeeCollisionPanel,XeeRenamePanel,XeePasswordPanel,XeeStatusBar,XeeDestinationView;
 @class XeeMoveTool,XeeCropTool;
 
 
 
-@interface XeeController:NSObject <XeeImageSourceDelegate>
+@interface XeeController:NSObject <XeeImageSourceDelegate, NSToolbarDelegate>
 {
 	XeeImageSource *source;
 	XeeImage *currimage;
@@ -115,6 +117,7 @@ typedef NS_ENUM(int, XeeDrawerMode) {
 -(void)setResizeBlock:(BOOL)block;
 -(void)setResizeBlockFromSender:(id)sender;
 -(BOOL)isResizeBlocked;
+@property (nonatomic, getter=isResizeBlocked, setter=setResizeBlock:) BOOL resizeBlocked;
 -(NSSize)maxViewSize;
 -(NSSize)minViewSize;
 -(NSRect)availableScreenSpace;
@@ -137,6 +140,7 @@ typedef NS_ENUM(int, XeeDrawerMode) {
 -(void)updateStatusBar;
 -(void)setStatusBarHidden:(BOOL)hidden;
 -(BOOL)isStatusBarHidden;
+@property (getter=isStatusBarHidden) BOOL statusBarHidden;
 -(IBAction)toggleStatusBar:(id)sender;
 
 -(void)setDrawerEnableState;
@@ -154,8 +158,6 @@ typedef NS_ENUM(int, XeeDrawerMode) {
 
 
 @interface XeeFullScreenWindow:NSWindow
-{
-}
 
 -(BOOL)canBecomeKeyWindow;
 

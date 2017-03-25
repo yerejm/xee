@@ -8,7 +8,7 @@
 
 +(NSArray *)fileTypes
 {
-	return [NSArray arrayWithObject:@"xbm"];
+	return @[@"xbm", @"public.xbitmap-image"];
 }
 
 +(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;

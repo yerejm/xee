@@ -284,7 +284,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent);
     return shouldResign;
 }
 
-static NSEventModifierFlags modifierFlagsICareAboutMask = NSCommandKeyMask | NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSFunctionKeyMask;
+static const NSEventModifierFlags modifierFlagsICareAboutMask = NSEventModifierFlagCommand | NSEventModifierFlagShift | NSEventModifierFlagControl | NSEventModifierFlagOption | NSEventModifierFlagFunction;
 
 // yes if every character in the event is alphanumeric and no command, control or function modifiers 
 static BOOL KFKeyEventIsBeginFindEvent(NSEvent *keyEvent)
@@ -293,7 +293,7 @@ static BOOL KFKeyEventIsBeginFindEvent(NSEvent *keyEvent)
     NSString *characters = [keyEvent characters];
     NSInteger numCharacters = [characters length];
     
-    if ((modifiers & (NSCommandKeyMask | NSControlKeyMask | NSFunctionKeyMask)) != 0)
+    if ((modifiers & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagFunction)) != 0)
     {
         return NO;
     }
@@ -322,7 +322,7 @@ static BOOL KFKeyEventIsExtendFindEvent(NSEvent *keyEvent)
     NSString *characters = [keyEvent characters];
     NSInteger numCharacters = [characters length];
     
-    if ((modifiers & (NSCommandKeyMask | NSControlKeyMask | NSFunctionKeyMask)) != 0)
+    if ((modifiers & (NSEventModifierFlagCommand | NSEventModifierFlagControl | NSEventModifierFlagFunction)) != 0)
     {
         return NO;
     }
@@ -351,7 +351,7 @@ static BOOL KFKeyEventIsFindNextEvent(NSEvent *keyEvent)
     NSString *characters = [keyEvent characters];
     NSInteger numCharacters = [characters length];
     
-    if (numCharacters == 1 && [characters characterAtIndex:0] == NSDownArrowFunctionKey && modifiers == (NSControlKeyMask | NSFunctionKeyMask))
+    if (numCharacters == 1 && [characters characterAtIndex:0] == NSDownArrowFunctionKey && modifiers == (NSEventModifierFlagControl | NSEventModifierFlagFunction))
     {
         return YES;
     }
@@ -366,7 +366,7 @@ static BOOL KFKeyEventIsFindPreviousEvent(NSEvent *keyEvent)
     NSString *characters = [keyEvent characters];
     NSInteger numCharacters = [characters length];
     
-    if (numCharacters == 1 && [characters characterAtIndex:0] == NSUpArrowFunctionKey && modifiers == (NSControlKeyMask | NSFunctionKeyMask))
+    if (numCharacters == 1 && [characters characterAtIndex:0] == NSUpArrowFunctionKey && modifiers == (NSEventModifierFlagControl | NSEventModifierFlagFunction))
     {
         return YES;
     }
@@ -400,7 +400,7 @@ static BOOL KFKeyEventIsCancelEvent(NSEvent *keyEvent)
     
 //    const unichar EscapeKeyCharacter = 0x1b;
     
-    if ((modifiers == NSCommandKeyMask) && [characters isEqualToString:@"."])
+    if ((modifiers == NSEventModifierFlagCommand) && [characters isEqualToString:@"."])
     {
         return YES;
     }
