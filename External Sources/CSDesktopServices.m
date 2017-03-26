@@ -112,81 +112,81 @@ NSDictionary *CSParseDSStore(NSString *filename)
 
 			id value;
 			switch (type) {
-			case 'bool': // One-byte boolean.
-				if (length < chunk + 1)
-					goto end; // Truncated file.
-				value = [NSNumber numberWithBool:bytes[chunk]];
-				chunk += 1;
-				break;
+				case 'bool': // One-byte boolean.
+					if (length < chunk + 1)
+						goto end; // Truncated file.
+					value = [NSNumber numberWithBool:bytes[chunk]];
+					chunk += 1;
+					break;
 
-			case 'long': // Four-byte long.
-			case 'shor': // Shorts seem to be 4 bytes too.
-				if (length < chunk + 4)
-					goto end; // Truncated file.
-				value = @(CSGetInt32(bytes + chunk));
-				chunk += 4;
-				break;
+				case 'long': // Four-byte long.
+				case 'shor': // Shorts seem to be 4 bytes too.
+					if (length < chunk + 4)
+						goto end; // Truncated file.
+					value = @(CSGetInt32(bytes + chunk));
+					chunk += 4;
+					break;
 
-			case 'blob': // Binary data.
-			{
-				if (length < chunk + 4)
-					goto end; // Truncated file.
-				int len = CSGetUInt32(bytes + chunk);
-				if (length < chunk + 4 + len)
-					continue; // Truncated file.
-				value = [NSData dataWithBytes:bytes + chunk + 4 length:len];
-				chunk += 4 + len;
-			} break;
+				case 'blob': // Binary data.
+				{
+					if (length < chunk + 4)
+						goto end; // Truncated file.
+					int len = CSGetUInt32(bytes + chunk);
+					if (length < chunk + 4 + len)
+						continue; // Truncated file.
+					value = [NSData dataWithBytes:bytes + chunk + 4 length:len];
+					chunk += 4 + len;
+				} break;
 
-			case 'ustr': // UTF16BE string
-			{
-				if (length < chunk + 4)
-					goto end; // Truncated file.
-				int len = CSGetUInt32(bytes + chunk);
-				if (length < chunk + 4 + len * 2)
-					goto end; // Truncated file.
-				value = [[NSString alloc] initWithBytes:bytes + chunk + 2
-												 length:len * 2
-											   encoding:NSUTF16BigEndianStringEncoding];
-				chunk += 4 + len * 2;
-			} break;
+				case 'ustr': // UTF16BE string
+				{
+					if (length < chunk + 4)
+						goto end; // Truncated file.
+					int len = CSGetUInt32(bytes + chunk);
+					if (length < chunk + 4 + len * 2)
+						goto end; // Truncated file.
+					value = [[NSString alloc] initWithBytes:bytes + chunk + 2
+													 length:len * 2
+												   encoding:NSUTF16BigEndianStringEncoding];
+					chunk += 4 + len * 2;
+				} break;
 
-			case 'comp': // eight-byte integer
-				if (length < chunk + 8)
-					goto end; // Truncated file.
-				value = @(CSGetInt64(bytes + chunk));
-				chunk += 8;
-				break;
+				case 'comp': // eight-byte integer
+					if (length < chunk + 8)
+						goto end; // Truncated file.
+					value = @(CSGetInt64(bytes + chunk));
+					chunk += 8;
+					break;
 
-			case 'dutc': // date stamp
-			{
-				if (length < chunk + 8)
-					goto end; // Truncated file.
+				case 'dutc': // date stamp
+				{
+					if (length < chunk + 8)
+						goto end; // Truncated file.
 #ifdef USEUTCDATETIMESTRUCT
-				UTCDateTime newDateTime = CSGetUTCTime(bytes + chunk);
-				CFAbsoluteTime theTime;
-				UCConvertUTCDateTimeToCFAbsoluteTime(&newDateTime, &theTime);
-				value = [NSDate dateWithTimeIntervalSinceReferenceDate:theTime];
+					UTCDateTime newDateTime = CSGetUTCTime(bytes + chunk);
+					CFAbsoluteTime theTime;
+					UCConvertUTCDateTimeToCFAbsoluteTime(&newDateTime, &theTime);
+					value = [NSDate dateWithTimeIntervalSinceReferenceDate:theTime];
 #else
 
 #endif
-				chunk += 8;
-			} break;
+					chunk += 8;
+				} break;
 
-			case 'type': // OSType
-			{
-				if (length < chunk + 4)
-					goto end; // Truncated file.
-				// Hmm, integer or string...
-				// Let's go string.
-				OSType type2 = CSGetUInt32(bytes + chunk);
-				value = CFBridgingRelease(UTCreateStringForOSType(type2));
-			}
-				chunk += 4;
-				break;
+				case 'type': // OSType
+				{
+					if (length < chunk + 4)
+						goto end; // Truncated file.
+					// Hmm, integer or string...
+					// Let's go string.
+					OSType type2 = CSGetUInt32(bytes + chunk);
+					value = CFBridgingRelease(UTCreateStringForOSType(type2));
+				}
+					chunk += 4;
+					break;
 
-			default:
-				goto end; // Unknown chunk type, give up.
+				default:
+					goto end; // Unknown chunk type, give up.
 			}
 
 			NSMutableDictionary *filedict = [dict objectForKey:filename];

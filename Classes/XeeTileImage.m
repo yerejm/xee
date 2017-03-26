@@ -183,24 +183,24 @@ struct XeeTileImageProviderInfo {
 	if ((x_scale < 1 || y_scale < 1) && textarget == GL_TEXTURE_RECTANGLE_EXT && XeeSpanLength(uploaded) == height && !lowquality) {
 		XeeSampleSet *set = nil;
 		switch ([[NSUserDefaults standardUserDefaults] integerForKey:XeeAntialiasQualityKey]) {
-		case 1:
-			set = [XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"box"];
-			break;
-		case 2:
-			set = [XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"box"];
-			break;
-		case 3:
-			set = [XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"box"];
-			break;
-		case 4:
-			set = [XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"sinc"];
-			break;
-		case 5:
-			set = [XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"sinc"];
-			break;
-		case 6:
-			set = [XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"sinc"];
-			break;
+			case 1:
+				set = [XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"box"];
+				break;
+			case 2:
+				set = [XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"box"];
+				break;
+			case 3:
+				set = [XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"box"];
+				break;
+			case 4:
+				set = [XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"sinc"];
+				break;
+			case 5:
+				set = [XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"sinc"];
+				break;
+			case 6:
+				set = [XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"sinc"];
+				break;
 		}
 
 		if (set)

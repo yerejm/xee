@@ -756,12 +756,12 @@ static NSMutableArray *controllers = nil;
 - (BOOL)isResizeBlocked
 {
 	switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"windowResizing"]) {
-	case 1:
-		return blocked;
-	case 2:
-		return YES;
-	default:
-		return NO;
+		case 1:
+			return blocked;
+		case 2:
+			return YES;
+		default:
+			return NO;
 	}
 }
 

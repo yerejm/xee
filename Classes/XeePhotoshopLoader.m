@@ -134,127 +134,127 @@
 			break; // sanity check
 
 		switch (marker) {
-		case 'Lr16':
-			layers = [XeePhotoshopLayerParser parseLayersFromHandle:fh parentImage:self alphaFlag:NULL];
-			break;
-
-		case 'Mt16':
-			hasalpha = YES;
-			break;
-
-		case 'Anno': {
-			if ([fh readUInt16BE] != 2)
-				break;
-			if ([fh readUInt16BE] != 1)
+			case 'Lr16':
+				layers = [XeePhotoshopLayerParser parseLayersFromHandle:fh parentImage:self alphaFlag:NULL];
 				break;
 
-			int numanno = [fh readUInt32BE];
-			NSMutableArray *annotations = [NSMutableArray array];
+			case 'Mt16':
+				hasalpha = YES;
+				break;
 
-			for (int i = 0; i < numanno; i++) {
-				uint32_t annolen = [fh readUInt32BE];
-				off_t nextanno = [fh offsetInFile] + annolen - 4;
-				if ([fh readUInt32BE] == 'txtA') {
-					[fh skipBytes:46];
-					int len = [fh readUInt8];
-					[fh skipBytes:len + ((len & 1) ^ 1)];
-					len = [fh readUInt8];
-					[fh skipBytes:len + ((len & 1) ^ 1)];
-					len = [fh readUInt8];
-					NSString *datestr = [[[NSString alloc] initWithData:[fh readDataOfLength:len] encoding:NSISOLatin1StringEncoding] autorelease];
-					[fh skipBytes:((len & 1) ^ 1) + 4];
+			case 'Anno': {
+				if ([fh readUInt16BE] != 2)
+					break;
+				if ([fh readUInt16BE] != 1)
+					break;
 
-					NSDate *date = nil;
-					NSArray *matches = [datestr substringsCapturedByPattern:@"^D:([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([+-])([0-9]{2})'([0-9]{2})'$"];
-					if (matches) {
-						int year = [[matches objectAtIndex:1] intValue];
-						int month = [[matches objectAtIndex:2] intValue];
-						int day = [[matches objectAtIndex:3] intValue];
-						int hour = [[matches objectAtIndex:4] intValue];
-						int minute = [[matches objectAtIndex:5] intValue];
-						int second = [[matches objectAtIndex:6] intValue];
-						int tzmult = [[matches objectAtIndex:7] isEqual:@"-"] ? -1 : 1;
-						int tzhour = [[matches objectAtIndex:8] intValue];
-						int tzmin = [[matches objectAtIndex:9] intValue];
+				int numanno = [fh readUInt32BE];
+				NSMutableArray *annotations = [NSMutableArray array];
 
-						NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:tzmult * (tzhour * 60 + tzmin) * 60];
-						NSDateComponents *dateComps = [[NSDateComponents alloc] init];
-						dateComps.year = year;
-						dateComps.month = month;
-						dateComps.day = day;
-						dateComps.hour = hour;
-						dateComps.minute = minute;
-						dateComps.second = second;
-						dateComps.timeZone = tz;
-						date = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian] dateFromComponents:dateComps];
-						[dateComps release];
+				for (int i = 0; i < numanno; i++) {
+					uint32_t annolen = [fh readUInt32BE];
+					off_t nextanno = [fh offsetInFile] + annolen - 4;
+					if ([fh readUInt32BE] == 'txtA') {
+						[fh skipBytes:46];
+						int len = [fh readUInt8];
+						[fh skipBytes:len + ((len & 1) ^ 1)];
+						len = [fh readUInt8];
+						[fh skipBytes:len + ((len & 1) ^ 1)];
+						len = [fh readUInt8];
+						NSString *datestr = [[[NSString alloc] initWithData:[fh readDataOfLength:len] encoding:NSISOLatin1StringEncoding] autorelease];
+						[fh skipBytes:((len & 1) ^ 1) + 4];
+
+						NSDate *date = nil;
+						NSArray *matches = [datestr substringsCapturedByPattern:@"^D:([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([+-])([0-9]{2})'([0-9]{2})'$"];
+						if (matches) {
+							int year = [[matches objectAtIndex:1] intValue];
+							int month = [[matches objectAtIndex:2] intValue];
+							int day = [[matches objectAtIndex:3] intValue];
+							int hour = [[matches objectAtIndex:4] intValue];
+							int minute = [[matches objectAtIndex:5] intValue];
+							int second = [[matches objectAtIndex:6] intValue];
+							int tzmult = [[matches objectAtIndex:7] isEqual:@"-"] ? -1 : 1;
+							int tzhour = [[matches objectAtIndex:8] intValue];
+							int tzmin = [[matches objectAtIndex:9] intValue];
+
+							NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:tzmult * (tzhour * 60 + tzmin) * 60];
+							NSDateComponents *dateComps = [[NSDateComponents alloc] init];
+							dateComps.year = year;
+							dateComps.month = month;
+							dateComps.day = day;
+							dateComps.hour = hour;
+							dateComps.minute = minute;
+							dateComps.second = second;
+							dateComps.timeZone = tz;
+							date = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian] dateFromComponents:dateComps];
+							[dateComps release];
+						}
+
+						if ([fh readUInt32BE] == 'txtC') {
+							len = [fh readUInt32BE];
+							NSData *annodata = [fh readDataOfLength:len];
+							const uint8_t *annobytes = [annodata bytes];
+
+							NSString *str;
+							if (len > 2 && annobytes[0] == 0xfe && annobytes[1] == 0xff)
+								str = [[[NSString alloc] initWithBytes:annobytes + 2
+																length:len - 2
+															  encoding:NSUTF16BigEndianStringEncoding] autorelease];
+							else
+								str = [[[NSString alloc] initWithData:annodata encoding:NSISOLatin1StringEncoding] autorelease];
+
+							[annotations addObjectsFromArray:[XeePropertyItem itemsWithLabel:
+																				  NSLocalizedString(@"Annotation", @"Photoshop annotation property title")
+																				   textValue:str]];
+							[annotations addObject:[XeePropertyItem itemWithLabel:
+																		NSLocalizedString(@"Added at", @"Photoshop annotation date property title")
+																			value:date]];
+						}
 					}
-
-					if ([fh readUInt32BE] == 'txtC') {
-						len = [fh readUInt32BE];
-						NSData *annodata = [fh readDataOfLength:len];
-						const uint8_t *annobytes = [annodata bytes];
-
-						NSString *str;
-						if (len > 2 && annobytes[0] == 0xfe && annobytes[1] == 0xff)
-							str = [[[NSString alloc] initWithBytes:annobytes + 2
-															length:len - 2
-														  encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)] autorelease];
-						else
-							str = [[[NSString alloc] initWithData:annodata encoding:NSISOLatin1StringEncoding] autorelease];
-
-						[annotations addObjectsFromArray:[XeePropertyItem itemsWithLabel:
-																			  NSLocalizedString(@"Annotation", @"Photoshop annotation property title")
-																			   textValue:str]];
-						[annotations addObject:[XeePropertyItem itemWithLabel:
-																	NSLocalizedString(@"Added at", @"Photoshop annotation date property title")
-																		value:date]];
-					}
+					[fh seekToFileOffset:nextanno];
 				}
-				[fh seekToFileOffset:nextanno];
-			}
-			if (numanno)
-				[properties addObject:[XeePropertyItem itemWithLabel:
-														   NSLocalizedString(@"Photoshop annotations", @"Photoshop annotations section title")
-															   value:annotations
-														  identifier:@"psanno"]];
-		} break;
+				if (numanno)
+					[properties addObject:[XeePropertyItem itemWithLabel:
+															   NSLocalizedString(@"Photoshop annotations", @"Photoshop annotations section title")
+																   value:annotations
+															  identifier:@"psanno"]];
+			} break;
 		}
 
 		[fh seekToFileOffset:nextchunk];
 	}
 
 	switch (mode) {
-	case XeePhotoshopBitmapMode:
-		[self setDepthBitmap];
-		break;
-	case XeePhotoshopGreyscaleMode:
-		[self setDepthGrey:bitdepth alpha:hasalpha floating:bitdepth == 32 ? YES : NO];
-		break;
-	case XeePhotoshopIndexedMode:
-		[self setDepthIndexed:numcols ? numcols : 1 << bitdepth];
-		break;
-	case XeePhotoshopRGBMode:
-		[self setDepthRGB:bitdepth alpha:hasalpha floating:bitdepth == 32 ? YES : NO];
-		break;
-	case XeePhotoshopCMYKMode:
-		[self setDepthCMYK:bitdepth alpha:hasalpha];
-		break;
-	case XeePhotoshopLabMode:
-		[self setDepthLab:bitdepth alpha:hasalpha];
-		break;
+		case XeePhotoshopBitmapMode:
+			[self setDepthBitmap];
+			break;
+		case XeePhotoshopGreyscaleMode:
+			[self setDepthGrey:bitdepth alpha:hasalpha floating:bitdepth == 32 ? YES : NO];
+			break;
+		case XeePhotoshopIndexedMode:
+			[self setDepthIndexed:numcols ? numcols : 1 << bitdepth];
+			break;
+		case XeePhotoshopRGBMode:
+			[self setDepthRGB:bitdepth alpha:hasalpha floating:bitdepth == 32 ? YES : NO];
+			break;
+		case XeePhotoshopCMYKMode:
+			[self setDepthCMYK:bitdepth alpha:hasalpha];
+			break;
+		case XeePhotoshopLabMode:
+			[self setDepthLab:bitdepth alpha:hasalpha];
+			break;
 
-	case XeePhotoshopMultichannelMode:
-		[self setDepth:
-				  [NSString stringWithFormat:NSLocalizedString(@"%d bits multichannel", @"Description for multichannel (Photoshop) images"), bitdepth]
-			  iconName:@"depth/grey"];
-		break;
+		case XeePhotoshopMultichannelMode:
+			[self setDepth:
+					  [NSString stringWithFormat:NSLocalizedString(@"%d bits multichannel", @"Description for multichannel (Photoshop) images"), bitdepth]
+				  iconName:@"depth/grey"];
+			break;
 
-	case XeePhotoshopDuotoneMode:
-		[self setDepth:
-				  [NSString stringWithFormat:NSLocalizedString(@"%d bits duotone", @"Description for duotone (Photoshop) images"), bitdepth]
-			  iconName:@"depth/rgb"];
-		break;
+		case XeePhotoshopDuotoneMode:
+			[self setDepth:
+					  [NSString stringWithFormat:NSLocalizedString(@"%d bits duotone", @"Description for duotone (Photoshop) images"), bitdepth]
+				  iconName:@"depth/rgb"];
+			break;
 	}
 
 	[properties addObjectsFromArray:metaprops];
@@ -266,64 +266,64 @@
 
 		XeeImage *mainimage = nil;
 		switch (mode) {
-		case XeePhotoshopBitmapMode:
-			mainimage = [[[XeeBitmapRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:NO]
-															 width:width
-															height:height] autorelease];
-			break;
+			case XeePhotoshopBitmapMode:
+				mainimage = [[[XeeBitmapRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:NO]
+																 width:width
+																height:height] autorelease];
+				break;
 
-		case XeePhotoshopIndexedMode:
-			mainimage = [[[XeeIndexedRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:NO]
-															  width:width
-															 height:height
-															palette:pal] autorelease];
-			break;
+			case XeePhotoshopIndexedMode:
+				mainimage = [[[XeeIndexedRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:NO]
+																  width:width
+																 height:height
+																palette:pal] autorelease];
+				break;
 
-		case XeePhotoshopGreyscaleMode:
-		case XeePhotoshopDuotoneMode:
-			mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:hasalpha]
-													   width:width
-													  height:height
-													   depth:bitdepth
-												 colourSpace:XeeGreyRawColourSpace
-													   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0) | (bitdepth == 32 ? XeeFloatingPointRawFlag : 0)]
-				autorelease];
-			break;
+			case XeePhotoshopGreyscaleMode:
+			case XeePhotoshopDuotoneMode:
+				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:hasalpha]
+														   width:width
+														  height:height
+														   depth:bitdepth
+													 colourSpace:XeeGreyRawColourSpace
+														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0) | (bitdepth == 32 ? XeeFloatingPointRawFlag : 0)]
+					autorelease];
+				break;
 
-		case XeePhotoshopRGBMode:
-			mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:3 alpha:hasalpha]
-													   width:width
-													  height:height
-													   depth:bitdepth
-												 colourSpace:XeeRGBRawColourSpace
-													   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0) | (bitdepth == 32 ? XeeFloatingPointRawFlag : 0)]
-				autorelease];
-			break;
+			case XeePhotoshopRGBMode:
+				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:3 alpha:hasalpha]
+														   width:width
+														  height:height
+														   depth:bitdepth
+													 colourSpace:XeeRGBRawColourSpace
+														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0) | (bitdepth == 32 ? XeeFloatingPointRawFlag : 0)]
+					autorelease];
+				break;
 
-		case XeePhotoshopCMYKMode:
-			mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:4 alpha:hasalpha]
-													   width:width
-													  height:height
-													   depth:bitdepth
-												 colourSpace:XeeCMYKRawColourSpace
-													   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0)]
-				autorelease];
+			case XeePhotoshopCMYKMode:
+				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:4 alpha:hasalpha]
+														   width:width
+														  height:height
+														   depth:bitdepth
+													 colourSpace:XeeCMYKRawColourSpace
+														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0)]
+					autorelease];
 
-			[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:0];
-			[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:1];
-			[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:2];
-			[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:3];
-			break;
+				[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:0];
+				[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:1];
+				[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:2];
+				[(XeeRawImage *)mainimage setZeroPoint:1 onePoint:0 forChannel:3];
+				break;
 
-		case XeePhotoshopLabMode:
-			mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:3 alpha:hasalpha]
-													   width:width
-													  height:height
-													   depth:bitdepth
-												 colourSpace:XeeLabRawColourSpace
-													   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0)]
-				autorelease];
-			break;
+			case XeePhotoshopLabMode:
+				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:3 alpha:hasalpha]
+														   width:width
+														  height:height
+														   depth:bitdepth
+													 colourSpace:XeeLabRawColourSpace
+														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0)]
+					autorelease];
+				break;
 		}
 
 		[self addSubImage:mainimage];
@@ -384,26 +384,26 @@
 
 	int compression = [handle readUInt16BE];
 	switch (compression) {
-	case 0:
-		for (int i = 0; i < numchannels; i++) {
-			CSFileHandle *fh = [[handle copy] autorelease];
-			[fh skipBytes:i * bpr * height];
-			[array addObject:fh];
-		}
-		break;
+		case 0:
+			for (int i = 0; i < numchannels; i++) {
+				CSFileHandle *fh = [[handle copy] autorelease];
+				[fh skipBytes:i * bpr * height];
+				[array addObject:fh];
+			}
+			break;
 
-	case 1:
-		for (int i = 0; i < numchannels; i++) {
-			XeePackbitsHandle *ph = [[[XeePackbitsHandle alloc] initWithHandle:[[handle copy] autorelease]
-																		  rows:height
-																   bytesPerRow:bpr
-																	   channel:i
-																			of:channels
-																  previousSize:totalsize] autorelease];
-			totalsize += [ph totalSize];
-			[array addObject:ph];
-		}
-		break;
+		case 1:
+			for (int i = 0; i < numchannels; i++) {
+				XeePackbitsHandle *ph = [[[XeePackbitsHandle alloc] initWithHandle:[[handle copy] autorelease]
+																			  rows:height
+																	   bytesPerRow:bpr
+																		   channel:i
+																				of:channels
+																	  previousSize:totalsize] autorelease];
+				totalsize += [ph totalSize];
+				[array addObject:ph];
+			}
+			break;
 	}
 
 	if (numchannels == 1)

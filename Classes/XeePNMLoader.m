@@ -54,67 +54,67 @@
 
 		int maxval;
 		switch (type) {
-		case '1':
-			image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeLuma8 width:imgwidth height:imgheight] autorelease];
-			break;
-
-		case '2':
-			maxval = [self nextIntegerAfterWhiteSpace];
-
-			if (maxval <= 255)
+			case '1':
 				image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeLuma8 width:imgwidth height:imgheight] autorelease];
-			else
-				image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeLuma16 width:imgwidth height:imgheight] autorelease];
-			break;
+				break;
 
-		case '3':
-			maxval = [self nextIntegerAfterWhiteSpace];
+			case '2':
+				maxval = [self nextIntegerAfterWhiteSpace];
 
-			if (maxval <= 255)
-				image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeRGB8 width:imgwidth height:imgheight] autorelease];
-			else
-				image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeRGB16 width:imgwidth height:imgheight] autorelease];
-			break;
+				if (maxval <= 255)
+					image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeLuma8 width:imgwidth height:imgheight] autorelease];
+				else
+					image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeLuma16 width:imgwidth height:imgheight] autorelease];
+				break;
 
-		case '4':
-			image = [[[XeeBitmapRawImage alloc] initWithHandle:fh width:imgwidth height:imgheight] autorelease];
-			break;
+			case '3':
+				maxval = [self nextIntegerAfterWhiteSpace];
 
-		case '5': {
-			maxval = [self nextIntegerAfterWhiteSpace];
+				if (maxval <= 255)
+					image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeRGB8 width:imgwidth height:imgheight] autorelease];
+				else
+					image = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeRGB16 width:imgwidth height:imgheight] autorelease];
+				break;
 
-			int bitdepth = maxval >= 256 ? 16 : 8;
-			image = [[[XeeRawImage alloc] initWithHandle:fh
-												   width:imgwidth
-												  height:imgheight
-												   depth:bitdepth
-											 colourSpace:XeeGreyRawColourSpace
-												   flags:0] autorelease];
+			case '4':
+				image = [[[XeeBitmapRawImage alloc] initWithHandle:fh width:imgwidth height:imgheight] autorelease];
+				break;
 
-			if (maxval != 255 && maxval != 65535) {
-				float one = (float)((1 << bitdepth) - 1) / (float)maxval;
-				[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:0];
+			case '5': {
+				maxval = [self nextIntegerAfterWhiteSpace];
+
+				int bitdepth = maxval >= 256 ? 16 : 8;
+				image = [[[XeeRawImage alloc] initWithHandle:fh
+													   width:imgwidth
+													  height:imgheight
+													   depth:bitdepth
+												 colourSpace:XeeGreyRawColourSpace
+													   flags:0] autorelease];
+
+				if (maxval != 255 && maxval != 65535) {
+					float one = (float)((1 << bitdepth) - 1) / (float)maxval;
+					[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:0];
+				}
+			} break;
+
+			case '6': {
+				maxval = [self nextIntegerAfterWhiteSpace];
+
+				int bitdepth = maxval >= 256 ? 16 : 8;
+				image = [[[XeeRawImage alloc] initWithHandle:fh
+													   width:imgwidth
+													  height:imgheight
+													   depth:bitdepth
+												 colourSpace:XeeRGBRawColourSpace
+													   flags:0] autorelease];
+
+				if (maxval != 255 && maxval != 65535) {
+					float one = (float)((1 << bitdepth) - 1) / (float)maxval;
+					[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:0];
+					[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:1];
+					[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:2];
+				}
 			}
-		} break;
-
-		case '6': {
-			maxval = [self nextIntegerAfterWhiteSpace];
-
-			int bitdepth = maxval >= 256 ? 16 : 8;
-			image = [[[XeeRawImage alloc] initWithHandle:fh
-												   width:imgwidth
-												  height:imgheight
-												   depth:bitdepth
-											 colourSpace:XeeRGBRawColourSpace
-												   flags:0] autorelease];
-
-			if (maxval != 255 && maxval != 65535) {
-				float one = (float)((1 << bitdepth) - 1) / (float)maxval;
-				[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:0];
-				[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:1];
-				[(XeeRawImage *)image setZeroPoint:0 onePoint:one forChannel:2];
-			}
-		}
 		}
 
 		[self addSubImage:image];
@@ -123,62 +123,62 @@
 			XeeImageLoaderHeaderDone();
 
 		switch (type) {
-		case '1': {
-			CSHandle *fh = [self handle];
-			uint8_t *data = [(XeeBitmapImage *)image data];
-			NSInteger bytesperrow = [(XeeBitmapImage *)image bytesPerRow];
+			case '1': {
+				CSHandle *fh = [self handle];
+				uint8_t *data = [(XeeBitmapImage *)image data];
+				NSInteger bytesperrow = [(XeeBitmapImage *)image bytesPerRow];
 
-			for (int y = 0; y < imgheight; y++) {
-				uint8_t *dest = data + y * bytesperrow;
-				for (int i = 0; i < imgwidth; i++) {
-					uint8_t val;
-					do {
-						val = [fh readUInt8];
-					} while (val != '0' && val != '1');
+				for (int y = 0; y < imgheight; y++) {
+					uint8_t *dest = data + y * bytesperrow;
+					for (int i = 0; i < imgwidth; i++) {
+						uint8_t val;
+						do {
+							val = [fh readUInt8];
+						} while (val != '0' && val != '1');
 
-					if (val == '0')
-						dest[i] = 0;
-					else
-						dest[i] = 255;
-				}
-				[(XeeBitmapImage *)image setCompletedRowCount:y + 1];
-				XeeImageLoaderYield();
-			}
-		} break;
-
-		case '2':
-		case '3': {
-			int channels;
-			if (type == '2')
-				channels = 1;
-			else
-				channels = 3;
-
-			uint8_t *data = [(XeeBitmapImage *)image data];
-			NSInteger bytesperrow = [(XeeBitmapImage *)image bytesPerRow];
-
-			for (int y = 0; y < imgheight; y++) {
-				uint8_t *dest = data + y * bytesperrow;
-				for (int i = 0; i < imgwidth * channels; i++) {
-					int val = [self nextIntegerAfterWhiteSpace];
-					if (maxval == 255) {
-						dest[i] = val;
-					} else if (maxval < 255) {
-						dest[i] = (255 * val) / maxval;
-					} else {
-						((uint16_t *)dest)[i] = (65535 * val) / maxval;
+						if (val == '0')
+							dest[i] = 0;
+						else
+							dest[i] = 255;
 					}
+					[(XeeBitmapImage *)image setCompletedRowCount:y + 1];
+					XeeImageLoaderYield();
 				}
-				[(XeeBitmapImage *)image setCompletedRowCount:y + 1];
-				XeeImageLoaderYield();
-			}
-		} break;
+			} break;
 
-		case '4':
-		case '5':
-		case '6':
-			[self runLoaderOnSubImage:image];
-			break;
+			case '2':
+			case '3': {
+				int channels;
+				if (type == '2')
+					channels = 1;
+				else
+					channels = 3;
+
+				uint8_t *data = [(XeeBitmapImage *)image data];
+				NSInteger bytesperrow = [(XeeBitmapImage *)image bytesPerRow];
+
+				for (int y = 0; y < imgheight; y++) {
+					uint8_t *dest = data + y * bytesperrow;
+					for (int i = 0; i < imgwidth * channels; i++) {
+						int val = [self nextIntegerAfterWhiteSpace];
+						if (maxval == 255) {
+							dest[i] = val;
+						} else if (maxval < 255) {
+							dest[i] = (255 * val) / maxval;
+						} else {
+							((uint16_t *)dest)[i] = (65535 * val) / maxval;
+						}
+					}
+					[(XeeBitmapImage *)image setCompletedRowCount:y + 1];
+					XeeImageLoaderYield();
+				}
+			} break;
+
+			case '4':
+			case '5':
+			case '6':
+				[self runLoaderOnSubImage:image];
+				break;
 		}
 	}
 }

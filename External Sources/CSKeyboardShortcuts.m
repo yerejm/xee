@@ -675,122 +675,122 @@ static CSKeyboardShortcuts *defaultshortcuts = nil;
 		return @"(Empty)";
 	}
 	switch ([chr characterAtIndex:0]) {
-	case NSEnterCharacter:
-		return @"\u2305";
-	case NSBackspaceCharacter:
-		return @"\u232b";
-	case NSTabCharacter:
-		return @"\u21e5";
-	case NSCarriageReturnCharacter:
-		return @"\u21a9";
-	case NSBackTabCharacter:
-		return @"\u21e4";
-	case 16:
-		return @"DLE"; // Context menu key on PC keyboard, ASCII DLE.
-	case 27:
-		return @"\u238b"; // esc
-	case ' ':
-		return @"Space";
-	case NSDeleteCharacter:
-		return @"\u2326";
-	case NSUpArrowFunctionKey:
-		return @"\u2191";
-	case NSDownArrowFunctionKey:
-		return @"\u2193";
-	case NSLeftArrowFunctionKey:
-		return @"\u2190";
-	case NSRightArrowFunctionKey:
-		return @"\u2192";
-	case NSF1FunctionKey:
-		return @"F1";
-	case NSF2FunctionKey:
-		return @"F2";
-	case NSF3FunctionKey:
-		return @"F3";
-	case NSF4FunctionKey:
-		return @"F4";
-	case NSF5FunctionKey:
-		return @"F5";
-	case NSF6FunctionKey:
-		return @"F6";
-	case NSF7FunctionKey:
-		return @"F7";
-	case NSF8FunctionKey:
-		return @"F8";
-	case NSF9FunctionKey:
-		return @"F9";
-	case NSF10FunctionKey:
-		return @"F10";
-	case NSF11FunctionKey:
-		return @"F11";
-	case NSF12FunctionKey:
-		return @"F12";
-	case NSF13FunctionKey:
-		return @"F13";
-	case NSF14FunctionKey:
-		return @"F14";
-	case NSF15FunctionKey:
-		return @"F15";
-	case NSF16FunctionKey:
-		return @"F16";
-	case NSF17FunctionKey:
-		return @"F17";
-	case NSF18FunctionKey:
-		return @"F18";
-	case NSF19FunctionKey:
-		return @"F19";
-	case NSF20FunctionKey:
-		return @"F20";
-	case NSF21FunctionKey:
-		return @"F21";
-	case NSF22FunctionKey:
-		return @"F22";
-	case NSF23FunctionKey:
-		return @"F23";
-	case NSF24FunctionKey:
-		return @"F24";
-	case NSF25FunctionKey:
-		return @"F25";
-	case NSF26FunctionKey:
-		return @"F26";
-	case NSF27FunctionKey:
-		return @"F27";
-	case NSF28FunctionKey:
-		return @"F28";
-	case NSF29FunctionKey:
-		return @"F29";
-	case NSF30FunctionKey:
-		return @"F30";
-	case NSF31FunctionKey:
-		return @"F31";
-	case NSF32FunctionKey:
-		return @"F32";
-	case NSF33FunctionKey:
-		return @"F33";
-	case NSF34FunctionKey:
-		return @"F34";
-	case NSF35FunctionKey:
-		return @"F35";
-	case NSInsertFunctionKey:
-		return @"Insert";
-	//case NSDeleteFunctionKey: @"\u2326";
-	case NSDeleteFunctionKey:
-		return @"(invalid)";
-	case NSHomeFunctionKey:
-		return @"\u2196";
-	case NSEndFunctionKey:
-		return @"\u2198";
-	case NSPageUpFunctionKey:
-		return @"\u21de";
-	case NSPageDownFunctionKey:
-		return @"\u21df";
-	case NSClearLineFunctionKey:
-		return @"\u2327";
-	case NSHelpFunctionKey:
-		return @"?\u20dd";
-	default:
-		return [chr uppercaseString];
-		//		default: return [NSString stringWithFormat:@"%d",[character characterAtIndex:0]];
+		case NSEnterCharacter:
+			return @"\u2305";
+		case NSBackspaceCharacter:
+			return @"\u232b";
+		case NSTabCharacter:
+			return @"\u21e5";
+		case NSCarriageReturnCharacter:
+			return @"\u21a9";
+		case NSBackTabCharacter:
+			return @"\u21e4";
+		case 16:
+			return @"DLE"; // Context menu key on PC keyboard, ASCII DLE.
+		case 27:
+			return @"\u238b"; // esc
+		case ' ':
+			return @"Space";
+		case NSDeleteCharacter:
+			return @"\u2326";
+		case NSUpArrowFunctionKey:
+			return @"\u2191";
+		case NSDownArrowFunctionKey:
+			return @"\u2193";
+		case NSLeftArrowFunctionKey:
+			return @"\u2190";
+		case NSRightArrowFunctionKey:
+			return @"\u2192";
+		case NSF1FunctionKey:
+			return @"F1";
+		case NSF2FunctionKey:
+			return @"F2";
+		case NSF3FunctionKey:
+			return @"F3";
+		case NSF4FunctionKey:
+			return @"F4";
+		case NSF5FunctionKey:
+			return @"F5";
+		case NSF6FunctionKey:
+			return @"F6";
+		case NSF7FunctionKey:
+			return @"F7";
+		case NSF8FunctionKey:
+			return @"F8";
+		case NSF9FunctionKey:
+			return @"F9";
+		case NSF10FunctionKey:
+			return @"F10";
+		case NSF11FunctionKey:
+			return @"F11";
+		case NSF12FunctionKey:
+			return @"F12";
+		case NSF13FunctionKey:
+			return @"F13";
+		case NSF14FunctionKey:
+			return @"F14";
+		case NSF15FunctionKey:
+			return @"F15";
+		case NSF16FunctionKey:
+			return @"F16";
+		case NSF17FunctionKey:
+			return @"F17";
+		case NSF18FunctionKey:
+			return @"F18";
+		case NSF19FunctionKey:
+			return @"F19";
+		case NSF20FunctionKey:
+			return @"F20";
+		case NSF21FunctionKey:
+			return @"F21";
+		case NSF22FunctionKey:
+			return @"F22";
+		case NSF23FunctionKey:
+			return @"F23";
+		case NSF24FunctionKey:
+			return @"F24";
+		case NSF25FunctionKey:
+			return @"F25";
+		case NSF26FunctionKey:
+			return @"F26";
+		case NSF27FunctionKey:
+			return @"F27";
+		case NSF28FunctionKey:
+			return @"F28";
+		case NSF29FunctionKey:
+			return @"F29";
+		case NSF30FunctionKey:
+			return @"F30";
+		case NSF31FunctionKey:
+			return @"F31";
+		case NSF32FunctionKey:
+			return @"F32";
+		case NSF33FunctionKey:
+			return @"F33";
+		case NSF34FunctionKey:
+			return @"F34";
+		case NSF35FunctionKey:
+			return @"F35";
+		case NSInsertFunctionKey:
+			return @"Insert";
+		//case NSDeleteFunctionKey: @"\u2326";
+		case NSDeleteFunctionKey:
+			return @"(invalid)";
+		case NSHomeFunctionKey:
+			return @"\u2196";
+		case NSEndFunctionKey:
+			return @"\u2198";
+		case NSPageUpFunctionKey:
+			return @"\u21de";
+		case NSPageDownFunctionKey:
+			return @"\u21df";
+		case NSClearLineFunctionKey:
+			return @"\u2327";
+		case NSHelpFunctionKey:
+			return @"?\u20dd";
+		default:
+			return [chr uppercaseString];
+			//		default: return [NSString stringWithFormat:@"%d",[character characterAtIndex:0]];
 	}
 }
 
@@ -885,13 +885,13 @@ static CSKeyboardShortcuts *defaultshortcuts = nil;
 	NSString *chr = [event charactersIgnoringModifiers];
 	if ([chr length]) {
 		switch ([chr characterAtIndex:0]) {
-		case NSDeleteCharacter:
-		case NSDeleteFunctionKey:
-			if (selected) {
-				[self removeShortcut:nil];
-				return YES;
-			}
-			break;
+			case NSDeleteCharacter:
+			case NSDeleteFunctionKey:
+				if (selected) {
+					[self removeShortcut:nil];
+					return YES;
+				}
+				break;
 		}
 	}
 	return NO;

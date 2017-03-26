@@ -73,15 +73,15 @@ static NSString *findCoreAudioSoundNamed(NSString *name)
 		[entry prepareForSortingBy:sortorder];
 
 	switch (sortorder) {
-	case XeeDateSortOrder:
-		[entries sortUsingSelector:@selector(compareTimes:)];
-		break;
-	case XeeSizeSortOrder:
-		[entries sortUsingSelector:@selector(compareSizes:)];
-		break;
-	default:
-		[entries sortUsingSelector:@selector(comparePaths:)];
-		break;
+		case XeeDateSortOrder:
+			[entries sortUsingSelector:@selector(compareTimes:)];
+			break;
+		case XeeSizeSortOrder:
+			[entries sortUsingSelector:@selector(compareSizes:)];
+			break;
+		default:
+			[entries sortUsingSelector:@selector(comparePaths:)];
+			break;
 	}
 
 	[entries makeObjectsPerformSelector:@selector(finishSorting)];
@@ -387,18 +387,18 @@ static NSString *findCoreAudioSoundNamed(NSString *name)
 - (void)prepareForSortingBy:(XeeSortOrder)sortorder
 {
 	switch (sortorder) {
-	case XeeDateSortOrder:
-		break;
+		case XeeDateSortOrder:
+			break;
 
-	case XeeSizeSortOrder:
-		break;
+		case XeeSizeSortOrder:
+			break;
 
-	default: {
-		NSString *path = [self descriptiveName];
-		pathlen = [path length];
-		pathbuf = malloc(pathlen * sizeof(UniChar));
-		[path getCharacters:pathbuf];
-	} break;
+		default: {
+			NSString *path = [self descriptiveName];
+			pathlen = [path length];
+			pathbuf = malloc(pathlen * sizeof(UniChar));
+			[path getCharacters:pathbuf];
+		} break;
 	}
 }
 

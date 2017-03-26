@@ -134,41 +134,41 @@
 - (void)convertIndexes:(uint8_t *)indexes count:(NSInteger)count depth:(NSInteger)depth toRGB8:(uint8_t *)dest
 {
 	switch (depth) {
-	case 1:
-		for (int i = 0; i < count; i++) {
-			uint32_t col = pal[(indexes[i >> 3] >> ((i & 7) ^ 7)) & 0x01];
-			*dest++ = XeeGetRFromARGB8(col);
-			*dest++ = XeeGetGFromARGB8(col);
-			*dest++ = XeeGetBFromARGB8(col);
-		}
-		break;
+		case 1:
+			for (int i = 0; i < count; i++) {
+				uint32_t col = pal[(indexes[i >> 3] >> ((i & 7) ^ 7)) & 0x01];
+				*dest++ = XeeGetRFromARGB8(col);
+				*dest++ = XeeGetGFromARGB8(col);
+				*dest++ = XeeGetBFromARGB8(col);
+			}
+			break;
 
-	case 2:
-		for (int i = 0; i < count; i++) {
-			uint32_t col = pal[(indexes[i >> 2] >> (((i & 3) ^ 3) << 1)) & 0x03];
-			*dest++ = XeeGetRFromARGB8(col);
-			*dest++ = XeeGetGFromARGB8(col);
-			*dest++ = XeeGetBFromARGB8(col);
-		}
-		break;
+		case 2:
+			for (int i = 0; i < count; i++) {
+				uint32_t col = pal[(indexes[i >> 2] >> (((i & 3) ^ 3) << 1)) & 0x03];
+				*dest++ = XeeGetRFromARGB8(col);
+				*dest++ = XeeGetGFromARGB8(col);
+				*dest++ = XeeGetBFromARGB8(col);
+			}
+			break;
 
-	case 4:
-		for (int i = 0; i < count; i++) {
-			uint32_t col = pal[(indexes[i >> 1] >> (((i & 1) ^ 1) << 2)) & 0x0f];
-			*dest++ = XeeGetRFromARGB8(col);
-			*dest++ = XeeGetGFromARGB8(col);
-			*dest++ = XeeGetBFromARGB8(col);
-		}
-		break;
+		case 4:
+			for (int i = 0; i < count; i++) {
+				uint32_t col = pal[(indexes[i >> 1] >> (((i & 1) ^ 1) << 2)) & 0x0f];
+				*dest++ = XeeGetRFromARGB8(col);
+				*dest++ = XeeGetGFromARGB8(col);
+				*dest++ = XeeGetBFromARGB8(col);
+			}
+			break;
 
-	case 8:
-		for (int i = 0; i < count; i++) {
-			uint32_t col = pal[indexes[i]];
-			*dest++ = XeeGetRFromARGB8(col);
-			*dest++ = XeeGetGFromARGB8(col);
-			*dest++ = XeeGetBFromARGB8(col);
-		}
-		break;
+		case 8:
+			for (int i = 0; i < count; i++) {
+				uint32_t col = pal[indexes[i]];
+				*dest++ = XeeGetRFromARGB8(col);
+				*dest++ = XeeGetGFromARGB8(col);
+				*dest++ = XeeGetBFromARGB8(col);
+			}
+			break;
 	}
 }
 
@@ -177,25 +177,25 @@
 	uint32_t *destptr = (uint32_t *)dest;
 
 	switch (depth) {
-	case 1:
-		for (int i = 0; i < count; i++)
-			destptr[i] = pal[(indexes[i >> 3] >> ((i & 7) ^ 7)) & 0x01];
-		break;
+		case 1:
+			for (int i = 0; i < count; i++)
+				destptr[i] = pal[(indexes[i >> 3] >> ((i & 7) ^ 7)) & 0x01];
+			break;
 
-	case 2:
-		for (int i = 0; i < count; i++)
-			destptr[i] = pal[(indexes[i >> 2] >> (((i & 3) ^ 3) << 1)) & 0x03];
-		break;
+		case 2:
+			for (int i = 0; i < count; i++)
+				destptr[i] = pal[(indexes[i >> 2] >> (((i & 3) ^ 3) << 1)) & 0x03];
+			break;
 
-	case 4:
-		for (int i = 0; i < count; i++)
-			destptr[i] = pal[(indexes[i >> 1] >> (((i & 1) ^ 1) << 2)) & 0x0f];
-		break;
+		case 4:
+			for (int i = 0; i < count; i++)
+				destptr[i] = pal[(indexes[i >> 1] >> (((i & 1) ^ 1) << 2)) & 0x0f];
+			break;
 
-	case 8:
-		for (int i = 0; i < count; i++)
-			destptr[i] = pal[indexes[i]];
-		break;
+		case 8:
+			for (int i = 0; i < count; i++)
+				destptr[i] = pal[indexes[i]];
+			break;
 	}
 }
 

@@ -181,126 +181,126 @@ void FindNextOldChangeOfColorAndLargerThan(CCITTFaxT6Handle *self, int col, int 
 		//NSlog(@"second horiz: %d to %d",bitsleft,currpos);
 	} else
 		switch (CSInputNextSymbolUsingCode(input, maincode)) {
-		case PASS:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
-			FindNextOldChangeOfColorAndLargerThan(self, currcol, prevpos);
+			case PASS:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+				FindNextOldChangeOfColorAndLargerThan(self, currcol, prevpos);
 
-			bitsleft = prevpos - currpos;
-			colour = currcol;
+				bitsleft = prevpos - currpos;
+				colour = currcol;
 
-			currpos = prevpos;
-			//NSlog(@"pass to: %d",currpos);
-			break;
+				currpos = prevpos;
+				//NSlog(@"pass to: %d",currpos);
+				break;
 
-		case HORIZONTAL: {
-			if (currcol == 0) {
-				bitsleft = ReadLengthWithCodeTable(input, blackcode);
-				nexthoriz = ReadLengthWithCodeTable(input, whitecode);
-			} else {
-				bitsleft = ReadLengthWithCodeTable(input, whitecode);
-				nexthoriz = ReadLengthWithCodeTable(input, blackcode);
-			}
+			case HORIZONTAL: {
+				if (currcol == 0) {
+					bitsleft = ReadLengthWithCodeTable(input, blackcode);
+					nexthoriz = ReadLengthWithCodeTable(input, whitecode);
+				} else {
+					bitsleft = ReadLengthWithCodeTable(input, whitecode);
+					nexthoriz = ReadLengthWithCodeTable(input, blackcode);
+				}
 
-			colour = currcol;
+				colour = currcol;
 
-			currpos += bitsleft;
-			currchanges[numcurrchanges++] = currpos;
+				currpos += bitsleft;
+				currchanges[numcurrchanges++] = currpos;
 
-			//NSlog(@"first horiz: %d to %d",bitsleft,currpos);
-		} break;
+				//NSlog(@"first horiz: %d to %d",bitsleft,currpos);
+			} break;
 
-		case VERTICAL_0:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_0:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos;
-			colour = currcol;
+				bitsleft = prevpos - currpos;
+				colour = currcol;
 
-			currpos = prevpos;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical 0 to %d",currpos);
-			break;
+				currpos = prevpos;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical 0 to %d",currpos);
+				break;
 
-		case VERTICAL_L1:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_L1:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos - 1;
-			colour = currcol;
+				bitsleft = prevpos - currpos - 1;
+				colour = currcol;
 
-			currpos = prevpos - 1;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical l1 to %d",currpos);
-			break;
+				currpos = prevpos - 1;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical l1 to %d",currpos);
+				break;
 
-		case VERTICAL_L2:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_L2:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos - 2;
-			colour = currcol;
+				bitsleft = prevpos - currpos - 2;
+				colour = currcol;
 
-			currpos = prevpos - 2;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical l2 to %d",currpos);
-			break;
+				currpos = prevpos - 2;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical l2 to %d",currpos);
+				break;
 
-		case VERTICAL_L3:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_L3:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos - 3;
-			colour = currcol;
+				bitsleft = prevpos - currpos - 3;
+				colour = currcol;
 
-			currpos = prevpos - 3;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical l3 to %d",currpos);
-			break;
+				currpos = prevpos - 3;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical l3 to %d",currpos);
+				break;
 
-		case VERTICAL_R1:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_R1:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos + 1;
-			colour = currcol;
+				bitsleft = prevpos - currpos + 1;
+				colour = currcol;
 
-			currpos = prevpos + 1;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical r1 to %d",currpos);
-			break;
+				currpos = prevpos + 1;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical r1 to %d",currpos);
+				break;
 
-		case VERTICAL_R2:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_R2:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos + 2;
-			colour = currcol;
+				bitsleft = prevpos - currpos + 2;
+				colour = currcol;
 
-			currpos = prevpos + 2;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical r2 to %d",currpos);
-			break;
+				currpos = prevpos + 2;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical r2 to %d",currpos);
+				break;
 
-		case VERTICAL_R3:
-			FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
+			case VERTICAL_R3:
+				FindNextOldChangeOfColorAndLargerThan(self, currcol ^ 1, currpos);
 
-			bitsleft = prevpos - currpos + 3;
-			colour = currcol;
+				bitsleft = prevpos - currpos + 3;
+				colour = currcol;
 
-			currpos = prevpos + 3;
-			currcol ^= 1;
-			currchanges[numcurrchanges++] = currpos;
-			//NSlog(@"vertical r3 to %d",currpos);
-			break;
+				currpos = prevpos + 3;
+				currcol ^= 1;
+				currchanges[numcurrchanges++] = currpos;
+				//NSlog(@"vertical r3 to %d",currpos);
+				break;
 
-		case UNCOMPRESSED:
-			[NSException raise:CCITTCodeException format:@"Uncompressed mode not implemented"];
-			break;
+			case UNCOMPRESSED:
+				[NSException raise:CCITTCodeException format:@"Uncompressed mode not implemented"];
+				break;
 
-		case EOFB:
-			colour = 0;
-			bitsleft = cols;
-			break;
+			case EOFB:
+				colour = 0;
+				bitsleft = cols;
+				break;
 		}
 }
 

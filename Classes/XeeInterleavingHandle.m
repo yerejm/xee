@@ -51,15 +51,15 @@ static int factor(int n, int *ifact, int *ipower, int *nexp);
 		return n2 * minbytes;
 
 	switch (bits) {
-	case 8:
-		transpose8(buffer, n1, n2);
-		break;
-	case 16:
-		transpose16(buffer, n1, n2);
-		break;
-	case 32:
-		transpose32(buffer, n1, n2);
-		break;
+		case 8:
+			transpose8(buffer, n1, n2);
+			break;
+		case 16:
+			transpose16(buffer, n1, n2);
+			break;
+		case 32:
+			transpose32(buffer, n1, n2);
+			break;
 	}
 
 	return n2 * minbytes;

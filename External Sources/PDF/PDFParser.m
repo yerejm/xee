@@ -231,33 +231,33 @@ static BOOL IsWhiteSpace(uint8_t c);
 	} while (IsWhiteSpace(c));
 
 	switch (c) {
-	case 's':
-		if ([fh readUInt8] != 't' || [fh readUInt8] != 'r' || [fh readUInt8] != 'e' || [fh readUInt8] != 'a' || [fh readUInt8] != 'm') {
-			[self _raiseParserException:@"Error parsing stream object"];
-		}
+		case 's':
+			if ([fh readUInt8] != 't' || [fh readUInt8] != 'r' || [fh readUInt8] != 'e' || [fh readUInt8] != 'a' || [fh readUInt8] != 'm') {
+				[self _raiseParserException:@"Error parsing stream object"];
+			}
 
-		c = [fh readUInt8];
-		if (c == '\r') {
 			c = [fh readUInt8];
-		}
-		if (c != '\n') {
-			[self _raiseParserException:@"Error parsing stream object"];
-		}
+			if (c == '\r') {
+				c = [fh readUInt8];
+			}
+			if (c != '\n') {
+				[self _raiseParserException:@"Error parsing stream object"];
+			}
 
-		return [[PDFStream alloc] initWithDictionary:value
-										  fileHandle:fh
-										   reference:ref
-											  parser:self];
-		break;
+			return [[PDFStream alloc] initWithDictionary:value
+											  fileHandle:fh
+											   reference:ref
+												  parser:self];
+			break;
 
-	case 'e':
-		if ([fh readUInt8] != 'n' || [fh readUInt8] != 'd' || [fh readUInt8] != 'o' || [fh readUInt8] != 'b' || [fh readUInt8] != 'j')
-			[self _raiseParserException:@"Error parsing object"];
-		return value;
-		break;
+		case 'e':
+			if ([fh readUInt8] != 'n' || [fh readUInt8] != 'd' || [fh readUInt8] != 'o' || [fh readUInt8] != 'b' || [fh readUInt8] != 'j')
+				[self _raiseParserException:@"Error parsing object"];
+			return value;
+			break;
 
-	default:
-		[self _raiseParserException:@"Error parsing obj"];
+		default:
+			[self _raiseParserException:@"Error parsing obj"];
 	}
 	return nil; // shut up, gcc
 }
@@ -288,39 +288,13 @@ static BOOL IsWhiteSpace(uint8_t c);
 	} while (IsWhiteSpace(c));
 
 	switch (c) {
-	case 'n':
-		return [self parsePDFNull];
+		case 'n':
+			return [self parsePDFNull];
 
-	case 't':
-	case 'f':
-		return [self parsePDFBoolStartingWith:c];
+		case 't':
+		case 'f':
+			return [self parsePDFBoolStartingWith:c];
 
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-	case '8':
-	case '9':
-	case '-':
-	case '.':
-		return [self parsePDFNumberStartingWith:c];
-
-	case '/':
-		return [self parsePDFWord];
-
-	case '(':
-		return [self parsePDFStringWithParent:parent];
-
-	case '[':
-		return [self parsePDFArrayWithParent:parent];
-
-	case '<':
-		c = [fh readUInt8];
-		switch (c) {
 		case '0':
 		case '1':
 		case '2':
@@ -331,29 +305,55 @@ static BOOL IsWhiteSpace(uint8_t c);
 		case '7':
 		case '8':
 		case '9':
-		case 'a':
-		case 'b':
-		case 'c':
-		case 'd':
-		case 'e':
-		case 'f':
-		case 'A':
-		case 'B':
-		case 'C':
-		case 'D':
-		case 'E':
-		case 'F':
-			return [self parsePDFHexStringStartingWith:c parent:parent];
+		case '-':
+		case '.':
+			return [self parsePDFNumberStartingWith:c];
+
+		case '/':
+			return [self parsePDFWord];
+
+		case '(':
+			return [self parsePDFStringWithParent:parent];
+
+		case '[':
+			return [self parsePDFArrayWithParent:parent];
 
 		case '<':
-			return [self parsePDFDictionaryWithParent:parent];
-		default:
-			return nil;
-		}
+			c = [fh readUInt8];
+			switch (c) {
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+				case 'a':
+				case 'b':
+				case 'c':
+				case 'd':
+				case 'e':
+				case 'f':
+				case 'A':
+				case 'B':
+				case 'C':
+				case 'D':
+				case 'E':
+				case 'F':
+					return [self parsePDFHexStringStartingWith:c parent:parent];
 
-	default:
-		[fh skipBytes:-1];
-		return nil;
+				case '<':
+					return [self parsePDFDictionaryWithParent:parent];
+				default:
+					return nil;
+			}
+
+		default:
+			[fh skipBytes:-1];
+			return nil;
 	}
 }
 
@@ -450,76 +450,76 @@ static BOOL IsWhiteSpace(uint8_t c);
 		uint8_t b = 0;
 
 		switch (c) {
-		default:
-			b = c;
-			break;
-		case '(':
-			nesting++;
-			b = '(';
-			break;
-
-		case ')':
-			if (--nesting == 0) {
-				return (NSString *)[[PDFString alloc] initWithData:data parent:parent parser:self];
-			} else {
-				b = ')';
-			}
-			break;
-		case '\\':
-			c = [fh readUInt8];
-			switch (c) {
 			default:
 				b = c;
 				break;
-			case '\n':
-				continue; // ignore newlines
-			case '\r':	// ignore carriage return
-				c = [fh readUInt8];
-				if (c == '\n') {
-					continue; // ignore CRLF
+			case '(':
+				nesting++;
+				b = '(';
+				break;
+
+			case ')':
+				if (--nesting == 0) {
+					return (NSString *)[[PDFString alloc] initWithData:data parent:parent parser:self];
 				} else {
-					b = c;
+					b = ')';
 				}
 				break;
-			case 'n':
-				b = '\n';
-				break;
-			case 'r':
-				b = '\r';
-				break;
-			case 't':
-				b = '\t';
-				break;
-			case 'b':
-				b = '\b';
-				break;
-			case 'f':
-				b = '\f';
-				break;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-				b = c - '0';
+			case '\\':
 				c = [fh readUInt8];
-				if (c >= '0' && c <= '7') {
-					b = b * 8 + c - '0';
-					c = [fh readUInt8];
-					if (c >= '0' && c <= '7') {
-						b = b * 8 + c - '0';
-					} else {
-						[fh skipBytes:-1];
-					}
-				} else {
-					[fh skipBytes:-1];
+				switch (c) {
+					default:
+						b = c;
+						break;
+					case '\n':
+						continue; // ignore newlines
+					case '\r':	// ignore carriage return
+						c = [fh readUInt8];
+						if (c == '\n') {
+							continue; // ignore CRLF
+						} else {
+							b = c;
+						}
+						break;
+					case 'n':
+						b = '\n';
+						break;
+					case 'r':
+						b = '\r';
+						break;
+					case 't':
+						b = '\t';
+						break;
+					case 'b':
+						b = '\b';
+						break;
+					case 'f':
+						b = '\f';
+						break;
+					case '0':
+					case '1':
+					case '2':
+					case '3':
+					case '4':
+					case '5':
+					case '6':
+					case '7':
+						b = c - '0';
+						c = [fh readUInt8];
+						if (c >= '0' && c <= '7') {
+							b = b * 8 + c - '0';
+							c = [fh readUInt8];
+							if (c >= '0' && c <= '7') {
+								b = b * 8 + c - '0';
+							} else {
+								[fh skipBytes:-1];
+							}
+						} else {
+							[fh skipBytes:-1];
+						}
+						break;
 				}
 				break;
-			}
-			break;
 		}
 		[data appendBytes:&b length:1];
 	}

@@ -52,39 +52,39 @@
 - (SEL)loadChunk
 {
 	switch ([iff nextChunk]) {
-	case 'TBHD':
-		width = [iff readUInt32];
-		height = [iff readUInt32];
-		[iff skipBytes:4];
-		flags = [iff readUInt32];
-		switch ([iff readUInt16]) {
+		case 'TBHD':
+			width = [iff readUInt32];
+			height = [iff readUInt32];
+			[iff skipBytes:4];
+			flags = [iff readUInt32];
+			switch ([iff readUInt16]) {
+				case 0:
+					bytedepth = 1;
+					break;
+				case 1:
+					bytedepth = 2;
+					break;
+				case 3:
+					bytedepth = 4;
+					break;
+				default:
+					return NULL;
+			}
+			tiles = [iff readUInt16];
+			compression = [iff readUInt32];
+			break;
+
+		case 'FORM':
+		case 'FOR4':
+		case 'FOR8':
+			if ([iff readID] == 'TBMP') {
+				subiff = [[iff IFFHandleForChunk] retain];
+				return @selector(startLoadingData);
+			}
+			break;
+
 		case 0:
-			bytedepth = 1;
-			break;
-		case 1:
-			bytedepth = 2;
-			break;
-		case 3:
-			bytedepth = 4;
-			break;
-		default:
 			return NULL;
-		}
-		tiles = [iff readUInt16];
-		compression = [iff readUInt32];
-		break;
-
-	case 'FORM':
-	case 'FOR4':
-	case 'FOR8':
-		if ([iff readID] == 'TBMP') {
-			subiff = [[iff IFFHandleForChunk] retain];
-			return @selector(startLoadingData);
-		}
-		break;
-
-	case 0:
-		return NULL;
 	}
 
 	return @selector(loadChunk);
@@ -95,25 +95,25 @@
 	int type = 0;
 
 	switch (flags & MAYA_FORMAT_MASK) {
-	case MAYA_FORMAT_NOTHING:
-		type = 0;
-		numchannels = 0;
-		break;
-	case MAYA_FORMAT_RGB:
-		type = XeeBitmapType(XeeRGBBitmap, 8 * bytedepth, XeeAlphaNone, bytedepth == 4 ? XeeBitmapFloatingPointFlag : 0);
-		numchannels = 3;
-		[self setDepthRGB:8 * bytedepth alpha:NO floating:bytedepth == 4];
-		break;
-	case MAYA_FORMAT_ALPHA:
-		type = XeeBitmapType(XeeGreyBitmap, 8 * bytedepth, XeeAlphaNone, bytedepth == 4 ? XeeBitmapFloatingPointFlag : 0);
-		numchannels = 1;
-		[self setDepthGrey:8 * bytedepth alpha:NO floating:bytedepth == 4];
-		break;
-	case MAYA_FORMAT_RGBA:
-		type = XeeBitmapType(XeeRGBBitmap, 8 * bytedepth, XeeAlphaLast, bytedepth == 4 ? XeeBitmapFloatingPointFlag : 0);
-		numchannels = 4;
-		[self setDepthRGB:8 * bytedepth alpha:YES floating:bytedepth == 4];
-		break;
+		case MAYA_FORMAT_NOTHING:
+			type = 0;
+			numchannels = 0;
+			break;
+		case MAYA_FORMAT_RGB:
+			type = XeeBitmapType(XeeRGBBitmap, 8 * bytedepth, XeeAlphaNone, bytedepth == 4 ? XeeBitmapFloatingPointFlag : 0);
+			numchannels = 3;
+			[self setDepthRGB:8 * bytedepth alpha:NO floating:bytedepth == 4];
+			break;
+		case MAYA_FORMAT_ALPHA:
+			type = XeeBitmapType(XeeGreyBitmap, 8 * bytedepth, XeeAlphaNone, bytedepth == 4 ? XeeBitmapFloatingPointFlag : 0);
+			numchannels = 1;
+			[self setDepthGrey:8 * bytedepth alpha:NO floating:bytedepth == 4];
+			break;
+		case MAYA_FORMAT_RGBA:
+			type = XeeBitmapType(XeeRGBBitmap, 8 * bytedepth, XeeAlphaLast, bytedepth == 4 ? XeeBitmapFloatingPointFlag : 0);
+			numchannels = 4;
+			[self setDepthRGB:8 * bytedepth alpha:YES floating:bytedepth == 4];
+			break;
 	}
 
 	if (type) {
@@ -137,44 +137,44 @@
 
 	@try {
 		switch ([subiff nextChunk]) {
-		case 'RGBA':
-			if (!mainimage)
+			case 'RGBA':
+				if (!mainimage)
+					break;
+
+				rgbatiles++;
+
+				x1 = [subiff readUInt16];
+				y1 = [subiff readUInt16];
+				x2 = [subiff readUInt16];
+				y2 = [subiff readUInt16];
+				tile_w = x2 - x1 + 1;
+				tile_h = y2 - y1 + 1;
+
+				//NSLog(@"%d %d %@",[subiff bytesLeft],tile_w*tile_h*numchannels,[self filename]);
+
+				if ([subiff bytesLeft] >= tile_w * tile_h * numchannels * bytedepth) {
+					[self readUncompressedAtX:x1 y:y1 width:tile_w height:tile_h];
+				} else {
+					[self readRLECompressedAtX:x1 y:y1 width:tile_w height:tile_h];
+				}
 				break;
 
-			rgbatiles++;
+			case 'ZBUF':
+				zbuftiles++;
+				break;
 
-			x1 = [subiff readUInt16];
-			y1 = [subiff readUInt16];
-			x2 = [subiff readUInt16];
-			y2 = [subiff readUInt16];
-			tile_w = x2 - x1 + 1;
-			tile_h = y2 - y1 + 1;
+			case 0:
+				[mainimage setCompleted];
+				[zbufimage setCompleted];
 
-			//NSLog(@"%d %d %@",[subiff bytesLeft],tile_w*tile_h*numchannels,[self filename]);
+				if (mainimage && rgbatiles != tiles)
+					return NULL;
+				if (zbufimage && zbuftiles != tiles)
+					return NULL;
 
-			if ([subiff bytesLeft] >= tile_w * tile_h * numchannels * bytedepth) {
-				[self readUncompressedAtX:x1 y:y1 width:tile_w height:tile_h];
-			} else {
-				[self readRLECompressedAtX:x1 y:y1 width:tile_w height:tile_h];
-			}
-			break;
+				loaded = YES;
 
-		case 'ZBUF':
-			zbuftiles++;
-			break;
-
-		case 0:
-			[mainimage setCompleted];
-			[zbufimage setCompleted];
-
-			if (mainimage && rgbatiles != tiles)
 				return NULL;
-			if (zbufimage && zbuftiles != tiles)
-				return NULL;
-
-			loaded = YES;
-
-			return NULL;
 		}
 	}
 	@catch (id e) {

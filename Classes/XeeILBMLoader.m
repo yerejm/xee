@@ -79,176 +79,176 @@
 	XeeILBMRange *range;
 
 	switch ([iff nextChunk]) {
-	case 'BMHD':
-		realwidth = [iff readUInt16];
-		realheight = [iff readUInt16];
-		[iff skipBytes:4]; // x,y
-		planes = [iff readUInt8];
-		masking = [iff readUInt8];
-		compression = [iff readUInt8];
-		[iff skipBytes:1]; // pad1
-		trans = [iff readUInt16];
-		xasp = [iff readUInt8];
-		yasp = [iff readUInt8];
-		// pagewidth, pageheight;
+		case 'BMHD':
+			realwidth = [iff readUInt16];
+			realheight = [iff readUInt16];
+			[iff skipBytes:4]; // x,y
+			planes = [iff readUInt8];
+			masking = [iff readUInt8];
+			compression = [iff readUInt8];
+			[iff skipBytes:1]; // pad1
+			trans = [iff readUInt16];
+			xasp = [iff readUInt8];
+			yasp = [iff readUInt8];
+			// pagewidth, pageheight;
 
-		if (planes > 8 && planes != 24) {
+			if (planes > 8 && planes != 24) {
+				return NULL;
+			}
+
+			if (xasp > yasp) {
+				xscale = (float)xasp / (float)yasp + 0.5;
+				yscale = 1;
+			} else {
+				yscale = (float)yasp / (float)xasp + 0.5;
+				xscale = 1;
+			}
+
+			if (xscale > 4)
+				xscale = 4;
+			if (yscale > 4)
+				yscale = 4;
+
+			if (planes <= 8) {
+				width = realwidth * xscale;
+				height = realheight * yscale;
+			} else { // no scaling support for 24 bit
+				width = realwidth;
+				height = realheight;
+			}
+
+			rowbytes = 2 * ((realwidth + 15) / 16);
+
+			//printf("w:%d h:%d planes:%d mask:%d comp:%d transp:%d xasp:%d yasp:%d xscale:%d yscale:%d\n",width,height,planes,masking,compression,trans,xasp,yasp,xscale,yscale);
+			break;
+
+		case 'CMAP':
+			num = [iff chunkSize] / 3;
+			if (num > 256) {
+				num = 256;
+			}
+
+			col = 0;
+
+			for (int i = 0; i < num; i++) {
+				uint8_t r = [iff readUInt8];
+				uint8_t g = [iff readUInt8];
+				uint8_t b = [iff readUInt8];
+				palette[i] = XeeMakeARGB8(0xff, r, g, b);
+				if (i < 32) {
+					col |= palette[i];
+				}
+			}
+
+			if ((col & OCS_MASK) == 0) {
+				ocscol = YES;
+			}
+			break;
+
+		case 'DEST':
+			//printf("warning: image has DEST chunk\n");
+			break;
+
+		case 'FVER':
+			[self addCommentWithLabel:@"Version" data:[iff chunkContents]];
+			break;
+
+		case 'ANNO':
+			[self addCommentWithLabel:@"Annotation" data:[iff chunkContents]];
+			break;
+
+		case 'AUTH':
+			[self addCommentWithLabel:@"Author" data:[iff chunkContents]];
+			break;
+
+		case 'CHRS':
+			[self addCommentWithLabel:@"" data:[iff chunkContents]];
+			break;
+
+		case 'NAME':
+			[self addCommentWithLabel:@"Name" data:[iff chunkContents]];
+			break;
+
+		case 'TEXT':
+			[self addCommentWithLabel:@"" data:[iff chunkContents]];
+			break;
+
+		case '(c) ':
+			[self addCommentWithLabel:@"Copyright" data:[iff chunkContents]];
+			break;
+
+		case 'CRNG':
+		case 'DRNG':
+		case 'CCRT':
+			range = [[XeeILBMRange alloc] initWithIFF:iff image:self];
+			if (range) {
+				[ranges addObject:range];
+			}
+			break;
+
+		case 'CAMG':
+			viewmode = [iff readUInt32];
+
+			if ((viewmode & 0x800) && (planes == 5 || planes == 6)) {
+				ham = YES;
+			} else if ((viewmode & 0x800) && (planes == 7 || planes == 8)) {
+				ham8 = YES;
+			} else if (viewmode & 0x80) {
+				ehb = YES;
+			}
+			break;
+
+		case 'BODY':
+			if (ham) {
+				[self setDepth:@"Amiga HAM"];
+				[self setDepthIconName:@"depth/amiga"];
+			} else if (ham8) {
+				[self setDepth:@"Amiga HAM8"];
+				[self setDepthIconName:@"depth/amiga"];
+			} else if (ehb) {
+				[self setDepth:@"Amiga EHB"];
+				[self setDepthIconName:@"depth/amiga"];
+			} else if (planes == 24) {
+				[self setDepthRGB:24];
+			} else {
+				[self setDepthIndexed:1 << planes];
+			}
+
+			if (ocscol && (planes <= 5 || ehb || ham)) { // fix 4-bit OCS palette
+				for (int i = 0; i < 32; i++) {
+					palette[i] |= (palette[i] >> 4) & OCS_MASK;
+				}
+			}
+
+			if (ehb) { // fix EHB palette
+				for (int i = 0; i < 32; i++) {
+					palette[i + 32] = ((palette[i] >> 1) & EHB_SHIFT_MASK) | ALPHA_MASK;
+				}
+			}
+
+			if (masking) {
+				int col = palette[trans];
+
+				[self setBackgroundColor:[NSColor
+											 colorWithCalibratedRed:(CGFloat)XeeGetRFromARGB8(col) / 255.0
+															  green:(CGFloat)XeeGetGFromARGB8(col) / 255.0
+															   blue:(CGFloat)XeeGetBFromARGB8(col) / 255.0
+															  alpha:1]];
+
+				if (masking == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseMaskKey]) {
+					transparency = YES;
+				} else if (masking == 2 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseTransparentColorKey]) {
+					palette[trans] &= COLOR_MASK;
+					transparency = YES;
+				}
+			}
+
+			[ranges makeObjectsPerformSelector:@selector(setup) withObject:nil];
+
+			return @selector(startLoadingImage);
+
+		case 0:
 			return NULL;
-		}
-
-		if (xasp > yasp) {
-			xscale = (float)xasp / (float)yasp + 0.5;
-			yscale = 1;
-		} else {
-			yscale = (float)yasp / (float)xasp + 0.5;
-			xscale = 1;
-		}
-
-		if (xscale > 4)
-			xscale = 4;
-		if (yscale > 4)
-			yscale = 4;
-
-		if (planes <= 8) {
-			width = realwidth * xscale;
-			height = realheight * yscale;
-		} else { // no scaling support for 24 bit
-			width = realwidth;
-			height = realheight;
-		}
-
-		rowbytes = 2 * ((realwidth + 15) / 16);
-
-		//printf("w:%d h:%d planes:%d mask:%d comp:%d transp:%d xasp:%d yasp:%d xscale:%d yscale:%d\n",width,height,planes,masking,compression,trans,xasp,yasp,xscale,yscale);
-		break;
-
-	case 'CMAP':
-		num = [iff chunkSize] / 3;
-		if (num > 256) {
-			num = 256;
-		}
-
-		col = 0;
-
-		for (int i = 0; i < num; i++) {
-			uint8_t r = [iff readUInt8];
-			uint8_t g = [iff readUInt8];
-			uint8_t b = [iff readUInt8];
-			palette[i] = XeeMakeARGB8(0xff, r, g, b);
-			if (i < 32) {
-				col |= palette[i];
-			}
-		}
-
-		if ((col & OCS_MASK) == 0) {
-			ocscol = YES;
-		}
-		break;
-
-	case 'DEST':
-		//printf("warning: image has DEST chunk\n");
-		break;
-
-	case 'FVER':
-		[self addCommentWithLabel:@"Version" data:[iff chunkContents]];
-		break;
-
-	case 'ANNO':
-		[self addCommentWithLabel:@"Annotation" data:[iff chunkContents]];
-		break;
-
-	case 'AUTH':
-		[self addCommentWithLabel:@"Author" data:[iff chunkContents]];
-		break;
-
-	case 'CHRS':
-		[self addCommentWithLabel:@"" data:[iff chunkContents]];
-		break;
-
-	case 'NAME':
-		[self addCommentWithLabel:@"Name" data:[iff chunkContents]];
-		break;
-
-	case 'TEXT':
-		[self addCommentWithLabel:@"" data:[iff chunkContents]];
-		break;
-
-	case '(c) ':
-		[self addCommentWithLabel:@"Copyright" data:[iff chunkContents]];
-		break;
-
-	case 'CRNG':
-	case 'DRNG':
-	case 'CCRT':
-		range = [[XeeILBMRange alloc] initWithIFF:iff image:self];
-		if (range) {
-			[ranges addObject:range];
-		}
-		break;
-
-	case 'CAMG':
-		viewmode = [iff readUInt32];
-
-		if ((viewmode & 0x800) && (planes == 5 || planes == 6)) {
-			ham = YES;
-		} else if ((viewmode & 0x800) && (planes == 7 || planes == 8)) {
-			ham8 = YES;
-		} else if (viewmode & 0x80) {
-			ehb = YES;
-		}
-		break;
-
-	case 'BODY':
-		if (ham) {
-			[self setDepth:@"Amiga HAM"];
-			[self setDepthIconName:@"depth/amiga"];
-		} else if (ham8) {
-			[self setDepth:@"Amiga HAM8"];
-			[self setDepthIconName:@"depth/amiga"];
-		} else if (ehb) {
-			[self setDepth:@"Amiga EHB"];
-			[self setDepthIconName:@"depth/amiga"];
-		} else if (planes == 24) {
-			[self setDepthRGB:24];
-		} else {
-			[self setDepthIndexed:1 << planes];
-		}
-
-		if (ocscol && (planes <= 5 || ehb || ham)) { // fix 4-bit OCS palette
-			for (int i = 0; i < 32; i++) {
-				palette[i] |= (palette[i] >> 4) & OCS_MASK;
-			}
-		}
-
-		if (ehb) { // fix EHB palette
-			for (int i = 0; i < 32; i++) {
-				palette[i + 32] = ((palette[i] >> 1) & EHB_SHIFT_MASK) | ALPHA_MASK;
-			}
-		}
-
-		if (masking) {
-			int col = palette[trans];
-
-			[self setBackgroundColor:[NSColor
-										 colorWithCalibratedRed:(CGFloat)XeeGetRFromARGB8(col) / 255.0
-														  green:(CGFloat)XeeGetGFromARGB8(col) / 255.0
-														   blue:(CGFloat)XeeGetBFromARGB8(col) / 255.0
-														  alpha:1]];
-
-			if (masking == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseMaskKey]) {
-				transparency = YES;
-			} else if (masking == 2 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseTransparentColorKey]) {
-				palette[trans] &= COLOR_MASK;
-				transparency = YES;
-			}
-		}
-
-		[ranges makeObjectsPerformSelector:@selector(setup) withObject:nil];
-
-		return @selector(startLoadingImage);
-
-	case 0:
-		return NULL;
 	}
 
 	return @selector(loadChunk);
@@ -431,21 +431,21 @@
 					int col = (val << 4) | val;
 
 					switch (cmd) {
-					case 0:
-						hold = palette[val];
-						break;
+						case 0:
+							hold = palette[val];
+							break;
 
-					case 1:
-						hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
-						break;
+						case 1:
+							hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
+							break;
 
-					case 2:
-						hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
-						break;
+						case 2:
+							hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
+							break;
 
-					case 3:
-						hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
-						break;
+						case 3:
+							hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
+							break;
 					}
 
 					for (int sub_x = 0; sub_x < xscale; sub_x++) {
@@ -468,21 +468,21 @@
 					int col = (val << 2) | ((val & 0x30) >> 4);
 
 					switch (cmd) {
-					case 0:
-						hold = palette[val];
-						break;
+						case 0:
+							hold = palette[val];
+							break;
 
-					case 1:
-						hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
-						break;
+						case 1:
+							hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
+							break;
 
-					case 2:
-						hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
-						break;
+						case 2:
+							hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
+							break;
 
-					case 3:
-						hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
-						break;
+						case 3:
+							hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
+							break;
 					}
 
 					for (int sub_x = 0; sub_x < xscale; sub_x++) {
@@ -606,83 +606,83 @@
 		image = img;
 
 		switch ([iff chunkID]) {
-		case 'CRNG': {
-			[iff readUInt16]; // pad1
-			// TODO: endianness check?
-			int rate = [iff readUInt16];
-			int flags = [iff readUInt16];
-			int low = [iff readUInt8];
-			int high = [iff readUInt8];
+			case 'CRNG': {
+				[iff readUInt16]; // pad1
+				// TODO: endianness check?
+				int rate = [iff readUInt16];
+				int flags = [iff readUInt16];
+				int low = [iff readUInt8];
+				int high = [iff readUInt8];
 
-			if ((flags & 1) && rate && low < high) {
-				if ([self allocBuffers:high - low + 1]) {
-					next = interval = 16384.0 / (float)rate / 60.0;
+				if ((flags & 1) && rate && low < high) {
+					if ([self allocBuffers:high - low + 1]) {
+						next = interval = 16384.0 / (float)rate / 60.0;
 
-					[self setIndexesFrom:low to:high reverse:(flags & 2) ? YES : NO];
+						[self setIndexesFrom:low to:high reverse:(flags & 2) ? YES : NO];
 
-					return self;
-				}
-			}
-		} break;
-
-		case 'CCRT': {
-			// TODO: endianness check?
-			int dir = [iff readUInt16];
-			int start = [iff readUInt8];
-			int end = [iff readUInt8];
-			int secs = [iff readUInt32];
-			int micros = [iff readUInt32];
-
-			if ((dir == 1 || dir == 2) && start < end) {
-				if ([self allocBuffers:end - start + 1]) {
-					next = interval = (float)secs + (float)micros / 1000000.0;
-
-					[self setIndexesFrom:start to:end reverse:dir == 2]; // unsure if this should be ==2 or ==1.
-
-					return self;
-				}
-			}
-		} break;
-
-		case 'DRNG': {
-			// TODO: endianness check?
-			int min = [iff readUInt8];
-			int max = [iff readUInt8];
-			int rate = [iff readUInt16] * 100;
-			int flags = [iff readUInt16];
-			int ntrue = [iff readUInt8];
-			int nregs = [iff readUInt8];
-
-			//printf("DRNG min:%d max:%d rate:%x flags:%d ntrue:%d nregs:%d\n",min,max,rate,flags,ntrue,nregs);
-
-			if ((flags & 1) && rate && min < max) {
-				if ([self allocBuffers:max - min + 1]) {
-					for (int i = 0; i < ntrue; i++) {
-						uint8_t cell = [iff readUInt8];
-						uint8_t r = [iff readUInt8];
-						uint8_t g = [iff readUInt8];
-						uint8_t b = [iff readUInt8];
-
-						if (cell >= min && cell <= max) {
-							colours[cell - min] = XeeMakeARGB8(0xff, r, g, b);
-						}
+						return self;
 					}
-
-					for (int i = 0; i < nregs; i++) {
-						uint8_t cell = [iff readUInt8];
-						uint8_t index = [iff readUInt8];
-
-						if (cell >= min && cell <= max) {
-							indexes[cell - min] = index;
-						}
-					}
-
-					next = interval = 16384.0 / (float)rate / 60.0;
-
-					return self;
 				}
-			}
-		} break;
+			} break;
+
+			case 'CCRT': {
+				// TODO: endianness check?
+				int dir = [iff readUInt16];
+				int start = [iff readUInt8];
+				int end = [iff readUInt8];
+				int secs = [iff readUInt32];
+				int micros = [iff readUInt32];
+
+				if ((dir == 1 || dir == 2) && start < end) {
+					if ([self allocBuffers:end - start + 1]) {
+						next = interval = (float)secs + (float)micros / 1000000.0;
+
+						[self setIndexesFrom:start to:end reverse:dir == 2]; // unsure if this should be ==2 or ==1.
+
+						return self;
+					}
+				}
+			} break;
+
+			case 'DRNG': {
+				// TODO: endianness check?
+				int min = [iff readUInt8];
+				int max = [iff readUInt8];
+				int rate = [iff readUInt16] * 100;
+				int flags = [iff readUInt16];
+				int ntrue = [iff readUInt8];
+				int nregs = [iff readUInt8];
+
+				//printf("DRNG min:%d max:%d rate:%x flags:%d ntrue:%d nregs:%d\n",min,max,rate,flags,ntrue,nregs);
+
+				if ((flags & 1) && rate && min < max) {
+					if ([self allocBuffers:max - min + 1]) {
+						for (int i = 0; i < ntrue; i++) {
+							uint8_t cell = [iff readUInt8];
+							uint8_t r = [iff readUInt8];
+							uint8_t g = [iff readUInt8];
+							uint8_t b = [iff readUInt8];
+
+							if (cell >= min && cell <= max) {
+								colours[cell - min] = XeeMakeARGB8(0xff, r, g, b);
+							}
+						}
+
+						for (int i = 0; i < nregs; i++) {
+							uint8_t cell = [iff readUInt8];
+							uint8_t index = [iff readUInt8];
+
+							if (cell >= min && cell <= max) {
+								indexes[cell - min] = index;
+							}
+						}
+
+						next = interval = 16384.0 / (float)rate / 60.0;
+
+						return self;
+					}
+				}
+			} break;
 		}
 	}
 	return nil;

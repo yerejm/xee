@@ -58,31 +58,31 @@ static uint32_t UnInterleavedYCoord(uint32_t n)
 static uint32_t ExpandColour(int col, int pixelformat)
 {
 	switch (pixelformat) {
-	case PIXEL_ARGB1555:
-		return XeeMakeARGB8(
-			(-(col >> 15)) & 0xff,
-			((col >> 7) & 0xf8) | ((col >> 12) & 0x07),
-			((col >> 2) & 0xf8) | ((col >> 7) & 0x07),
-			((col << 3) & 0xf8) | ((col >> 2) & 0x07));
+		case PIXEL_ARGB1555:
+			return XeeMakeARGB8(
+				(-(col >> 15)) & 0xff,
+				((col >> 7) & 0xf8) | ((col >> 12) & 0x07),
+				((col >> 2) & 0xf8) | ((col >> 7) & 0x07),
+				((col << 3) & 0xf8) | ((col >> 2) & 0x07));
 
-	case PIXEL_RGB565:
-		return XeeMakeNRGB8(
-			((col >> 8) & 0xf8) | ((col >> 13) & 0x07),
-			((col >> 3) & 0xfc) | ((col >> 9) & 0x03),
-			((col << 3) & 0xf8) | ((col >> 2) & 0x07));
+		case PIXEL_RGB565:
+			return XeeMakeNRGB8(
+				((col >> 8) & 0xf8) | ((col >> 13) & 0x07),
+				((col >> 3) & 0xfc) | ((col >> 9) & 0x03),
+				((col << 3) & 0xf8) | ((col >> 2) & 0x07));
 
-	case PIXEL_ARGB4444:
-		return XeeMakeARGB8(
-			((col >> 8) & 0xf0) | ((col >> 12) & 0x0f),
-			((col >> 4) & 0xf0) | ((col >> 8) & 0x0f),
-			(col & 0xf0) | ((col >> 4) & 0x0f),
-			((col << 4) & 0xf0) | (col & 0x0f));
+		case PIXEL_ARGB4444:
+			return XeeMakeARGB8(
+				((col >> 8) & 0xf0) | ((col >> 12) & 0x0f),
+				((col >> 4) & 0xf0) | ((col >> 8) & 0x0f),
+				(col & 0xf0) | ((col >> 4) & 0x0f),
+				((col << 4) & 0xf0) | (col & 0x0f));
 
-	case PIXEL_YUV422:
-		return XeeMakeNRGB8(col >> 8, col >> 8, col >> 8);
+		case PIXEL_YUV422:
+			return XeeMakeNRGB8(col >> 8, col >> 8, col >> 8);
 
-	default:
-		return 0;
+		default:
+			return 0;
 	}
 }
 
@@ -148,30 +148,30 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 	[self setFormat:@"Dreamcast PVR"];
 
 	switch (pixelformat) {
-	case PIXEL_ARGB1555:
-		[self setDepth:@"1:5:5:5 bit ARGB" iconName:@"depth/rgba"];
-		transparent = YES;
-		break;
-	case PIXEL_RGB565:
-		[self setDepth:@"5:6:5 bit RGB" iconName:@"depth/rgb"];
-		break;
-	case PIXEL_ARGB4444:
-		[self setDepthRGBA:4];
-		transparent = YES;
-		break;
-	case PIXEL_YUV422:
-		[self setDepth:@"YUV422" iconName:@"depth/rgb"];
-		break;
-	case PIXEL_BUMP:
-		break;
-	case PIXEL_4BIT:
-		[self setDepthIndexed:16];
-		break;
-	case PIXEL_8BIT:
-		[self setDepthIndexed:256];
-		break;
-	default:
-		return;
+		case PIXEL_ARGB1555:
+			[self setDepth:@"1:5:5:5 bit ARGB" iconName:@"depth/rgba"];
+			transparent = YES;
+			break;
+		case PIXEL_RGB565:
+			[self setDepth:@"5:6:5 bit RGB" iconName:@"depth/rgb"];
+			break;
+		case PIXEL_ARGB4444:
+			[self setDepthRGBA:4];
+			transparent = YES;
+			break;
+		case PIXEL_YUV422:
+			[self setDepth:@"YUV422" iconName:@"depth/rgb"];
+			break;
+		case PIXEL_BUMP:
+			break;
+		case PIXEL_4BIT:
+			[self setDepthIndexed:16];
+			break;
+		case PIXEL_8BIT:
+			[self setDepthIndexed:256];
+			break;
+		default:
+			return;
 	}
 
 	[properties addObject:[XeePropertyItem subSectionItemWithLabel:
@@ -189,91 +189,91 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 	[self allocWithType:XeeBitmapTypeARGB8 width:width height:height];
 
 	switch (packingtype) {
-	case 0x01: // square twiddled
-	case 0x0d: // rectangle twiddled
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadTwiddledWithOffset:0 pixelFormat:pixelformat];
-		else if (pixelformat == PIXEL_YUV422)
-			[self loadTwiddledYUVWithOffset:0];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
-	case 0x02: // square twiddled with mipmap
-		//case 0x0e: // rectangle twiddled with mipmap
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadTwiddledWithOffset:CalculateMipmapSize(width, height) * 2 pixelFormat:pixelformat];
-		else if (pixelformat == PIXEL_YUV422)
-			[self loadTwiddledYUVWithOffset:CalculateMipmapSize(width, height) * 2];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
+		case 0x01: // square twiddled
+		case 0x0d: // rectangle twiddled
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadTwiddledWithOffset:0 pixelFormat:pixelformat];
+			else if (pixelformat == PIXEL_YUV422)
+				[self loadTwiddledYUVWithOffset:0];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
+		case 0x02: // square twiddled with mipmap
+			//case 0x0e: // rectangle twiddled with mipmap
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadTwiddledWithOffset:CalculateMipmapSize(width, height) * 2 pixelFormat:pixelformat];
+			else if (pixelformat == PIXEL_YUV422)
+				[self loadTwiddledYUVWithOffset:CalculateMipmapSize(width, height) * 2];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
 
-	case 0x03: // VQ
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadVQWithOffset:0 entries:256 pixelFormat:pixelformat];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
-	case 0x04: // VQ with mipmap
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadVQWithOffset:CalculateMipmapSize(width / 2, height / 2) entries:256 pixelFormat:pixelformat];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
+		case 0x03: // VQ
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadVQWithOffset:0 entries:256 pixelFormat:pixelformat];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
+		case 0x04: // VQ with mipmap
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadVQWithOffset:CalculateMipmapSize(width / 2, height / 2) entries:256 pixelFormat:pixelformat];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
 
-	case 0x05: // 4-bit direct twiddled
-		[self load4BitWithPalette:NO pixelFormat:0];
-		break;
-	//case 0x06: // 4-bit paletted twiddled
-	//	if(pixelformat!=PIXEL_8BIT) [self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-	//	[self load4BitWithPalette:YES pixelFormat:pixelformat];
-	//break;
-	case 0x07: // 8-bit direct twiddled
-		[self load8BitWithPalette:NO pixelFormat:0];
-		break;
-	//case 0x08: // 8-bit paletted twiddled
-	//	if(pixelformat>PIXEL_LAST_EXPANDABLE) [self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-	//	[self load8BitWithPalette:YES pixelFormat:pixelformat];
-	//break;
+		case 0x05: // 4-bit direct twiddled
+			[self load4BitWithPalette:NO pixelFormat:0];
+			break;
+		//case 0x06: // 4-bit paletted twiddled
+		//	if(pixelformat!=PIXEL_8BIT) [self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+		//	[self load4BitWithPalette:YES pixelFormat:pixelformat];
+		//break;
+		case 0x07: // 8-bit direct twiddled
+			[self load8BitWithPalette:NO pixelFormat:0];
+			break;
+		//case 0x08: // 8-bit paletted twiddled
+		//	if(pixelformat>PIXEL_LAST_EXPANDABLE) [self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+		//	[self load8BitWithPalette:YES pixelFormat:pixelformat];
+		//break;
 
-	case 0x09: // rectangle linear
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadRectangleWithOffset:0 pixelFormat:pixelformat];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
-	//case 0x0a: // rectangle linear with mipmap
-	//	if(pixelformat>PIXEL_LAST_EXPANDABLE) [self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-	//	[self loadRectangleWithOffset:CalculateMipmapOffset(width,height)*2 pixelFormat:pixelformat];
-	//break;
+		case 0x09: // rectangle linear
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadRectangleWithOffset:0 pixelFormat:pixelformat];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
+		//case 0x0a: // rectangle linear with mipmap
+		//	if(pixelformat>PIXEL_LAST_EXPANDABLE) [self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+		//	[self loadRectangleWithOffset:CalculateMipmapOffset(width,height)*2 pixelFormat:pixelformat];
+		//break;
 
-	case 0x10: // small VQ
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadVQWithOffset:0 entries:(width * height / 32 + 15) & ~15 pixelFormat:pixelformat];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
-	case 0x11: // small VQ with mipmap
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadVQWithOffset:CalculateMipmapSize(width / 2, height / 2)
-						   entries:(CalculateMipmapSize(width, height) / 8 + 31) & ~31
-					   pixelFormat:pixelformat];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
+		case 0x10: // small VQ
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadVQWithOffset:0 entries:(width * height / 32 + 15) & ~15 pixelFormat:pixelformat];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
+		case 0x11: // small VQ with mipmap
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadVQWithOffset:CalculateMipmapSize(width / 2, height / 2)
+							   entries:(CalculateMipmapSize(width, height) / 8 + 31) & ~31
+						   pixelFormat:pixelformat];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
 
-	case 0x12: // square twiddled with mipmap and padding?
-		if (pixelformat <= PIXEL_LAST_EXPANDABLE)
-			[self loadTwiddledWithOffset:CalculateMipmapSize(width, height) * 2 + 4 pixelFormat:pixelformat];
-		else if (pixelformat == PIXEL_YUV422)
-			[self loadTwiddledYUVWithOffset:CalculateMipmapSize(width, height) * 2 + 4];
-		else
-			[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
-		break;
+		case 0x12: // square twiddled with mipmap and padding?
+			if (pixelformat <= PIXEL_LAST_EXPANDABLE)
+				[self loadTwiddledWithOffset:CalculateMipmapSize(width, height) * 2 + 4 pixelFormat:pixelformat];
+			else if (pixelformat == PIXEL_YUV422)
+				[self loadTwiddledYUVWithOffset:CalculateMipmapSize(width, height) * 2 + 4];
+			else
+				[self raiseFormatMismatchWithPixelFormat:pixelformat packingType:packingtype];
+			break;
 
-	default:
-		[NSException raise:@"XeeDreamcastException" format:@"Unknown PVR packing type %02x", packingtype];
-		break;
+		default:
+			[NSException raise:@"XeeDreamcastException" format:@"Unknown PVR packing type %02x", packingtype];
+			break;
 	}
 	[self setCompleted];
 

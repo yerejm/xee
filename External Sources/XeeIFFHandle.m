@@ -11,35 +11,35 @@
 	if (self = [super initWithFilePointer:file closeOnDealloc:closeondealloc name:description]) {
 		file_id = [super readID];
 		switch (file_id) {
-		case 'FORM':
-		case 'LIST':
-		case 'CAT ':
-		case 'PROP':
-		case 'RIFX':
-			align_mask = 1;
-			big_endian = YES;
-			break;
-		case 'FOR4':
-		case 'LIS4':
-		case 'CAT4':
-		case 'PRO4':
-			align_mask = 3;
-			big_endian = YES;
-			break;
-		case 'FOR8':
-		case 'LIS8':
-		case 'CAT8':
-		case 'PRO8':
-			align_mask = 7;
-			big_endian = YES;
-			break;
-		case 'RIFF':
-			align_mask = 1;
-			big_endian = NO;
-			break;
-		default:
-			[self release];
-			return nil;
+			case 'FORM':
+			case 'LIST':
+			case 'CAT ':
+			case 'PROP':
+			case 'RIFX':
+				align_mask = 1;
+				big_endian = YES;
+				break;
+			case 'FOR4':
+			case 'LIS4':
+			case 'CAT4':
+			case 'PRO4':
+				align_mask = 3;
+				big_endian = YES;
+				break;
+			case 'FOR8':
+			case 'LIS8':
+			case 'CAT8':
+			case 'PRO8':
+				align_mask = 7;
+				big_endian = YES;
+				break;
+			case 'RIFF':
+				align_mask = 1;
+				big_endian = NO;
+				break;
+			default:
+				[self release];
+				return nil;
 		}
 
 		file_end = [self offsetInFile] + [self _readHeaderUint32];

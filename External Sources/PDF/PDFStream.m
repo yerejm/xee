@@ -160,14 +160,14 @@
 
 			int n = [[def dictionary] intValueForKey:@"N" default:0];
 			switch (n) {
-			case 1:
-				return @"DeviceGray";
-			case 3:
-				return @"DeviceRGB";
-			case 4:
-				return @"DeviceCMYK";
-			default:
-				return nil;
+				case 1:
+					return @"DeviceGray";
+				case 3:
+					return @"DeviceRGB";
+				case 4:
+					return @"DeviceCMYK";
+				default:
+					return nil;
 			}
 		} else {
 			return name;
@@ -533,32 +533,32 @@ static inline int iabs(int a)
 		int val = 0;
 
 		switch (type) {
-		case 0:
-			val = x;
-			break;
-		case 1:
-			val = x + a;
-			break;
-		case 2:
-			val = x + b;
-			break;
-		case 3:
-			val = x + (a + b) / 2;
-			break;
-		case 4: {
-			int p = a + b - c;
-			int pa = iabs(p - a);
-			int pb = iabs(p - b);
-			int pc = iabs(p - c);
+			case 0:
+				val = x;
+				break;
+			case 1:
+				val = x + a;
+				break;
+			case 2:
+				val = x + b;
+				break;
+			case 3:
+				val = x + (a + b) / 2;
+				break;
+			case 4: {
+				int p = a + b - c;
+				int pa = iabs(p - a);
+				int pb = iabs(p - b);
+				int pc = iabs(p - c);
 
-			if (pa <= b && pa <= pc) {
-				val = pa;
-			} else if (pb <= pc) {
-				val = pb;
-			} else {
-				val = pc;
-			}
-		} break;
+				if (pa <= b && pa <= pc) {
+					val = pa;
+				} else if (pb <= pc) {
+					val = pb;
+				} else {
+					val = pc;
+				}
+			} break;
 		}
 
 		prevbuf[bufoffs] = val;

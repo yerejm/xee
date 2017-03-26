@@ -130,11 +130,11 @@
 {
 	struct exiftag *tagset;
 	switch (set) {
-	case XeeStandardTagSet:
-		tagset = tags;
-		break;
-	default:
-		return NULL;
+		case XeeStandardTagSet:
+			tagset = tags;
+			break;
+		default:
+			return NULL;
 	}
 
 	for (struct exifprop *prop = exiftags->props; prop; prop = prop->next)
@@ -154,21 +154,21 @@
 	for (struct exifprop *prop = exiftags->props; prop; prop = prop->next) {
 		NSMutableArray *props;
 		switch (prop->lvl) {
-		case ED_CAM:
-		case ED_PAS:
-			props = cameraprops;
-			break;
-		case ED_IMG:
-			props = imageprops;
-			break;
-		case ED_VRB:
-		case ED_OVR:
-		case ED_BAD:
-			props = otherprops;
-			break;
-		default:
-			props = nil;
-			break;
+			case ED_CAM:
+			case ED_PAS:
+				props = cameraprops;
+				break;
+			case ED_IMG:
+				props = imageprops;
+				break;
+			case ED_VRB:
+			case ED_OVR:
+			case ED_BAD:
+				props = otherprops;
+				break;
+			default:
+				props = nil;
+				break;
 		}
 
 		// Could use some localizing, maybe?

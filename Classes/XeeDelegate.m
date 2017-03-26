@@ -768,19 +768,19 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	XeeController *controller = nil;
 	NSInteger windowmode = [[NSUserDefaults standardUserDefaults] integerForKey:@"windowOpening"];
 	switch (windowmode) {
-	case 0: // single window
-	{
-		NSArray *keys = [controllers allKeys];
-		if ([keys count] > 0) {
-			controller = [controllers objectForKey:[keys objectAtIndex:0]];
-		}
-	} break;
+		case 0: // single window
+		{
+			NSArray *keys = [controllers allKeys];
+			if ([keys count] > 0) {
+				controller = [controllers objectForKey:[keys objectAtIndex:0]];
+			}
+		} break;
 
-	case 1:
-		if (!directory)
+		case 1:
+			if (!directory)
+				break;
+			controller = [controllers objectForKey:directory];
 			break;
-		controller = [controllers objectForKey:directory];
-		break;
 	}
 
 	if (!controller) {

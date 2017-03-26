@@ -46,21 +46,21 @@ static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 	color_type = png_get_color_type(png, info);
 
 	switch (color_type) {
-	case PNG_COLOR_TYPE_GRAY:
-		[self setDepthGrey:bit_depth];
-		break;
-	case PNG_COLOR_TYPE_GRAY_ALPHA:
-		[self setDepthGrey:bit_depth alpha:YES floating:NO];
-		break;
-	case PNG_COLOR_TYPE_PALETTE:
-		[self setDepthIndexed:(1 << bit_depth)];
-		break;
-	case PNG_COLOR_TYPE_RGB:
-		[self setDepthRGB:bit_depth];
-		break;
-	case PNG_COLOR_TYPE_RGB_ALPHA:
-		[self setDepthRGBA:bit_depth];
-		break;
+		case PNG_COLOR_TYPE_GRAY:
+			[self setDepthGrey:bit_depth];
+			break;
+		case PNG_COLOR_TYPE_GRAY_ALPHA:
+			[self setDepthGrey:bit_depth alpha:YES floating:NO];
+			break;
+		case PNG_COLOR_TYPE_PALETTE:
+			[self setDepthIndexed:(1 << bit_depth)];
+			break;
+		case PNG_COLOR_TYPE_RGB:
+			[self setDepthRGB:bit_depth];
+			break;
+		case PNG_COLOR_TYPE_RGB_ALPHA:
+			[self setDepthRGBA:bit_depth];
+			break;
 	}
 
 	if (color_type == PNG_COLOR_TYPE_RGB_ALPHA || color_type == PNG_COLOR_TYPE_GRAY_ALPHA ||
@@ -103,32 +103,32 @@ static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 	BOOL use16bit = ![[NSUserDefaults standardUserDefaults] boolForKey:@"pngStrip16Bit"];
 
 	switch (color_type) {
-	case PNG_COLOR_TYPE_GRAY:
-		if (bit_depth < 8)
-			png_set_expand(png); // expand low-bit-depth grayscale images to 8 bits
-		break;
+		case PNG_COLOR_TYPE_GRAY:
+			if (bit_depth < 8)
+				png_set_expand(png); // expand low-bit-depth grayscale images to 8 bits
+			break;
 
-	case PNG_COLOR_TYPE_GRAY_ALPHA:
-		hasalpha = YES;
-		break;
+		case PNG_COLOR_TYPE_GRAY_ALPHA:
+			hasalpha = YES;
+			break;
 
-	case PNG_COLOR_TYPE_PALETTE:
-		if (is_png_gray_palette(png, info)) {
-			png_set_rgb_to_gray_fixed(png, 1, -1, -1); // triggers a bug in libpng 1.2.8, needs patched libpng
-		} else {
-			png_set_expand(png); // expand palette images to RGB
+		case PNG_COLOR_TYPE_PALETTE:
+			if (is_png_gray_palette(png, info)) {
+				png_set_rgb_to_gray_fixed(png, 1, -1, -1); // triggers a bug in libpng 1.2.8, needs patched libpng
+			} else {
+				png_set_expand(png); // expand palette images to RGB
+				hascolor = YES;
+			}
+			break;
+
+		case PNG_COLOR_TYPE_RGB:
 			hascolor = YES;
-		}
-		break;
+			break;
 
-	case PNG_COLOR_TYPE_RGB:
-		hascolor = YES;
-		break;
-
-	case PNG_COLOR_TYPE_RGB_ALPHA:
-		hascolor = YES;
-		hasalpha = YES;
-		break;
+		case PNG_COLOR_TYPE_RGB_ALPHA:
+			hascolor = YES;
+			hasalpha = YES;
+			break;
 	}
 
 	if (png_get_valid(png, info, PNG_INFO_tRNS)) {

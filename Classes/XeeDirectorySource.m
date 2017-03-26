@@ -348,12 +348,12 @@
 			NSData *lsvo = [[dsdict objectForKey:[dirref name]] objectForKey:@"lsvo"];
 			if (lsvo && [lsvo length] >= 11) {
 				switch (XeeBEUInt32((uint8_t *)[lsvo bytes] + 7)) {
-				case 'phys':
-					sortorder = XeeSizeSortOrder;
-					break;
-				case 'modd':
-					sortorder = XeeDateSortOrder;
-					break; // !5JrU4QOlH6
+					case 'phys':
+						sortorder = XeeSizeSortOrder;
+						break;
+					case 'modd':
+						sortorder = XeeDateSortOrder;
+						break; // !5JrU4QOlH6
 				}
 			}
 		}
@@ -460,21 +460,21 @@
 - (void)prepareForSortingBy:(XeeSortOrder)sortorder
 {
 	switch (sortorder) {
-	case XeeSizeSortOrder:
-		size = [ref dataSize];
-		break;
+		case XeeSizeSortOrder:
+			size = [ref dataSize];
+			break;
 
-	case XeeDateSortOrder:
-		time = [ref modificationTime];
-		break;
+		case XeeDateSortOrder:
+			time = [ref modificationTime];
+			break;
 
-	default: {
-		HFSUniStr255 name;
-		FSGetCatalogInfo([ref FSRef], kFSCatInfoNone, NULL, &name, NULL, NULL);
-		pathbuf = malloc(name.length * sizeof(UniChar));
-		memcpy(pathbuf, name.unicode, name.length * sizeof(UniChar));
-		pathlen = name.length;
-	} break;
+		default: {
+			HFSUniStr255 name;
+			FSGetCatalogInfo([ref FSRef], kFSCatInfoNone, NULL, &name, NULL, NULL);
+			pathbuf = malloc(name.length * sizeof(UniChar));
+			memcpy(pathbuf, name.unicode, name.length * sizeof(UniChar));
+			pathlen = name.length;
+		} break;
 	}
 }
 

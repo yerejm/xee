@@ -59,77 +59,77 @@ static void XeeGLRect(float x1, float y1, float x2, float y2);
 	float y2 = y1 + crop.size.height;
 
 	switch (area) {
-	case XeeOutsideArea:
-		crop_x = start_x = x;
-		crop_y = start_y = y;
-		crop_width = 1;
-		crop_height = 1;
-		offs_x = offs_y = 0;
-		mode = XeeResizeCropMode;
-		[view invalidate];
-		break;
+		case XeeOutsideArea:
+			crop_x = start_x = x;
+			crop_y = start_y = y;
+			crop_width = 1;
+			crop_height = 1;
+			offs_x = offs_y = 0;
+			mode = XeeResizeCropMode;
+			[view invalidate];
+			break;
 
-	case XeeBottomRightArea:
-		start_x = crop_x;
-		start_y = crop_y;
-		offs_x = x2 - 1 - position.x;
-		offs_y = y2 - 1 - position.y;
-		mode = XeeResizeCropMode;
-		break;
+		case XeeBottomRightArea:
+			start_x = crop_x;
+			start_y = crop_y;
+			offs_x = x2 - 1 - position.x;
+			offs_y = y2 - 1 - position.y;
+			mode = XeeResizeCropMode;
+			break;
 
-	case XeeBottomLeftArea:
-		start_x = crop_x + crop_width - 1;
-		start_y = crop_y;
-		offs_x = x1 - position.x;
-		offs_y = y2 - 1 - position.y;
-		mode = XeeResizeCropMode;
-		break;
+		case XeeBottomLeftArea:
+			start_x = crop_x + crop_width - 1;
+			start_y = crop_y;
+			offs_x = x1 - position.x;
+			offs_y = y2 - 1 - position.y;
+			mode = XeeResizeCropMode;
+			break;
 
-	case XeeTopRightArea:
-		start_x = crop_x;
-		start_y = crop_y + crop_height - 1;
-		offs_x = x2 - 1 - position.x;
-		offs_y = y1 - position.y;
-		mode = XeeResizeCropMode;
-		break;
+		case XeeTopRightArea:
+			start_x = crop_x;
+			start_y = crop_y + crop_height - 1;
+			offs_x = x2 - 1 - position.x;
+			offs_y = y1 - position.y;
+			mode = XeeResizeCropMode;
+			break;
 
-	case XeeTopLeftArea:
-		start_x = crop_x + crop_width - 1;
-		start_y = crop_y + crop_height - 1;
-		offs_x = x1 - position.x;
-		offs_y = y1 - position.y;
-		mode = XeeResizeCropMode;
-		break;
+		case XeeTopLeftArea:
+			start_x = crop_x + crop_width - 1;
+			start_y = crop_y + crop_height - 1;
+			offs_x = x1 - position.x;
+			offs_y = y1 - position.y;
+			mode = XeeResizeCropMode;
+			break;
 
-	case XeeBottomArea:
-		start_y = crop_y;
-		offs_y = y2 - 1 - position.y;
-		mode = XeeVerticalResizeCropMode;
-		break;
+		case XeeBottomArea:
+			start_y = crop_y;
+			offs_y = y2 - 1 - position.y;
+			mode = XeeVerticalResizeCropMode;
+			break;
 
-	case XeeTopArea:
-		start_y = crop_y + crop_height - 1;
-		offs_y = y1 - position.y;
-		mode = XeeVerticalResizeCropMode;
-		break;
+		case XeeTopArea:
+			start_y = crop_y + crop_height - 1;
+			offs_y = y1 - position.y;
+			mode = XeeVerticalResizeCropMode;
+			break;
 
-	case XeeRightArea:
-		start_x = crop_x;
-		offs_x = x2 - 1 - position.x;
-		mode = XeeHorizontalResizeCropMode;
-		break;
+		case XeeRightArea:
+			start_x = crop_x;
+			offs_x = x2 - 1 - position.x;
+			mode = XeeHorizontalResizeCropMode;
+			break;
 
-	case XeeLeftArea:
-		start_x = crop_x + crop_width - 1;
-		offs_x = x1 - position.x;
-		mode = XeeHorizontalResizeCropMode;
-		break;
+		case XeeLeftArea:
+			start_x = crop_x + crop_width - 1;
+			offs_x = x1 - position.x;
+			mode = XeeHorizontalResizeCropMode;
+			break;
 
-	case XeeInsideArea:
-		offs_x = crop_x - x;
-		offs_y = crop_y - y;
-		mode = XeeMoveCropMode;
-		break;
+		case XeeInsideArea:
+			offs_x = crop_x - x;
+			offs_y = crop_y - y;
+			mode = XeeMoveCropMode;
+			break;
 	}
 
 	[[view image] triggerPropertyChangeAction];
@@ -169,98 +169,98 @@ static void XeeGLRect(float x1, float y1, float x2, float y2);
 	int img_w = [[view image] width];
 	int img_h = [[view image] height];
 	switch (mode) {
-	case XeeResizeCropMode:
-		position.x += offs_x;
-		position.y += offs_y;
-		p = XeeTransformPoint([view viewToImageTransformMatrix], position);
-		x = p.x;
-		y = p.y;
+		case XeeResizeCropMode:
+			position.x += offs_x;
+			position.y += offs_y;
+			p = XeeTransformPoint([view viewToImageTransformMatrix], position);
+			x = p.x;
+			y = p.y;
 
-		crop_x = imin(start_x, x);
-		crop_y = imin(start_y, y);
-		crop_width = iabs(start_x - x) + 1;
-		crop_height = iabs(start_y - y) + 1;
+			crop_x = imin(start_x, x);
+			crop_y = imin(start_y, y);
+			crop_width = iabs(start_x - x) + 1;
+			crop_height = iabs(start_y - y) + 1;
 
-		if (crop_x < 0) {
-			crop_width += crop_x;
-			crop_x = 0;
-		}
-		if (crop_y < 0) {
-			crop_height += crop_y;
-			crop_y = 0;
-		}
-		if (crop_x + crop_width > img_w)
-			crop_width = img_w - crop_x;
-		if (crop_y + crop_height > img_h)
-			crop_height = img_h - crop_y;
+			if (crop_x < 0) {
+				crop_width += crop_x;
+				crop_x = 0;
+			}
+			if (crop_y < 0) {
+				crop_height += crop_y;
+				crop_y = 0;
+			}
+			if (crop_x + crop_width > img_w)
+				crop_width = img_w - crop_x;
+			if (crop_y + crop_height > img_h)
+				crop_height = img_h - crop_y;
 
-		if (x >= start_x) {
-			if (y >= start_y)
-				area = XeeBottomRightArea;
-			else
-				area = XeeTopRightArea;
-		} else {
-			if (y >= start_y)
-				area = XeeBottomLeftArea;
-			else
-				area = XeeTopLeftArea;
-		}
+			if (x >= start_x) {
+				if (y >= start_y)
+					area = XeeBottomRightArea;
+				else
+					area = XeeTopRightArea;
+			} else {
+				if (y >= start_y)
+					area = XeeBottomLeftArea;
+				else
+					area = XeeTopLeftArea;
+			}
 
-		[view invalidate];
-		break;
+			[view invalidate];
+			break;
 
-	case XeeVerticalResizeCropMode:
-		position.y += offs_y;
-		p = XeeTransformPoint([view viewToImageTransformMatrix], position);
-		y = p.y;
+		case XeeVerticalResizeCropMode:
+			position.y += offs_y;
+			p = XeeTransformPoint([view viewToImageTransformMatrix], position);
+			y = p.y;
 
-		crop_y = imin(start_y, y);
-		crop_height = iabs(start_y - y) + 1;
+			crop_y = imin(start_y, y);
+			crop_height = iabs(start_y - y) + 1;
 
-		if (crop_y < 0) {
-			crop_height += crop_y;
-			crop_y = 0;
-		}
-		if (crop_y + crop_height > img_h)
-			crop_height = img_h - crop_y;
+			if (crop_y < 0) {
+				crop_height += crop_y;
+				crop_y = 0;
+			}
+			if (crop_y + crop_height > img_h)
+				crop_height = img_h - crop_y;
 
-		[view invalidate];
-		break;
+			[view invalidate];
+			break;
 
-	case XeeHorizontalResizeCropMode:
-		position.x += offs_x;
-		p = XeeTransformPoint([view viewToImageTransformMatrix], position);
-		x = p.x;
+		case XeeHorizontalResizeCropMode:
+			position.x += offs_x;
+			p = XeeTransformPoint([view viewToImageTransformMatrix], position);
+			x = p.x;
 
-		crop_x = imin(start_x, x);
-		crop_width = iabs(start_x - x) + 1;
+			crop_x = imin(start_x, x);
+			crop_width = iabs(start_x - x) + 1;
 
-		if (crop_x < 0) {
-			crop_width += crop_x;
-			crop_x = 0;
-		}
-		if (crop_x + crop_width > img_w)
-			crop_width = img_w - crop_x;
+			if (crop_x < 0) {
+				crop_width += crop_x;
+				crop_x = 0;
+			}
+			if (crop_x + crop_width > img_w)
+				crop_width = img_w - crop_x;
 
-		[view invalidate];
-		break;
+			[view invalidate];
+			break;
 
-	case XeeMoveCropMode:
-		p = XeeTransformPoint([view viewToImageTransformMatrix], position);
-		crop_x = p.x + offs_x;
-		crop_y = p.y + offs_y;
+		case XeeMoveCropMode:
+			p = XeeTransformPoint([view viewToImageTransformMatrix], position);
+			crop_x = p.x + offs_x;
+			crop_y = p.y + offs_y;
 
-		if (crop_x < 0)
-			crop_x = 0;
-		if (crop_y < 0)
-			crop_y = 0;
-		if (crop_x + crop_width > img_w)
-			crop_x = img_w - crop_width;
-		if (crop_y + crop_height > img_h)
-			crop_y = img_h - crop_height;
+			if (crop_x < 0)
+				crop_x = 0;
+			if (crop_y < 0)
+				crop_y = 0;
+			if (crop_x + crop_width > img_w)
+				crop_x = img_w - crop_width;
+			if (crop_y + crop_height > img_h)
+				crop_y = img_h - crop_height;
 
-		[view invalidate];
-		break;
+			[view invalidate];
+			break;
 	}
 
 	[[view image] triggerPropertyChangeAction];
@@ -320,22 +320,22 @@ static void XeeGLRect(float x1, float y1, float x2, float y2);
 		return [NSCursor crosshairCursor];
 
 	switch (area) {
-	case XeeOutsideArea:
-		return [NSCursor crosshairCursor];
-	case XeeInsideArea:
-		return [NSCursor openHandCursor];
-	default:
-	case XeeTopLeftArea:
-	case XeeTopRightArea:
-	case XeeBottomLeftArea:
-	case XeeBottomRightArea:
-		return [NSCursor arrowCursor];
-	case XeeTopArea:
-	case XeeBottomArea:
-		return [NSCursor resizeUpDownCursor];
-	case XeeLeftArea:
-	case XeeRightArea:
-		return [NSCursor resizeLeftRightCursor];
+		case XeeOutsideArea:
+			return [NSCursor crosshairCursor];
+		case XeeInsideArea:
+			return [NSCursor openHandCursor];
+		default:
+		case XeeTopLeftArea:
+		case XeeTopRightArea:
+		case XeeBottomLeftArea:
+		case XeeBottomRightArea:
+			return [NSCursor arrowCursor];
+		case XeeTopArea:
+		case XeeBottomArea:
+			return [NSCursor resizeUpDownCursor];
+		case XeeLeftArea:
+		case XeeRightArea:
+			return [NSCursor resizeLeftRightCursor];
 	}
 }
 
@@ -413,25 +413,25 @@ static void XeeGLRect(float x1, float y1, float x2, float y2);
 
 		int cornerarea = 0;
 		switch (n) {
-		case 0:
-			glTranslatef(x1, y1, 0);
-			cornerarea = XeeTopLeftArea;
-			break;
-		case 1:
-			glTranslatef(x2, y1, 0);
-			glRotatef(90, 0, 0, 1);
-			cornerarea = XeeTopRightArea;
-			break;
-		case 2:
-			glTranslatef(x2, y2, 0);
-			glRotatef(180, 0, 0, 1);
-			cornerarea = XeeBottomRightArea;
-			break;
-		case 3:
-			glTranslatef(x1, y2, 0);
-			glRotatef(270, 0, 0, 1);
-			cornerarea = XeeBottomLeftArea;
-			break;
+			case 0:
+				glTranslatef(x1, y1, 0);
+				cornerarea = XeeTopLeftArea;
+				break;
+			case 1:
+				glTranslatef(x2, y1, 0);
+				glRotatef(90, 0, 0, 1);
+				cornerarea = XeeTopRightArea;
+				break;
+			case 2:
+				glTranslatef(x2, y2, 0);
+				glRotatef(180, 0, 0, 1);
+				cornerarea = XeeBottomRightArea;
+				break;
+			case 3:
+				glTranslatef(x1, y2, 0);
+				glRotatef(270, 0, 0, 1);
+				cornerarea = XeeBottomLeftArea;
+				break;
 		}
 
 		glBegin(GL_QUADS);

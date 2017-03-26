@@ -41,14 +41,14 @@ static void XeeBitmapImageReadPixel(uint8_t *row, NSInteger x, NSInteger pixelsi
 
 	int components;
 	switch (mode) {
-	case XeeGreyBitmap:
-		components = 1;
-		break;
-	case XeeRGBBitmap:
-		components = 3;
-		break;
-	default:
-		return NO;
+		case XeeGreyBitmap:
+			components = 1;
+			break;
+		case XeeRGBBitmap:
+			components = 3;
+			break;
+		default:
+			return NO;
 	}
 
 	/*NSLog(@"setData:%x freeData:%d width:%d height:%d bitsPerPixel:%d bitsPerComponent:%d "
@@ -76,69 +76,69 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 	int glintformat, glformat, gltype;
 	if (mode == XeeRGBBitmap) {
 		switch (alpha) {
-		case XeeAlphaNone:
-			glintformat = GL_RGB;
-			glformat = GL_RGB;
-			gltype = XeePickTexType(bpcomponent, flags);
-			break;
+			case XeeAlphaNone:
+				glintformat = GL_RGB;
+				glformat = GL_RGB;
+				gltype = XeePickTexType(bpcomponent, flags);
+				break;
 
-		case XeeAlphaPremultipliedFirst: // native glformat
-		case XeeAlphaFirst:
-		case XeeAlphaNoneSkipFirst:
-			if (bpcomponent != 8)
-				return NO;
-			glintformat = GL_RGBA8;
-			glformat = GL_BGRA;
+			case XeeAlphaPremultipliedFirst: // native glformat
+			case XeeAlphaFirst:
+			case XeeAlphaNoneSkipFirst:
+				if (bpcomponent != 8)
+					return NO;
+				glintformat = GL_RGBA8;
+				glformat = GL_BGRA;
 #ifdef __BIG_ENDIAN__
-			gltype = GL_UNSIGNED_INT_8_8_8_8_REV;
+				gltype = GL_UNSIGNED_INT_8_8_8_8_REV;
 #else
-			gltype = GL_UNSIGNED_INT_8_8_8_8;
+				gltype = GL_UNSIGNED_INT_8_8_8_8;
 #endif
-			break;
+				break;
 
-		case XeeAlphaPremultipliedLast:
-		case XeeAlphaLast:
-		case XeeAlphaNoneSkipLast:
-			glintformat = GL_RGBA8;
-			glformat = GL_RGBA;
-			gltype = XeePickTexType(bpcomponent, flags);
-			break;
+			case XeeAlphaPremultipliedLast:
+			case XeeAlphaLast:
+			case XeeAlphaNoneSkipLast:
+				glintformat = GL_RGBA8;
+				glformat = GL_RGBA;
+				gltype = XeePickTexType(bpcomponent, flags);
+				break;
 
-		default:
-			return NO;
+			default:
+				return NO;
 		}
 	} else if (mode == XeeGreyBitmap) {
 		switch (alpha) {
-		case XeeAlphaNone:
-			glintformat = GL_LUMINANCE8;
-			glformat = GL_LUMINANCE;
-			gltype = XeePickTexType(bpcomponent, flags);
-			break;
+			case XeeAlphaNone:
+				glintformat = GL_LUMINANCE8;
+				glformat = GL_LUMINANCE;
+				gltype = XeePickTexType(bpcomponent, flags);
+				break;
 
-		case XeeAlphaPremultipliedFirst: // native glformat
-		case XeeAlphaFirst:
-		case XeeAlphaNoneSkipFirst:
-			if (bpcomponent != 8)
-				return NO;
-			glintformat = GL_LUMINANCE8_ALPHA8;
-			glformat = GL_LUMINANCE_ALPHA;
+			case XeeAlphaPremultipliedFirst: // native glformat
+			case XeeAlphaFirst:
+			case XeeAlphaNoneSkipFirst:
+				if (bpcomponent != 8)
+					return NO;
+				glintformat = GL_LUMINANCE8_ALPHA8;
+				glformat = GL_LUMINANCE_ALPHA;
 #ifdef __BIG_ENDIAN__
-			gltype = GL_UNSIGNED_SHORT_8_8_REV_APPLE;
+				gltype = GL_UNSIGNED_SHORT_8_8_REV_APPLE;
 #else
-			gltype = GL_UNSIGNED_SHORT_8_8_APPLE;
+				gltype = GL_UNSIGNED_SHORT_8_8_APPLE;
 #endif
-			break;
+				break;
 
-		case XeeAlphaPremultipliedLast:
-		case XeeAlphaLast:
-		case XeeAlphaNoneSkipLast:
-			glintformat = GL_LUMINANCE8_ALPHA8;
-			glformat = GL_LUMINANCE_ALPHA;
-			gltype = XeePickTexType(bpcomponent, flags);
-			break;
+			case XeeAlphaPremultipliedLast:
+			case XeeAlphaLast:
+			case XeeAlphaNoneSkipLast:
+				glintformat = GL_LUMINANCE8_ALPHA8;
+				glformat = GL_LUMINANCE_ALPHA;
+				gltype = XeePickTexType(bpcomponent, flags);
+				break;
 
-		default:
-			return NO;
+			default:
+				return NO;
 		}
 	} else
 		return NO;
@@ -177,14 +177,14 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 
 	int components;
 	switch (mode) {
-	case XeeGreyBitmap:
-		components = 1;
-		break;
-	case XeeRGBBitmap:
-		components = 3;
-		break;
-	default:
-		return NO;
+		case XeeGreyBitmap:
+			components = 1;
+			break;
+		case XeeRGBBitmap:
+			components = 3;
+			break;
+		default:
+			return NO;
 	}
 
 	int bppixel = bpcomponent * (components + (alpha == XeeAlphaNone ? 0 : 1));
@@ -252,12 +252,12 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 - (CGColorSpaceRef)createColorSpaceForCGImage
 {
 	switch (colourmode) {
-	case XeeGreyBitmap:
-		return CGColorSpaceCreateDeviceGray();
-	case XeeRGBBitmap:
-		return CGColorSpaceCreateDeviceRGB();
-	default:
-		return NULL;
+		case XeeGreyBitmap:
+			return CGColorSpaceCreateDeviceGray();
+		case XeeRGBBitmap:
+			return CGColorSpaceCreateDeviceRGB();
+		default:
+			return NULL;
 	}
 }
 
@@ -276,18 +276,18 @@ bppixel,bpcomponent,bprow,mode,alpha,flags); */
 static GLuint XeePickTexType(NSInteger bitspercomponent, int flags)
 {
 	switch (bitspercomponent) {
-	case 8:
-		return GL_UNSIGNED_BYTE;
-	case 16:
-		return GL_UNSIGNED_SHORT;
-	case 32:
-		if (flags & XeeBitmapFloatingPointFlag)
-			return GL_FLOAT;
-		else
-			return GL_UNSIGNED_INT;
-		break;
-	default:
-		return 0;
+		case 8:
+			return GL_UNSIGNED_BYTE;
+		case 16:
+			return GL_UNSIGNED_SHORT;
+		case 32:
+			if (flags & XeeBitmapFloatingPointFlag)
+				return GL_FLOAT;
+			else
+				return GL_UNSIGNED_INT;
+			break;
+		default:
+			return 0;
 	}
 }
 

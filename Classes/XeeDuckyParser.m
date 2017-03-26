@@ -28,28 +28,28 @@
 				break; // truncated
 
 			switch (chunktype) {
-			case 1: // quality
-				if (len >= 4)
-					[props addObject:[XeePropertyItem itemWithLabel:
-														  NSLocalizedString(@"Save For Web JPEG quality", @"Save For Web JPEG quality property title")
-															  value:[NSString stringWithFormat:@"%d%%", XeeBEInt32(duckydata + pos)]]];
-				break;
-			case 2: // description
-				if (len >= 4)
-					[props addObjectsFromArray:[XeePropertyItem itemsWithLabel:
-																	NSLocalizedString(@"Description", @"Description property title")
-																	 textValue:[[NSString alloc] initWithBytes:duckydata + pos + 4
-																										length:chunklen - 4
-																									  encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)]]];
-				break;
-			case 3: // copyright
-				if (len >= 4)
-					[props addObjectsFromArray:[XeePropertyItem itemsWithLabel:
-																	NSLocalizedString(@"Copyright", @"Copyright property title")
-																	 textValue:[[NSString alloc] initWithBytes:duckydata + pos + 4
-																										length:chunklen - 4
-																									  encoding:CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingUTF16BE)]]];
-				break;
+				case 1: // quality
+					if (len >= 4)
+						[props addObject:[XeePropertyItem itemWithLabel:
+															  NSLocalizedString(@"Save For Web JPEG quality", @"Save For Web JPEG quality property title")
+																  value:[NSString stringWithFormat:@"%d%%", XeeBEInt32(duckydata + pos)]]];
+					break;
+				case 2: // description
+					if (len >= 4)
+						[props addObjectsFromArray:[XeePropertyItem itemsWithLabel:
+																		NSLocalizedString(@"Description", @"Description property title")
+																		 textValue:[[NSString alloc] initWithBytes:duckydata + pos + 4
+																											length:chunklen - 4
+																										  encoding:NSUTF16BigEndianStringEncoding]]];
+					break;
+				case 3: // copyright
+					if (len >= 4)
+						[props addObjectsFromArray:[XeePropertyItem itemsWithLabel:
+																		NSLocalizedString(@"Copyright", @"Copyright property title")
+																		 textValue:[[NSString alloc] initWithBytes:duckydata + pos + 4
+																											length:chunklen - 4
+																										  encoding:NSUTF16BigEndianStringEncoding]]];
+					break;
 			}
 			pos = next;
 		}

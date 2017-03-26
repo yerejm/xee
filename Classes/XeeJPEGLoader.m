@@ -441,31 +441,31 @@
 	mcu_height = DCTSIZE * cinfo.max_v_samp_factor;
 
 	switch (cinfo.jpeg_color_space) {
-	case JCS_GRAYSCALE:
-		cinfo.out_color_space = JCS_GRAYSCALE;
-		[self setDepthGrey:8];
-		break;
-	case JCS_RGB:
-		cinfo.out_color_space = JCS_RGB;
-		[self setDepthRGB:8];
-		break;
-	case JCS_YCbCr:
-		cinfo.out_color_space = JCS_RGB;
-		[self setDepth:[NSString stringWithFormat:
-									 @"YCbCr H%dV%d", cinfo.max_h_samp_factor, cinfo.max_v_samp_factor]
-			  iconName:@"depth/rgb"];
-		break;
-	case JCS_CMYK:
-		cinfo.out_color_space = JCS_CMYK;
-		[self setDepthCMYK:8 alpha:NO];
-		break;
-	case JCS_YCCK:
-		cinfo.out_color_space = JCS_CMYK;
-		[self setDepth:@"YCCK" iconName:@"depth/cmyk"];
-		break;
-	default:
-		[self setDepth:@"Unknown"];
-		break;
+		case JCS_GRAYSCALE:
+			cinfo.out_color_space = JCS_GRAYSCALE;
+			[self setDepthGrey:8];
+			break;
+		case JCS_RGB:
+			cinfo.out_color_space = JCS_RGB;
+			[self setDepthRGB:8];
+			break;
+		case JCS_YCbCr:
+			cinfo.out_color_space = JCS_RGB;
+			[self setDepth:[NSString stringWithFormat:
+										 @"YCbCr H%dV%d", cinfo.max_h_samp_factor, cinfo.max_v_samp_factor]
+				  iconName:@"depth/rgb"];
+			break;
+		case JCS_CMYK:
+			cinfo.out_color_space = JCS_CMYK;
+			[self setDepthCMYK:8 alpha:NO];
+			break;
+		case JCS_YCCK:
+			cinfo.out_color_space = JCS_CMYK;
+			[self setDepth:@"YCCK" iconName:@"depth/cmyk"];
+			break;
+		default:
+			[self setDepth:@"Unknown"];
+			break;
 	}
 
 	// Parse saved markers (EXIF and comments)

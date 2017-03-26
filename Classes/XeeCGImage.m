@@ -60,14 +60,14 @@ void CGAccessSessionRelease(CGAccessSessionRef session);
 
 	int mode;
 	switch (components) {
-	case 1:
-		mode = XeeGreyBitmap;
-		break;
-	case 3:
-		mode = XeeRGBBitmap;
-		break;
-	default:
-		return NO;
+		case 1:
+			mode = XeeGreyBitmap;
+			break;
+		case 3:
+			mode = XeeRGBBitmap;
+			break;
+		default:
+			return NO;
 	}
 
 	// Check for unsupported (non-host) byte ordering
