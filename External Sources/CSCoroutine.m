@@ -17,11 +17,13 @@
 
 static pthread_key_t currkey, mainkey;
 
+UNAVAILABLE_ATTRIBUTE
 static void CSCoroutineFreeMain(CSCoroutine *main)
 {
 	[main release];
 }
 
+UNAVAILABLE_ATTRIBUTE
 static CSCoroutine *CSMainCoroutine()
 {
 	CSCoroutine *main = (CSCoroutine *)pthread_getspecific(mainkey);
@@ -32,6 +34,7 @@ static CSCoroutine *CSMainCoroutine()
 	return main;
 }
 
+UNAVAILABLE_ATTRIBUTE
 static CSCoroutine *CSCurrentCoroutine()
 {
 	CSCoroutine *curr = (CSCoroutine *)pthread_getspecific(currkey);
@@ -42,6 +45,7 @@ static CSCoroutine *CSCurrentCoroutine()
 	}
 }
 
+UNAVAILABLE_ATTRIBUTE
 static CSCoroutine *CSSetCurrentCoroutine(CSCoroutine *new)
 {
 	CSCoroutine *curr = CSCurrentCoroutine();
@@ -136,6 +140,7 @@ static void CSSetEntryPoint(jmp_buf env, void (*entry)(), void *stack, long stac
 	return [target methodSignatureForSelector:sel];
 }
 
+UNAVAILABLE_ATTRIBUTE
 static void CSLeopardCoroutineStart()
 {
 	CSCoroutine *coro = CSCurrentCoroutine();

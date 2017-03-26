@@ -33,8 +33,6 @@
 		finished = loaded = YES;
 		thumbonly = stop = NO;
 
-		coro = nil;
-
 		format = nil;
 		width = height = 0;
 		depth = nil;
@@ -74,6 +72,15 @@
 			icon = nil;
 
 		finished = loaded = NO;
+		
+		dispatch_async(dispatch_get_global_queue(0, 0), ^{
+			@try {
+				[self load];
+			} @catch(NSException*e) {
+				NSLog(@"Exception during initial loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
+				finished = YES;
+			}
+		});
 
 		coro = [self newCoroutine];
 
@@ -143,8 +150,6 @@
 	[ref release];
 	[attrs release];
 
-	[coro release];
-
 	[format release];
 	[depth release];
 	[icon release];
@@ -195,12 +200,13 @@
 		if (!hashead && (width && height)) {
 			XeeImageLoaderHeaderDone();
 		} else {
+			//[NSEvent mainRunLoop];
 			XeeImageLoaderYield();
 		}
 	} while (nextselector);
 
 	[self deallocLoader];
-	XeeImageLoaderDone(loaded);
+	//XeeImageLoaderDone(loaded);
 }
 
 - (SEL)initLoader

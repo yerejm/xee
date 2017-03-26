@@ -3,6 +3,7 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 
+UNAVAILABLE_ATTRIBUTE
 @interface CSCoroutine : NSProxy {
 	id target;
 	size_t stacksize;
@@ -26,6 +27,6 @@
 @end
 
 @interface NSObject (CSCoroutine)
-- (CSCoroutine *)newCoroutine;
-- (CSCoroutine *)newCoroutineWithStackSize:(size_t)stacksize;
+- (CSCoroutine *)newCoroutine UNAVAILABLE_ATTRIBUTE;
+- (CSCoroutine *)newCoroutineWithStackSize:(size_t)stacksize UNAVAILABLE_ATTRIBUTE;
 @end
