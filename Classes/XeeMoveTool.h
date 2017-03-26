@@ -1,10 +1,9 @@
 #import "XeeTool.h"
 
-@interface XeeMoveTool:XeeTool
-{
+@interface XeeMoveTool : XeeTool {
 }
 
--(void)mouseDraggedTo:(NSPoint)position relative:(NSPoint)relative;
--(NSCursor *)cursor;
+- (void)mouseDraggedTo:(NSPoint)position relative:(NSPoint)relative;
+- (NSCursor *)cursor;
 
 @end

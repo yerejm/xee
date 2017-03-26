@@ -35,42 +35,40 @@
 #import "XeePrefKeys.h"
 #import "XeeControllerFileActions.h"
 
-
-
-XeeDelegate *maindelegate=nil;
+XeeDelegate *maindelegate = nil;
 BOOL finderlaunch;
 NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
-
 @implementation XeeDelegate
 
--(id)init
+- (id)init
 {
-	if(self=[super init])
-	{
-		filesopened=NO;
-		openediconset=nil;
-		prefswindow=nil;
-		iconwindow=nil;
-		iconfield=nil;
+	if (self = [super init]) {
+		filesopened = NO;
+		openediconset = nil;
+		prefswindow = nil;
+		iconwindow = nil;
+		iconfield = nil;
 
-		controllers=[[NSMutableDictionary alloc] init];
+		controllers = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
 
--(void)awakeFromNib
+- (void)awakeFromNib
 {
-	if(maindelegate) return; // fuck you too, Cocoa.
-	maindelegate=self;
+	if (maindelegate)
+		return; // fuck you too, Cocoa.
+	maindelegate = self;
 
 	// what the hell? NSTableViews don't get scrollbars unless I do this.
-	NSRect frame=[prefswindow frame];
-	frame.size.height+=1; [prefswindow setFrame:frame display:YES];
+	NSRect frame = [prefswindow frame];
+	frame.size.height += 1;
+	[prefswindow setFrame:frame display:YES];
 
 	// remove format prefs on older systems
-	if(floor(NSAppKitVersionNumber)<=NSAppKitVersionNumber10_3)
-	[prefstabs removeTabViewItem:formattab];
+	if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_3)
+		[prefstabs removeTabViewItem:formattab];
 
 	[XeeImage registerImageClass:[XeeJPEGImage class]];
 	[XeeImage registerImageClass:[XeePNGImage class]];
@@ -106,262 +104,308 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 
 	[[antialiasmenu itemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:XeeAntialiasQualityKey]] setState:NSOnState];
 
-	CSKeyboardShortcuts *shortcuts=[CSKeyboardShortcuts defaultShortcuts];
+	CSKeyboardShortcuts *shortcuts = [CSKeyboardShortcuts defaultShortcuts];
 
 	[shortcuts addActionsFromMenu:[[NSApplication sharedApplication] mainMenu]];
 	[shortcuts addActions:[NSArray arrayWithObjects:
-		[CSAction actionWithTitle:NSLocalizedString(@"Cancel Action or Close Window or Drawer",@"Action name for the keyboard shortcut for cancelling the current action, closing the current window, or drawer")
-		selector:@selector(cancel:)],
-		[CSAction actionWithTitle:NSLocalizedString(@"Confirm Action",@"Action name for the keyboard shortcut for confirming the current action")
-		selector:@selector(confirm:)],
-		[CSAction actionWithTitle:NSLocalizedString(@"Delete After Confirmation",@"Action name for the keyboard shortcut for deleting the current image (after a confirmation dialog)")
-		selector:@selector(askAndDelete:)],
-		actions[0]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #1",@"Action name for the keyboard shortcut for copying to entry 1 in the destination list")
-		selector:@selector(copyToDestination1:)],
-		actions[1]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #2",@"Action name for the keyboard shortcut for copying to entry 2 in the destination list")
-		selector:@selector(copyToDestination2:)],
-		actions[2]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #3",@"Action name for the keyboard shortcut for copying to entry 3 in the destination list")
-		selector:@selector(copyToDestination3:)],
-		actions[3]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #4",@"Action name for the keyboard shortcut for copying to entry 4 in the destination list")
-		selector:@selector(copyToDestination4:)],
-		actions[4]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #5",@"Action name for the keyboard shortcut for copying to entry 5 in the destination list")
-		selector:@selector(copyToDestination5:)],
-		actions[5]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #6",@"Action name for the keyboard shortcut for copying to entry 6 in the destination list")
-		selector:@selector(copyToDestination6:)],
-		actions[6]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #7",@"Action name for the keyboard shortcut for copying to entry 7 in the destination list")
-		selector:@selector(copyToDestination7:)],
-		actions[7]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #8",@"Action name for the keyboard shortcut for copying to entry 8 in the destination list")
-		selector:@selector(copyToDestination8:)],
-		actions[8]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #9",@"Action name for the keyboard shortcut for copying to entry 9 in the destination list")
-		selector:@selector(copyToDestination9:)],
-		actions[9]=[CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #10",@"Action name for the keyboard shortcut for copying to entry 10 in the destination list")
-		selector:@selector(copyToDestination10:)],
-		actions[10]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #1",@"Action name for the keyboard shortcut for moving to entry 1 in the destination list")
-		selector:@selector(moveToDestination1:)],
-		actions[11]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #2",@"Action name for the keyboard shortcut for moving to entry 2 in the destination list")
-		selector:@selector(moveToDestination2:)],
-		actions[12]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #3",@"Action name for the keyboard shortcut for moving to entry 3 in the destination list")
-		selector:@selector(moveToDestination3:)],
-		actions[13]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #4",@"Action name for the keyboard shortcut for moving to entry 4 in the destination list")
-		selector:@selector(moveToDestination4:)],
-		actions[14]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #5",@"Action name for the keyboard shortcut for moving to entry 5 in the destination list")
-		selector:@selector(moveToDestination5:)],
-		actions[15]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #6",@"Action name for the keyboard shortcut for moving to entry 6 in the destination list")
-		selector:@selector(moveToDestination6:)],
-		actions[16]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #7",@"Action name for the keyboard shortcut for moving to entry 7 in the destination list")
-		selector:@selector(moveToDestination7:)],
-		actions[17]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #8",@"Action name for the keyboard shortcut for moving to entry 8 in the destination list")
-		selector:@selector(moveToDestination8:)],
-		actions[18]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #9",@"Action name for the keyboard shortcut for moving to entry 9 in the destination list")
-		selector:@selector(moveToDestination9:)],
-		actions[19]=[CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #10",@"Action name for the keyboard shortcut for moving to entry 10 in the destination list")
-		selector:@selector(moveToDestination10:)],
-		[CSAction actionWithTitle:NSLocalizedString(@"Scroll Up",@"Action name for the scroll up key") identifier:@"scrollUp"],
-		[CSAction actionWithTitle:NSLocalizedString(@"Scroll Down",@"Action name for the scroll down key") identifier:@"scrollDown"],
-		[CSAction actionWithTitle:NSLocalizedString(@"Scroll Left",@"Action name for the scroll left key") identifier:@"scrollLeft"],
-		[CSAction actionWithTitle:NSLocalizedString(@"Scroll Right",@"Action name for the scroll right key") identifier:@"scrollRight"],
-	nil]];
+									   [CSAction actionWithTitle:NSLocalizedString(@"Cancel Action or Close Window or Drawer", @"Action name for the keyboard shortcut for cancelling the current action, closing the current window, or drawer")
+														selector:@selector(cancel:)],
+									   [CSAction actionWithTitle:NSLocalizedString(@"Confirm Action", @"Action name for the keyboard shortcut for confirming the current action")
+														selector:@selector(confirm:)],
+									   [CSAction actionWithTitle:NSLocalizedString(@"Delete After Confirmation", @"Action name for the keyboard shortcut for deleting the current image (after a confirmation dialog)")
+														selector:@selector(askAndDelete:)],
+									   actions[0] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #1", @"Action name for the keyboard shortcut for copying to entry 1 in the destination list")
+																	 selector:@selector(copyToDestination1:)],
+									   actions[1] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #2", @"Action name for the keyboard shortcut for copying to entry 2 in the destination list")
+																	 selector:@selector(copyToDestination2:)],
+									   actions[2] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #3", @"Action name for the keyboard shortcut for copying to entry 3 in the destination list")
+																	 selector:@selector(copyToDestination3:)],
+									   actions[3] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #4", @"Action name for the keyboard shortcut for copying to entry 4 in the destination list")
+																	 selector:@selector(copyToDestination4:)],
+									   actions[4] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #5", @"Action name for the keyboard shortcut for copying to entry 5 in the destination list")
+																	 selector:@selector(copyToDestination5:)],
+									   actions[5] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #6", @"Action name for the keyboard shortcut for copying to entry 6 in the destination list")
+																	 selector:@selector(copyToDestination6:)],
+									   actions[6] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #7", @"Action name for the keyboard shortcut for copying to entry 7 in the destination list")
+																	 selector:@selector(copyToDestination7:)],
+									   actions[7] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #8", @"Action name for the keyboard shortcut for copying to entry 8 in the destination list")
+																	 selector:@selector(copyToDestination8:)],
+									   actions[8] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #9", @"Action name for the keyboard shortcut for copying to entry 9 in the destination list")
+																	 selector:@selector(copyToDestination9:)],
+									   actions[9] = [CSAction actionWithTitle:NSLocalizedString(@"Copy to Destination #10", @"Action name for the keyboard shortcut for copying to entry 10 in the destination list")
+																	 selector:@selector(copyToDestination10:)],
+									   actions[10] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #1", @"Action name for the keyboard shortcut for moving to entry 1 in the destination list")
+																	  selector:@selector(moveToDestination1:)],
+									   actions[11] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #2", @"Action name for the keyboard shortcut for moving to entry 2 in the destination list")
+																	  selector:@selector(moveToDestination2:)],
+									   actions[12] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #3", @"Action name for the keyboard shortcut for moving to entry 3 in the destination list")
+																	  selector:@selector(moveToDestination3:)],
+									   actions[13] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #4", @"Action name for the keyboard shortcut for moving to entry 4 in the destination list")
+																	  selector:@selector(moveToDestination4:)],
+									   actions[14] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #5", @"Action name for the keyboard shortcut for moving to entry 5 in the destination list")
+																	  selector:@selector(moveToDestination5:)],
+									   actions[15] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #6", @"Action name for the keyboard shortcut for moving to entry 6 in the destination list")
+																	  selector:@selector(moveToDestination6:)],
+									   actions[16] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #7", @"Action name for the keyboard shortcut for moving to entry 7 in the destination list")
+																	  selector:@selector(moveToDestination7:)],
+									   actions[17] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #8", @"Action name for the keyboard shortcut for moving to entry 8 in the destination list")
+																	  selector:@selector(moveToDestination8:)],
+									   actions[18] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #9", @"Action name for the keyboard shortcut for moving to entry 9 in the destination list")
+																	  selector:@selector(moveToDestination9:)],
+									   actions[19] = [CSAction actionWithTitle:NSLocalizedString(@"Move to Destination #10", @"Action name for the keyboard shortcut for moving to entry 10 in the destination list")
+																	  selector:@selector(moveToDestination10:)],
+									   [CSAction actionWithTitle:NSLocalizedString(@"Scroll Up", @"Action name for the scroll up key")
+													  identifier:@"scrollUp"],
+									   [CSAction actionWithTitle:NSLocalizedString(@"Scroll Down", @"Action name for the scroll down key")
+													  identifier:@"scrollDown"],
+									   [CSAction actionWithTitle:NSLocalizedString(@"Scroll Left", @"Action name for the scroll left key")
+													  identifier:@"scrollLeft"],
+									   [CSAction actionWithTitle:NSLocalizedString(@"Scroll Right", @"Action name for the scroll right key")
+													  identifier:@"scrollRight"],
+									   nil]];
 
 	[shortcuts addShortcuts:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:27 modifiers:0],nil],
-		@"cancel:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSEnterCharacter modifiers:0],
-			[CSKeyStroke keyForCharCode:NSCarriageReturnCharacter modifiers:0],
-		nil],@"confirm:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSDeleteCharacter modifiers:0],
-			[CSKeyStroke keyForCharCode:NSBackspaceCharacter modifiers:0],
-		nil],@"askAndDelete:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSUpArrowFunctionKey modifiers:0],nil],
-		@"scrollUp",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSDownArrowFunctionKey modifiers:0],nil],
-		@"scrollDown",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSLeftArrowFunctionKey modifiers:0],nil],
-		@"scrollLeft",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSRightArrowFunctionKey modifiers:0],nil]
-		,@"scrollRight",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"1" modifiers:CSCmd],nil],
-		@"copyToDestination1:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"2" modifiers:CSCmd],nil],
-		@"copyToDestination2:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"3" modifiers:CSCmd],nil],
-		@"copyToDestination3:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"4" modifiers:CSCmd],nil],
-		@"copyToDestination4:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"5" modifiers:CSCmd],nil],
-		@"copyToDestination5:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"6" modifiers:CSCmd],nil],
-		@"copyToDestination6:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"7" modifiers:CSCmd],nil],
-		@"copyToDestination7:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"8" modifiers:CSCmd],nil],
-		@"copyToDestination8:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"9" modifiers:CSCmd],nil],
-		@"copyToDestination9:",
-		//[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"0" modifiers:CSCmd],nil],
-		//@"copyToDestination10:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"1" modifiers:CSCtrl],nil],
-		@"moveToDestination1:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"2" modifiers:CSCtrl],nil],
-		@"moveToDestination2:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"3" modifiers:CSCtrl],nil],
-		@"moveToDestination3:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"4" modifiers:CSCtrl],nil],
-		@"moveToDestination4:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"5" modifiers:CSCtrl],nil],
-		@"moveToDestination5:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"6" modifiers:CSCtrl],nil],
-		@"moveToDestination6:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"7" modifiers:CSCtrl],nil],
-		@"moveToDestination7:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"8" modifiers:CSCtrl],nil],
-		@"moveToDestination8:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"9" modifiers:CSCtrl],nil],
-		@"moveToDestination9:",
-		[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"0" modifiers:CSCtrl],nil],
-		@"moveToDestination10:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSPageDownFunctionKey modifiers:0],
-			[CSKeyStroke keyForCharacter:@" " modifiers:0],
-			[CSKeyStroke keyForCharacter:@"." modifiers:0],
-			[CSKeyStroke keyForCharacter:@":" modifiers:0],
-		nil],@"skipNext:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSPageUpFunctionKey modifiers:0],
-			[CSKeyStroke keyForCharacter:@" " modifiers:CSShift],
-			[CSKeyStroke keyForCharacter:@"," modifiers:0],
-			[CSKeyStroke keyForCharacter:@";" modifiers:0],
-		nil],@"skipPrev:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSHomeFunctionKey modifiers:0],
-		nil],@"skipFirst:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSEndFunctionKey modifiers:0],
-		nil],@"skipLast:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSPageDownFunctionKey modifiers:CSShift],
-		nil],@"skip10Forward:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSPageDownFunctionKey modifiers:CSAlt],
-		nil],@"skip100Forward:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSPageUpFunctionKey modifiers:CSShift],
-		nil],@"skip10Back:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharCode:NSPageUpFunctionKey modifiers:CSAlt],
-		nil],@"skip100Back:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"r" modifiers:0],
-		nil],@"skipRandom:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"R" modifiers:0],
-		nil],@"skipRandomPrev:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"2" modifiers:0],
-		nil],@"frameSkipNext:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"1" modifiers:0],
-		nil],@"frameSkipPrev:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"a" modifiers:0],
-			[CSKeyStroke keyForCharacter:@"3" modifiers:0],
-		nil],@"toggleAnimation:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"+" modifiers:0],
-			[CSKeyStroke keyForCharacter:@"=" modifiers:CSCmd],
-			[CSKeyStroke keyForCharacter:@"=" modifiers:0],
-		nil],@"zoomIn:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"-" modifiers:0],
-		nil],@"zoomOut:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"*" modifiers:0],
-		nil],@"zoomFit:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"/" modifiers:0],
-		nil],@"zoomActual:",
-		[NSArray arrayWithObjects:
-			[CSKeyStroke keyForCharacter:@"f" modifiers:0],
-			[CSKeyStroke keyForCharCode:NSCarriageReturnCharacter modifiers:CSAlt],
-		nil],@"fullScreen:",
-	nil]];
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:27 modifiers:0], nil],
+											  @"cancel:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSEnterCharacter
+																			 modifiers:0],
+														   [CSKeyStroke keyForCharCode:NSCarriageReturnCharacter
+																			 modifiers:0],
+														   nil],
+											  @"confirm:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSDeleteCharacter
+																			 modifiers:0],
+														   [CSKeyStroke keyForCharCode:NSBackspaceCharacter
+																			 modifiers:0],
+														   nil],
+											  @"askAndDelete:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSUpArrowFunctionKey modifiers:0], nil],
+											  @"scrollUp",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSDownArrowFunctionKey modifiers:0], nil],
+											  @"scrollDown",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSLeftArrowFunctionKey modifiers:0], nil],
+											  @"scrollLeft",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharCode:NSRightArrowFunctionKey modifiers:0], nil], @"scrollRight",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"1" modifiers:CSCmd], nil],
+											  @"copyToDestination1:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"2" modifiers:CSCmd], nil],
+											  @"copyToDestination2:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"3" modifiers:CSCmd], nil],
+											  @"copyToDestination3:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"4" modifiers:CSCmd], nil],
+											  @"copyToDestination4:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"5" modifiers:CSCmd], nil],
+											  @"copyToDestination5:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"6" modifiers:CSCmd], nil],
+											  @"copyToDestination6:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"7" modifiers:CSCmd], nil],
+											  @"copyToDestination7:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"8" modifiers:CSCmd], nil],
+											  @"copyToDestination8:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"9" modifiers:CSCmd], nil],
+											  @"copyToDestination9:",
+											  //[NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"0" modifiers:CSCmd],nil],
+											  //@"copyToDestination10:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"1" modifiers:CSCtrl], nil],
+											  @"moveToDestination1:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"2" modifiers:CSCtrl], nil],
+											  @"moveToDestination2:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"3" modifiers:CSCtrl], nil],
+											  @"moveToDestination3:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"4" modifiers:CSCtrl], nil],
+											  @"moveToDestination4:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"5" modifiers:CSCtrl], nil],
+											  @"moveToDestination5:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"6" modifiers:CSCtrl], nil],
+											  @"moveToDestination6:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"7" modifiers:CSCtrl], nil],
+											  @"moveToDestination7:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"8" modifiers:CSCtrl], nil],
+											  @"moveToDestination8:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"9" modifiers:CSCtrl], nil],
+											  @"moveToDestination9:",
+											  [NSArray arrayWithObjects:[CSKeyStroke keyForCharacter:@"0" modifiers:CSCtrl], nil],
+											  @"moveToDestination10:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSPageDownFunctionKey
+																			 modifiers:0],
+														   [CSKeyStroke keyForCharacter:@" "
+																			  modifiers:0],
+														   [CSKeyStroke keyForCharacter:@"."
+																			  modifiers:0],
+														   [CSKeyStroke keyForCharacter:@":"
+																			  modifiers:0],
+														   nil],
+											  @"skipNext:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSPageUpFunctionKey
+																			 modifiers:0],
+														   [CSKeyStroke keyForCharacter:@" "
+																			  modifiers:CSShift],
+														   [CSKeyStroke keyForCharacter:@","
+																			  modifiers:0],
+														   [CSKeyStroke keyForCharacter:@";"
+																			  modifiers:0],
+														   nil],
+											  @"skipPrev:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSHomeFunctionKey
+																			 modifiers:0],
+														   nil],
+											  @"skipFirst:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSEndFunctionKey
+																			 modifiers:0],
+														   nil],
+											  @"skipLast:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSPageDownFunctionKey
+																			 modifiers:CSShift],
+														   nil],
+											  @"skip10Forward:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSPageDownFunctionKey
+																			 modifiers:CSAlt],
+														   nil],
+											  @"skip100Forward:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSPageUpFunctionKey
+																			 modifiers:CSShift],
+														   nil],
+											  @"skip10Back:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharCode:NSPageUpFunctionKey
+																			 modifiers:CSAlt],
+														   nil],
+											  @"skip100Back:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"r"
+																			  modifiers:0],
+														   nil],
+											  @"skipRandom:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"R"
+																			  modifiers:0],
+														   nil],
+											  @"skipRandomPrev:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"2"
+																			  modifiers:0],
+														   nil],
+											  @"frameSkipNext:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"1"
+																			  modifiers:0],
+														   nil],
+											  @"frameSkipPrev:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"a"
+																			  modifiers:0],
+														   [CSKeyStroke keyForCharacter:@"3"
+																			  modifiers:0],
+														   nil],
+											  @"toggleAnimation:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"+"
+																			  modifiers:0],
+														   [CSKeyStroke keyForCharacter:@"="
+																			  modifiers:CSCmd],
+														   [CSKeyStroke keyForCharacter:@"="
+																			  modifiers:0],
+														   nil],
+											  @"zoomIn:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"-"
+																			  modifiers:0],
+														   nil],
+											  @"zoomOut:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"*"
+																			  modifiers:0],
+														   nil],
+											  @"zoomFit:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"/"
+																			  modifiers:0],
+														   nil],
+											  @"zoomActual:",
+											  [NSArray arrayWithObjects:
+														   [CSKeyStroke keyForCharacter:@"f"
+																			  modifiers:0],
+														   [CSKeyStroke keyForCharCode:NSCarriageReturnCharacter
+																			 modifiers:CSAlt],
+														   nil],
+											  @"fullScreen:",
+											  nil]];
 
 	[CSKeyboardShortcuts installWindowClass];
 }
 
--(void)applicationDidFinishLaunching:(NSNotification *)notification
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-//	if(!filesopened&&finderlaunch) [self openDocument:self];
+	//	if(!filesopened&&finderlaunch) [self openDocument:self];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:XeeQuitOnCloseKey];
+	return [[NSUserDefaults standardUserDefaults] boolForKey:XeeQuitOnCloseKey];
 }
 
--(BOOL)application:(NSApplication *)app openFile:(NSString *)filename
+- (BOOL)application:(NSApplication *)app openFile:(NSString *)filename
 {
-	filesopened=YES;
+	filesopened = YES;
 
-	if([[filename pathExtension] isEqual:@"xeeicons"]) // icon set
+	if ([[filename pathExtension] isEqual:@"xeeicons"]) // icon set
 	{
-		NSError *err = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:
-						@{NSFilePathErrorKey: filename,
-						  NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"XeeIcons are no longer supported.", @"XeeIcons are no longer supported error message")}];
+		NSError *err = [NSError errorWithDomain:NSOSStatusErrorDomain
+										   code:unimpErr
+									   userInfo:
+										   @{ NSFilePathErrorKey : filename,
+											  NSLocalizedFailureReasonErrorKey : NSLocalizedString(@"XeeIcons are no longer supported.", @"XeeIcons are no longer supported error message") }];
 		[NSApp replyToOpenOrPrint:NSApplicationDelegateReplyFailure];
 		[NSApp presentError:err];
 
 		return NO;
-	}
-	else
-	{
-		XeeFSRef *ref=[XeeFSRef refForPath:filename],*dirref = nil;
+	} else {
+		XeeFSRef *ref = [XeeFSRef refForPath:filename], *dirref = nil;
 
-		XeeImageSource *source=nil;
-		if([ref isDirectory])
-		{
-			source=[[[XeeDirectorySource alloc] initWithDirectory:ref] autorelease];
-			dirref=ref;
-		}
-		else
-		{
-			if(!source)
-			{
-				source=[[[XeePDFSource alloc] initWithFile:filename] autorelease];
-				dirref=nil;
+		XeeImageSource *source = nil;
+		if ([ref isDirectory]) {
+			source = [[[XeeDirectorySource alloc] initWithDirectory:ref] autorelease];
+			dirref = ref;
+		} else {
+			if (!source) {
+				source = [[[XeePDFSource alloc] initWithFile:filename] autorelease];
+				dirref = nil;
 			}
 
-			if(!source)
-			{
-				source=[[[XeeSWFSource alloc] initWithFile:filename] autorelease];
-				dirref=nil;
+			if (!source) {
+				source = [[[XeeSWFSource alloc] initWithFile:filename] autorelease];
+				dirref = nil;
 			}
 
-			if(!source)
-			{
-				XeeImage *image=[XeeImage imageForRef:ref];
-				if(image)
-				{
-					source=[[[XeeDirectorySource alloc] initWithImage:image] autorelease];
-					dirref=[ref parent];
+			if (!source) {
+				XeeImage *image = [XeeImage imageForRef:ref];
+				if (image) {
+					source = [[[XeeDirectorySource alloc] initWithImage:image] autorelease];
+					dirref = [ref parent];
 				}
 			}
 
-			if(!source)
-			{
-				source=[[[XeeArchiveSource alloc] initWithArchive:filename] autorelease];
-				dirref=nil;
+			if (!source) {
+				source = [[[XeeArchiveSource alloc] initWithArchive:filename] autorelease];
+				dirref = nil;
 			}
 
-			if(!source)
-			{
-				source=[[[XeeDirectorySource alloc] initWithRef:ref] autorelease];
-				dirref=[ref parent];
+			if (!source) {
+				source = [[[XeeDirectorySource alloc] initWithRef:ref] autorelease];
+				dirref = [ref parent];
 			}
 		}
 
-		XeeController *controller=[self controllerForDirectory:dirref];
+		XeeController *controller = [self controllerForDirectory:dirref];
 		[controller setImageSource:source];
 		[controller autoFullScreen];
 
@@ -369,44 +413,42 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	}
 }
 
-
-
--(IBAction)openDocument:(id)sender
+- (IBAction)openDocument:(id)sender
 {
-	NSMutableArray *types=[NSMutableArray array];
+	NSMutableArray *types = [NSMutableArray array];
 	[types addObjectsFromArray:[XeeImage allFileTypes]];
 	[types addObjectsFromArray:[XeeArchiveSource fileTypes]];
 
-	NSOpenPanel *panel=[NSOpenPanel openPanel];
+	NSOpenPanel *panel = [NSOpenPanel openPanel];
 	panel.allowedFileTypes = types;
 
 	[panel setCanChooseDirectories:YES];
 
-	NSInteger res=[panel runModal];
+	NSInteger res = [panel runModal];
 
-	if(res==NSFileHandlingPanelOKButton)
-	{
+	if (res == NSFileHandlingPanelOKButton) {
 		[self application:[NSApplication sharedApplication] openFile:[[[panel URLs] objectAtIndex:0] path]];
 	}
 }
 
-
-
--(void)menuNeedsUpdate:(NSMenu *)menu
+- (void)menuNeedsUpdate:(NSMenu *)menu
 {
-	if(menu==openmenu) [self buildOpenMenu:menu];
-	else if(menu==editmenu) [self updateEditMenu:menu];
-	else if(menu==viewmenu) [self updateViewMenu:menu];
-	else if(menu==sortmenu) [self updateSortMenu:menu];
-	else if(menu==slideshowmenu) [self updateSlideshowMenu:menu];
+	if (menu == openmenu)
+		[self buildOpenMenu:menu];
+	else if (menu == editmenu)
+		[self updateEditMenu:menu];
+	else if (menu == viewmenu)
+		[self updateViewMenu:menu];
+	else if (menu == sortmenu)
+		[self updateSortMenu:menu];
+	else if (menu == slideshowmenu)
+		[self updateSlideshowMenu:menu];
 }
 
--(BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action
+- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action
 {
 	return NO;
 }
-
-
 
 /*static int XeeAppCompare(id url1,id url2,void *context)
 {
@@ -415,266 +457,250 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	return [app1 caseInsensitiveCompare:app2];
 }*/
 
--(void)buildOpenMenu:(NSMenu *)menu
+- (void)buildOpenMenu:(NSMenu *)menu
 {
-	while([menu numberOfItems]>2) [menu removeItemAtIndex:2];
+	while ([menu numberOfItems] > 2)
+		[menu removeItemAtIndex:2];
 
 	[self updateDefaultEditorItem];
 
-	XeeController *focus=[self focusedController];
+	XeeController *focus = [self focusedController];
 
-	NSString *filename=[focus currentFilename];
-    if (!filename)
-        return;
-    
-	NSArray *apps=[(NSArray *)LSCopyApplicationURLsForURL((CFURLRef)[NSURL fileURLWithPath:filename],kLSRolesEditor) autorelease];
-	NSMenu *defmenu=[[[NSMenu alloc] init] autorelease];
-	NSString *defeditor=[self defaultEditor];
+	NSString *filename = [focus currentFilename];
+	if (!filename)
+		return;
 
-	NSEnumerator *enumerator=[apps objectEnumerator];
-//	NSEnumerator *enumerator=[[apps sortedArrayUsingFunction:XeeAppCompare context:nil] objectEnumerator];
+	NSArray *apps = [(NSArray *)LSCopyApplicationURLsForURL((CFURLRef)[NSURL fileURLWithPath:filename], kLSRolesEditor) autorelease];
+	NSMenu *defmenu = [[[NSMenu alloc] init] autorelease];
+	NSString *defeditor = [self defaultEditor];
+
+	NSEnumerator *enumerator = [apps objectEnumerator];
+	//	NSEnumerator *enumerator=[[apps sortedArrayUsingFunction:XeeAppCompare context:nil] objectEnumerator];
 	NSURL *appurl;
 
-	while(appurl=[enumerator nextObject])
-	{
-		NSString *app=[appurl path];
-		NSString *name=[[app lastPathComponent] stringByDeletingPathExtension];
-		NSImage *image=[[NSWorkspace sharedWorkspace] iconForFile:app];
+	while (appurl = [enumerator nextObject]) {
+		NSString *app = [appurl path];
+		NSString *name = [[app lastPathComponent] stringByDeletingPathExtension];
+		NSImage *image = [[NSWorkspace sharedWorkspace] iconForFile:app];
 
-		if(![app isEqual:defeditor])
-		{
-			NSMenuItem *mainitem=[[[NSMenuItem alloc] initWithTitle:name action:@selector(launchAppFromMenu:) keyEquivalent:@""] autorelease];
+		if (![app isEqual:defeditor]) {
+			NSMenuItem *mainitem = [[[NSMenuItem alloc] initWithTitle:name action:@selector(launchAppFromMenu:) keyEquivalent:@""] autorelease];
 			[mainitem setImage:image];
 			[mainitem setRepresentedObject:app];
 			[menu addItem:mainitem];
 		}
 
-		NSMenuItem *defitem=[[[NSMenuItem alloc] initWithTitle:name action:@selector(setDefaultEditorFromMenu:) keyEquivalent:@""] autorelease];
+		NSMenuItem *defitem = [[[NSMenuItem alloc] initWithTitle:name action:@selector(setDefaultEditorFromMenu:) keyEquivalent:@""] autorelease];
 		[defitem setImage:image];
 		[defitem setRepresentedObject:app];
-		if([app isEqual:defeditor]) [defitem setState:NSOnState];
+		if ([app isEqual:defeditor])
+			[defitem setState:NSOnState];
 		[defmenu addItem:defitem];
 	}
 
 	[menu addItem:[NSMenuItem separatorItem]];
 
-	NSMenuItem *defmenuitem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Set Default Editor",@"Title of the default editor submenu")
-	action:@selector(launchApp:) keyEquivalent:@""] autorelease];
+	NSMenuItem *defmenuitem = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Set Default Editor", @"Title of the default editor submenu")
+														  action:@selector(launchApp:)
+												   keyEquivalent:@""] autorelease];
 
 	[defmenuitem setSubmenu:defmenu];
 	[defmenuitem setAction:@selector(dummy:)];
 	[menu addItem:defmenuitem];
 }
 
--(void)dummy:(id)sender {}
-
--(void)updateDefaultEditorItem
+- (void)dummy:(id)sender
 {
-	NSString *defeditor=[self defaultEditor];
-	NSMenuItem *item=[openmenu itemAtIndex:0];
+}
 
-	if(defeditor)
-	{
+- (void)updateDefaultEditorItem
+{
+	NSString *defeditor = [self defaultEditor];
+	NSMenuItem *item = [openmenu itemAtIndex:0];
+
+	if (defeditor) {
 		[item setTitle:[[defeditor lastPathComponent] stringByDeletingPathExtension]];
 		[item setImage:[[NSWorkspace sharedWorkspace] iconForFile:defeditor]];
-	}
-	else
-	{
-		[item setTitle:NSLocalizedString(@"No Default Editor Selected",@"Default editor menu title when no default editor has been selected")];
+	} else {
+		[item setTitle:NSLocalizedString(@"No Default Editor Selected", @"Default editor menu title when no default editor has been selected")];
 		[item setImage:nil];
 	}
 }
 
--(NSString *)defaultEditor
+- (NSString *)defaultEditor
 {
-	NSString *defeditorid=[[NSUserDefaults standardUserDefaults] stringForKey:@"defaultEditor"];
-	if(defeditorid) return [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:defeditorid];
+	NSString *defeditorid = [[NSUserDefaults standardUserDefaults] stringForKey:@"defaultEditor"];
+	if (defeditorid)
+		return [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:defeditorid];
 	return nil;
 }
 
--(void)setDefaultEditor:(NSString *)app
+- (void)setDefaultEditor:(NSString *)app
 {
 	[[NSUserDefaults standardUserDefaults] setObject:[[NSBundle bundleWithPath:app] bundleIdentifier] forKey:@"defaultEditor"];
 }
 
--(IBAction)setDefaultEditorFromMenu:(id)sender
+- (IBAction)setDefaultEditorFromMenu:(id)sender
 {
 	[self setDefaultEditor:[sender representedObject]];
 }
 
-
-
--(void)updateEditMenu:(NSMenu *)menu
+- (void)updateEditMenu:(NSMenu *)menu
 {
-	if([self xeeFocus])
-	{
-		[copyitem setTitle:NSLocalizedString(@"Copy Image",@"Alternate Copy menuitem for images")];
-		[pasteitem setTitle:NSLocalizedString(@"Show Clipboard",@"Alternate Paste menuitem for images")];
+	if ([self xeeFocus]) {
+		[copyitem setTitle:NSLocalizedString(@"Copy Image", @"Alternate Copy menuitem for images")];
+		[pasteitem setTitle:NSLocalizedString(@"Show Clipboard", @"Alternate Paste menuitem for images")];
+	} else {
+		[copyitem setTitle:NSLocalizedString(@"Copy", @"Copy button and menuitem")];
+		[pasteitem setTitle:NSLocalizedString(@"Paste", @"Paste menuitem")];
 	}
+
+	XeeController *focus = [self focusedController];
+	if ([focus isCropping])
+		[cropitem setState:NSOnState];
 	else
-	{
-		[copyitem setTitle:NSLocalizedString(@"Copy",@"Copy button and menuitem")];
-		[pasteitem setTitle:NSLocalizedString(@"Paste",@"Paste menuitem")];
-	}
-
-	XeeController *focus=[self focusedController];
-	if([focus isCropping]) [cropitem setState:NSOnState];
-	else [cropitem setState:NSOffState];
+		[cropitem setState:NSOffState];
 }
 
--(void)updateViewMenu:(NSMenu *)menu
+- (void)updateViewMenu:(NSMenu *)menu
 {
-	XeeController *focus=[self focusedController];
-	if(focus)
-	{
-		[statusitem setTitle:[focus isStatusBarHidden]?
-		NSLocalizedString(@"Show Status Bar",@"Menu item text for showing the status bar"):
-		NSLocalizedString(@"Hide Status Bar",@"Menu item text for hiding the status bar")];
+	XeeController *focus = [self focusedController];
+	if (focus) {
+		[statusitem setTitle:[focus isStatusBarHidden] ?
+								 NSLocalizedString(@"Show Status Bar", @"Menu item text for showing the status bar") :
+								 NSLocalizedString(@"Hide Status Bar", @"Menu item text for hiding the status bar")];
 	}
 }
 
--(void)updateSortMenu:(NSMenu *)menu
+- (void)updateSortMenu:(NSMenu *)menu
 {
-	NSInteger sortorder=0;
+	NSInteger sortorder = 0;
 
-	XeeController *controller=[self focusedController];
-	if(controller) sortorder=[[controller imageSource] sortOrder];
+	XeeController *controller = [self focusedController];
+	if (controller)
+		sortorder = [[controller imageSource] sortOrder];
 
-	NSInteger num=[sortmenu numberOfItems];
-	for(int i=0;i<num;i++)
-	{
-		NSMenuItem *item=[sortmenu itemAtIndex:i];
-		if([item tag]==sortorder) [item setState:NSOnState];
-		else [item setState:NSOffState];
+	NSInteger num = [sortmenu numberOfItems];
+	for (int i = 0; i < num; i++) {
+		NSMenuItem *item = [sortmenu itemAtIndex:i];
+		if ([item tag] == sortorder)
+			[item setState:NSOnState];
+		else
+			[item setState:NSOffState];
 	}
-	
 }
 
--(void)updateSlideshowMenu:(NSMenu *)menu
+- (void)updateSlideshowMenu:(NSMenu *)menu
 {
-	NSInteger slidedelay=[[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
+	NSInteger slidedelay = [[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
 
-	BOOL found=NO;
+	BOOL found = NO;
 
-	NSInteger num=[slideshowmenu numberOfItems];
-	for(NSInteger i=0;i<num;i++)
-	{
-		NSMenuItem *item=[slideshowmenu itemAtIndex:i];
-		if([item action]==@selector(setSlideshowDelay:)) {
-			if([item tag]==slidedelay)
-			{
+	NSInteger num = [slideshowmenu numberOfItems];
+	for (NSInteger i = 0; i < num; i++) {
+		NSMenuItem *item = [slideshowmenu itemAtIndex:i];
+		if ([item action] == @selector(setSlideshowDelay:)) {
+			if ([item tag] == slidedelay) {
 				[item setState:NSOnState];
-				found=YES;
-			}
-			else
-			{
+				found = YES;
+			} else {
 				[item setState:NSOffState];
 			}
 		}
 	}
 
-	if(found)
-	{
+	if (found) {
 		[otherdelayitem setState:NSOffState];
-		[otherdelayitem setTitle:NSLocalizedString(@"Other...","Menu item for other delay in slideshow menu when not selected")];
-	}
-	else
-	{
+		[otherdelayitem setTitle:NSLocalizedString(@"Other...", "Menu item for other delay in slideshow menu when not selected")];
+	} else {
 		[otherdelayitem setState:NSOnState];
 		[otherdelayitem setTitle:[NSString stringWithFormat:
-		NSLocalizedString(@"Other (%d Seconds)...","Menu item for other delay in slideshow menu when selected"),
-		slidedelay]];
+											   NSLocalizedString(@"Other (%d Seconds)...", "Menu item for other delay in slideshow menu when selected"),
+											   slidedelay]];
 	}
 
-	XeeController *focus=[self focusedController];
-	if(focus&&[focus isSlideshowRunning])
-	[runslidesitem setState:NSOnState];
-	else [runslidesitem setState:NSOffState];
+	XeeController *focus = [self focusedController];
+	if (focus && [focus isSlideshowRunning])
+		[runslidesitem setState:NSOnState];
+	else
+		[runslidesitem setState:NSOffState];
 }
 
-
--(BOOL)validateMenuItem:(NSMenuItem *)item
+- (BOOL)validateMenuItem:(NSMenuItem *)item
 {
-	if([item action]==@selector(paste:)) return [XeeClipboardSource canInitWithGeneralPasteboard];
-	else if([item action]==@selector(getInfo:)) return [[maindelegate focusedController] validateMenuItem:item];
+	if ([item action] == @selector(paste:))
+		return [XeeClipboardSource canInitWithGeneralPasteboard];
+	else if ([item action] == @selector(getInfo:))
+		return [[maindelegate focusedController] validateMenuItem:item];
 	return YES;
 }
 
-
-
--(IBAction)preferences:(id)sender
+- (IBAction)preferences:(id)sender
 {
-	if(!prefswindow)
-	{
-		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PrefsWindow" bundle:nil] autorelease];
+	if (!prefswindow) {
+		NSNib *nib = [[[NSNib alloc] initWithNibNamed:@"PrefsWindow" bundle:nil] autorelease];
 		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 	[prefswindow makeKeyAndOrderFront:nil];
 }
 
--(IBAction)paste:(id)sender
+- (IBAction)paste:(id)sender
 {
-	XeeClipboardSource *source=[[[XeeClipboardSource alloc] initWithGeneralPasteboard] autorelease];
-	if(source)
-	{
-		XeeController *controller=[self controllerForDirectory:nil];
+	XeeClipboardSource *source = [[[XeeClipboardSource alloc] initWithGeneralPasteboard] autorelease];
+	if (source) {
+		XeeController *controller = [self controllerForDirectory:nil];
 		[controller setImageSource:source];
 	}
 }
 
--(IBAction)getInfo:(id)sender
+- (IBAction)getInfo:(id)sender
 {
-	if(!properties)
-	{
-		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PropertyPanel" bundle:nil] autorelease];
+	if (!properties) {
+		NSNib *nib = [[[NSNib alloc] initWithNibNamed:@"PropertyPanel" bundle:nil] autorelease];
 		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 	[properties toggleVisibility];
 }
 
--(IBAction)keyboardShortcuts:(id)sender
+- (IBAction)keyboardShortcuts:(id)sender
 {
-	if(!prefswindow)
-	{
-		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"PrefsWindow" bundle:nil] autorelease];
+	if (!prefswindow) {
+		NSNib *nib = [[[NSNib alloc] initWithNibNamed:@"PrefsWindow" bundle:nil] autorelease];
 		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 	[prefstabs selectTabViewItemAtIndex:1];
 	[prefswindow makeKeyAndOrderFront:self];
 }
 
--(IBAction)openSupportThread:(id)sender
+- (IBAction)openSupportThread:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://wakaba.c3.cx/sup/kareha.pl/1132091963/"]];
 }
 
--(IBAction)openBugReport:(id)sender
+- (IBAction)openBugReport:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://code.google.com/p/xee/issues/entry"]];
 }
 
--(IBAction)openHomePage:(id)sender
+- (IBAction)openHomePage:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://wakaba.c3.cx/s/apps/xee.html"]];
 }
 
--(IBAction)installIconSet:(id)sender
+- (IBAction)installIconSet:(id)sender
 {
-	NSString *resdir=[[NSBundle bundleForClass:[self class]] resourcePath];
-	NSEnumerator *enumerator=[[self iconNames] objectEnumerator];
+	NSString *resdir = [[NSBundle bundleForClass:[self class]] resourcePath];
+	NSEnumerator *enumerator = [[self iconNames] objectEnumerator];
 	NSString *iconname;
-	while(iconname=[enumerator nextObject])
-	{
-		NSString *destname=[resdir stringByAppendingPathComponent:iconname];
+	while (iconname = [enumerator nextObject]) {
+		NSString *destname = [resdir stringByAppendingPathComponent:iconname];
 
-		if(![[NSFileManager defaultManager] removeItemAtPath:destname error:NULL]
-		||![[NSFileManager defaultManager] copyItemAtPath:[openediconset stringByAppendingPathComponent:iconname] toPath:destname error:NULL])
-		{
-			NSAlert *alert=[[[NSAlert alloc] init] autorelease];
+		if (![[NSFileManager defaultManager] removeItemAtPath:destname error:NULL] || ![[NSFileManager defaultManager] copyItemAtPath:[openediconset stringByAppendingPathComponent:iconname] toPath:destname error:NULL]) {
+			NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 
-			[alert setMessageText:NSLocalizedString(@"Icon Installation Failed",@"Title of the icon installation failure dialog")];
-			[alert setInformativeText:NSLocalizedString(@"Couldn't copy the icon files into the application.",@"Content of the icon installation failure dialog")];
-			[alert addButtonWithTitle:NSLocalizedString(@"OK","OK button")];
+			[alert setMessageText:NSLocalizedString(@"Icon Installation Failed", @"Title of the icon installation failure dialog")];
+			[alert setInformativeText:NSLocalizedString(@"Couldn't copy the icon files into the application.", @"Content of the icon installation failure dialog")];
+			[alert addButtonWithTitle:NSLocalizedString(@"OK", "OK button")];
 
 			[alert runModal];
 			[iconwindow orderOut:nil];
@@ -684,105 +710,103 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	[iconwindow orderOut:nil];
 }
 
--(void)windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)notification
 {
 	if ([notification object] == iconwindow) {
 		[iconfield setStringValue:@""];
 		[openediconset release];
-		openediconset=nil;
+		openediconset = nil;
 	}
 }
 
-
-
--(IBAction)setAntialiasing:(id)sender
+- (IBAction)setAntialiasing:(id)sender
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:[(NSMenuItem *)sender tag] forKey:@"antialiasQuality"];
 
-	NSMenu *menu=[sender menu];
-	NSInteger num=[menu numberOfItems];
+	NSMenu *menu = [sender menu];
+	NSInteger num = [menu numberOfItems];
 	for (NSInteger i = 0; i < num; i++) {
-		NSMenuItem *item=[menu itemAtIndex:i];
-		[item setState:item==sender?NSOnState:NSOffState];
+		NSMenuItem *item = [menu itemAtIndex:i];
+		[item setState:item == sender ? NSOnState : NSOffState];
 	}
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:XeeRefreshImageNotification object:nil];
 }
 
--(IBAction)setUpscaling:(id)sender
+- (IBAction)setUpscaling:(id)sender
 {
 	//[[NSUserDefaults standardUserDefaults] setBoolean:[sender state]==NSOnState forKey:@XeeUpsampleImageKey];
 	[[NSNotificationCenter defaultCenter] postNotificationName:XeeRefreshImageNotification object:nil];
 }
--(IBAction)alwaysFullscreenStub:(id)sender
+- (IBAction)alwaysFullscreenStub:(id)sender
 {
 }
 
--(IBAction)loopImagesStub:(id)sender
+- (IBAction)loopImagesStub:(id)sender
 {
 }
 
--(IBAction)randomOrderStub:(id)sender
+- (IBAction)randomOrderStub:(id)sender
 {
 }
 
--(IBAction)rememberZoomStub:(id)sender
+- (IBAction)rememberZoomStub:(id)sender
 {
 }
 
--(IBAction)rememberFocusStub:(id)sender
+- (IBAction)rememberFocusStub:(id)sender
 {
 }
 
-
-
--(XeeController *)controllerForDirectory:(XeeFSRef *)directory
+- (XeeController *)controllerForDirectory:(XeeFSRef *)directory
 {
-	XeeController *focus=[self focusedController];
+	XeeController *focus = [self focusedController];
 	if (focus && [focus isFullscreen]) {
 		return focus;
 	}
 
-	XeeController *controller=nil;
-	NSInteger windowmode=[[NSUserDefaults standardUserDefaults] integerForKey:@"windowOpening"];
+	XeeController *controller = nil;
+	NSInteger windowmode = [[NSUserDefaults standardUserDefaults] integerForKey:@"windowOpening"];
 	switch (windowmode) {
-		case 0: // single window
-		{
-			NSArray *keys = [controllers allKeys];
-			if ([keys count]>0) {
-				controller = [controllers objectForKey:[keys objectAtIndex:0]];
-			}
+	case 0: // single window
+	{
+		NSArray *keys = [controllers allKeys];
+		if ([keys count] > 0) {
+			controller = [controllers objectForKey:[keys objectAtIndex:0]];
 		}
-			break;
+	} break;
 
-		case 1:
-			if(!directory)
-				break;
-			controller=[controllers objectForKey:directory];
+	case 1:
+		if (!directory)
 			break;
+		controller = [controllers objectForKey:directory];
+		break;
 	}
 
 	if (!controller) {
-		if(!browsernib) browsernib=[[NSNib alloc] initWithNibNamed:@"BrowserWindow" bundle:nil];
+		if (!browsernib)
+			browsernib = [[NSNib alloc] initWithNibNamed:@"BrowserWindow" bundle:nil];
 
-		windowcontroller=nil;
+		windowcontroller = nil;
 		[browsernib instantiateWithOwner:self topLevelObjects:nil];
-		controller=windowcontroller;
+		controller = windowcontroller;
 
-		if(directory) [controllers setObject:controller forKey:directory];
+		if (directory)
+			[controllers setObject:controller forKey:directory];
 
-		NSMutableSet *set=[NSMutableSet set];
+		NSMutableSet *set = [NSMutableSet set];
 		for (NSWindow *window in [NSApp windows]) {
 			if ([window frameAutosaveName]) {
 				[set addObject:[window frameAutosaveName]];
 			}
 		}
 
-		NSWindow *window=[controller window];
-		NSInteger n=1;
-		while([set containsObject:[NSString stringWithFormat:@"browserWindow%ld",(long)n]]) n++;
+		NSWindow *window = [controller window];
+		NSInteger n = 1;
+		while ([set containsObject:[NSString stringWithFormat:@"browserWindow%ld", (long)n]])
+			n++;
 
-		[window setFrameAutosaveName:[NSString stringWithFormat:@"browserWindow%ld",(long)n]];
+		[window setFrameAutosaveName:[NSString stringWithFormat:@"browserWindow%ld", (long)n]];
 	}
 
 	[[controller window] makeKeyAndOrderFront:self];
@@ -790,7 +814,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	return controller;
 }
 
--(void)controllerWillExit:(XeeController *)controller
+- (void)controllerWillExit:(XeeController *)controller
 {
 	NSArray *keys = [controllers allKeysForObject:controller];
 	if (keys) {
@@ -798,10 +822,9 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	}
 }
 
-
--(BOOL)xeeFocus
+- (BOOL)xeeFocus
 {
-	NSWindow *win=[[NSApplication sharedApplication] keyWindow];
+	NSWindow *win = [[NSApplication sharedApplication] keyWindow];
 	if (!win)
 		return YES;
 	if (![win delegate])
@@ -811,74 +834,65 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 	return NO;
 }
 
--(XeeController *)focusedController
+- (XeeController *)focusedController
 {
-	id delegate=[[[NSApplication sharedApplication] mainWindow] delegate];
-	if([delegate isKindOfClass:[XeeController class]])
+	id delegate = [[[NSApplication sharedApplication] mainWindow] delegate];
+	if ([delegate isKindOfClass:[XeeController class]])
 		return delegate;
 	else
 		return nil;
 }
 
--(NSArray *)iconNames
+- (NSArray *)iconNames
 {
 	return [NSArray arrayWithObjects:
-		@"Xee.icns",@"bmp.icns",@"crw.icns",@"dng.icns",
-		@"exr.icns",@"fax.icns",@"fpx.icns",@"gif.icns",
-		@"icns.icns",@"ico.icns",@"ilbm.icns",@"jp2.icns",
-		@"jpeg.icns",@"pcx.icns",@"pic.icns",@"pict.icns",
-		@"png.icns",@"pntg.icns",@"psd.icns",@"qtif.icns",
-		@"sgi.icns",@"tga.icns",@"tiff.icns",@"xbm.icns",
-		@"Xeei.icns",
-	nil];
+						@"Xee.icns", @"bmp.icns", @"crw.icns", @"dng.icns",
+						@"exr.icns", @"fax.icns", @"fpx.icns", @"gif.icns",
+						@"icns.icns", @"ico.icns", @"ilbm.icns", @"jp2.icns",
+						@"jpeg.icns", @"pcx.icns", @"pic.icns", @"pict.icns",
+						@"png.icns", @"pntg.icns", @"psd.icns", @"qtif.icns",
+						@"sgi.icns", @"tga.icns", @"tiff.icns", @"xbm.icns",
+						@"Xeei.icns",
+						nil];
 }
 
--(XeePropertiesController *)propertiesController { return properties; }
+- (XeePropertiesController *)propertiesController
+{
+	return properties;
+}
 
--(CSAction **)copyAndMoveActions { return actions; }
+- (CSAction **)copyAndMoveActions
+{
+	return actions;
+}
 
 @end
 
-
-
-BOOL IsHoveredViewOfClass(NSEvent *event,Class class);
+BOOL IsHoveredViewOfClass(NSEvent *event, Class class);
 
 @implementation XeeApplication
 
--(void)sendEvent:(NSEvent *)event
+- (void)sendEvent:(NSEvent *)event
 {
-	int type=[event type];
-	if(type==NSScrollWheel||type==NSEventTypeBeginGesture||type==NSEventTypeEndGesture||
-	type==NSEventTypeMagnify||type==NSEventTypeRotate||type==NSEventTypeSwipe)
-	{
-		id keydelegate=[[NSApp keyWindow] delegate];
-		if(keydelegate && [keydelegate isKindOfClass:[XeeController class]])
-		{
-			XeeController *controller=keydelegate;
+	int type = [event type];
+	if (type == NSScrollWheel || type == NSEventTypeBeginGesture || type == NSEventTypeEndGesture ||
+		type == NSEventTypeMagnify || type == NSEventTypeRotate || type == NSEventTypeSwipe) {
+		id keydelegate = [[NSApp keyWindow] delegate];
+		if (keydelegate && [keydelegate isKindOfClass:[XeeController class]]) {
+			XeeController *controller = keydelegate;
 
-			if(type==NSScrollWheel)
-			{
-				if(!IsHoveredViewOfClass(event,[NSTableView class]))
-				[controller scrollWheel:event];
-			}
-			else if(type==NSEventTypeBeginGesture)
-			{
+			if (type == NSScrollWheel) {
+				if (!IsHoveredViewOfClass(event, [NSTableView class]))
+					[controller scrollWheel:event];
+			} else if (type == NSEventTypeBeginGesture) {
 				[controller beginGestureWithEvent:event];
-			}
-			else if(type==NSEventTypeEndGesture)
-			{
+			} else if (type == NSEventTypeEndGesture) {
 				[controller endGestureWithEvent:event];
-			}
-			else if(type==NSEventTypeMagnify)
-			{
+			} else if (type == NSEventTypeMagnify) {
 				[controller magnifyWithEvent:event];
-			}
-			else if(type==NSEventTypeRotate)
-			{
+			} else if (type == NSEventTypeRotate) {
 				[controller rotateWithEvent:event];
-			}
-			else if(type==NSEventTypeSwipe)
-			{
+			} else if (type == NSEventTypeSwipe) {
 				[controller swipeWithEvent:event];
 			}
 		}
@@ -887,16 +901,16 @@ BOOL IsHoveredViewOfClass(NSEvent *event,Class class);
 	[super sendEvent:event];
 }
 
-BOOL IsHoveredViewOfClass(NSEvent *event,Class class)
+BOOL IsHoveredViewOfClass(NSEvent *event, Class class)
 {
-	NSWindow *window=[event window];
-	if(window)
-	{
-		NSView *content=[window contentView];
-		NSPoint mouse=[content convertPoint:[window mouseLocationOutsideOfEventStream] fromView:nil];
-		NSView *hit=[content hitTest:mouse];
+	NSWindow *window = [event window];
+	if (window) {
+		NSView *content = [window contentView];
+		NSPoint mouse = [content convertPoint:[window mouseLocationOutsideOfEventStream] fromView:nil];
+		NSView *hit = [content hitTest:mouse];
 
-		if(hit&&[hit isKindOfClass:class]) return YES;
+		if (hit && [hit isKindOfClass:class])
+			return YES;
 	}
 	return NO;
 }

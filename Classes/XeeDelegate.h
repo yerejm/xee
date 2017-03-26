@@ -2,10 +2,9 @@
 #import "XeeFSRef.h"
 
 extern NSString *XeeRefreshImageNotification;
-@class XeeController,XeeKeyboardShortcuts,XeePropertiesController,CSAction;
+@class XeeController, XeeKeyboardShortcuts, XeePropertiesController, CSAction;
 
-@interface XeeDelegate:NSObject
-{
+@interface XeeDelegate : NSObject {
 	NSNib *browsernib;
 	BOOL filesopened;
 
@@ -44,68 +43,68 @@ extern NSString *XeeRefreshImageNotification;
 	IBOutlet XeePropertiesController *properties;
 }
 
+- (void)awakeFromNib;
 
--(void)awakeFromNib;
+- (void)applicationDidFinishLaunching:(NSNotification *)notification;
 
--(void)applicationDidFinishLaunching:(NSNotification *)notification;
+- (BOOL)application:(NSApplication *)app openFile:(NSString *)filename;
+- (IBAction)openDocument:(id)sender;
 
--(BOOL)application:(NSApplication *)app openFile:(NSString *)filename;
--(IBAction)openDocument:(id)sender;
+- (void)menuNeedsUpdate:(NSMenu *)menu;
+- (BOOL)menuHasKeyEquivalent:(NSMenu *)menu
+					forEvent:(NSEvent *)event
+					  target:(id *)target
+					  action:(SEL *)action;
 
--(void)menuNeedsUpdate:(NSMenu *)menu;
--(BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL *)action;
+- (void)buildOpenMenu:(NSMenu *)menu;
+- (void)updateDefaultEditorItem;
+- (NSString *)defaultEditor;
+- (void)setDefaultEditor:(NSString *)app;
+- (IBAction)setDefaultEditorFromMenu:(id)sender;
 
--(void)buildOpenMenu:(NSMenu *)menu;
--(void)updateDefaultEditorItem;
--(NSString *)defaultEditor;
--(void)setDefaultEditor:(NSString *)app;
--(IBAction)setDefaultEditorFromMenu:(id)sender;
+- (void)updateEditMenu:(NSMenu *)menu;
+- (void)updateViewMenu:(NSMenu *)menu;
+- (void)updateSortMenu:(NSMenu *)menu;
+- (void)updateSlideshowMenu:(NSMenu *)menu;
 
--(void)updateEditMenu:(NSMenu *)menu;
--(void)updateViewMenu:(NSMenu *)menu;
--(void)updateSortMenu:(NSMenu *)menu;
--(void)updateSlideshowMenu:(NSMenu *)menu;
+- (BOOL)validateMenuItem:(NSMenuItem *)item;
 
--(BOOL)validateMenuItem:(NSMenuItem *)item;
+- (IBAction)preferences:(id)sender;
+- (IBAction)paste:(id)sender;
+- (IBAction)getInfo:(id)sender;
+- (IBAction)keyboardShortcuts:(id)sender;
+- (IBAction)openSupportThread:(id)sender;
+- (IBAction)openBugReport:(id)sender;
+- (IBAction)openHomePage:(id)sender;
 
--(IBAction)preferences:(id)sender;
--(IBAction)paste:(id)sender;
--(IBAction)getInfo:(id)sender;
--(IBAction)keyboardShortcuts:(id)sender;
--(IBAction)openSupportThread:(id)sender;
--(IBAction)openBugReport:(id)sender;
--(IBAction)openHomePage:(id)sender;
+- (IBAction)installIconSet:(id)sender;
+- (void)windowWillClose:(NSNotification *)notification;
 
--(IBAction)installIconSet:(id)sender;
--(void)windowWillClose:(NSNotification *)notification;
+- (IBAction)setAntialiasing:(id)sender;
+- (IBAction)setUpscaling:(id)sender;
 
--(IBAction)setAntialiasing:(id)sender;
--(IBAction)setUpscaling:(id)sender;
+- (IBAction)alwaysFullscreenStub:(id)sender;
+- (IBAction)loopImagesStub:(id)sender;
+- (IBAction)randomOrderStub:(id)sender;
+- (IBAction)rememberZoomStub:(id)sender;
+- (IBAction)rememberFocusStub:(id)sender;
 
--(IBAction)alwaysFullscreenStub:(id)sender;
--(IBAction)loopImagesStub:(id)sender;
--(IBAction)randomOrderStub:(id)sender;
--(IBAction)rememberZoomStub:(id)sender;
--(IBAction)rememberFocusStub:(id)sender;
+- (XeeController *)controllerForDirectory:(XeeFSRef *)directory;
+- (void)controllerWillExit:(XeeController *)controller;
 
--(XeeController *)controllerForDirectory:(XeeFSRef *)directory;
--(void)controllerWillExit:(XeeController *)controller;
-
--(BOOL)xeeFocus;
--(XeeController *)focusedController;
--(NSArray<NSString*> *)iconNames;
--(XeePropertiesController *)propertiesController;
--(CSAction **)copyAndMoveActions;
+- (BOOL)xeeFocus;
+- (XeeController *)focusedController;
+- (NSArray<NSString *> *)iconNames;
+- (XeePropertiesController *)propertiesController;
+- (CSAction **)copyAndMoveActions;
 
 @end
 
-@interface XeeApplication:NSApplication
-{
+@interface XeeApplication : NSApplication {
 }
 
--(void)sendEvent:(NSEvent *)event;
+- (void)sendEvent:(NSEvent *)event;
 
 @end
-
 
 extern XeeDelegate *maindelegate;

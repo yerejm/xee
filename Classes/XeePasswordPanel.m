@@ -1,30 +1,33 @@
 #import "XeePasswordPanel.h"
 
-
 @implementation XeePasswordPanel
 
--(NSString *)runModalForPasswordWindow:(NSWindow *)window
+- (NSString *)runModalForPasswordWindow:(NSWindow *)window
 {
 	[passwordfield setStringValue:@""];
 	[self makeFirstResponder:passwordfield];
 
-	if(window) [NSApp beginSheet:self modalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
+	if (window)
+		[NSApp beginSheet:self modalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
 
-	NSInteger res=[NSApp runModalForWindow:self];
+	NSInteger res = [NSApp runModalForWindow:self];
 
-	if(window) [NSApp endSheet:self];
+	if (window)
+		[NSApp endSheet:self];
 	[self orderOut:nil];
 
-	if(res) return [passwordfield stringValue];
-	else return nil;
+	if (res)
+		return [passwordfield stringValue];
+	else
+		return nil;
 }
 
--(void)cancelClick:(id)sender
+- (void)cancelClick:(id)sender
 {
 	[NSApp stopModalWithCode:0];
 }
 
--(void)openClick:(id)sender
+- (void)openClick:(id)sender
 {
 	[NSApp stopModalWithCode:1];
 }

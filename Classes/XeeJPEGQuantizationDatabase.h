@@ -3,18 +3,19 @@
 #include "libjpeg/jpeglib.h"
 @class XeePropertyItem;
 
-@interface XeeJPEGQuantizationDatabase:NSObject
-{
+@interface XeeJPEGQuantizationDatabase : NSObject {
 	NSMutableDictionary *dict;
 }
 
-@property (class, readonly, retain) XeeJPEGQuantizationDatabase *defaultDatabase;
+@property (class, readonly, retain)
+	XeeJPEGQuantizationDatabase *defaultDatabase;
 
--(instancetype)initWithFile:(NSString *)filename;
+- (instancetype)initWithFile:(NSString *)filename;
 
--(NSArray *)producersForTables:(struct jpeg_decompress_struct *)cinfo;
--(NSArray *)producersForTableString:(NSString *)tables;
+- (NSArray *)producersForTables:(struct jpeg_decompress_struct *)cinfo;
+- (NSArray *)producersForTableString:(NSString *)tables;
 
--(NSArray<XeePropertyItem*> *)propertyArrayForTables:(struct jpeg_decompress_struct *)cinfo;
+- (NSArray<XeePropertyItem *> *)propertyArrayForTables:
+	(struct jpeg_decompress_struct *)cinfo;
 
 @end

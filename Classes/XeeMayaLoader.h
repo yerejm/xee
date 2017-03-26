@@ -1,27 +1,32 @@
 #import "XeeMultiImage.h"
 
-@class XeeIFFHandle,XeeBitmapImage;
+@class XeeIFFHandle, XeeBitmapImage;
 
-@interface XeeMayaImage:XeeMultiImage
-{
-	XeeIFFHandle *iff,*subiff;
-	XeeBitmapImage *mainimage,*zbufimage;
-	int flags,bytedepth,tiles,compression;
+@interface XeeMayaImage : XeeMultiImage {
+	XeeIFFHandle *iff, *subiff;
+	XeeBitmapImage *mainimage, *zbufimage;
+	int flags, bytedepth, tiles, compression;
 	int numchannels;
-	int rgbatiles,zbuftiles;
+	int rgbatiles, zbuftiles;
 }
 
-+(NSArray<NSString*>*)fileTypes;
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
++ (NSArray<NSString *> *)fileTypes;
++ (BOOL)canOpenFile:(NSString *)name
+		 firstBlock:(NSData *)block
+		 attributes:(NSDictionary *)attributes;
 
--(SEL)initLoader;
--(void)deallocLoader;
--(SEL)loadChunk;
--(SEL)startLoadingData;
--(SEL)loadDataChunk;
+- (SEL)initLoader;
+- (void)deallocLoader;
+- (SEL)loadChunk;
+- (SEL)startLoadingData;
+- (SEL)loadDataChunk;
 
--(void)readUncompressedAtX:(int)x y:(int)y width:(int)w height:(int)h;
--(void)readRLECompressedAtX:(int)x y:(int)y width:(int)w height:(int)h;
--(void)readRLECompressedTo:(uint8_t *)buf num:(int)num stride:(int)stride width:(int)w bytesPerRow:(int)bprow;
+- (void)readUncompressedAtX:(int)x y:(int)y width:(int)w height:(int)h;
+- (void)readRLECompressedAtX:(int)x y:(int)y width:(int)w height:(int)h;
+- (void)readRLECompressedTo:(uint8_t *)buf
+						num:(int)num
+					 stride:(int)stride
+					  width:(int)w
+				bytesPerRow:(int)bprow;
 
 @end

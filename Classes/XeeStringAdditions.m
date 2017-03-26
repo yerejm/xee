@@ -2,17 +2,17 @@
 
 @implementation NSString (XeeStringAdditions)
 
--(NSString *)stringByMappingColonToSlash
+- (NSString *)stringByMappingColonToSlash
 {
-	NSMutableString *str=[NSMutableString stringWithString:self];
-	[str replaceOccurrencesOfString:@":" withString:@"/" options:0 range:NSMakeRange(0,[self length])];
+	NSMutableString *str = [NSMutableString stringWithString:self];
+	[str replaceOccurrencesOfString:@":" withString:@"/" options:0 range:NSMakeRange(0, [self length])];
 	return [str copy];
 }
 
--(NSString *)stringByMappingSlashToColon
+- (NSString *)stringByMappingSlashToColon
 {
-	NSMutableString *str=[NSMutableString stringWithString:self];
-	[str replaceOccurrencesOfString:@"/" withString:@":" options:0 range:NSMakeRange(0,[self length])];
+	NSMutableString *str = [NSMutableString stringWithString:self];
+	[str replaceOccurrencesOfString:@"/" withString:@":" options:0 range:NSMakeRange(0, [self length])];
 	return [str copy];
 }
 

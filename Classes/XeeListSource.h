@@ -2,68 +2,64 @@
 
 @class XeeListEntry;
 
-@interface XeeListSource:XeeImageSource
-{
+@interface XeeListSource : XeeImageSource {
 	NSMutableArray *entries;
-	NSRecursiveLock *listlock,*loadlock;
+	NSRecursiveLock *listlock, *loadlock;
 	NSArray *types;
 
-	XeeListEntry *currentry,*nextentry,*preventry;
+	XeeListEntry *currentry, *nextentry, *preventry;
 	XeeChange changes;
 	NSInteger oldindex;
 
-	BOOL loader_running,exiting;
+	BOOL loader_running, exiting;
 	XeeImage *loadingimage;
 }
 
--(instancetype)init;
+- (instancetype)init;
 
--(void)stop;
+- (void)stop;
 
 @property (readonly) NSInteger numberOfImages;
 @property (readonly) NSInteger indexOfCurrentImage;
--(NSString *)descriptiveNameOfCurrentImage;
+- (NSString *)descriptiveNameOfCurrentImage;
 
--(void)pickImageAtIndex:(NSInteger)index next:(NSInteger)next;
--(void)pickImageAtIndex:(NSInteger)index;
+- (void)pickImageAtIndex:(NSInteger)index next:(NSInteger)next;
+- (void)pickImageAtIndex:(NSInteger)index;
 
--(void)startListUpdates;
--(void)endListUpdates;
+- (void)startListUpdates;
+- (void)endListUpdates;
 
--(void)addEntry:(XeeListEntry *)entry;
--(void)addEntryUnlessExists:(XeeListEntry *)entry;
--(void)removeEntry:(XeeListEntry *)entry;
--(void)removeEntryMatchingObject:(id)obj;
--(void)removeAllEntries;
+- (void)addEntry:(XeeListEntry *)entry;
+- (void)addEntryUnlessExists:(XeeListEntry *)entry;
+- (void)removeEntry:(XeeListEntry *)entry;
+- (void)removeEntryMatchingObject:(id)obj;
+- (void)removeAllEntries;
 
--(void)setCurrentEntry:(XeeListEntry *)entry;
--(void)setPreviousEntry:(XeeListEntry *)entry;
--(void)setNextEntry:(XeeListEntry *)entry;
+- (void)setCurrentEntry:(XeeListEntry *)entry;
+- (void)setPreviousEntry:(XeeListEntry *)entry;
+- (void)setNextEntry:(XeeListEntry *)entry;
 
--(void)launchLoader;
--(void)loader;
+- (void)launchLoader;
+- (void)loader;
 
 @end
 
-
-
-@interface XeeListEntry:NSObject <NSCopying>
-{
+@interface XeeListEntry : NSObject <NSCopying> {
 	XeeImage *savedimage;
 	int imageretain;
 }
 
--(instancetype)init;
--(instancetype)initAsCopyOf:(XeeListEntry *)other;
+- (instancetype)init;
+- (instancetype)initAsCopyOf:(XeeListEntry *)other;
 
--(NSString *)descriptiveName;
--(BOOL)matchesObject:(id)obj;
+- (NSString *)descriptiveName;
+- (BOOL)matchesObject:(id)obj;
 
--(void)retainImage;
--(void)releaseImage;
--(XeeImage *)image;
--(XeeImage *)produceImage;
+- (void)retainImage;
+- (void)releaseImage;
+- (XeeImage *)image;
+- (XeeImage *)produceImage;
 
--(id)copyWithZone:(NSZone *)zone;
+- (id)copyWithZone:(NSZone *)zone;
 
 @end

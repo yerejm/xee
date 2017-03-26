@@ -11,6 +11,6 @@
 @class XeePropertyItem;
 
 @protocol XeeParser <NSObject>
--(NSArray<XeePropertyItem*> *)propertyArray;
+- (NSArray<XeePropertyItem *> *)propertyArray;
 
 @end

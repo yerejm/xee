@@ -1,13 +1,13 @@
 #include "XeeBitmapImage.h"
 
-@interface XeeCGImage:XeeBitmapImage
+@interface XeeCGImage : XeeBitmapImage
 
--(instancetype)init;
--(instancetype)initWithCGImage:(CGImageRef)cgimage;
+- (instancetype)init;
+- (instancetype)initWithCGImage:(CGImageRef)cgimage;
 
--(BOOL)setCGImage:(CGImageRef)cgimageref;
--(void)invertImage;
+- (BOOL)setCGImage:(CGImageRef)cgimageref;
+- (void)invertImage;
 
--(CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
+- (CGColorSpaceRef)createColorSpaceForCGImage CF_RETURNS_RETAINED;
 
 @end

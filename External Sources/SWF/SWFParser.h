@@ -28,35 +28,34 @@
 #define SWFPlaceObject3Tag 70
 #define SWFDefineFont3Tag 75
 
-//extern NSString *SWFWrongMagicException;
-//extern NSString *SWFNoMoreTagsException;
+// extern NSString *SWFWrongMagicException;
+// extern NSString *SWFNoMoreTagsException;
 
-@interface SWFParser:NSObject
-{
+@interface SWFParser : NSObject {
 	CSHandle *fh;
 	off_t nexttag;
 
-	int totallen,version;
+	int totallen, version;
 	SWFRect rect;
-	int frames,fps;
+	int frames, fps;
 
-	int currtag,currlen;
+	int currtag, currlen;
 	int currframe;
 }
 
-+(instancetype)parserWithHandle:(CSHandle *)handle;
-+(instancetype)parserForPath:(NSString *)path;
++ (instancetype)parserWithHandle:(CSHandle *)handle;
++ (instancetype)parserForPath:(NSString *)path;
 
--(instancetype)initWithHandle:(CSHandle *)handle;
+- (instancetype)initWithHandle:(CSHandle *)handle;
 
--(void)parseHeader;
+- (void)parseHeader;
 
 @property (readonly) int version;
 @property (readonly) SWFRect rect;
 @property (readonly) int frames;
 @property (readonly) int framesPerSecond;
 
--(int)nextTag;
+- (int)nextTag;
 
 @property (readonly) int tag;
 @property (readonly) int tagLength;
@@ -65,7 +64,7 @@
 @property (readonly) double time;
 
 @property (readonly, strong) CSHandle *handle;
--(CSHandle *)tagHandle;
--(NSData *)tagContents;
+- (CSHandle *)tagHandle;
+- (NSData *)tagContents;
 
 @end

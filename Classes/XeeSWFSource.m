@@ -6,281 +6,270 @@
 #import <XADMaster/CSMultiHandle.h>
 #import <XADMaster/CSZlibHandle.h>
 
-
 @implementation XeeSWFSource
 
-+(NSArray *)fileTypes
++ (NSArray *)fileTypes
 {
 	return [NSArray arrayWithObject:@"swf"];
 }
 
--(id)initWithFile:(NSString *)swfname
+- (id)initWithFile:(NSString *)swfname
 {
-	if(self=[super init])
-	{
-		filename=[swfname retain];
-		parser=nil;
+	if (self = [super init]) {
+		filename = [swfname retain];
+		parser = nil;
 
 		[self setIcon:[[NSWorkspace sharedWorkspace] iconForFile:filename]];
-		[icon setSize:NSMakeSize(16,16)];
+		[icon setSize:NSMakeSize(16, 16)];
 
-		@try
-		{
-			parser=[[SWFParser parserForPath:filename] retain];
+		@try {
+			parser = [[SWFParser parserForPath:filename] retain];
 		}
-		@catch(id e) {}
+		@catch (id e) {
+		}
 
-		if(parser) return self;
+		if (parser)
+			return self;
 	}
 
 	[self release];
 	return nil;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[filename release];
 	[parser release];
 	[super dealloc];
 }
 
--(void)start
+- (void)start
 {
 	[self startListUpdates];
 
-	@try
-	{
-		CSMemoryHandle *jpegtables=nil;
-		CSHandle *fh=[parser handle];
+	@try {
+		CSMemoryHandle *jpegtables = nil;
+		CSHandle *fh = [parser handle];
 
-		int tag,n=0;
-		while((tag=[parser nextTag]))
-		switch(tag)
-		{
+		int tag, n = 0;
+		while ((tag = [parser nextTag]))
+			switch (tag) {
 			case SWFJPEGTables:
-				jpegtables=[CSMemoryHandle memoryHandleForReadingData:[fh readDataOfLength:[parser tagLength]-2]];
-			break;
+				jpegtables = [CSMemoryHandle memoryHandleForReadingData:[fh readDataOfLength:[parser tagLength] - 2]];
+				break;
 
-			case SWFDefineBitsJPEGTag:
-			{
+			case SWFDefineBitsJPEGTag: {
 				[fh skipBytes:4];
-				CSHandle *subhandle=[fh subHandleOfLength:[parser tagBytesLeft]];
+				CSHandle *subhandle = [fh subHandleOfLength:[parser tagBytesLeft]];
 
 				[self addEntry:[[[XeeSWFJPEGEntry alloc] initWithHandle:
-				[CSMultiHandle multiHandleWithHandles:[[jpegtables copy] autorelease],subhandle,nil]
-				name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
-			}
-			break;
+															 [CSMultiHandle multiHandleWithHandles:[[jpegtables copy] autorelease], subhandle, nil]
+																   name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
+			} break;
 
 			case SWFDefineBitsJPEG3Tag:
-			case SWFDefineBitsJPEG2Tag:
-			{
+			case SWFDefineBitsJPEG2Tag: {
 				[fh skipBytes:2];
 
-				int alphaoffs=0;
-				if(tag==SWFDefineBitsJPEG3Tag) alphaoffs=[fh readUInt32LE];
+				int alphaoffs = 0;
+				if (tag == SWFDefineBitsJPEG3Tag)
+					alphaoffs = [fh readUInt32LE];
 
-				int first=[fh readUInt16BE];
-				if(first==0xffd9)
-				{
+				int first = [fh readUInt16BE];
+				if (first == 0xffd9) {
 					[fh skipBytes:2];
 
 					[self addEntry:[[[XeeSWFJPEGEntry alloc] initWithHandle:
-					[fh subHandleOfLength:[parser tagBytesLeft]]
-					name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
-				}
-				else if(first==0xffd8)
-				{
-					CSMemoryHandle *tables=[CSMemoryHandle memoryHandleForWriting];
+																 [fh subHandleOfLength:[parser tagBytesLeft]]
+																	   name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
+				} else if (first == 0xffd8) {
+					CSMemoryHandle *tables = [CSMemoryHandle memoryHandleForWriting];
 					[tables writeUInt16BE:first];
-					for(;;)
-					{
-						int marker=[fh readUInt16BE];
-						if(marker==0xffd9||marker==0xffda)
-						{
-							if(marker==0xffd9) [fh skipBytes:2];
-							else [tables writeUInt16BE:marker];
+					for (;;) {
+						int marker = [fh readUInt16BE];
+						if (marker == 0xffd9 || marker == 0xffda) {
+							if (marker == 0xffd9)
+								[fh skipBytes:2];
+							else
+								[tables writeUInt16BE:marker];
 							[tables seekToFileOffset:0];
 
-							CSHandle *subhandle=[fh subHandleOfLength:[parser tagBytesLeft]];
+							CSHandle *subhandle = [fh subHandleOfLength:[parser tagBytesLeft]];
 
 							[self addEntry:[[[XeeSWFJPEGEntry alloc] initWithHandle:
-							[CSMultiHandle multiHandleWithHandles:tables,subhandle,nil]
-							name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
+																		 [CSMultiHandle multiHandleWithHandles:tables, subhandle, nil]
+																			   name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
 
 							break;
-						}
-						else
-						{
-							int len=[fh readUInt16BE];
+						} else {
+							int len = [fh readUInt16BE];
 							[tables writeUInt16BE:marker];
 							[tables writeUInt16BE:len];
-							for(int i=0;i<len-2;i++) [tables writeUInt8:[fh readUInt8]];
+							for (int i = 0; i < len - 2; i++)
+								[tables writeUInt8:[fh readUInt8]];
 						}
 					}
-				}
-				else NSLog(@"Error loading SWF file: invalid JPEG data in tag %d",[parser tag]);
-			}
-			break;
+				} else
+					NSLog(@"Error loading SWF file: invalid JPEG data in tag %d", [parser tag]);
+			} break;
 
 			case SWFDefineBitsLosslessTag:
-			case SWFDefineBitsLossless2Tag:
-			{
+			case SWFDefineBitsLossless2Tag: {
 				[fh skipBytes:2];
-				int formatnum=[fh readUInt8];
+				int formatnum = [fh readUInt8];
 
-				switch(formatnum)
-				{
-					case 3:
-						if(tag==SWFDefineBitsLosslessTag)
+				switch (formatnum) {
+				case 3:
+					if (tag == SWFDefineBitsLosslessTag)
 						[self addEntry:[[[XeeSWFLossless3Entry alloc] initWithHandle:
-						[fh subHandleOfLength:[parser tagBytesLeft]]
-						name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
-						else
+																		  [fh subHandleOfLength:[parser tagBytesLeft]]
+																				name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
+					else
 						[self addEntry:[[[XeeSWFLossless3AlphaEntry alloc] initWithHandle:
-						[fh subHandleOfLength:[parser tagBytesLeft]]
-						name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
+																			   [fh subHandleOfLength:[parser tagBytesLeft]]
+																					 name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
 					break;
 
-					case 4:
-						NSLog(@"Error loading SWF file: unsupported lossless format 4. Please send the author of this program the file, so he can add support for it.");
+				case 4:
+					NSLog(@"Error loading SWF file: unsupported lossless format 4. Please send the author of this program the file, so he can add support for it.");
 					break;
 
-					case 5:
-						if(tag==SWFDefineBitsLosslessTag)
+				case 5:
+					if (tag == SWFDefineBitsLosslessTag)
 						[self addEntry:[[[XeeSWFLossless5Entry alloc] initWithHandle:
-						[fh subHandleOfLength:[parser tagBytesLeft]]
-						name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
-						else
+																		  [fh subHandleOfLength:[parser tagBytesLeft]]
+																				name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
+					else
 						[self addEntry:[[[XeeSWFLossless5AlphaEntry alloc] initWithHandle:
-						[fh subHandleOfLength:[parser tagBytesLeft]]
-						name:[NSString stringWithFormat:@"Image %d",n++]] autorelease]];
+																			   [fh subHandleOfLength:[parser tagBytesLeft]]
+																					 name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
 					break;
 
-					default:
-						NSLog(@"Error loading SWF file: unsupported lossless format %d",formatnum);
+				default:
+					NSLog(@"Error loading SWF file: unsupported lossless format %d", formatnum);
 					break;
 				}
+			} break;
 			}
-			break;
-		}
 	}
-	@catch(id e)
-	{
-		NSLog(@"Error parsing SWF file %@: %@",filename,e);
+	@catch (id e) {
+		NSLog(@"Error parsing SWF file %@: %@", filename, e);
 	}
 
 	[self endListUpdates];
 	[self pickImageAtIndex:0];
 
 	[parser release];
-	parser=nil;
+	parser = nil;
 }
 
--(NSString *)windowTitle
+- (NSString *)windowTitle
 {
-	return [NSString stringWithFormat:@"%@ (%@)",[filename lastPathComponent],[currentry descriptiveName]];
+	return [NSString stringWithFormat:@"%@ (%@)", [filename lastPathComponent], [currentry descriptiveName]];
 }
 
--(NSString *)windowRepresentedFilename { return filename; }
+- (NSString *)windowRepresentedFilename
+{
+	return filename;
+}
 
--(BOOL)canBrowse { return currentry!=nil; }
+- (BOOL)canBrowse
+{
+	return currentry != nil;
+}
 
 @end
-
-
 
 @implementation XeeSWFEntry
 @synthesize descriptiveName = name;
 
--(id)initWithHandle:(CSHandle *)handle name:(NSString *)descname
+- (id)initWithHandle:(CSHandle *)handle name:(NSString *)descname
 {
-	if(self=[super init])
-	{
-		originalhandle=[handle retain];
-		name=[descname copy];
+	if (self = [super init]) {
+		originalhandle = [handle retain];
+		name = [descname copy];
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[originalhandle release];
 	[name release];
 	[super dealloc];
 }
 
--(CSHandle *)newHandle
+- (CSHandle *)newHandle
 {
 	return [[originalhandle copy] autorelease];
 }
 
 @end
 
-
-
 @implementation XeeSWFJPEGEntry
 
--(XeeImage *)produceImage
+- (XeeImage *)produceImage
 {
-	XeeJPEGImage *image=[[[XeeJPEGImage alloc] initWithHandle:[self newHandle]] autorelease];
+	XeeJPEGImage *image = [[[XeeJPEGImage alloc] initWithHandle:[self newHandle]] autorelease];
 	[image setFormat:@"SWF JPEG"];
 	return image;
 }
 
 @end
 
-
-
 @implementation XeeSWFLossless3Entry
 
--(XeeImage *)produceImage
+- (XeeImage *)produceImage
 {
-	CSHandle *fh=[self newHandle];
+	CSHandle *fh = [self newHandle];
 
-	int framewidth=[fh readUInt16LE];
-	int frameheight=[fh readUInt16LE];
-	int numcols=[fh readUInt8];
+	int framewidth = [fh readUInt16LE];
+	int frameheight = [fh readUInt16LE];
+	int numcols = [fh readUInt8];
 
-	CSZlibHandle *zh=[CSZlibHandle zlibHandleWithHandle:fh];
+	CSZlibHandle *zh = [CSZlibHandle zlibHandleWithHandle:fh];
 
-	XeePalette *pal=[XeePalette palette];
-	for(int i=0;i<numcols+1;i++)
-	[pal setColourAtIndex:i red:[zh readUInt8] green:[zh readUInt8] blue:[zh readUInt8]];
+	XeePalette *pal = [XeePalette palette];
+	for (int i = 0; i < numcols + 1; i++)
+		[pal setColourAtIndex:i red:[zh readUInt8] green:[zh readUInt8] blue:[zh readUInt8]];
 
-	XeeIndexedRawImage *image=[[[XeeIndexedRawImage alloc] initWithHandle:zh width:framewidth height:frameheight
-	palette:pal bytesPerRow:(framewidth+3)&~3] autorelease];
+	XeeIndexedRawImage *image = [[[XeeIndexedRawImage alloc] initWithHandle:zh
+																	  width:framewidth
+																	 height:frameheight
+																	palette:pal
+																bytesPerRow:(framewidth + 3) & ~3] autorelease];
 
-	[image setDepthIndexed:numcols+1];
+	[image setDepthIndexed:numcols + 1];
 	[image setFormat:@"SWF Lossless"];
 
 	return image;
 }
 
 @end
-
-
 
 @implementation XeeSWFLossless3AlphaEntry
 
--(XeeImage *)produceImage
+- (XeeImage *)produceImage
 {
-	CSHandle *fh=[self newHandle];
+	CSHandle *fh = [self newHandle];
 
-	int framewidth=[fh readUInt16LE];
-	int frameheight=[fh readUInt16LE];
-	int numcols=[fh readUInt8];
+	int framewidth = [fh readUInt16LE];
+	int frameheight = [fh readUInt16LE];
+	int numcols = [fh readUInt8];
 
-	CSZlibHandle *zh=[CSZlibHandle zlibHandleWithHandle:fh];
+	CSZlibHandle *zh = [CSZlibHandle zlibHandleWithHandle:fh];
 
-	XeePalette *pal=[XeePalette palette];
-	for(int i=0;i<numcols+1;i++)
-	[pal setColourAtIndex:i red:[zh readUInt8] green:[zh readUInt8] blue:[zh readUInt8] alpha:[zh readUInt8]];
+	XeePalette *pal = [XeePalette palette];
+	for (int i = 0; i < numcols + 1; i++)
+		[pal setColourAtIndex:i red:[zh readUInt8] green:[zh readUInt8] blue:[zh readUInt8] alpha:[zh readUInt8]];
 
-	XeeIndexedRawImage *image=[[[XeeIndexedRawImage alloc] initWithHandle:zh width:framewidth height:frameheight
-	palette:pal bytesPerRow:(framewidth+3)&~3] autorelease];
+	XeeIndexedRawImage *image = [[[XeeIndexedRawImage alloc] initWithHandle:zh
+																	  width:framewidth
+																	 height:frameheight
+																	palette:pal
+																bytesPerRow:(framewidth + 3) & ~3] autorelease];
 
-	[image setDepthIndexed:numcols+1];
+	[image setDepthIndexed:numcols + 1];
 	[image setFormat:@"SWF Lossless"];
 
 	return image;
@@ -288,21 +277,23 @@
 
 @end
 
-
-
 @implementation XeeSWFLossless5Entry
 
--(XeeImage *)produceImage
+- (XeeImage *)produceImage
 {
-	CSHandle *fh=[self newHandle];
+	CSHandle *fh = [self newHandle];
 
-	int framewidth=[fh readUInt16LE];
-	int frameheight=[fh readUInt16LE];
+	int framewidth = [fh readUInt16LE];
+	int frameheight = [fh readUInt16LE];
 
-	CSZlibHandle *zh=[CSZlibHandle zlibHandleWithHandle:fh];
+	CSZlibHandle *zh = [CSZlibHandle zlibHandleWithHandle:fh];
 
-	XeeRawImage *image=[[[XeeRawImage alloc] initWithHandle:zh width:framewidth height:frameheight
-	depth:8 colourSpace:XeeRGBRawColourSpace flags:XeeAlphaFirstRawFlag|XeeSkipAlphaRawFlag] autorelease];
+	XeeRawImage *image = [[[XeeRawImage alloc] initWithHandle:zh
+														width:framewidth
+													   height:frameheight
+														depth:8
+												  colourSpace:XeeRGBRawColourSpace
+														flags:XeeAlphaFirstRawFlag | XeeSkipAlphaRawFlag] autorelease];
 
 	[image setDepthRGB:8 alpha:NO floating:NO];
 	[image setFormat:@"SWF Lossless"];
@@ -314,17 +305,21 @@
 
 @implementation XeeSWFLossless5AlphaEntry
 
--(XeeImage *)produceImage
+- (XeeImage *)produceImage
 {
-	CSHandle *fh=[self newHandle];
+	CSHandle *fh = [self newHandle];
 
-	int framewidth=[fh readUInt16LE];
-	int frameheight=[fh readUInt16LE];
+	int framewidth = [fh readUInt16LE];
+	int frameheight = [fh readUInt16LE];
 
-	CSZlibHandle *zh=[CSZlibHandle zlibHandleWithHandle:fh];
+	CSZlibHandle *zh = [CSZlibHandle zlibHandleWithHandle:fh];
 
-	XeeRawImage *image=[[[XeeRawImage alloc] initWithHandle:zh width:framewidth height:frameheight
-	depth:8 colourSpace:XeeRGBRawColourSpace flags:XeeAlphaFirstRawFlag] autorelease];
+	XeeRawImage *image = [[[XeeRawImage alloc] initWithHandle:zh
+														width:framewidth
+													   height:frameheight
+														depth:8
+												  colourSpace:XeeRGBRawColourSpace
+														flags:XeeAlphaFirstRawFlag] autorelease];
 
 	[image setDepthRGB:8 alpha:YES floating:NO];
 	[image setFormat:@"SWF Lossless"];

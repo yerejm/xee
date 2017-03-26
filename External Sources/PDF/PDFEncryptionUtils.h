@@ -5,27 +5,27 @@
 
 extern NSString *PDFMD5FinishedException;
 
-@interface PDFMD5Engine:NSObject
+@interface PDFMD5Engine : NSObject
 
-+(instancetype)engine;
-+(NSData *)digestForData:(NSData *)data;
-+(NSData *)digestForBytes:(const void *)bytes length:(NSUInteger)length;
++ (instancetype)engine;
++ (NSData *)digestForData:(NSData *)data;
++ (NSData *)digestForBytes:(const void *)bytes length:(NSUInteger)length;
 
--(instancetype)init;
+- (instancetype)init;
 
--(void)updateWithData:(NSData *)data;
--(void)updateWithBytes:(const void *)bytes length:(NSUInteger)length;
+- (void)updateWithData:(NSData *)data;
+- (void)updateWithBytes:(const void *)bytes length:(NSUInteger)length;
 
--(NSData *)digest;
--(NSString *)hexDigest;
+- (NSData *)digest;
+- (NSString *)hexDigest;
 
 @end
 
-@interface PDFAESHandle:CSBlockStreamHandle
+@interface PDFAESHandle : CSBlockStreamHandle
 
--(instancetype)initWithHandle:(CSHandle *)handle key:(NSData *)keydata;
+- (instancetype)initWithHandle:(CSHandle *)handle key:(NSData *)keydata;
 
--(void)resetBlockStream;
--(int)produceBlockAtOffset:(off_t)pos;
+- (void)resetBlockStream;
+- (int)produceBlockAtOffset:(off_t)pos;
 
 @end

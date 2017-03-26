@@ -5,20 +5,19 @@
 #import <XADMaster/CSHandle.h>
 @class XeePropertyItem;
 
-@interface Xee8BIMParser:NSObject
-{
+@interface Xee8BIMParser : NSObject {
 	NSMutableArray *props;
-	NSArray *xmpprops,*iptcprops,*exifprops;
+	NSArray *xmpprops, *iptcprops, *exifprops;
 
-	NSInteger numcolours,trans;
-	BOOL hasmerged,copyrighted,watermarked,untagged;
+	NSInteger numcolours, trans;
+	BOOL hasmerged, copyrighted, watermarked, untagged;
 }
 
--(instancetype)initWithHandle:(CSHandle *)handle;
+- (instancetype)initWithHandle:(CSHandle *)handle;
 
 @property (readonly) BOOL hasMergedImage;
 @property (readonly) NSInteger numberOfIndexedColours;
 @property (readonly) NSInteger indexOfTransparentColour;
 
--(NSArray<XeePropertyItem*> *)propertyArrayWithPhotoshopFirst:(BOOL)psfirst;
+- (NSArray<XeePropertyItem *> *)propertyArrayWithPhotoshopFirst:(BOOL)psfirst;
 @end

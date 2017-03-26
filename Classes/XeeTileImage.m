@@ -1,58 +1,53 @@
 #import "XeeTileImage.h"
 #import "XeePrefKeys.h"
 
-
-
-GLuint XeeMakeGridTexture(float r,float b,float g);
-size_t XeeTileImageGetBytes(void *infoptr,void *buffer,size_t count);
-off_t XeeTileImageSkipBytes(void *infoptr,off_t count);
+GLuint XeeMakeGridTexture(float r, float b, float g);
+size_t XeeTileImageGetBytes(void *infoptr, void *buffer, size_t count);
+off_t XeeTileImageSkipBytes(void *infoptr, off_t count);
 void XeeTileImageRewind(void *infoptr);
 void XeeTileImageReleaseInfo(void *infoptr);
 
-struct XeeTileImageProviderInfo
-{
+struct XeeTileImageProviderInfo {
 	XeeReadPixelFunction readpixel;
 	size_t pos;
 
 	uint8_t *data;
 	int bytesperrow;
-	int pixelsize,width;
+	int pixelsize, width;
 
-	int a00,a01,a02;
-	int a10,a11,a12;
+	int a00, a01, a02;
+	int a10, a11, a12;
 
 	XeeTileImage *image;
 };
 
-
-
 @implementation XeeTileImage
 @synthesize bytesPerRow = bytesperrow;
 
--(id)init
+- (id)init
 {
-	if(self=[super init])
-	{
-		data=NULL;
-		bytesperpixel=bytesperrow=0;
-		freedata=NO;
-		premultiplied=NO;
-		texintformat=texformat=textype=0;
+	if (self = [super init]) {
+		data = NULL;
+		bytesperpixel = bytesperrow = 0;
+		freedata = NO;
+		premultiplied = NO;
+		texintformat = texformat = textype = 0;
 
-		completed=uploaded=drawn=XeeEmptySpan;
+		completed = uploaded = drawn = XeeEmptySpan;
 
-		textarget=0;
-		tiles=nil;
-		needsupdate=NO;
-		context=nil;
+		textarget = 0;
+		tiles = nil;
+		needsupdate = NO;
+		context = nil;
 	}
 
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
-	if(freedata) free(data);
+	if (freedata)
+		free(data);
 
 	[context makeCurrentContext];
 	[tiles release];
@@ -61,190 +56,201 @@ struct XeeTileImageProviderInfo
 	[super dealloc];
 }
 
-
--(void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
-bytesPerPixel:(NSInteger)bppixel bytesPerRow:(NSInteger)bprow premultiplied:(BOOL)premult
-glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
+- (void)setData:(uint8_t *)pixeldata freeData:(BOOL)willfree width:(NSInteger)pixelwidth height:(NSInteger)pixelheight
+	   bytesPerPixel:(NSInteger)bppixel
+		 bytesPerRow:(NSInteger)bprow
+	   premultiplied:(BOOL)premult
+	glInternalFormat:(int)glintformat
+			glFormat:(int)glformat
+			  glType:(int)gltype
 {
 	// Free old data
-	if(freedata) free(data);
+	if (freedata)
+		free(data);
 
 	// Set parameters
-	data=pixeldata;
-	freedata=willfree;
-	premultiplied=premult;
-	width=pixelwidth;
-	height=pixelheight;
-	bytesperpixel=bppixel;
-	bytesperrow=bprow;
-	texintformat=glintformat;
-	texformat=glformat;
-	textype=gltype;
+	data = pixeldata;
+	freedata = willfree;
+	premultiplied = premult;
+	width = pixelwidth;
+	height = pixelheight;
+	bytesperpixel = bppixel;
+	bytesperrow = bprow;
+	texintformat = glintformat;
+	texformat = glformat;
+	textype = gltype;
 
 	// Reset everything
-	completed=uploaded=drawn=XeeEmptySpan;
+	completed = uploaded = drawn = XeeEmptySpan;
 	[tiles release];
-	tiles=nil;
+	tiles = nil;
 }
 
-
-
--(void)setCompleted { [self setFirstCompletedRow:0 count:height]; }
-
--(void)setCompletedRowCount:(NSInteger)count { [self setFirstCompletedRow:XeeSpanStart(completed) count:count]; }
-
--(void)setFirstCompletedRow:(NSInteger)first count:(NSInteger)count
+- (void)setCompleted
 {
-	completed=XeeSpanIntersection(XeeMakeSpan((int)first,(int)count),XeeMakeSpan(0,(int)height));
+	[self setFirstCompletedRow:0 count:height];
+}
 
-	if(XeeSpanLength(completed)==height)
-	{
+- (void)setCompletedRowCount:(NSInteger)count
+{
+	[self setFirstCompletedRow:XeeSpanStart(completed) count:count];
+}
+
+- (void)setFirstCompletedRow:(NSInteger)first count:(NSInteger)count
+{
+	completed = XeeSpanIntersection(XeeMakeSpan((int)first, (int)count), XeeMakeSpan(0, (int)height));
+
+	if (XeeSpanLength(completed) == height) {
 		[self triggerChangeAction];
-	}
-	else
-	{
-//		static double prevtime=0;
-//		double time=XeeGetTime();
-		NSInteger delta=height/32;
-		if(delta<8) delta=8;
+	} else {
+		//		static double prevtime=0;
+		//		double time=XeeGetTime();
+		NSInteger delta = height / 32;
+		if (delta < 8)
+			delta = 8;
 
-		if(XeeSpanLength(completed)-XeeSpanLength(uploaded)>=delta) [self triggerLoadingAction];
-//		if(time-prevtime>=0.1) [self triggerLoadingAction];
-//prevtime=time;
+		if (XeeSpanLength(completed) - XeeSpanLength(uploaded) >= delta)
+			[self triggerLoadingAction];
+		//		if(time-prevtime>=0.1) [self triggerLoadingAction];
+		//prevtime=time;
 	}
 }
 
--(void)invalidate
+- (void)invalidate
 {
-	needsupdate=YES;
+	needsupdate = YES;
 
-	NSEnumerator *enumerator=[tiles objectEnumerator];
+	NSEnumerator *enumerator = [tiles objectEnumerator];
 	XeeBitmapTile *tile;
-	while(tile=[enumerator nextObject]) [tile invalidate];
+	while (tile = [enumerator nextObject])
+		[tile invalidate];
 
 	[self triggerChangeAction];
 }
 
-
-
--(NSRect)updatedAreaInRect:(NSRect)rect
+- (NSRect)updatedAreaInRect:(NSRect)rect
 {
-	if(needsupdate)
-	{
-		drawn=XeeMakeSpan(0,(int)height);
+	if (needsupdate) {
+		drawn = XeeMakeSpan(0, (int)height);
 		return rect;
-	}
-	else if(XeeSpanLength(drawn)==height)
-	{
-		return NSMakeRect(0,0,0,0);
-	}
-	else
-	{
-		XeeSpan willbedrawn=completed;
-		XeeSpan updated=XeeSpanDifference(drawn,willbedrawn);
-		drawn=willbedrawn;
+	} else if (XeeSpanLength(drawn) == height) {
+		return NSMakeRect(0, 0, 0, 0);
+	} else {
+		XeeSpan willbedrawn = completed;
+		XeeSpan updated = XeeSpanDifference(drawn, willbedrawn);
+		drawn = willbedrawn;
 
-		XeeMatrix m=[self transformationMatrixInRect:rect];
-		NSRect rect=XeeTransformRect(m,NSMakeRect(0,XeeSpanStart(updated),width,XeeSpanLength(updated)));
+		XeeMatrix m = [self transformationMatrixInRect:rect];
+		NSRect rect = XeeTransformRect(m, NSMakeRect(0, XeeSpanStart(updated), width, XeeSpanLength(updated)));
 
 		return NSIntegralRect(rect);
 	}
 }
 
--(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds lowQuality:(BOOL)lowquality
+- (void)drawInRect:(NSRect)rect bounds:(NSRect)bounds lowQuality:(BOOL)lowquality
 {
-	if(!data) return;
+	if (!data)
+		return;
 
-	if(!tiles)
-	{
-		context=[[NSOpenGLContext currentContext] retain];
+	if (!tiles) {
+		context = [[NSOpenGLContext currentContext] retain];
 
-		if(![[NSUserDefaults standardUserDefaults] boolForKey:XeeForce2DKey]&&
-		gluCheckExtension((unsigned char *)"GL_EXT_texture_rectangle",glGetString(GL_EXTENSIONS)))
-		[self allocTexturesRect];
+		if (![[NSUserDefaults standardUserDefaults] boolForKey:XeeForce2DKey] &&
+			gluCheckExtension((unsigned char *)"GL_EXT_texture_rectangle", glGetString(GL_EXTENSIONS)))
+			[self allocTexturesRect];
 		else
-		[self allocTextures2D];
+			[self allocTextures2D];
 
-		needsupdate=YES;
+		needsupdate = YES;
 	}
 
-	if(needsupdate||!XeeSpansIdentical(completed,uploaded))
-	{
-		needsupdate=NO;
+	if (needsupdate || !XeeSpansIdentical(completed, uploaded)) {
+		needsupdate = NO;
 		[self uploadTextures];
 	}
 
-	XeeMatrix m=[self transformationMatrixInRect:rect];
-	XeeMatrix inv=XeeInverseMatrix(m);
+	XeeMatrix m = [self transformationMatrixInRect:rect];
+	XeeMatrix inv = XeeInverseMatrix(m);
 
-	NSRect transbounds=XeeTransformRect(inv,bounds);
+	NSRect transbounds = XeeTransformRect(inv, bounds);
 
 	glPushMatrix();
 	XeeGLMultMatrix(m);
 
-	float x_scale=rect.size.width/(float)[self width];
-	float y_scale=rect.size.height/(float)[self height];
+	float x_scale = rect.size.width / (float)[self width];
+	float y_scale = rect.size.height / (float)[self height];
 
-	if((x_scale<1||y_scale<1)&&textarget==GL_TEXTURE_RECTANGLE_EXT&&XeeSpanLength(uploaded)==height&&!lowquality)
-	{
-		XeeSampleSet *set=nil;
-		switch([[NSUserDefaults standardUserDefaults] integerForKey:XeeAntialiasQualityKey])
-		{
-			case 1: set=[XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"box"]; break;
-			case 2: set=[XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"box"]; break;
-			case 3: set=[XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"box"]; break;
-			case 4: set=[XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"sinc"]; break;
-			case 5: set=[XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"sinc"]; break;
-			case 6: set=[XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"sinc"]; break;
+	if ((x_scale < 1 || y_scale < 1) && textarget == GL_TEXTURE_RECTANGLE_EXT && XeeSpanLength(uploaded) == height && !lowquality) {
+		XeeSampleSet *set = nil;
+		switch ([[NSUserDefaults standardUserDefaults] integerForKey:XeeAntialiasQualityKey]) {
+		case 1:
+			set = [XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"box"];
+			break;
+		case 2:
+			set = [XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"box"];
+			break;
+		case 3:
+			set = [XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"box"];
+			break;
+		case 4:
+			set = [XeeSampleSet sampleSetWithCount:4 distribution:@"bestCandidate" filter:@"sinc"];
+			break;
+		case 5:
+			set = [XeeSampleSet sampleSetWithCount:12 distribution:@"bestCandidate" filter:@"sinc"];
+			break;
+		case 6:
+			set = [XeeSampleSet sampleSetWithCount:32 distribution:@"bestCandidate" filter:@"sinc"];
+			break;
 		}
 
-		if(set) [self drawSampleSet:set xScale:x_scale yScale:y_scale bounds:transbounds];
-		else [self drawNormalWithBounds:transbounds];
-	}
-	else
-	{
+		if (set)
+			[self drawSampleSet:set xScale:x_scale yScale:y_scale bounds:transbounds];
+		else
+			[self drawNormalWithBounds:transbounds];
+	} else {
 		[self drawNormalWithBounds:transbounds];
 	}
 
 	glPopMatrix();
 
-	if(transparent)
-	{
-		NSColor *rgbback=[[self backgroundColor] colorUsingColorSpaceName:NSDeviceRGBColorSpace];
-		float r=[rgbback redComponent],g=[rgbback greenComponent],b=[rgbback blueComponent];
-		GLuint tex=XeeMakeGridTexture(r,g,b);
+	if (transparent) {
+		NSColor *rgbback = [[self backgroundColor] colorUsingColorSpaceName:NSDeviceRGBColorSpace];
+		float r = [rgbback redComponent], g = [rgbback greenComponent], b = [rgbback blueComponent];
+		GLuint tex = XeeMakeGridTexture(r, g, b);
 
-		int back_x=rect.origin.x>0?rect.origin.x:0;
-		int back_y=rect.origin.y>0?rect.origin.y:0;
-		int back_w=rect.size.width;
-		int back_h=rect.size.height;
+		int back_x = rect.origin.x > 0 ? rect.origin.x : 0;
+		int back_y = rect.origin.y > 0 ? rect.origin.y : 0;
+		int back_w = rect.size.width;
+		int back_h = rect.size.height;
 		//int back_w=MIN(bounds.size.width,rect.size.width);
 		//int back_h=MIN(bounds.size.height,rect.size.height);
 
-		if(premultiplied) glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_ONE);
-		else glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA);
+		if (premultiplied)
+			glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ONE);
+		else
+			glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA);
 		glEnable(GL_BLEND);
 
 		glEnable(GL_TEXTURE_2D);
 
 		glPushMatrix();
-		glTranslatef(back_x,back_y,0);
+		glTranslatef(back_x, back_y, 0);
 
 		glMatrixMode(GL_TEXTURE);
 		glPushMatrix();
-		GLfloat rot[]={1,1,0,0,1,-1,0,0,0,0,1,0,0,0,0,1};
+		GLfloat rot[] = {1, 1, 0, 0, 1, -1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};
 		glLoadMatrixf(rot);
-		glScalef(1.0/31.0,1.0/31.0,1.0/31.0);
+		glScalef(1.0 / 31.0, 1.0 / 31.0, 1.0 / 31.0);
 
 		glBegin(GL_QUADS);
-		glTexCoord2f(0,0);
-		glVertex2f(0,0);
-		glTexCoord2f(back_w,0);
-		glVertex2f(back_w,0);
-		glTexCoord2f(back_w,back_h);
-		glVertex2f(back_w,+back_h);
-		glTexCoord2f(0,back_h);
-		glVertex2f(0,back_h);
+		glTexCoord2f(0, 0);
+		glVertex2f(0, 0);
+		glTexCoord2f(back_w, 0);
+		glVertex2f(back_w, 0);
+		glTexCoord2f(back_w, back_h);
+		glVertex2f(back_w, +back_h);
+		glTexCoord2f(0, back_h);
+		glVertex2f(0, back_h);
 		glEnd();
 
 		glPopMatrix();
@@ -254,230 +260,241 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 
 		glDisable(GL_TEXTURE_2D);
 
-		glDeleteTextures(1,&tex);
+		glDeleteTextures(1, &tex);
 	}
 }
 
-
-
--(void)allocTexturesRect
+- (void)allocTexturesRect
 {
-	textarget=GL_TEXTURE_RECTANGLE_EXT;
+	textarget = GL_TEXTURE_RECTANGLE_EXT;
 
 	GLint maxtilesize;
-	glGetIntegerv(GL_MAX_RECTANGLE_TEXTURE_SIZE_EXT,&maxtilesize);
-	if(maxtilesize>512) maxtilesize=512;
+	glGetIntegerv(GL_MAX_RECTANGLE_TEXTURE_SIZE_EXT, &maxtilesize);
+	if (maxtilesize > 512)
+		maxtilesize = 512;
 
-	NSInteger cols=(width+maxtilesize-1)/maxtilesize;
-	NSInteger rows=(height+maxtilesize-1)/maxtilesize;
+	NSInteger cols = (width + maxtilesize - 1) / maxtilesize;
+	NSInteger rows = (height + maxtilesize - 1) / maxtilesize;
 
-	tiles=[[NSMutableArray alloc] initWithCapacity:rows*cols];
+	tiles = [[NSMutableArray alloc] initWithCapacity:rows * cols];
 
-	if(tiles)
-	{
-		for(NSInteger row=0;row<rows;row++)
-		{
-			NSInteger tile_h=(row==rows-1)?(height-(rows-1)*maxtilesize):maxtilesize;
+	if (tiles) {
+		for (NSInteger row = 0; row < rows; row++) {
+			NSInteger tile_h = (row == rows - 1) ? (height - (rows - 1) * maxtilesize) : maxtilesize;
 
-			for(NSInteger col=0;col<cols;col++)
-			{
-				NSInteger tile_w=(col==cols-1)?(width-(cols-1)*maxtilesize):maxtilesize;
+			for (NSInteger col = 0; col < cols; col++) {
+				NSInteger tile_w = (col == cols - 1) ? (width - (cols - 1) * maxtilesize) : maxtilesize;
 
-				XeeBitmapTile *tile=[[[XeeBitmapTile alloc] initWithTarget:textarget
-				internalFormat:texintformat x:col*maxtilesize y:row*maxtilesize
-				width:tile_w height:tile_h format:texformat type:textype data:data] autorelease];
-				if(tile) [tiles addObject:tile];
+				XeeBitmapTile *tile = [[[XeeBitmapTile alloc] initWithTarget:textarget
+															  internalFormat:texintformat
+																		   x:col * maxtilesize
+																		   y:row * maxtilesize
+																	   width:tile_w
+																	  height:tile_h
+																	  format:texformat
+																		type:textype
+																		data:data] autorelease];
+				if (tile)
+					[tiles addObject:tile];
 			}
 		}
 	}
 }
 
--(void)allocTextures2D
+- (void)allocTextures2D
 {
-	textarget=GL_TEXTURE_2D;
+	textarget = GL_TEXTURE_2D;
 
 	GLint maxtilesize;
-	glGetIntegerv(GL_MAX_TEXTURE_SIZE,&maxtilesize);
-	if(maxtilesize>512) maxtilesize=512;
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxtilesize);
+	if (maxtilesize > 512)
+		maxtilesize = 512;
 
-	int colsize,rowsize;
-	int x,y;
+	int colsize, rowsize;
+	int x, y;
 
-	tiles=[[NSMutableArray alloc] initWithCapacity:32];
+	tiles = [[NSMutableArray alloc] initWithCapacity:32];
 
-	if(tiles)
-	{
-		rowsize=maxtilesize;
-		y=0;
-		while(y<height)
-		{
-			while(y+rowsize>height) rowsize/=2;
+	if (tiles) {
+		rowsize = maxtilesize;
+		y = 0;
+		while (y < height) {
+			while (y + rowsize > height)
+				rowsize /= 2;
 
-			colsize=maxtilesize;
-			x=0;
-			while(x<width)
-			{
-				while(x+colsize>width) colsize/=2;
+			colsize = maxtilesize;
+			x = 0;
+			while (x < width) {
+				while (x + colsize > width)
+					colsize /= 2;
 
-				XeeBitmapTile *tile=[[[XeeBitmapTile alloc] initWithTarget:textarget
-				internalFormat:texintformat x:x y:y width:colsize height:rowsize
-				format:texformat type:textype data:data] autorelease];
-				if(tile) [tiles addObject:tile];
+				XeeBitmapTile *tile = [[[XeeBitmapTile alloc] initWithTarget:textarget
+															  internalFormat:texintformat
+																		   x:x
+																		   y:y
+																	   width:colsize
+																	  height:rowsize
+																	  format:texformat
+																		type:textype
+																		data:data] autorelease];
+				if (tile)
+					[tiles addObject:tile];
 
-				x+=colsize;
+				x += colsize;
 			}
 
-			y+=rowsize;
+			y += rowsize;
 		}
 	}
 }
 
--(void)uploadTextures
+- (void)uploadTextures
 {
 	int align;
-	if((bytesperrow&7)==0) align=8;
-	else if((bytesperrow&3)==0) align=4;
-	else if((bytesperrow&1)==0) align=2;
-	else align=1;
+	if ((bytesperrow & 7) == 0)
+		align = 8;
+	else if ((bytesperrow & 3) == 0)
+		align = 4;
+	else if ((bytesperrow & 1) == 0)
+		align = 2;
+	else
+		align = 1;
 
-	glPixelStorei(GL_UNPACK_ROW_LENGTH,(GLint)(bytesperrow/bytesperpixel));
-	glPixelStorei(GL_UNPACK_ALIGNMENT,align);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, (GLint)(bytesperrow / bytesperpixel));
+	glPixelStorei(GL_UNPACK_ALIGNMENT, align);
 
-	if(textarget==GL_TEXTURE_2D&&(texformat==GL_LUMINANCE||texformat==GL_YCBCR_422_APPLE)) // workaround for buggy Rage128 drivers
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,GL_FALSE);
-	else glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,GL_TRUE);
+	if (textarget == GL_TEXTURE_2D && (texformat == GL_LUMINANCE || texformat == GL_YCBCR_422_APPLE)) // workaround for buggy Rage128 drivers
+		glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+	else
+		glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
 
-	uploaded=completed; // sync issues with bottom-loading images, but should not cause any problems
+	uploaded = completed; // sync issues with bottom-loading images, but should not cause any problems
 
-	NSEnumerator *enumerator=[tiles objectEnumerator];
+	NSEnumerator *enumerator = [tiles objectEnumerator];
 	XeeBitmapTile *tile;
-	while(tile=[enumerator nextObject]) [tile uploadWithCompletedSpan:uploaded];
+	while (tile = [enumerator nextObject])
+		[tile uploadWithCompletedSpan:uploaded];
 }
 
--(void)drawNormalWithBounds:(NSRect)transbounds
+- (void)drawNormalWithBounds:(NSRect)transbounds
 {
 	glDisable(GL_BLEND);
 	glEnable(textarget);
-	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	NSEnumerator *enumerator=[tiles objectEnumerator];
+	NSEnumerator *enumerator = [tiles objectEnumerator];
 	XeeBitmapTile *tile;
-	while(tile=[enumerator nextObject]) [tile drawWithBounds:transbounds minFilter:GL_LINEAR magFilter:[self magFilter]];
+	while (tile = [enumerator nextObject])
+		[tile drawWithBounds:transbounds minFilter:GL_LINEAR magFilter:[self magFilter]];
 
 	glDisable(textarget);
-
 }
 
--(void)drawSampleSet:(XeeSampleSet *)set xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
+- (void)drawSampleSet:(XeeSampleSet *)set xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
 {
-	int num=[set count];
-	XeeSamplePoint *samples=[set samples];
+	int num = [set count];
+	XeeSamplePoint *samples = [set samples];
 
 	GLint textureunits;
-	glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB,&textureunits);
+	glGetIntegerv(GL_MAX_TEXTURE_UNITS_ARB, &textureunits);
 
 	// This is the worst line of code in the entire world.
-	if(textureunits==8&&!strcmp((char *)glGetString(GL_RENDERER),"Intel GMA 950 OpenGL Engine"))
-	textureunits=7;
+	if (textureunits == 8 && !strcmp((char *)glGetString(GL_RENDERER), "Intel GMA 950 OpenGL Engine"))
+		textureunits = 7;
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_CONSTANT_ALPHA,GL_ONE_MINUS_CONSTANT_ALPHA);
+	glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
 
-	if(textureunits==1)
-	{
-		float totalweight=0;
-		for(int i=0;i<num;i++)
-		{
-			totalweight+=samples[i].weight;
-			glBlendColor(0,0,0,samples[i].weight/totalweight);
+	if (textureunits == 1) {
+		float totalweight = 0;
+		for (int i = 0; i < num; i++) {
+			totalweight += samples[i].weight;
+			glBlendColor(0, 0, 0, samples[i].weight / totalweight);
 
 			[self drawSingleSample:samples[i] xScale:x_scale yScale:y_scale bounds:transbounds];
 		}
-	}
-	else
-	{
-		float totalweight=0;
-		for(int i=0;i<num;i+=textureunits)
-		{
-			int curr_num=num-i>textureunits?textureunits:num-i;
-			float currweight=0;
-			for(int j=0;j<curr_num;j++) currweight+=samples[i+j].weight;
+	} else {
+		float totalweight = 0;
+		for (int i = 0; i < num; i += textureunits) {
+			int curr_num = num - i > textureunits ? textureunits : num - i;
+			float currweight = 0;
+			for (int j = 0; j < curr_num; j++)
+				currweight += samples[i + j].weight;
 
-			totalweight+=currweight;
-			glBlendColor(0,0,0,currweight/totalweight);
+			totalweight += currweight;
+			glBlendColor(0, 0, 0, currweight / totalweight);
 
-			[self drawSamplesOnTextureUnits:samples+i num:curr_num xScale:x_scale yScale:y_scale bounds:transbounds];
+			[self drawSamplesOnTextureUnits:samples + i num:curr_num xScale:x_scale yScale:y_scale bounds:transbounds];
 		}
 	}
 }
 
--(void)drawSingleSample:(XeeSamplePoint)sample xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
+- (void)drawSingleSample:(XeeSamplePoint)sample xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
 {
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
-	glTranslatef(sample.u/x_scale,sample.v/y_scale,0);
+	glTranslatef(sample.u / x_scale, sample.v / y_scale, 0);
 	glEnable(textarget);
-	glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	glMatrixMode(GL_MODELVIEW);
 
-	NSEnumerator *enumerator=[tiles objectEnumerator];
+	NSEnumerator *enumerator = [tiles objectEnumerator];
 	XeeBitmapTile *tile;
-	while(tile=[enumerator nextObject]) [tile drawWithBounds:transbounds minFilter:GL_NEAREST magFilter:[self magFilter]];
+	while (tile = [enumerator nextObject])
+		[tile drawWithBounds:transbounds minFilter:GL_NEAREST magFilter:[self magFilter]];
 
 	glMatrixMode(GL_TEXTURE);
 	glLoadIdentity();
 	glDisable(textarget);
 	glMatrixMode(GL_MODELVIEW);
-
 }
 
--(void)drawSamplesOnTextureUnits:(XeeSamplePoint *)samples num:(int)num xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
+- (void)drawSamplesOnTextureUnits:(XeeSamplePoint *)samples num:(int)num xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
 {
 	glMatrixMode(GL_TEXTURE);
 
-	float totalweight=0;
+	float totalweight = 0;
 
-	for(int i=0;i<num;i++)
-	{
-		glActiveTexture(GL_TEXTURE0+i);
+	for (int i = 0; i < num; i++) {
+		glActiveTexture(GL_TEXTURE0 + i);
 		glLoadIdentity();
-		glTranslatef(samples[i].u/x_scale,samples[i].v/y_scale,0);
+		glTranslatef(samples[i].u / x_scale, samples[i].v / y_scale, 0);
 		glEnable(textarget);
 
-		totalweight+=samples[i].weight;
-		GLfloat constcol[4]={1,1,1,samples[i].weight/totalweight};
-		glTexEnvfv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_COLOR,constcol);
+		totalweight += samples[i].weight;
+		GLfloat constcol[4] = {1, 1, 1, samples[i].weight / totalweight};
+		glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, constcol);
 
-		glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,i==0?GL_REPLACE:GL_COMBINE); // REPLACE is implicit anyway, but maybe this give a speedup?
+		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, i == 0 ? GL_REPLACE : GL_COMBINE); // REPLACE is implicit anyway, but maybe this give a speedup?
 
-		glTexEnvi(GL_TEXTURE_ENV,GL_COMBINE_RGB,GL_INTERPOLATE);
-		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE0_RGB,GL_TEXTURE);
-		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND0_RGB,GL_SRC_COLOR);
-		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE1_RGB,GL_PREVIOUS);
-		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND1_RGB,GL_SRC_COLOR);
-		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE2_RGB,GL_CONSTANT);
-		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND2_RGB,GL_SRC_ALPHA);
+		glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_RGB, GL_INTERPOLATE);
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_RGB, GL_TEXTURE);
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_RGB, GL_SRC_COLOR);
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_RGB, GL_PREVIOUS);
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_RGB, GL_SRC_COLOR);
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_RGB, GL_CONSTANT);
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_RGB, GL_SRC_ALPHA);
 
-		glTexEnvi(GL_TEXTURE_ENV,GL_COMBINE_ALPHA,GL_INTERPOLATE);
-		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE0_ALPHA,GL_TEXTURE);
-		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND0_ALPHA,GL_SRC_ALPHA);
-		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE1_ALPHA,GL_PREVIOUS);
-		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND1_ALPHA,GL_SRC_ALPHA);
-		glTexEnvi(GL_TEXTURE_ENV,GL_SOURCE2_ALPHA,GL_CONSTANT);
-		glTexEnvi(GL_TEXTURE_ENV,GL_OPERAND2_ALPHA,GL_SRC_ALPHA);
+		glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_INTERPOLATE);
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE0_ALPHA, GL_TEXTURE);
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND0_ALPHA, GL_SRC_ALPHA);
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE1_ALPHA, GL_PREVIOUS);
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND1_ALPHA, GL_SRC_ALPHA);
+		glTexEnvi(GL_TEXTURE_ENV, GL_SOURCE2_ALPHA, GL_CONSTANT);
+		glTexEnvi(GL_TEXTURE_ENV, GL_OPERAND2_ALPHA, GL_SRC_ALPHA);
 	}
 
 	glMatrixMode(GL_MODELVIEW);
 
-	NSEnumerator *enumerator=[tiles objectEnumerator];
+	NSEnumerator *enumerator = [tiles objectEnumerator];
 	XeeBitmapTile *tile;
-	while(tile=[enumerator nextObject]) [tile drawMultipleWithBounds:transbounds minFilter:GL_NEAREST magFilter:[self magFilter] num:num];
+	while (tile = [enumerator nextObject])
+		[tile drawMultipleWithBounds:transbounds minFilter:GL_NEAREST magFilter:[self magFilter] num:num];
 
 	glMatrixMode(GL_TEXTURE);
 
-	for(int i=0;i<num;i++)
-	{
-		glActiveTexture(GL_TEXTURE0+i);
+	for (int i = 0; i < num; i++) {
+		glActiveTexture(GL_TEXTURE0 + i);
 		glDisable(textarget);
 		glLoadIdentity();
 	}
@@ -487,119 +504,130 @@ glInternalFormat:(int)glintformat glFormat:(int)glformat glType:(int)gltype
 	glActiveTexture(GL_TEXTURE0);
 }
 
--(GLuint)magFilter
+- (GLuint)magFilter
 {
-	if(![[NSUserDefaults standardUserDefaults] boolForKey:XeeUpsampleImageKey]) return GL_NEAREST;
-	else return GL_LINEAR;
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:XeeUpsampleImageKey])
+		return GL_NEAREST;
+	else
+		return GL_LINEAR;
 }
 
--(uint8_t *)data { return data; }
-
-
-
--(CGImageRef)createCGImage
+- (uint8_t *)data
 {
-	CGImageRef cgimage=NULL;
+	return data;
+}
 
-	XeeReadPixelFunction readpixel=[self readPixelFunctionForCGImage];
-	if(!readpixel) return NULL;
+- (CGImageRef)createCGImage
+{
+	CGImageRef cgimage = NULL;
 
-	struct XeeTileImageProviderInfo *info=malloc(sizeof(struct XeeTileImageProviderInfo));
-	if(info)
-	{
-		NSInteger pixelsize=[self bytesPerPixelForCGImage];
-		XeeMatrix m=XeeInverseMatrix([self transformationMatrix]);
+	XeeReadPixelFunction readpixel = [self readPixelFunctionForCGImage];
+	if (!readpixel)
+		return NULL;
 
-		info->readpixel=readpixel;
-		info->pos=0;
-		info->data=data;
-		info->bytesperrow=bytesperrow;
-		info->pixelsize=pixelsize;
-		info->width=[self width];
-		info->a00=(int)m.a00;
-		info->a01=(int)m.a01;
-		info->a02=(int)(m.a02+(m.a00+m.a01)/4.0);
-		info->a10=(int)m.a10;
-		info->a11=(int)m.a11;
-		info->a12=(int)(m.a12+(m.a10+m.a11)/4.0);
-		info->image=self;
+	struct XeeTileImageProviderInfo *info = malloc(sizeof(struct XeeTileImageProviderInfo));
+	if (info) {
+		NSInteger pixelsize = [self bytesPerPixelForCGImage];
+		XeeMatrix m = XeeInverseMatrix([self transformationMatrix]);
 
-		CGDataProviderSequentialCallbacks callbacks=
-		{ 0, XeeTileImageGetBytes,XeeTileImageSkipBytes,XeeTileImageRewind,XeeTileImageReleaseInfo };
+		info->readpixel = readpixel;
+		info->pos = 0;
+		info->data = data;
+		info->bytesperrow = bytesperrow;
+		info->pixelsize = pixelsize;
+		info->width = [self width];
+		info->a00 = (int)m.a00;
+		info->a01 = (int)m.a01;
+		info->a02 = (int)(m.a02 + (m.a00 + m.a01) / 4.0);
+		info->a10 = (int)m.a10;
+		info->a11 = (int)m.a11;
+		info->a12 = (int)(m.a12 + (m.a10 + m.a11) / 4.0);
+		info->image = self;
 
-		CGDataProviderRef provider=CGDataProviderCreateSequential(info, &callbacks);
+		CGDataProviderSequentialCallbacks callbacks =
+			{0, XeeTileImageGetBytes, XeeTileImageSkipBytes, XeeTileImageRewind, XeeTileImageReleaseInfo};
 
-		if(provider)
-		{
+		CGDataProviderRef provider = CGDataProviderCreateSequential(info, &callbacks);
+
+		if (provider) {
 			[self retain];
 
-			CGColorSpaceRef colorspace=[self createColorSpaceForCGImage];
-			if(colorspace)
-			{
-				cgimage=CGImageCreate([self width],[self height],[self bitsPerComponentForCGImage],
-				pixelsize*8,pixelsize*[self width],colorspace,[self bitmapInfoForCGImage],
-				provider,NULL,NO,kCGRenderingIntentDefault);
+			CGColorSpaceRef colorspace = [self createColorSpaceForCGImage];
+			if (colorspace) {
+				cgimage = CGImageCreate([self width], [self height], [self bitsPerComponentForCGImage],
+										pixelsize * 8, pixelsize * [self width], colorspace, [self bitmapInfoForCGImage],
+										provider, NULL, NO, kCGRenderingIntentDefault);
 
 				CGColorSpaceRelease(colorspace);
 			}
 			CGDataProviderRelease(provider);
+		} else {
+			free(info);
 		}
-		else
-        {
-            free(info);
-        }
 	}
 
 	return cgimage;
 }
 
--(NSInteger)bitsPerComponentForCGImage { return 0; }
--(NSInteger)bytesPerPixelForCGImage { return 0; }
--(CGColorSpaceRef)createColorSpaceForCGImage { return NULL; }
--(CGBitmapInfo)bitmapInfoForCGImage { return 0; }
--(XeeReadPixelFunction)readPixelFunctionForCGImage { return NULL; }
-
+- (NSInteger)bitsPerComponentForCGImage
+{
+	return 0;
+}
+- (NSInteger)bytesPerPixelForCGImage
+{
+	return 0;
+}
+- (CGColorSpaceRef)createColorSpaceForCGImage
+{
+	return NULL;
+}
+- (CGBitmapInfo)bitmapInfoForCGImage
+{
+	return 0;
+}
+- (XeeReadPixelFunction)readPixelFunctionForCGImage
+{
+	return NULL;
+}
 
 @end
 
-
-size_t XeeTileImageGetBytes(void *infoptr,void *buffer,size_t count)
+size_t XeeTileImageGetBytes(void *infoptr, void *buffer, size_t count)
 {
-	struct XeeTileImageProviderInfo *info=(struct XeeTileImageProviderInfo *)infoptr;
+	struct XeeTileImageProviderInfo *info = (struct XeeTileImageProviderInfo *)infoptr;
 	uint8_t pixel[info->pixelsize];
-	uint8_t *dest=buffer;
-	size_t end=info->pos+count;
+	uint8_t *dest = buffer;
+	size_t end = info->pos + count;
 
-	NSInteger pixelnum=info->pos/info->pixelsize;
-	NSInteger offs=info->pos%info->pixelsize;
+	NSInteger pixelnum = info->pos / info->pixelsize;
+	NSInteger offs = info->pos % info->pixelsize;
 
-	while(info->pos<end)
-	{
-		NSInteger dx=pixelnum%info->width;
-		NSInteger dy=pixelnum/info->width;
-		NSInteger sx=info->a00*dx+info->a01*dy+info->a02;
-		NSInteger sy=info->a10*dx+info->a11*dy+info->a12;
-		uint8_t *row=info->data+sy*info->bytesperrow;
-		NSInteger left=end-info->pos;
+	while (info->pos < end) {
+		NSInteger dx = pixelnum % info->width;
+		NSInteger dy = pixelnum / info->width;
+		NSInteger sx = info->a00 * dx + info->a01 * dy + info->a02;
+		NSInteger sy = info->a10 * dx + info->a11 * dy + info->a12;
+		uint8_t *row = info->data + sy * info->bytesperrow;
+		NSInteger left = end - info->pos;
 
-		if(offs==0&&left>=info->pixelsize) // read full pixel directly
+		if (offs == 0 && left >= info->pixelsize) // read full pixel directly
 		{
-			info->readpixel(row,sx,info->pixelsize,dest);
-			info->pos+=info->pixelsize;
-			dest+=info->pixelsize;
-		}
-		else // read partial pixel
+			info->readpixel(row, sx, info->pixelsize, dest);
+			info->pos += info->pixelsize;
+			dest += info->pixelsize;
+		} else // read partial pixel
 		{
-			info->readpixel(row,sx,info->pixelsize,pixel);
+			info->readpixel(row, sx, info->pixelsize, pixel);
 
-			NSInteger bytes=info->pixelsize-offs;
-			if(bytes>left) bytes=left;
+			NSInteger bytes = info->pixelsize - offs;
+			if (bytes > left)
+				bytes = left;
 
-			memcpy(dest,pixel+offs,bytes);
-			info->pos+=bytes;
-			dest+=bytes;
+			memcpy(dest, pixel + offs, bytes);
+			info->pos += bytes;
+			dest += bytes;
 
-			offs=0;
+			offs = 0;
 		}
 
 		pixelnum++;
@@ -608,54 +636,52 @@ size_t XeeTileImageGetBytes(void *infoptr,void *buffer,size_t count)
 	return count;
 }
 
-off_t XeeTileImageSkipBytes(void *infoptr,off_t count)
+off_t XeeTileImageSkipBytes(void *infoptr, off_t count)
 {
-	struct XeeTileImageProviderInfo *info=(struct XeeTileImageProviderInfo *)infoptr;
-	info->pos+=count;
-    return info->pos;
+	struct XeeTileImageProviderInfo *info = (struct XeeTileImageProviderInfo *)infoptr;
+	info->pos += count;
+	return info->pos;
 }
 
 void XeeTileImageRewind(void *infoptr)
 {
-	struct XeeTileImageProviderInfo *info=(struct XeeTileImageProviderInfo *)infoptr;
-	info->pos=0;
+	struct XeeTileImageProviderInfo *info = (struct XeeTileImageProviderInfo *)infoptr;
+	info->pos = 0;
 }
 
 void XeeTileImageReleaseInfo(void *infoptr)
 {
-	struct XeeTileImageProviderInfo *info=(struct XeeTileImageProviderInfo *)infoptr;
+	struct XeeTileImageProviderInfo *info = (struct XeeTileImageProviderInfo *)infoptr;
 	[info->image release];
 	free(info);
 }
 
-
-
-GLuint XeeMakeGridTexture(float r,float g,float b)
+GLuint XeeMakeGridTexture(float r, float g, float b)
 {
-	float r_low=r*0.9,g_low=g*0.9,b_low=b*0.9;
-	float r_high=r_low+0.1,g_high=g_low+0.1,b_high=b_low+0.1;
-	int r1=(int)(255.0*r_low),g1=(int)(255.0*g_low),b1=(int)(255.0*b_low);
-	int r2=(int)(255.0*r_high),g2=(int)(255.0*g_high),b2=(int)(255.0*b_high);
-	uint32_t col1=0xff000000|(r1<<16)|(g1<<8)|b1;
-	uint32_t col2=0xff000000|(r2<<16)|(g2<<8)|b2;
-	uint32_t data[]={col1,col2,col2,col1};
+	float r_low = r * 0.9, g_low = g * 0.9, b_low = b * 0.9;
+	float r_high = r_low + 0.1, g_high = g_low + 0.1, b_high = b_low + 0.1;
+	int r1 = (int)(255.0 * r_low), g1 = (int)(255.0 * g_low), b1 = (int)(255.0 * b_low);
+	int r2 = (int)(255.0 * r_high), g2 = (int)(255.0 * g_high), b2 = (int)(255.0 * b_high);
+	uint32_t col1 = 0xff000000 | (r1 << 16) | (g1 << 8) | b1;
+	uint32_t col2 = 0xff000000 | (r2 << 16) | (g2 << 8) | b2;
+	uint32_t data[] = {col1, col2, col2, col1};
 
 	GLuint tex;
-	glGenTextures(1,&tex),
-	glBindTexture(GL_TEXTURE_2D,tex);
+	glGenTextures(1, &tex),
+		glBindTexture(GL_TEXTURE_2D, tex);
 
-	glPixelStorei(GL_UNPACK_ROW_LENGTH,2);
-	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,GL_FALSE);
-	glPixelStorei(GL_UNPACK_SKIP_PIXELS,0);
-	glPixelStorei(GL_UNPACK_SKIP_ROWS,0);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGB8,2,2,0,GL_BGRA,GL_UNSIGNED_INT_8_8_8_8_REV,data);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 2);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+	glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+	glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, 2, 2, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, data);
 
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
-	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	return tex;
 }

@@ -7,24 +7,25 @@
 
 @class XeeBitmapImage;
 
-@interface XeeQuicktimeImage:XeeMultiImage
-{
+@interface XeeQuicktimeImage : XeeMultiImage {
 	/*GraphicsImportComponent*/ ComponentInstance gi;
-	int current_image,current_height;
+	int current_image, current_height;
 }
 
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
++ (BOOL)canOpenFile:(NSString *)name
+		 firstBlock:(NSData *)block
+		 attributes:(NSDictionary *)attributes;
 
--(SEL)initLoader;
--(void)deallocLoader;
--(SEL)loadNextImage;
--(SEL)loadImage;
+- (SEL)initLoader;
+- (void)deallocLoader;
+- (SEL)loadNextImage;
+- (SEL)loadImage;
 
--(XeeBitmapImage *)currentImage;
+- (XeeBitmapImage *)currentImage;
 @property (readonly) int currentHeight;
 
-+(void)load;
-+(NSArray *)fileTypes;
++ (void)load;
++ (NSArray *)fileTypes;
 
 @end
 

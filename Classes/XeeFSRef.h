@@ -2,8 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface XeeFSRef:NSObject <NSCopying>
-{
+@interface XeeFSRef : NSObject <NSCopying> {
 	FSRef ref;
 	FSIterator iterator;
 	int hash;
@@ -25,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nullable) NSString *path;
 @property (readonly, nullable) NSURL *URL;
 @property (readonly, nullable) const char *fileSystemRepresentation NS_RETURNS_INNER_POINTER;
--(nullable XeeFSRef *)parent;
+- (nullable XeeFSRef *)parent;
 
 @property (readonly) off_t dataSize;
 @property (readonly) off_t dataPhysicalSize;
@@ -41,14 +40,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nullable) NSString *HFSTypeCode;
 @property (readonly, nullable) NSString *HFSCreatorCode;
 
--(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive NS_SWIFT_UNAVAILABLE("Use the throwing version instead");
--(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive error:(NSError**)error;
--(void)stopReadingDirectory;
--(nullable XeeFSRef *)nextDirectoryEntry;
--(nullable NSArray<XeeFSRef*> *)directoryContents;
+- (BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive NS_SWIFT_UNAVAILABLE("Use the throwing version instead");
+- (BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive error:(NSError **)error;
+- (void)stopReadingDirectory;
+- (nullable XeeFSRef *)nextDirectoryEntry;
+- (nullable NSArray<XeeFSRef *> *)directoryContents;
 
--(NSComparisonResult)compare:(XeeFSRef *)other;
--(NSComparisonResult)compare:(XeeFSRef *)other options:(NSStringCompareOptions)options;
+- (NSComparisonResult)compare:(XeeFSRef *)other;
+- (NSComparisonResult)compare:(XeeFSRef *)other options:(NSStringCompareOptions)options;
 //-(NSUInteger)hash;
 
 //-(NSString *)description;

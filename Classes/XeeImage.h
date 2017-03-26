@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "XeeTypes.h"
-//TODO: port to GCD/libdispatch or NSOperation?
+// TODO: port to GCD/libdispatch or NSOperation?
 #import "CSCoroutine.h"
 #import "XeeFSRef.h"
 #import "XeeProperties.h"
@@ -23,79 +23,84 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 //#define Xee
 @protocol XeeImageDelegate;
 
-@interface XeeImage:NSObject
-{
+@interface XeeImage : NSObject {
 	CSHandle *handle;
 	XeeFSRef *ref;
 	NSDictionary *attrs;
 
 	SEL nextselector;
-	BOOL finished,loaded,thumbonly;
+	BOOL finished, loaded, thumbonly;
 	volatile BOOL stop;
 
 	CSCoroutine *coro;
 
 	NSString *format;
-	NSInteger width,height;
+	NSInteger width, height;
 	NSString *depth;
-	NSImage *icon,*depthicon;
+	NSImage *icon, *depthicon;
 	BOOL transparent;
 	NSColor *back;
-	XeeTransformation orientation,correctorientation;
-	NSInteger crop_x,crop_y,crop_width,crop_height;
+	XeeTransformation orientation, correctorientation;
+	NSInteger crop_x, crop_y, crop_width, crop_height;
 	NSMutableArray *properties;
 
 	__unsafe_unretained id<XeeImageDelegate> delegate;
 }
 
--(instancetype)init NS_DESIGNATED_INITIALIZER;
--(instancetype)initWithHandle:(CSHandle *)fh;
--(instancetype)initWithHandle:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
--(instancetype)initWithHandle2:(CSHandle *)fh ref:(XeeFSRef *)fsref attributes:(NSDictionary *)attributes;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithHandle:(CSHandle *)fh;
+- (instancetype)initWithHandle:(CSHandle *)fh
+						   ref:(XeeFSRef *)fsref
+					attributes:(NSDictionary *)attributes;
+- (instancetype)initWithHandle2:(CSHandle *)fh
+							ref:(XeeFSRef *)fsref
+					 attributes:(NSDictionary *)attributes;
 
--(SEL)initLoader;
--(void)deallocLoader;
+- (SEL)initLoader;
+- (void)deallocLoader;
 
--(void)runLoader;
--(void)runLoaderForThumbnail;
+- (void)runLoader;
+- (void)runLoaderForThumbnail;
 
--(void)runLoader2;
--(void)load;
+- (void)runLoader2;
+- (void)load;
 
 @property (readonly) BOOL loaded;
 @property (readonly) BOOL failed;
 @property (readonly) BOOL needsLoading;
--(void)stopLoading;
+- (void)stopLoading;
 @property (readonly) BOOL hasBeenStopped;
 @property (readonly) CSHandle *handle;
 @property (readonly) CSFileHandle *fileHandle;
--(CSHandle *)handle;
--(CSFileHandle *)fileHandle;
+- (CSHandle *)handle;
+- (CSFileHandle *)fileHandle;
 
 @property (readonly) NSInteger frames;
 @property (nonatomic) NSInteger frame;
 
 @property (assign) id<XeeImageDelegate> delegate;
--(void)triggerLoadingAction;
--(void)triggerChangeAction;
--(void)triggerSizeChangeAction;
--(void)triggerPropertyChangeAction;
+- (void)triggerLoadingAction;
+- (void)triggerChangeAction;
+- (void)triggerSizeChangeAction;
+- (void)triggerPropertyChangeAction;
 
 @property (readonly) BOOL animated;
 @property (nonatomic) BOOL animating;
--(void)setAnimatingDefault;
+- (void)setAnimatingDefault;
 
--(NSRect)updatedAreaInRect:(NSRect)rect;
+- (NSRect)updatedAreaInRect:(NSRect)rect;
 
--(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds;
--(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds lowQuality:(BOOL)lowquality;
+- (void)drawInRect:(NSRect)rect bounds:(NSRect)bounds;
+- (void)drawInRect:(NSRect)rect
+			bounds:(NSRect)bounds
+		lowQuality:(BOOL)lowquality;
 
--(CGImageRef)createCGImage CF_RETURNS_RETAINED;
+- (CGImageRef)createCGImage CF_RETURNS_RETAINED;
 
 @property (readonly) XeeSaveFormatFlags losslessSaveFlags;
 @property (readonly, copy) NSString *losslessFormat;
 @property (readonly, copy) NSString *losslessExtension;
--(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
+- (BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
 
 @property (readonly, retain) XeeFSRef *ref;
 @property (readonly) NSString *filename;
@@ -118,66 +123,82 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 @property (readonly, getter=isCropped) BOOL cropped;
 @property (readonly) XeeMatrix transformationMatrix;
 @property (nonatomic, retain) NSArray *properties;
--(XeeMatrix)transformationMatrixInRect:(NSRect)rect;
+- (XeeMatrix)transformationMatrixInRect:(NSRect)rect;
 
--(NSArray *)properties;
+- (NSArray *)properties;
 
-@property (readonly, retain) NSDictionary<NSString*,id> *attributes;
+@property (readonly, retain) NSDictionary<NSString *, id> *attributes;
 @property (readonly) uint64_t fileSize;
 @property (readonly) NSDate *date;
 @property (readonly, copy) NSString *descriptiveFilename;
 
 //-(void)setFilename:(NSString *)name;
--(void)setFormat:(NSString *)fmt;
--(void)setBackgroundColor:(NSColor *)col;
--(void)setProperties:(NSArray *)newproperties;
+- (void)setFormat:(NSString *)fmt;
+- (void)setBackgroundColor:(NSColor *)col;
+- (void)setProperties:(NSArray *)newproperties;
 
--(void)setOrientation:(XeeTransformation)transformation;
--(void)setCorrectOrientation:(XeeTransformation)transformation;
--(void)setCroppingRect:(NSRect)rect;
--(void)resetTransformations;
+- (void)setOrientation:(XeeTransformation)transformation;
+- (void)setCorrectOrientation:(XeeTransformation)transformation;
+- (void)setCroppingRect:(NSRect)rect;
+- (void)resetTransformations;
 
--(void)setDepth:(NSString *)d;
--(void)setDepthIcon:(NSImage *)icon;
--(void)setDepthIconName:(NSString *)iconname;
--(void)setDepth:(NSString *)d iconName:(NSString *)iconname;
+- (void)setDepth:(NSString *)d;
+- (void)setDepthIcon:(NSImage *)icon;
+- (void)setDepthIconName:(NSString *)iconname;
+- (void)setDepth:(NSString *)d iconName:(NSString *)iconname;
 
--(void)setDepthBitmap;
--(void)setDepthIndexed:(int)colors;
--(void)setDepthGrey:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating;
--(void)setDepthRGB:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating;
--(void)setDepthCMYK:(int)bits alpha:(BOOL)alpha;
--(void)setDepthLab:(int)bits alpha:(BOOL)alpha;
--(void)setDepthGrey:(int)bits;
--(void)setDepthRGB:(int)bits;
--(void)setDepthRGBA:(int)bits;
+- (void)setDepthBitmap;
+- (void)setDepthIndexed:(int)colors;
+- (void)setDepthGrey:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating;
+- (void)setDepthRGB:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating;
+- (void)setDepthCMYK:(int)bits alpha:(BOOL)alpha;
+- (void)setDepthLab:(int)bits alpha:(BOOL)alpha;
+- (void)setDepthGrey:(int)bits;
+- (void)setDepthRGB:(int)bits;
+- (void)setDepthRGBA:(int)bits;
 
-+(XeeImage *)imageForFilename:(NSString *)filename;
-+(XeeImage *)imageForRef:(XeeFSRef *)ref;
-+(XeeImage *)imageForHandle:(CSHandle *)fh;
-+(XeeImage *)imageForHandle:(CSHandle *)fh ref:(XeeFSRef *)ref attributes:(NSDictionary *)attrs;
-@property (class, readonly) NSArray<NSString*> *allFileTypes;
++ (XeeImage *)imageForFilename:(NSString *)filename;
++ (XeeImage *)imageForRef:(XeeFSRef *)ref;
++ (XeeImage *)imageForHandle:(CSHandle *)fh;
++ (XeeImage *)imageForHandle:(CSHandle *)fh
+						 ref:(XeeFSRef *)ref
+				  attributes:(NSDictionary *)attrs;
+@property (class, readonly) NSArray<NSString *> *allFileTypes;
 @property (class, readonly) NSDictionary *fileTypeDictionary;
-+(void)registerImageClass:(Class)aClass;
++ (void)registerImageClass:(Class)aClass;
 
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
-@property (class, readonly) NSArray<NSString*> *fileTypes;
++ (BOOL)canOpenFile:(NSString *)name
+		 firstBlock:(NSData *)block
+		 attributes:(NSDictionary *)attributes;
+@property (class, readonly) NSArray<NSString *> *fileTypes;
 
 @end
 
-static inline void __XeeImageLoaderYield(volatile BOOL *stop,CSCoroutine *coro) { if(*stop) { *stop=NO; [coro returnFrom]; } }
-static inline void __XeeImageLoaderDone(BOOL success,BOOL *loaded,BOOL *finished,CSCoroutine *coro) { *loaded=success; *finished=YES; for(;;) [coro returnFrom]; }
+static inline void __XeeImageLoaderYield(volatile BOOL *stop, CSCoroutine *coro)
+{
+	if (*stop) {
+		*stop = NO;
+		[coro returnFrom];
+	}
+}
+static inline void __XeeImageLoaderDone(BOOL success, BOOL *loaded,
+										BOOL *finished, CSCoroutine *coro)
+{
+	*loaded = success;
+	*finished = YES;
+	for (;;)
+		[coro returnFrom];
+}
 #define XeeImageLoaderHeaderDone() [coro returnFrom]
-#define XeeImageLoaderYield() __XeeImageLoaderYield(&stop,coro)
-#define XeeImageLoaderDone(success) __XeeImageLoaderDone(success,&loaded,&finished,coro)
-
-
+#define XeeImageLoaderYield() __XeeImageLoaderYield(&stop, coro)
+#define XeeImageLoaderDone(success) \
+	__XeeImageLoaderDone(success, &loaded, &finished, coro)
 
 @protocol XeeImageDelegate <NSObject>
 
--(void)xeeImageLoadingProgress:(XeeImage *)image;
--(void)xeeImageDidChange:(XeeImage *)image;
--(void)xeeImageSizeDidChange:(XeeImage *)image;
--(void)xeeImagePropertiesDidChange:(XeeImage *)image;
+- (void)xeeImageLoadingProgress:(XeeImage *)image;
+- (void)xeeImageDidChange:(XeeImage *)image;
+- (void)xeeImageSizeDidChange:(XeeImage *)image;
+- (void)xeeImagePropertiesDidChange:(XeeImage *)image;
 
 @end

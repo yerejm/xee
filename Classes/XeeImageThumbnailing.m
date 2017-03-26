@@ -2,15 +2,15 @@
 
 @implementation XeeImage (Thumbnailing)
 
--(CGImageRef)makeRGBThumbnailOfSize:(int)size
+- (CGImageRef)makeRGBThumbnailOfSize:(int)size
 {
-	CGImageRef cgimage=[self createCGImage];
-	CGImageRef thumbnail=NULL;
+	CGImageRef cgimage = [self createCGImage];
+	CGImageRef thumbnail = NULL;
 
 	if (cgimage) {
-		size_t cgwidth=CGImageGetWidth(cgimage);
-		size_t cgheight=CGImageGetHeight(cgimage);
-		size_t thumbwidth,thumbheight;
+		size_t cgwidth = CGImageGetWidth(cgimage);
+		size_t cgheight = CGImageGetHeight(cgimage);
+		size_t thumbwidth, thumbheight;
 
 		if (cgwidth > cgheight) {
 			thumbwidth = size;
@@ -22,9 +22,9 @@
 
 		NSMutableData *thumbdata = [NSMutableData dataWithLength:thumbwidth * thumbheight * 4];
 		if (thumbdata) {
-			CGContextRef context=CGBitmapContextCreate(thumbdata.mutableBytes,
-			thumbwidth,thumbheight, 8, thumbwidth * 4,CGImageGetColorSpace(cgimage),
-			kCGImageAlphaPremultipliedLast);
+			CGContextRef context = CGBitmapContextCreate(thumbdata.mutableBytes,
+														 thumbwidth, thumbheight, 8, thumbwidth * 4, CGImageGetColorSpace(cgimage),
+														 kCGImageAlphaPremultipliedLast);
 			if (context) {
 				CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
 				CGContextDrawImage(context, CGRectMake(0, 0, thumbwidth, thumbheight), cgimage);
@@ -39,14 +39,14 @@
 	return thumbnail;
 }
 
--(NSData *)makeJPEGThumbnailOfSize:(int)size maxBytes:(int)maxbytes
+- (NSData *)makeJPEGThumbnailOfSize:(int)size maxBytes:(int)maxbytes
 {
-	CGImageRef thumbnail=[self makeRGBThumbnailOfSize:size];
+	CGImageRef thumbnail = [self makeRGBThumbnailOfSize:size];
 	if (!thumbnail) {
 		return NULL;
 	}
 
-	NSData *thumbdata=NULL;
+	NSData *thumbdata = NULL;
 	int quality = 60;
 	do {
 		NSMutableData *data = [[NSMutableData alloc] init];
@@ -54,8 +54,8 @@
 			CGImageDestinationRef dest = CGImageDestinationCreateWithData((CFMutableDataRef)data,
 																		  kUTTypeJPEG, 1, NULL);
 			if (dest) {
-				NSDictionary *options = @{(NSString *)kCGImageDestinationLossyCompressionQuality:
-											  @((float)quality/100.0)};
+				NSDictionary *options = @{(NSString *)kCGImageDestinationLossyCompressionQuality :
+											  @((float)quality / 100.0) };
 
 				CGImageDestinationAddImage(dest, thumbnail, (CFDictionaryRef)options);
 

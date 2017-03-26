@@ -3,17 +3,16 @@
 
 #import <XADMaster/CSMemoryHandle.h>
 
-@interface XeeSWFSource:XeeListSource
-{
+@interface XeeSWFSource : XeeListSource {
 	NSString *filename;
 	SWFParser *parser;
 }
 
-+(NSArray *)fileTypes;
++ (NSArray *)fileTypes;
 
--(id)initWithFile:(NSString *)swfname;
+- (id)initWithFile:(NSString *)swfname;
 
--(void)start;
+- (void)start;
 
 @property (readonly, retain) NSString *windowTitle;
 @property (readonly, retain) NSString *windowRepresentedFilename;
@@ -21,38 +20,40 @@
 
 @end
 
-
-
-@interface XeeSWFEntry:XeeListEntry
-{
+@interface XeeSWFEntry : XeeListEntry {
 	CSHandle *originalhandle;
 	NSString *name;
 }
 
--(id)initWithHandle:(CSHandle *)handle name:(NSString *)descname;
+- (id)initWithHandle:(CSHandle *)handle name:(NSString *)descname;
 
 @property (readonly, copy) NSString *descriptiveName;
 
--(CSHandle *)newHandle NS_RETURNS_NOT_RETAINED;
+- (CSHandle *)newHandle NS_RETURNS_NOT_RETAINED;
 
 @end
 
-@interface XeeSWFJPEGEntry:XeeSWFEntry {}
--(XeeImage *)produceImage;
+@interface XeeSWFJPEGEntry : XeeSWFEntry {
+}
+- (XeeImage *)produceImage;
 @end
 
-@interface XeeSWFLossless3Entry:XeeSWFEntry {}
--(XeeImage *)produceImage;
+@interface XeeSWFLossless3Entry : XeeSWFEntry {
+}
+- (XeeImage *)produceImage;
 @end
 
-@interface XeeSWFLossless3AlphaEntry:XeeSWFEntry {}
--(XeeImage *)produceImage;
+@interface XeeSWFLossless3AlphaEntry : XeeSWFEntry {
+}
+- (XeeImage *)produceImage;
 @end
 
-@interface XeeSWFLossless5Entry:XeeSWFEntry {}
--(XeeImage *)produceImage;
+@interface XeeSWFLossless5Entry : XeeSWFEntry {
+}
+- (XeeImage *)produceImage;
 @end
 
-@interface XeeSWFLossless5AlphaEntry:XeeSWFEntry {}
--(XeeImage *)produceImage;
+@interface XeeSWFLossless5AlphaEntry : XeeSWFEntry {
+}
+- (XeeImage *)produceImage;
 @end

@@ -2,35 +2,30 @@
 
 #import <XADMaster/XADArchive.h>
 
-
-@interface XeeArchiveSource:XeeFileSource <XADArchiveParserDelegate>
-{
+@interface XeeArchiveSource : XeeFileSource <XADArchiveParserDelegate> {
 	NSString *filename;
 	XADArchiveParser *parser;
 	NSString *tmpdir;
 	int n;
 }
 
-+(NSArray *)fileTypes;
++ (NSArray *)fileTypes;
 
--(instancetype)initWithArchive:(NSString *)archivename;
--(void)dealloc;
+- (instancetype)initWithArchive:(NSString *)archivename;
+- (void)dealloc;
 
--(void)start;
+- (void)start;
 
--(NSString *)windowTitle;
--(NSString *)windowRepresentedFilename;
+- (NSString *)windowTitle;
+- (NSString *)windowRepresentedFilename;
 
--(BOOL)canBrowse;
--(BOOL)canSort;
--(BOOL)canCopyCurrentImage;
+- (BOOL)canBrowse;
+- (BOOL)canSort;
+- (BOOL)canCopyCurrentImage;
 
 @end
 
-
-
-@interface XeeArchiveEntry:XeeFileEntry
-{
+@interface XeeArchiveEntry : XeeFileEntry {
 	XADArchiveParser *parser;
 	NSDictionary *dict;
 	XeeFSRef *ref;
@@ -39,18 +34,20 @@
 	double time;
 }
 
--(instancetype)initWithArchiveParser:(XADArchiveParser *)parent entry:(NSDictionary *)entry realPath:(NSString *)realpath;
--(instancetype)initAsCopyOf:(XeeArchiveEntry *)other;
--(void)dealloc;
+- (instancetype)initWithArchiveParser:(XADArchiveParser *)parent
+								entry:(NSDictionary *)entry
+							 realPath:(NSString *)realpath;
+- (instancetype)initAsCopyOf:(XeeArchiveEntry *)other;
+- (void)dealloc;
 
--(NSString *)descriptiveName;
+- (NSString *)descriptiveName;
 @property (readonly, retain) XeeFSRef *ref;
 @property (readonly, copy) NSString *path;
 @property (readonly, copy) NSString *filename;
 @property (readonly) uint64_t size;
 @property (readonly) double time;
 
--(BOOL)isEqual:(XeeArchiveEntry *)other;
--(NSUInteger)hash;
+- (BOOL)isEqual:(XeeArchiveEntry *)other;
+- (NSUInteger)hash;
 
 @end

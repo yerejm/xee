@@ -1,17 +1,15 @@
 #import "XeeSimpleLayout.h"
 #import "XeeSavePanel.h"
 
-
-@implementation XeeSimpleLayout:NSView
+@implementation XeeSimpleLayout : NSView
 @synthesize delegate;
 
--(id)initWithControl:(XeeSLControl *)content
+- (id)initWithControl:(XeeSLControl *)content
 {
-	if(self=[super initWithFrame:NSZeroRect])
-	{
-		delegate=nil;
+	if (self = [super initWithFrame:NSZeroRect]) {
+		delegate = nil;
 
-		control=[content retain];
+		control = [content retain];
 		[control addElementsToSuperview:self];
 
 		[self layout];
@@ -19,219 +17,238 @@
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[delegate release];
 	[super dealloc];
 }
 
--(BOOL)isFlipped { return YES; }
-
--(void)layout
+- (BOOL)isFlipped
 {
-	int titlewidth=[control titleWidth];
-	int contentwidth=[control contentWidth];
-	int height=[control height];
+	return YES;
+}
 
-	/*if([self frame].size.height==0)*/ [self setFrameSize:NSMakeSize(titlewidth+contentwidth,height)];
-	[control layoutContent:NSMakeRect(titlewidth,0,contentwidth,height) title:NSMakeRect(0,0,titlewidth,height)];
+- (void)layout
+{
+	int titlewidth = [control titleWidth];
+	int contentwidth = [control contentWidth];
+	int height = [control height];
+
+	/*if([self frame].size.height==0)*/ [self setFrameSize:NSMakeSize(titlewidth + contentwidth, height)];
+	[control layoutContent:NSMakeRect(titlewidth, 0, contentwidth, height) title:NSMakeRect(0, 0, titlewidth, height)];
 
 	[self setNeedsDisplay:YES];
 }
 
--(void)requestLayout
+- (void)requestLayout
 {
 	[self layout];
 
-	if(delegate&&[delegate respondsToSelector:@selector(xeeSLUpdated:)])
-	[(NSObject*)delegate performSelectorOnMainThread:@selector(xeeSLUpdated:) withObject:self waitUntilDone:NO];
+	if (delegate && [delegate respondsToSelector:@selector(xeeSLUpdated:)])
+		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeSLUpdated:) withObject:self waitUntilDone:NO];
 }
 
 @end
 
-
-
 @implementation XeeSLControl
 @synthesize delegate;
 
--(id)initWithTitle:(NSString *)title
+- (id)initWithTitle:(NSString *)title
 {
-	if(self=[super init])
-	{
-		delegate=nil;
-		parent=nil;
+	if (self = [super init]) {
+		delegate = nil;
+		parent = nil;
 
-		if(title)
-		{
-			titlefield=[[NSTextField alloc] initWithFrame:NSZeroRect];
+		if (title) {
+			titlefield = [[NSTextField alloc] initWithFrame:NSZeroRect];
 			[titlefield setStringValue:title];
 			[titlefield setEditable:NO];
 			[titlefield setBezeled:NO];
 			[titlefield setDrawsBackground:NO];
 			[titlefield sizeToFit];
-		}
-		else titlefield=nil;
+		} else
+			titlefield = nil;
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[titlefield release];
 	[delegate release];
 	[super dealloc];
 }
 
--(int)height { return [titlefield frame].size.height; }
--(int)topSpacing { return 0; }
--(int)bottomSpacing { return 0; }
--(int)contentWidth { return 0; }
--(int)titleWidth { return titlefield?[titlefield frame].size.width+2:0; }
-
--(void)addElementsToSuperview:(XeeSimpleLayout *)superview
+- (int)height
 {
-	if(titlefield) [superview addSubview:titlefield];
-	[parent release];
-	parent=[superview retain];
+	return [titlefield frame].size.height;
+}
+- (int)topSpacing
+{
+	return 0;
+}
+- (int)bottomSpacing
+{
+	return 0;
+}
+- (int)contentWidth
+{
+	return 0;
+}
+- (int)titleWidth
+{
+	return titlefield ? [titlefield frame].size.width + 2 : 0;
 }
 
--(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+- (void)addElementsToSuperview:(XeeSimpleLayout *)superview
 {
-	if(titlefield)
-	{
-		NSRect frame=[titlefield frame];
-		[titlefield setFrameOrigin:NSMakePoint(titlerect.origin.x+titlerect.size.width-frame.size.width-2,titlerect.origin.y)];
+	if (titlefield)
+		[superview addSubview:titlefield];
+	[parent release];
+	parent = [superview retain];
+}
+
+- (void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+{
+	if (titlefield) {
+		NSRect frame = [titlefield frame];
+		[titlefield setFrameOrigin:NSMakePoint(titlerect.origin.x + titlerect.size.width - frame.size.width - 2, titlerect.origin.y)];
 	}
 }
 
--(void)setHidden:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden
 {
 	[titlefield setHidden:hidden];
 }
 
 @end
 
+@implementation XeeSLGroup : XeeSLControl
 
-
-@implementation XeeSLGroup:XeeSLControl
-
--(id)initWithControls:(NSArray *)controlarray
+- (id)initWithControls:(NSArray *)controlarray
 {
-	if(self=[super initWithTitle:nil])
-	{
-		controls=[controlarray retain];
+	if (self = [super initWithTitle:nil]) {
+		controls = [controlarray retain];
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[controls release];
 	[super dealloc];
 }
 
--(int)height
+- (int)height
 {
-	NSEnumerator *enumerator=[controls objectEnumerator];
+	NSEnumerator *enumerator = [controls objectEnumerator];
 	XeeSLControl *control;
-	int height=0;
-	int prevspacing=-1;
+	int height = 0;
+	int prevspacing = -1;
 
-	while(control=[enumerator nextObject])
-	{
-		int currheight=[control height];
-		int topspacing=[control topSpacing];
-		int bottomspacing=[control bottomSpacing];
+	while (control = [enumerator nextObject]) {
+		int currheight = [control height];
+		int topspacing = [control topSpacing];
+		int bottomspacing = [control bottomSpacing];
 
-		if(prevspacing!=-1) height+=MAX(prevspacing,topspacing);
-		height+=currheight;
+		if (prevspacing != -1)
+			height += MAX(prevspacing, topspacing);
+		height += currheight;
 
-		prevspacing=bottomspacing;
+		prevspacing = bottomspacing;
 	}
 
 	return height;
 }
 
--(int)topSpacing { return [[controls objectAtIndex:0] topSpacing]; }
-
--(int)bottomSpacing { return [[controls lastObject] bottomSpacing]; }
-
--(int)contentWidth
+- (int)topSpacing
 {
-	NSEnumerator *enumerator=[controls objectEnumerator];
-	XeeSLControl *control;
-	int width=0;
+	return [[controls objectAtIndex:0] topSpacing];
+}
 
-	while(control=[enumerator nextObject])
-	{
-		int currwidth=[control contentWidth];
-		if(currwidth>width) width=currwidth;
+- (int)bottomSpacing
+{
+	return [[controls lastObject] bottomSpacing];
+}
+
+- (int)contentWidth
+{
+	NSEnumerator *enumerator = [controls objectEnumerator];
+	XeeSLControl *control;
+	int width = 0;
+
+	while (control = [enumerator nextObject]) {
+		int currwidth = [control contentWidth];
+		if (currwidth > width)
+			width = currwidth;
 	}
 
 	return width;
 }
 
--(int)titleWidth
+- (int)titleWidth
 {
-	NSEnumerator *enumerator=[controls objectEnumerator];
+	NSEnumerator *enumerator = [controls objectEnumerator];
 	XeeSLControl *control;
-	int width=0;
+	int width = 0;
 
-	while(control=[enumerator nextObject])
-	{
-		int currwidth=[control titleWidth];
-		if(currwidth>width) width=currwidth;
+	while (control = [enumerator nextObject]) {
+		int currwidth = [control titleWidth];
+		if (currwidth > width)
+			width = currwidth;
 	}
 	return width;
 }
 
--(void)addElementsToSuperview:(XeeSimpleLayout *)superview
+- (void)addElementsToSuperview:(XeeSimpleLayout *)superview
 {
 	[controls makeObjectsPerformSelector:@selector(addElementsToSuperview:) withObject:superview];
 }
 
--(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+- (void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
 {
-	NSEnumerator *enumerator=[controls objectEnumerator];
+	NSEnumerator *enumerator = [controls objectEnumerator];
 	XeeSLControl *control;
-	int y=contentrect.origin.y;
-	int prevspacing=-1;
+	int y = contentrect.origin.y;
+	int prevspacing = -1;
 
-	while(control=[enumerator nextObject])
-	{
-		int currheight=[control height];
-		int topspacing=[control topSpacing];
-		int bottomspacing=[control bottomSpacing];
+	while (control = [enumerator nextObject]) {
+		int currheight = [control height];
+		int topspacing = [control topSpacing];
+		int bottomspacing = [control bottomSpacing];
 
-		if(prevspacing!=-1) y+=MAX(prevspacing,topspacing);
+		if (prevspacing != -1)
+			y += MAX(prevspacing, topspacing);
 
-		titlerect.size.height=contentrect.size.height=currheight;
-		titlerect.origin.y=contentrect.origin.y=y;
+		titlerect.size.height = contentrect.size.height = currheight;
+		titlerect.origin.y = contentrect.origin.y = y;
 
 		[control layoutContent:contentrect title:titlerect];
 
-		y+=currheight;
-		prevspacing=bottomspacing;
+		y += currheight;
+		prevspacing = bottomspacing;
 	}
 }
 
--(void)setHidden:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden
 {
 	[super setHidden:hidden];
 
-	NSEnumerator *enumerator=[controls objectEnumerator];
+	NSEnumerator *enumerator = [controls objectEnumerator];
 	XeeSLControl *control;
-	while(control=[enumerator nextObject]) [control setHidden:hidden];
+	while (control = [enumerator nextObject])
+		[control setHidden:hidden];
 }
 
-+(XeeSLGroup *)groupWithControls:(XeeSLControl *)control,...
++ (XeeSLGroup *)groupWithControls:(XeeSLControl *)control, ...
 {
-	NSMutableArray *controls=[[[NSMutableArray alloc] initWithObjects:&control count:1] autorelease];
+	NSMutableArray *controls = [[[NSMutableArray alloc] initWithObjects:&control count:1] autorelease];
 	id obj;
 	va_list va;
 
-	va_start(va,control);
-	while((obj=va_arg(va,id))) [controls addObject:obj];
+	va_start(va, control);
+	while ((obj = va_arg(va, id)))
+		[controls addObject:obj];
 	va_end(va);
 
 	return [[[XeeSLGroup alloc] initWithControls:controls] autorelease];
@@ -239,24 +256,21 @@
 
 @end
 
+@implementation XeeSLPopUp : XeeSLControl
 
-
-@implementation XeeSLPopUp:XeeSLControl
-
--(id)initWithTitle:(NSString *)title contents:(NSArray *)contents defaultValue:(int)def
+- (id)initWithTitle:(NSString *)title contents:(NSArray *)contents defaultValue:(int)def
 {
-	if(self=[super initWithTitle:title])
-	{
-		popup=[[NSPopUpButton alloc] initWithFrame:NSZeroRect];
+	if (self = [super initWithTitle:title]) {
+		popup = [[NSPopUpButton alloc] initWithFrame:NSZeroRect];
 		[popup addItemsWithTitles:contents];
 
-		maxwidth=0;
-		for(int i=0;i<[popup numberOfItems];i++)
-		{
+		maxwidth = 0;
+		for (int i = 0; i < [popup numberOfItems]; i++) {
 			[popup selectItemAtIndex:i];
 			[popup sizeToFit];
-			int width=[popup frame].size.width;
-			if(width>maxwidth) maxwidth=width;
+			int width = [popup frame].size.width;
+			if (width > maxwidth)
+				maxwidth = width;
 		}
 
 		[popup selectItemAtIndex:def];
@@ -264,134 +278,152 @@
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[popup release];
 	[super dealloc];
 }
 
--(int)height { return 26; }
--(int)topSpacing { return 4; }
--(int)bottomSpacing { return 4; }
--(int)contentWidth { return maxwidth; }
+- (int)height
+{
+	return 26;
+}
+- (int)topSpacing
+{
+	return 4;
+}
+- (int)bottomSpacing
+{
+	return 4;
+}
+- (int)contentWidth
+{
+	return maxwidth;
+}
 
--(void)addElementsToSuperview:(XeeSimpleLayout *)superview
+- (void)addElementsToSuperview:(XeeSimpleLayout *)superview
 {
 	[superview addSubview:popup];
 	[super addElementsToSuperview:superview];
 }
 
--(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+- (void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
 {
 	[popup setFrame:contentrect];
 
-	titlerect.origin.y+=4;
-	titlerect.size.height-=4;
+	titlerect.origin.y += 4;
+	titlerect.size.height -= 4;
 	[super layoutContent:contentrect title:titlerect];
 }
 
--(void)setHidden:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden
 {
 	[super setHidden:hidden];
 	[popup setHidden:hidden];
 }
 
--(NSInteger)value
+- (NSInteger)value
 {
 	return [popup indexOfSelectedItem];
 }
 
-+(XeeSLPopUp *)popUpWithTitle:(NSString *)title defaultValue:(int)def contents:(NSString *)entry,...
++ (XeeSLPopUp *)popUpWithTitle:(NSString *)title defaultValue:(int)def contents:(NSString *)entry, ...
 {
-	NSMutableArray *contents=[[[NSMutableArray alloc] initWithObjects:&entry count:1] autorelease];
+	NSMutableArray *contents = [[[NSMutableArray alloc] initWithObjects:&entry count:1] autorelease];
 	id obj;
 	va_list va;
 
-	va_start(va,entry);
-	while((obj=va_arg(va,id))) [contents addObject:obj];
+	va_start(va, entry);
+	while ((obj = va_arg(va, id)))
+		[contents addObject:obj];
 	va_end(va);
 
 	return [[[XeeSLPopUp alloc] initWithTitle:title contents:contents defaultValue:def] autorelease];
 }
 
-
 @end
 
+@implementation XeeSLSwitch : XeeSLControl
 
-
-
-@implementation XeeSLSwitch:XeeSLControl
-
--(id)initWithTitle:(NSString *)title label:(NSString *)label defaultValue:(BOOL)def;
+- (id)initWithTitle:(NSString *)title label:(NSString *)label defaultValue:(BOOL)def;
 {
-	if(self=[super initWithTitle:title])
-	{
-		check=[[NSButton alloc] initWithFrame:NSZeroRect];
+	if (self = [super initWithTitle:title]) {
+		check = [[NSButton alloc] initWithFrame:NSZeroRect];
 		[check setButtonType:NSSwitchButton];
 		[check setTitle:label];
-		if(def) [check setState:NSOnState];
+		if (def)
+			[check setState:NSOnState];
 		[check sizeToFit];
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[check release];
 	[super dealloc];
 }
 
--(int)height { return 18; }
--(int)topSpacing { return 2; }
--(int)bottomSpacing { return 2; }
--(int)contentWidth { return [check frame].size.width; }
+- (int)height
+{
+	return 18;
+}
+- (int)topSpacing
+{
+	return 2;
+}
+- (int)bottomSpacing
+{
+	return 2;
+}
+- (int)contentWidth
+{
+	return [check frame].size.width;
+}
 
--(void)addElementsToSuperview:(XeeSimpleLayout *)superview
+- (void)addElementsToSuperview:(XeeSimpleLayout *)superview
 {
 	[superview addSubview:check];
 	[super addElementsToSuperview:superview];
 }
 
--(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+- (void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
 {
 	[check setFrameOrigin:contentrect.origin];
 	[super layoutContent:contentrect title:titlerect];
 }
 
--(void)setHidden:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden
 {
 	[super setHidden:hidden];
 	[check setHidden:hidden];
 }
 
--(BOOL)value
+- (BOOL)value
 {
-	return [check state]==NSOnState;
+	return [check state] == NSOnState;
 }
 
-+(XeeSLSwitch *)switchWithTitle:(NSString *)title label:(NSString *)label defaultValue:(BOOL)def
++ (XeeSLSwitch *)switchWithTitle:(NSString *)title label:(NSString *)label defaultValue:(BOOL)def
 {
 	return [[[XeeSLSwitch alloc] initWithTitle:title label:label defaultValue:def] autorelease];
 }
 
 @end
 
+@implementation XeeSLSlider : XeeSLControl
 
-
-@implementation XeeSLSlider:XeeSLControl
-
--(id)initWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def
+- (id)initWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def
 {
-	if(self=[super initWithTitle:title])
-	{
-		slider=[[NSSlider alloc] initWithFrame:NSZeroRect];
+	if (self = [super initWithTitle:title]) {
+		slider = [[NSSlider alloc] initWithFrame:NSZeroRect];
 		[slider setMinValue:minval];
 		[slider setMaxValue:maxval];
 		[slider setNumberOfTickMarks:11];
 		[slider setFloatValue:def];
 		[slider sizeToFit];
 
-		minfield=[[NSTextField alloc] initWithFrame:NSZeroRect];
+		minfield = [[NSTextField alloc] initWithFrame:NSZeroRect];
 		[minfield setStringValue:minlabel];
 		[minfield setEditable:NO];
 		[minfield setBezeled:NO];
@@ -399,7 +431,7 @@
 		[minfield setFont:[NSFont labelFontOfSize:9]];
 		[minfield sizeToFit];
 
-		maxfield=[[NSTextField alloc] initWithFrame:NSZeroRect];
+		maxfield = [[NSTextField alloc] initWithFrame:NSZeroRect];
 		[maxfield setStringValue:maxlabel];
 		[maxfield setEditable:NO];
 		[maxfield setBezeled:NO];
@@ -411,7 +443,7 @@
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[slider release];
 	[minfield release];
@@ -419,12 +451,24 @@
 	[super dealloc];
 }
 
--(int)height { return 44; }
--(int)topSpacing { return 6; }
--(int)bottomSpacing { return 6; }
--(int)contentWidth { return 3*([minfield frame].size.width+[maxfield frame].size.width)/2; }
+- (int)height
+{
+	return 44;
+}
+- (int)topSpacing
+{
+	return 6;
+}
+- (int)bottomSpacing
+{
+	return 6;
+}
+- (int)contentWidth
+{
+	return 3 * ([minfield frame].size.width + [maxfield frame].size.width) / 2;
+}
 
--(void)addElementsToSuperview:(XeeSimpleLayout *)superview
+- (void)addElementsToSuperview:(XeeSimpleLayout *)superview
 {
 	[superview addSubview:slider];
 	[superview addSubview:minfield];
@@ -432,20 +476,20 @@
 	[super addElementsToSuperview:superview];
 }
 
--(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+- (void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
 {
-	int sliderheight=33;
+	int sliderheight = 33;
 
-	contentrect.size.height=sliderheight;
+	contentrect.size.height = sliderheight;
 	[slider setFrame:contentrect];
 
-	[minfield setFrameOrigin:NSMakePoint(contentrect.origin.x,contentrect.origin.y+sliderheight)];
-	[maxfield setFrameOrigin:NSMakePoint(contentrect.origin.x+contentrect.size.width-[maxfield frame].size.width,contentrect.origin.y+sliderheight)];
+	[minfield setFrameOrigin:NSMakePoint(contentrect.origin.x, contentrect.origin.y + sliderheight)];
+	[maxfield setFrameOrigin:NSMakePoint(contentrect.origin.x + contentrect.size.width - [maxfield frame].size.width, contentrect.origin.y + sliderheight)];
 
 	[super layoutContent:contentrect title:titlerect];
 }
 
--(void)setHidden:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden
 {
 	[super setHidden:hidden];
 	[slider setHidden:hidden];
@@ -453,7 +497,7 @@
 	[maxfield setHidden:hidden];
 }
 
--(CGFloat)value
+- (CGFloat)value
 {
 #if CGFLOAT_IS_DOUBLE
 	return [slider doubleValue];
@@ -462,25 +506,21 @@
 #endif
 }
 
-+(XeeSLSlider *)sliderWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def
++ (XeeSLSlider *)sliderWithTitle:(NSString *)title minLabel:(NSString *)minlabel maxLabel:(NSString *)maxlabel min:(CGFloat)minval max:(CGFloat)maxval defaultValue:(CGFloat)def
 {
 	return [[[XeeSLSlider alloc] initWithTitle:title minLabel:minlabel maxLabel:maxlabel min:minval max:maxval defaultValue:def] autorelease];
 }
 
 @end
 
+@implementation XeeSLPages : XeeSLPopUp
 
-
-
-@implementation XeeSLPages:XeeSLPopUp
-
--(id)initWithTitle:(NSString *)title pages:(NSArray *)pagearray names:(NSArray *)namearray defaultValue:(int)def
+- (id)initWithTitle:(NSString *)title pages:(NSArray *)pagearray names:(NSArray *)namearray defaultValue:(int)def
 {
-	NSAssert([pagearray count]==[namearray count],@"Page and name counts do not match");
+	NSAssert([pagearray count] == [namearray count], @"Page and name counts do not match");
 
-	if(self=[super initWithTitle:title contents:namearray defaultValue:def])
-	{
-		pages=[pagearray retain];
+	if (self = [super initWithTitle:title contents:namearray defaultValue:def]) {
+		pages = [pagearray retain];
 
 		[popup setAction:@selector(pageChanged:)];
 		[popup setTarget:self];
@@ -488,123 +528,128 @@
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[pages release];
-	
+
 	[super dealloc];
 }
 
--(int)height
+- (int)height
 {
-	XeeSLControl *content=[pages objectAtIndex:[self value]];
-	int selectorheight=[super height];
-	int selectorbottom=[super bottomSpacing];
+	XeeSLControl *content = [pages objectAtIndex:[self value]];
+	int selectorheight = [super height];
+	int selectorbottom = [super bottomSpacing];
 
-	if((id)content==[NSNull null]) return selectorheight;
+	if ((id)content == [NSNull null])
+		return selectorheight;
 
-	int contenttop=[content topSpacing];
-	int contentheight=[content height];
+	int contenttop = [content topSpacing];
+	int contentheight = [content height];
 
-	return selectorheight+MAX(selectorbottom,contenttop)+contentheight;
+	return selectorheight + MAX(selectorbottom, contenttop) + contentheight;
 }
 
--(int)bottomSpacing
+- (int)bottomSpacing
 {
-	XeeSLControl *content=[pages objectAtIndex:[self value]];
+	XeeSLControl *content = [pages objectAtIndex:[self value]];
 
-	if((id)content==[NSNull null]) return [super bottomSpacing];
-	else return [content bottomSpacing];
+	if ((id)content == [NSNull null])
+		return [super bottomSpacing];
+	else
+		return [content bottomSpacing];
 }
 
--(int)contentWidth
+- (int)contentWidth
 {
-	NSEnumerator *enumerator=[pages objectEnumerator];
+	NSEnumerator *enumerator = [pages objectEnumerator];
 	XeeSLControl *control;
-	int width=[super contentWidth];
+	int width = [super contentWidth];
 
-	while(control=[enumerator nextObject])
-	{
-		if((id)control==[NSNull null]) continue;
-		int currwidth=[control contentWidth];
-		if(currwidth>width) width=currwidth;
+	while (control = [enumerator nextObject]) {
+		if ((id)control == [NSNull null])
+			continue;
+		int currwidth = [control contentWidth];
+		if (currwidth > width)
+			width = currwidth;
 	}
 
 	return width;
 }
 
--(int)titleWidth
+- (int)titleWidth
 {
-	NSEnumerator *enumerator=[pages objectEnumerator];
+	NSEnumerator *enumerator = [pages objectEnumerator];
 	XeeSLControl *control;
-	int width=[super titleWidth];
+	int width = [super titleWidth];
 
-	while(control=[enumerator nextObject])
-	{
-		if((id)control==[NSNull null]) continue;
-		int currwidth=[control titleWidth];
-		if(currwidth>width) width=currwidth;
+	while (control = [enumerator nextObject]) {
+		if ((id)control == [NSNull null])
+			continue;
+		int currwidth = [control titleWidth];
+		if (currwidth > width)
+			width = currwidth;
 	}
 
 	return width;
 }
 
--(void)addElementsToSuperview:(XeeSimpleLayout *)superview
+- (void)addElementsToSuperview:(XeeSimpleLayout *)superview
 {
 	[super addElementsToSuperview:superview];
 
-	NSEnumerator *enumerator=[pages objectEnumerator];
+	NSEnumerator *enumerator = [pages objectEnumerator];
 	XeeSLControl *control;
 
-	while(control=[enumerator nextObject])
-	{
-		if((id)control==[NSNull null]) continue;
+	while (control = [enumerator nextObject]) {
+		if ((id)control == [NSNull null])
+			continue;
 		[control addElementsToSuperview:superview];
 	}
 }
 
--(void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
+- (void)layoutContent:(NSRect)contentrect title:(NSRect)titlerect
 {
-	NSInteger page=[self value];
-	XeeSLControl *content=[pages objectAtIndex:page];
+	NSInteger page = [self value];
+	XeeSLControl *content = [pages objectAtIndex:page];
 
-	int selectorheight=[super height];
-	int selectorbottom=[super bottomSpacing];
+	int selectorheight = [super height];
+	int selectorbottom = [super bottomSpacing];
 
-	titlerect.size.height=contentrect.size.height=selectorheight;
+	titlerect.size.height = contentrect.size.height = selectorheight;
 	[super layoutContent:contentrect title:titlerect];
 
-	if((id)content != [NSNull null])
-	{
-		int contenttop=[content topSpacing];
-		int contentheight=[content height];
+	if ((id)content != [NSNull null]) {
+		int contenttop = [content topSpacing];
+		int contentheight = [content height];
 
-		titlerect.origin.y+=selectorheight+MAX(selectorbottom,contenttop);
-		contentrect.origin.y+=selectorheight+MAX(selectorbottom,contenttop);
-		titlerect.size.height=contentrect.size.height=contentheight;
+		titlerect.origin.y += selectorheight + MAX(selectorbottom, contenttop);
+		contentrect.origin.y += selectorheight + MAX(selectorbottom, contenttop);
+		titlerect.size.height = contentrect.size.height = contentheight;
 
 		[content layoutContent:contentrect title:titlerect];
 	}
 
-	NSInteger count=[pages count];
-	for(NSInteger i=0;i<count;i++)
-	{
-		XeeSLControl *control=[pages objectAtIndex:i];
-		if((id)control==[NSNull null]) continue;
+	NSInteger count = [pages count];
+	for (NSInteger i = 0; i < count; i++) {
+		XeeSLControl *control = [pages objectAtIndex:i];
+		if ((id)control == [NSNull null])
+			continue;
 
-		[control setHidden:i!=page];
+		[control setHidden:i != page];
 	}
 }
 
--(void)setHidden:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden
 {
 	[super setHidden:hidden];
 
-	XeeSLControl *content=[pages objectAtIndex:[self value]];
-	if((id)content!=[NSNull null]) [content setHidden:hidden];
+	XeeSLControl *content = [pages objectAtIndex:[self value]];
+	if ((id)content != [NSNull null])
+		[content setHidden:hidden];
 }
 
--(void)pageChanged:(id)sender
+- (void)pageChanged:(id)sender
 {
 	[parent requestLayout];
 }

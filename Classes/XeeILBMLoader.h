@@ -4,8 +4,7 @@
 @class XeeILBMRange;
 @class XeePropertyItem;
 
-@interface XeeILBMImage:XeeBitmapImage
-{
+@interface XeeILBMImage : XeeBitmapImage {
 	XeeIFFHandle *iff;
 
 	int realwidth, realheight;
@@ -20,8 +19,8 @@
 
 	uint32_t palette[256];
 
-	NSMutableArray<XeeILBMRange*> *ranges;
-	NSMutableArray<XeePropertyItem*> *comments;
+	NSMutableArray<XeeILBMRange *> *ranges;
+	NSMutableArray<XeePropertyItem *> *comments;
 
 	int current_line;
 
@@ -29,21 +28,23 @@
 	NSTimer *animationtimer;
 }
 
-+(NSArray *)fileTypes;
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
++ (NSArray *)fileTypes;
++ (BOOL)canOpenFile:(NSString *)name
+		 firstBlock:(NSData *)block
+		 attributes:(NSDictionary *)attributes;
 
--(instancetype)init;
+- (instancetype)init;
 
--(SEL)initLoader;
--(void)deallocLoader;
--(SEL)loadChunk;
--(SEL)startLoadingImage;
--(SEL)loadPaletteImage;
--(SEL)loadRGBImage;
+- (SEL)initLoader;
+- (void)deallocLoader;
+- (SEL)loadChunk;
+- (SEL)startLoadingImage;
+- (SEL)loadPaletteImage;
+- (SEL)loadRGBImage;
 
--(void)readRow:(uint8_t *)row;
--(void)renderImage;
--(void)addCommentWithLabel:(NSString *)label data:(NSData *)commentdata;
+- (void)readRow:(uint8_t *)row;
+- (void)renderImage;
+- (void)addCommentWithLabel:(NSString *)label data:(NSData *)commentdata;
 
 @property (readonly) uint32_t *palette NS_RETURNS_INNER_POINTER;
 
@@ -52,9 +53,7 @@
 
 @end
 
-
-@interface XeeILBMRange:NSObject
-{
+@interface XeeILBMRange : NSObject {
 	int num;
 	uint32_t *colours;
 	int *indexes;
@@ -65,11 +64,11 @@
 	__unsafe_unretained XeeILBMImage *image;
 }
 
--(instancetype)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)image;
--(BOOL)allocBuffers:(int)length;
--(void)setIndexesFrom:(int)start to:(int)end reverse:(BOOL)reverse;
--(void)setup;
--(BOOL)triggerCheck:(float)time;
--(void)cycle;
+- (instancetype)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)image;
+- (BOOL)allocBuffers:(int)length;
+- (void)setIndexesFrom:(int)start to:(int)end reverse:(BOOL)reverse;
+- (void)setup;
+- (BOOL)triggerCheck:(float)time;
+- (void)cycle;
 
 @end

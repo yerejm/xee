@@ -5,106 +5,108 @@
 #import <XADMaster/CSMemoryHandle.h>
 #import <XADMaster/CSMultiHandle.h>
 
-
 @implementation XeeClipboardSource
 @synthesize sizeOfCurrentImage = size;
 
-+(BOOL)canInitWithPasteboard:(NSPasteboard *)pboard
++ (BOOL)canInitWithPasteboard:(NSPasteboard *)pboard
 {
-//	return [NSBitmapImageRep canInitWithPasteboard:[NSPasteboard generalPasteboard]];
+	//	return [NSBitmapImageRep canInitWithPasteboard:[NSPasteboard generalPasteboard]];
 
-	if([[pboard types] containsObject:NSTIFFPboardType]) return YES;
-	if([[pboard types] containsObject:NSPICTPboardType]) return YES;
+	if ([[pboard types] containsObject:NSTIFFPboardType])
+		return YES;
+	if ([[pboard types] containsObject:NSPICTPboardType])
+		return YES;
 	return NO;
 }
 
-+(BOOL)canInitWithGeneralPasteboard
++ (BOOL)canInitWithGeneralPasteboard
 {
 	return [self canInitWithPasteboard:[NSPasteboard generalPasteboard]];
 }
 
--(id)initWithPasteboard:(NSPasteboard *)pboard
+- (id)initWithPasteboard:(NSPasteboard *)pboard
 {
 	if (self = [super init]) {
 		image = nil;
 
-		NSString *type=[pboard availableTypeFromArray:@[NSTIFFPboardType,NSPICTPboardType]];
+		NSString *type = [pboard availableTypeFromArray:@[ NSTIFFPboardType, NSPICTPboardType ]];
 		NSData *data = [pboard dataForType:type];
 
 		size = [data length];
 
 		CSHandle *handle;
-		if([type isEqual:NSPICTPboardType]) {
+		if ([type isEqual:NSPICTPboardType]) {
 			NSMutableData *head = [NSMutableData dataWithLength:512];
 			handle = [CSMultiHandle multiHandleWithHandles:
-				[CSMemoryHandle memoryHandleForReadingData:head],
-				[CSMemoryHandle memoryHandleForReadingData:data],
-			nil];
+										[CSMemoryHandle memoryHandleForReadingData:head],
+										[CSMemoryHandle memoryHandleForReadingData:data],
+										nil];
 		} else {
 			handle = [CSMemoryHandle memoryHandleForReadingData:data];
 		}
 
-/*NSLog(@"what");
+		/*NSLog(@"what");
 [[[[handle copy] autorelease] remainingFileContents] writeToFile:@"/Users/dag/Desktop/test.pict" atomically:NO];
 */
-		image=[[XeeImage imageForHandle:handle] retain];
+		image = [[XeeImage imageForHandle:handle] retain];
 
-		if(image) return self;
-		else NSBeep();
+		if (!image) {
+			NSBeep();
+			[self release];
+			return nil;
+		}
 
-/*		NSBitmapImageRep *rep=[NSBitmapImageRep imageRepWithPasteboard:pboard];
+		/*		NSBitmapImageRep *rep=[NSBitmapImageRep imageRepWithPasteboard:pboard];
 		if(rep)
 		{
 			image=[[XeeNSImage alloc] initWithNSBitmapImageRep:rep];
 			if(image) return self;
 		}*/
-		[self release];
 	}
 
-	return nil;
+	return self;
 }
 
--(id)initWithGeneralPasteboard
+- (id)initWithGeneralPasteboard
 {
 	return [self initWithPasteboard:[NSPasteboard generalPasteboard]];
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[image release];
 	[super dealloc];
 }
 
--(void)start
+- (void)start
 {
 	[image runLoader];
 	[self triggerImageChangeAction:image];
 }
 
--(NSInteger)numberOfImages
+- (NSInteger)numberOfImages
 {
 	return 1;
 }
 
--(NSInteger)indexOfCurrentImage
+- (NSInteger)indexOfCurrentImage
 {
 	return 0;
 }
 
--(NSString *)windowTitle
+- (NSString *)windowTitle
 {
-	return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard");
+	return NSLocalizedString(@"Clipboard contents", @"Window title when showing the contents of the clipboard");
 }
 
--(NSString *)descriptiveNameOfCurrentImage
+- (NSString *)descriptiveNameOfCurrentImage
 {
-	return NSLocalizedString(@"Clipboard contents",@"Window title when showing the contents of the clipboard");
+	return NSLocalizedString(@"Clipboard contents", @"Window title when showing the contents of the clipboard");
 }
 
--(void)pickImageAtIndex:(int)index next:(int)next
+- (void)pickImageAtIndex:(int)index next:(int)next
 {
 	[self triggerImageChangeAction:image];
 }
-
 
 @end

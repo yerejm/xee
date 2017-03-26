@@ -13,14 +13,12 @@
 
 static GLuint make_resize_texture();
 
-
-
 @implementation XeeView
 @synthesize delegate;
 @synthesize image;
 @synthesize tool;
 
--(id)initWithFrame:(NSRect)frameRect
+- (id)initWithFrame:(NSRect)frameRect
 {
 	/*NSOpenGLPixelFormatAttribute attrs[]={ 
 		NSOpenGLPFANoRecovery,
@@ -32,7 +30,7 @@ static GLuint make_resize_texture();
 		(NSOpenGLPixelFormatAttribute)0};
 	NSOpenGLPixelFormat *format=[[[NSOpenGLPixelFormat alloc] initWithAttributes:attrs] autorelease];
 */
-	if(self=[super initWithFrame:frameRect/* pixelFormat:format*/]) {
+	if (self = [super initWithFrame:frameRect /* pixelFormat:format*/]) {
 		image = nil;
 		tool = nil;
 
@@ -48,23 +46,23 @@ static GLuint make_resize_texture();
 
 		delegate = nil;
 
-		NSRect bounds=[self bounds];
-        // Retina Support
-        if ([self respondsToSelector:@selector(convertRectToBacking:)]) {
-            bounds = [self convertRectToBacking:bounds];
-        }
-		width=bounds.size.width;
-		height=bounds.size.height;
+		NSRect bounds = [self bounds];
+		// Retina Support
+		if ([self respondsToSelector:@selector(convertRectToBacking:)]) {
+			bounds = [self convertRectToBacking:bounds];
+		}
+		width = bounds.size.width;
+		height = bounds.size.height;
 
 		[[self openGLContext] makeCurrentContext];
-		resizetex=make_resize_texture();
+		resizetex = make_resize_texture();
 
-		GLint val=1;
+		GLint val = 1;
 		[[self openGLContext] setValues:&val forParameter:NSOpenGLCPSwapInterval];
 
 		[self registerForDraggedTypes:[NSArray arrayWithObject:NSFilenamesPboardType]];
 
-        // Retina Support
+		// Retina Support
 		if ([self respondsToSelector:@selector(setWantsBestResolutionOpenGLSurface:)]) {
 			self.wantsBestResolutionOpenGLSurface = YES;
 		}
@@ -72,10 +70,10 @@ static GLuint make_resize_texture();
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	[[self openGLContext] makeCurrentContext];
-	glDeleteTextures(1,&resizetex);
+	glDeleteTextures(1, &resizetex);
 
 	[tool release];
 
@@ -87,188 +85,194 @@ static GLuint make_resize_texture();
 	[super dealloc];
 }
 
--(void)awakeFromNib
+- (void)awakeFromNib
 {
 	[[self window] setAcceptsMouseMovedEvents:YES];
 }
 
-
--(BOOL)acceptsFirstResponder
+- (BOOL)acceptsFirstResponder
 {
 	return YES;
 }
 
--(BOOL)isOpaque
+- (BOOL)isOpaque
 {
 	return YES;
 }
 
--(BOOL)isFlipped
+- (BOOL)isFlipped
 {
 	return YES;
 }
 
-
-
--(void)reshape
+- (void)reshape
 {
 	[[self openGLContext] makeCurrentContext];
 	[[self openGLContext] update];
 
-	NSPoint focus=[self focus];
+	NSPoint focus = [self focus];
 
-	NSRect bounds=[self bounds];
+	NSRect bounds = [self bounds];
 
-    // Retina Support
-    if ([self respondsToSelector:@selector(convertRectToBacking:)]) {
-        bounds = [self convertRectToBacking:bounds];
-    }
-	width=bounds.size.width;
-	height=bounds.size.height;
+	// Retina Support
+	if ([self respondsToSelector:@selector(convertRectToBacking:)]) {
+		bounds = [self convertRectToBacking:bounds];
+	}
+	width = bounds.size.width;
+	height = bounds.size.height;
 
-	invalidated=YES;
+	invalidated = YES;
 
 	[self setFocus:focus];
 }
 
-
-
--(void)drawRect:(NSRect)rect
+- (void)drawRect:(NSRect)rect
 {
 	[[self openGLContext] makeCurrentContext];
 
-	NSRect imgrect=[self imageRect];
+	NSRect imgrect = [self imageRect];
 	NSRect bounds;
 
-	if(invalidated||!image) // do a full update
+	if (invalidated || !image) // do a full update
 	{
-		invalidated=NO;
-		bounds=imgrect;
+		invalidated = NO;
+		bounds = imgrect;
 
 		NSString *key;
-		if([[self window] isKindOfClass:[XeeFullScreenWindow class]]) key=XeeFullScreenBackgroundKey;
-		else key=XeeWindowBackgroundKey;
+		if ([[self window] isKindOfClass:[XeeFullScreenWindow class]])
+			key = XeeFullScreenBackgroundKey;
+		else
+			key = XeeWindowBackgroundKey;
 
-		NSColor *clear=[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:key]];
+		NSColor *clear = [NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:key]];
 		[clear glSetForClear];
 
 		glClear(GL_COLOR_BUFFER_BIT);
-	}
-	else // do a partial update while loading an image
+	} else // do a partial update while loading an image
 	{
-		bounds=[image updatedAreaInRect:imgrect];
+		bounds = [image updatedAreaInRect:imgrect];
 	}
 
 	// clip bounds to view
-	bounds=NSIntersectionRect(bounds,NSMakeRect(0,0,width,height));
+	bounds = NSIntersectionRect(bounds, NSMakeRect(0, 0, width, height));
 
 	// setup partial view
-	glViewport(bounds.origin.x,height-bounds.origin.y-bounds.size.height,bounds.size.width,bounds.size.height);
+	glViewport(bounds.origin.x, height - bounds.origin.y - bounds.size.height, bounds.size.width, bounds.size.height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(bounds.origin.x,bounds.origin.x+bounds.size.width,bounds.origin.y+bounds.size.height,bounds.origin.y);
+	gluOrtho2D(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y + bounds.size.height, bounds.origin.y);
 	glMatrixMode(GL_MODELVIEW);
 
-	if(image) [image drawInRect:imgrect bounds:bounds lowQuality:lowquality];
+	if (image)
+		[image drawInRect:imgrect bounds:bounds lowQuality:lowquality];
 
 	[tool draw];
 
-	if(drawresize) [self drawResizeHandle];
+	if (drawresize)
+		[self drawResizeHandle];
 
 	//[[self openGLContext] flushBuffer];
 	glFlush();
 }
 
-
-
--(void)drawResizeHandle
+- (void)drawResizeHandle
 {
 	// setup a full view
-	glViewport(0,0,width,height);
+	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(0,width,height,0);
+	gluOrtho2D(0, width, height, 0);
 	glMatrixMode(GL_MODELVIEW);
 
 	// draw resize handle
-	glBindTexture(GL_TEXTURE_2D,resizetex);
+	glBindTexture(GL_TEXTURE_2D, resizetex);
 
 	glEnable(GL_BLEND);
 	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 	glEnable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	float x1=width-16;
-	float y1=height-16;
-	float x2=width;
-	float y2=height;
+	float x1 = width - 16;
+	float y1 = height - 16;
+	float x2 = width;
+	float y2 = height;
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(0,0);
-	glVertex2f(x1,y1);
-	glTexCoord2f(1,0);
-	glVertex2f(x2,y1);
-	glTexCoord2f(1,1);
-	glVertex2f(x2,y2);
-	glTexCoord2f(0,1);
-	glVertex2f(x1,y2);
+	glTexCoord2f(0, 0);
+	glVertex2f(x1, y1);
+	glTexCoord2f(1, 0);
+	glVertex2f(x2, y1);
+	glTexCoord2f(1, 1);
+	glVertex2f(x2, y2);
+	glTexCoord2f(0, 1);
+	glVertex2f(x1, y2);
 	glEnd();
 }
 
-
-
--(void)keyDown:(NSEvent *)event
+- (void)keyDown:(NSEvent *)event
 {
-	CSAction *action=[[CSKeyboardShortcuts defaultShortcuts] actionForEvent:event ignoringModifiers:CSShift];
-	if(action)
-	{
-		NSString *identifier=[action identifier];
-		if([identifier isEqual:@"scrollUp"]) up=YES;
-		else if([identifier isEqual:@"scrollDown"]) down=YES;
-		else if([identifier isEqual:@"scrollLeft"]) left=YES;
-		else if([identifier isEqual:@"scrollRight"]) right=YES;
-		else [super keyDown:event];
-	}
-	else [super keyDown:event];
+	CSAction *action = [[CSKeyboardShortcuts defaultShortcuts] actionForEvent:event ignoringModifiers:CSShift];
+	if (action) {
+		NSString *identifier = [action identifier];
+		if ([identifier isEqual:@"scrollUp"])
+			up = YES;
+		else if ([identifier isEqual:@"scrollDown"])
+			down = YES;
+		else if ([identifier isEqual:@"scrollLeft"])
+			left = YES;
+		else if ([identifier isEqual:@"scrollRight"])
+			right = YES;
+		else
+			[super keyDown:event];
+	} else
+		[super keyDown:event];
 
-	if(up||down||left||right) [self startScrolling];
+	if (up || down || left || right)
+		[self startScrolling];
 }
 
--(void)keyUp:(NSEvent *)event
+- (void)keyUp:(NSEvent *)event
 {
-	CSAction *action=[[CSKeyboardShortcuts defaultShortcuts] actionForEvent:event ignoringModifiers:CSShift];
-	if(action)
-	{
-		NSString *identifier=[action identifier];
-		if([identifier isEqual:@"scrollUp"]) up=NO;
-		else if([identifier isEqual:@"scrollDown"]) down=NO;
-		else if([identifier isEqual:@"scrollLeft"]) left=NO;
-		else if([identifier isEqual:@"scrollRight"]) right=NO;
-		else [super keyUp:event];
-	}
-	else [super keyUp:event];
+	CSAction *action = [[CSKeyboardShortcuts defaultShortcuts] actionForEvent:event ignoringModifiers:CSShift];
+	if (action) {
+		NSString *identifier = [action identifier];
+		if ([identifier isEqual:@"scrollUp"])
+			up = NO;
+		else if ([identifier isEqual:@"scrollDown"])
+			down = NO;
+		else if ([identifier isEqual:@"scrollLeft"])
+			left = NO;
+		else if ([identifier isEqual:@"scrollRight"])
+			right = NO;
+		else
+			[super keyUp:event];
+	} else
+		[super keyUp:event];
 
-	if(!up&&!down&&!left&&!right) [self stopScrolling];
+	if (!up && !down && !left && !right)
+		[self stopScrolling];
 }
 
--(void)mouseDown:(NSEvent *)event
+- (void)mouseDown:(NSEvent *)event
 {
-	NSPoint pos=[self convertPoint:[event locationInWindow] fromView:nil];
+	NSPoint pos = [self convertPoint:[event locationInWindow] fromView:nil];
 
-	clicking=YES;
-	lowquality=YES;
+	clicking = YES;
+	lowquality = YES;
 
-	if([event clickCount]==2) [tool mouseDoubleClickedAt:pos];
-	else [tool mouseDownAt:pos];
+	if ([event clickCount] == 2)
+		[tool mouseDoubleClickedAt:pos];
+	else
+		[tool mouseDownAt:pos];
 	[self updateCursorForMousePosition:pos];
 }
 
--(void)mouseUp:(NSEvent *)event
+- (void)mouseUp:(NSEvent *)event
 {
-	NSPoint pos=[self convertPoint:[event locationInWindow] fromView:nil];
+	NSPoint pos = [self convertPoint:[event locationInWindow] fromView:nil];
 
-	clicking=NO;
-	lowquality=NO;
+	clicking = NO;
+	lowquality = NO;
 
 	[tool mouseUpAt:pos];
 	[self updateCursorForMousePosition:pos];
@@ -276,247 +280,250 @@ static GLuint make_resize_texture();
 	[self invalidate];
 }
 
--(void)mouseMoved:(NSEvent *)event
+- (void)mouseMoved:(NSEvent *)event
 {
-	NSPoint pos=[self convertPoint:[event locationInWindow] fromView:nil];
+	NSPoint pos = [self convertPoint:[event locationInWindow] fromView:nil];
 
-	[tool mouseMovedTo:pos relative:NSMakePoint([event deltaX],[event deltaY])];
+	[tool mouseMovedTo:pos relative:NSMakePoint([event deltaX], [event deltaY])];
 	[self updateCursorForMousePosition:pos];
 
-	if(hidecursor)
-	{
+	if (hidecursor) {
 		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCursor) object:nil];
 		[self performSelector:@selector(hideCursor) withObject:nil afterDelay:2];
 	}
 }
 
--(void)mouseDragged:(NSEvent *)event
+- (void)mouseDragged:(NSEvent *)event
 {
-	NSPoint pos=[self convertPoint:[event locationInWindow] fromView:nil];
+	NSPoint pos = [self convertPoint:[event locationInWindow] fromView:nil];
 
-	[tool mouseDraggedTo:pos relative:NSMakePoint([event deltaX],[event deltaY])];
+	[tool mouseDraggedTo:pos relative:NSMakePoint([event deltaX], [event deltaY])];
 	[self updateCursorForMousePosition:pos];
 }
 
--(void)scrollWheel:(NSEvent *)event
+- (void)scrollWheel:(NSEvent *)event
 {
-	if([[NSUserDefaults standardUserDefaults] integerForKey:XeeScrollWheelFunctionKey]==1)
-	{
-		CGFloat dx,dy;
-		if(IsSmoothScrollEvent(event))
-		{
-			dx=[event scrollingDeltaX];
-			dy=[event scrollingDeltaY];
+	if ([[NSUserDefaults standardUserDefaults] integerForKey:XeeScrollWheelFunctionKey] == 1) {
+		CGFloat dx, dy;
+		if (IsSmoothScrollEvent(event)) {
+			dx = [event scrollingDeltaX];
+			dy = [event scrollingDeltaY];
+		} else {
+			dx = [event deltaX] * 24;
+			dy = [event deltaY] * 24;
 		}
-		else
-		{
-			dx=[event deltaX]*24;
-			dy=[event deltaY]*24;
-		}
-			
+
 		//NSLog(@"scrollwheel: scrollEvent is %i, %f dx, %f dy, %f dx, %f dy", scrollEvent, dx, dy);
-		
- 		int old_x=x,old_y=y;
-		x-=dx;
-		y-=dy;
+
+		int old_x = x, old_y = y;
+		x -= dx;
+		y -= dy;
 		[self clampCoords];
-		if(x!=old_x||y!=old_y) [self invalidateImageAndTool];
+		if (x != old_x || y != old_y)
+			[self invalidateImageAndTool];
 	}
 }
 
--(void)xeeImageLoadingProgress:(XeeImage *)msgimage
+- (void)xeeImageLoadingProgress:(XeeImage *)msgimage
 {
 	[self setNeedsDisplay:YES];
 }
 
--(void)xeeImageDidChange:(XeeImage *)msgimage;
+- (void)xeeImageDidChange:(XeeImage *)msgimage;
 {
 	[self invalidate];
 	[delegate xeeView:self imageDidChange:msgimage];
 }
 
--(void)xeeImageSizeDidChange:(XeeImage *)msgimage;
+- (void)xeeImageSizeDidChange:(XeeImage *)msgimage;
 {
 	// cancel tool
 	[delegate xeeView:self imageSizeDidChange:msgimage];
 }
 
--(void)xeeImagePropertiesDidChange:(XeeImage *)msgimage;
+- (void)xeeImagePropertiesDidChange:(XeeImage *)msgimage;
 {
 	[delegate xeeView:self imagePropertiesDidChange:msgimage];
 }
 
-
-
--(void)invalidate
+- (void)invalidate
 {
-	invalidated=YES;
+	invalidated = YES;
 	[self setNeedsDisplay:YES];
 }
 
--(void)invalidateTool
+- (void)invalidateTool
 {
-	NSPoint position=[self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil];
-	if(clicking) [tool mouseDraggedTo:position relative:NSMakePoint(0,0)];
-	else [tool mouseMovedTo:position relative:NSMakePoint(0,0)];
+	NSPoint position = [self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil];
+	if (clicking)
+		[tool mouseDraggedTo:position relative:NSMakePoint(0, 0)];
+	else
+		[tool mouseMovedTo:position relative:NSMakePoint(0, 0)];
 
 	[self updateCursorForMousePosition:position];
 }
 
--(void)invalidateImageAndTool
+- (void)invalidateImageAndTool
 {
 	[self invalidate];
 	[self invalidateTool];
 }
 
--(void)updateCursorForMousePosition:(NSPoint)pos
+- (void)updateCursorForMousePosition:(NSPoint)pos
 {
-	BOOL wasinside=inside;
+	BOOL wasinside = inside;
 
-	if(clicking)
-	{
-		inside=YES;
-	}
-	else if(drawresize)
-	{
-		NSRect rect1=[self bounds];
-		NSRect rect2=[self bounds];
-		rect1.size.width-=15;
-		rect2.size.height-=15;
+	if (clicking) {
+		inside = YES;
+	} else if (drawresize) {
+		NSRect rect1 = [self bounds];
+		NSRect rect2 = [self bounds];
+		rect1.size.width -= 15;
+		rect2.size.height -= 15;
 
-		inside=NSPointInRect(pos,rect1)||NSPointInRect(pos,rect2);
-	}
-	else
-	{
-		inside=NSPointInRect(pos,[self bounds]);
+		inside = NSPointInRect(pos, rect1) || NSPointInRect(pos, rect2);
+	} else {
+		inside = NSPointInRect(pos, [self bounds]);
 	}
 
-	if(inside) [[tool cursor] set];
-	else if(wasinside) [[NSCursor arrowCursor] set];
+	if (inside)
+		[[tool cursor] set];
+	else if (wasinside)
+		[[NSCursor arrowCursor] set];
 }
 
-
--(void)startScrolling
+- (void)startScrolling
 {
-	if(!scrolltimer)
-	{
-		prevtime=XeeGetTime();
-		scrolltimer=[[NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(scroll:) userInfo:nil repeats:YES] retain];
+	if (!scrolltimer) {
+		prevtime = XeeGetTime();
+		scrolltimer = [[NSTimer scheduledTimerWithTimeInterval:1.0 / 60.0 target:self selector:@selector(scroll:) userInfo:nil repeats:YES] retain];
 
-		lowquality=YES;
+		lowquality = YES;
 	}
 }
 
--(void)stopScrolling
+- (void)stopScrolling
 {
-	if(scrolltimer)
-	{
+	if (scrolltimer) {
 		[scrolltimer invalidate];
 		[scrolltimer release];
-		scrolltimer=nil;
+		scrolltimer = nil;
 
-		lowquality=NO;
+		lowquality = NO;
 		[self invalidate];
 	}
 }
 
--(void)scroll:(NSTimer *)timer
+- (void)scroll:(NSTimer *)timer
 {
-	double time=XeeGetTime();
-	double dt=time-prevtime;
-	prevtime=time;
+	double time = XeeGetTime();
+	double dt = time - prevtime;
+	prevtime = time;
 
-	double mult=1.0;
+	double mult = 1.0;
 
-	if(GetCurrentKeyModifiers()&shiftKey) mult=3.0;
+	if (GetCurrentKeyModifiers() & shiftKey)
+		mult = 3.0;
 
-	int delta=1500.0*mult*dt;
+	int delta = 1500.0 * mult * dt;
 
-	int old_x=x,old_y=y;
+	int old_x = x, old_y = y;
 
-	if(left) x-=delta;
-	if(right) x+=delta;
-	if(up) y-=delta;
-	if(down) y+=delta;
+	if (left)
+		x -= delta;
+	if (right)
+		x += delta;
+	if (up)
+		y -= delta;
+	if (down)
+		y += delta;
 
 	[self clampCoords];
-	if(x!=old_x||y!=old_y) [self invalidateImageAndTool];
+	if (x != old_x || y != old_y)
+		[self invalidateImageAndTool];
 }
 
-
-
--(NSPoint)focus
+- (NSPoint)focus
 {
 	NSPoint focus;
 
-	if(imgwidth<width) focus.x=width/2;
-	else focus.x=x+width/2;
+	if (imgwidth < width)
+		focus.x = width / 2;
+	else
+		focus.x = x + width / 2;
 
-	if(imgheight<height) focus.y=height/2;
-	else focus.y=y+height/2;
+	if (imgheight < height)
+		focus.y = height / 2;
+	else
+		focus.y = y + height / 2;
 
 	return focus;
 }
 
--(void)setFocus:(NSPoint)focus
+- (void)setFocus:(NSPoint)focus
 {
-	int old_x=x,old_y=y;
+	int old_x = x, old_y = y;
 
-	x=focus.x-width/2;
-	y=focus.y-height/2;
+	x = focus.x - width / 2;
+	y = focus.y - height / 2;
 	[self clampCoords];
 
-	if(x!=old_x||y!=old_y) [self invalidateImageAndTool];
+	if (x != old_x || y != old_y)
+		[self invalidateImageAndTool];
 }
 
--(void)clampCoords
+- (void)clampCoords
 {
-	if(x>imgwidth-width) x=imgwidth-width;
-	if(y>imgheight-height) y=imgheight-height;
-	if(x<0) x=0;
-	if(y<0) y=0;
+	if (x > imgwidth - width)
+		x = imgwidth - width;
+	if (y > imgheight - height)
+		y = imgheight - height;
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
 }
 
-
-
--(NSRect)imageRect
+- (NSRect)imageRect
 {
-    NSRect returnValue = NSZeroRect;
-	if(image)
-	{
-		int draw_x,draw_y;
-        if(imgwidth<width) draw_x=(width-imgwidth)/2;
-		else draw_x=-x;
+	NSRect returnValue = NSZeroRect;
+	if (image) {
+		int draw_x, draw_y;
+		if (imgwidth < width)
+			draw_x = (width - imgwidth) / 2;
+		else
+			draw_x = -x;
 
-		if(imgheight<height) draw_y=(height-imgheight)/2;
-		else draw_y=-y;
+		if (imgheight < height)
+			draw_y = (height - imgheight) / 2;
+		else
+			draw_y = -y;
 
-		returnValue = NSMakeRect(draw_x,draw_y,imgwidth,imgheight);
+		returnValue = NSMakeRect(draw_x, draw_y, imgwidth, imgheight);
 	}
-    return returnValue;
+	return returnValue;
 }
 
--(XeeMatrix)imageToViewTransformMatrix
+- (XeeMatrix)imageToViewTransformMatrix
 {
-	return XeeTransformRectToRectMatrix(NSMakeRect(0,0,[image width],[image height]),[self imageRect]);
+	return XeeTransformRectToRectMatrix(NSMakeRect(0, 0, [image width], [image height]), [self imageRect]);
 }
 
--(XeeMatrix)viewToImageTransformMatrix
+- (XeeMatrix)viewToImageTransformMatrix
 {
-	return XeeTransformRectToRectMatrix([self imageRect],NSMakeRect(0,0,[image width],[image height]));
+	return XeeTransformRectToRectMatrix([self imageRect], NSMakeRect(0, 0, [image width], [image height]));
 }
 
--(void)setImage:(XeeImage *)img
+- (void)setImage:(XeeImage *)img
 {
 	[image setAnimating:NO];
 	[image setDelegate:nil];
 
-// cancel tool
+	// cancel tool
 
-	if(image!=img)
-	{
+	if (image != img) {
 		[image release];
-		image=[img retain];
+		image = [img retain];
 	}
 
 	[image setDelegate:self];
@@ -525,12 +532,13 @@ static GLuint make_resize_texture();
 	[self invalidate];
 }
 
--(void)setTool:(XeeTool *)newtool
+- (void)setTool:(XeeTool *)newtool
 {
-	if(newtool==tool) return;
-	XeeTool *oldtool=tool;
+	if (newtool == tool)
+		return;
+	XeeTool *oldtool = tool;
 
-	tool=[newtool retain];
+	tool = [newtool retain];
 
 	[oldtool end];
 	[oldtool release];
@@ -540,18 +548,18 @@ static GLuint make_resize_texture();
 	[self invalidateImageAndTool];
 }
 
--(void)setImageSize:(NSSize)size
+- (void)setImageSize:(NSSize)size
 {
-	NSPoint focus=[self focus];
+	NSPoint focus = [self focus];
 
-	int oldwidth=imgwidth;
-	int oldheight=imgheight;
+	int oldwidth = imgwidth;
+	int oldheight = imgheight;
 
-	imgwidth=size.width;
-	imgheight=size.height;
+	imgwidth = size.width;
+	imgheight = size.height;
 
-	focus.x*=(CGFloat)imgwidth/(CGFloat)oldwidth;
-	focus.y*=(CGFloat)imgheight/(CGFloat)oldheight;
+	focus.x *= (CGFloat)imgwidth / (CGFloat)oldwidth;
+	focus.y *= (CGFloat)imgheight / (CGFloat)oldheight;
 
 	[self setFocus:focus];
 
@@ -559,70 +567,76 @@ static GLuint make_resize_texture();
 	[self performSelector:@selector(invalidateTool) withObject:nil afterDelay:0];
 }
 
--(void)setDrawResizeCorner:(BOOL)draw { drawresize=draw; }
-
--(void)setCursorShouldHide:(BOOL)shouldhide
+- (void)setDrawResizeCorner:(BOOL)draw
 {
-	[NSCursor setHiddenUntilMouseMoves:shouldhide];
-	hidecursor=shouldhide;
-	if(!hidecursor) [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCursor) object:nil];
+	drawresize = draw;
 }
 
+- (void)setCursorShouldHide:(BOOL)shouldhide
+{
+	[NSCursor setHiddenUntilMouseMoves:shouldhide];
+	hidecursor = shouldhide;
+	if (!hidecursor)
+		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideCursor) object:nil];
+}
 
--(void)hideCursor
+- (void)hideCursor
 {
 	[NSCursor setHiddenUntilMouseMoves:YES];
 }
 
-static const void *XeeCopyGLGetBytePointer(void *bitmap) { return bitmap; }
-
--(void *)readPixels:(int)bytesperrow
+static const void *XeeCopyGLGetBytePointer(void *bitmap)
 {
-	void *bitmap=malloc(bytesperrow*height);
-	
-	[[self openGLContext] makeCurrentContext];
-	
-	glFinish(); // finish any pending OpenGL commands
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
-	
-	//glPixelStorei(GL_PACK_SWAP_BYTES, 0);
-	//glPixelStorei(GL_PACK_LSB_FIRST, 0);
-	//glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
-	glPixelStorei(GL_PACK_ALIGNMENT,4); // force 4-byte alignment from RGBA framebuffer
-	glPixelStorei(GL_PACK_ROW_LENGTH,0);
-	glPixelStorei(GL_PACK_SKIP_PIXELS,0);
-	glPixelStorei(GL_PACK_SKIP_ROWS,0);
-	
-#ifdef __BIG_ENDIAN__
-	glReadPixels(0,0,width,height,GL_BGRA,GL_UNSIGNED_INT_8_8_8_8_REV,bitmap);
-#else
-	glReadPixels(0,0,width,height,GL_BGRA,GL_UNSIGNED_INT_8_8_8_8,bitmap);
-#endif
-	glPopAttrib();
-	
 	return bitmap;
 }
 
--(void)copyGLtoQuartz
+- (void *)readPixels:(int)bytesperrow
 {
-	int bytesperrow=width*4;
-	void *bitmap=[self readPixels:bytesperrow];
+	void *bitmap = malloc(bytesperrow * height);
 
-    [self lockFocus];
+	[[self openGLContext] makeCurrentContext];
 
-    CGDataProviderDirectCallbacks callbacks={0,XeeCopyGLGetBytePointer,NULL,NULL,NULL};
-    CGDataProviderRef provider=CGDataProviderCreateDirect(bitmap,bytesperrow*height,&callbacks);
-    CGColorSpaceRef cs=CGColorSpaceCreateDeviceRGB();
-    CGImageRef cgimage=CGImageCreate(width,height,8,32,bytesperrow,cs,(CGBitmapInfo)kCGImageAlphaNoneSkipFirst,provider,NULL,NO,kCGRenderingIntentDefault);
-    
-    CGContextRef gc=[[NSGraphicsContext currentContext] graphicsPort];
-    CGContextDrawImage(gc,CGRectMake(0,0,width,height),cgimage);
+	glFinish(); // finish any pending OpenGL commands
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    CGImageRelease(cgimage);
-    CGDataProviderRelease(provider);
-    CGColorSpaceRelease(cs);
+	//glPixelStorei(GL_PACK_SWAP_BYTES, 0);
+	//glPixelStorei(GL_PACK_LSB_FIRST, 0);
+	//glPixelStorei(GL_PACK_IMAGE_HEIGHT, 0);
+	glPixelStorei(GL_PACK_ALIGNMENT, 4); // force 4-byte alignment from RGBA framebuffer
+	glPixelStorei(GL_PACK_ROW_LENGTH, 0);
+	glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
+	glPixelStorei(GL_PACK_SKIP_ROWS, 0);
 
-    free(bitmap);
+#ifdef __BIG_ENDIAN__
+	glReadPixels(0, 0, width, height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, bitmap);
+#else
+	glReadPixels(0, 0, width, height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8, bitmap);
+#endif
+	glPopAttrib();
+
+	return bitmap;
+}
+
+- (void)copyGLtoQuartz
+{
+	int bytesperrow = width * 4;
+	void *bitmap = [self readPixels:bytesperrow];
+
+	[self lockFocus];
+
+	CGDataProviderDirectCallbacks callbacks = {0, XeeCopyGLGetBytePointer, NULL, NULL, NULL};
+	CGDataProviderRef provider = CGDataProviderCreateDirect(bitmap, bytesperrow * height, &callbacks);
+	CGColorSpaceRef cs = CGColorSpaceCreateDeviceRGB();
+	CGImageRef cgimage = CGImageCreate(width, height, 8, 32, bytesperrow, cs, (CGBitmapInfo)kCGImageAlphaNoneSkipFirst, provider, NULL, NO, kCGRenderingIntentDefault);
+
+	CGContextRef gc = [[NSGraphicsContext currentContext] graphicsPort];
+	CGContextDrawImage(gc, CGRectMake(0, 0, width, height), cgimage);
+
+	CGImageRelease(cgimage);
+	CGDataProviderRelease(provider);
+	CGColorSpaceRelease(cs);
+
+	free(bitmap);
 
 	[self unlockFocus];
 
@@ -646,61 +660,63 @@ static const void *XeeCopyGLGetBytePointer(void *bitmap) { return bitmap; }
 
 @end
 
-
-
 @implementation NSObject (XeeViewDelegate)
 
--(void)xeeView:(XeeView *)view imageDidChange:(XeeImage *)image {}
--(void)xeeView:(XeeView *)view imageSizeDidChange:(XeeImage *)image {}
--(void)xeeView:(XeeView *)view imagePropertiesDidChange:(XeeImage *)image {}
+- (void)xeeView:(XeeView *)view imageDidChange:(XeeImage *)image
+{
+}
+- (void)xeeView:(XeeView *)view imageSizeDidChange:(XeeImage *)image
+{
+}
+- (void)xeeView:(XeeView *)view imagePropertiesDidChange:(XeeImage *)image
+{
+}
 
 @end
-
-
 
 #define C0 0x00000000
 #define C1 0x25000000
 #define C2 0x8a222222
 #define C3 0x8bd5d5d5
 
-static const uint32_t resize_data[256]=
-{
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C1,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C1,C2,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,C1,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,C1,C2,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,C1,C2,C3,C0,
-	C0,C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,C1,C2,C3,C0,C0,
-	C0,C0,C0,C0,C0,C0,C1,C2,C3,C0,C1,C2,C3,C0,C1,C0,
-	C0,C0,C0,C0,C0,C1,C2,C3,C0,C1,C2,C3,C0,C1,C2,C0,
-	C0,C0,C0,C0,C1,C2,C3,C0,C1,C2,C3,C0,C1,C2,C3,C0,
-	C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,C0,
+static const uint32_t resize_data[256] =
+	{
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C1, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C1, C2, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C1, C2, C3, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C1, C2, C3, C0, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C1, C2, C3, C0, C1, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C1, C2, C3, C0, C1, C2, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C1, C2, C3, C0, C1, C2, C3, C0,
+		C0, C0, C0, C0, C0, C0, C0, C1, C2, C3, C0, C1, C2, C3, C0, C0,
+		C0, C0, C0, C0, C0, C0, C1, C2, C3, C0, C1, C2, C3, C0, C1, C0,
+		C0, C0, C0, C0, C0, C1, C2, C3, C0, C1, C2, C3, C0, C1, C2, C0,
+		C0, C0, C0, C0, C1, C2, C3, C0, C1, C2, C3, C0, C1, C2, C3, C0,
+		C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0, C0,
 };
 
 GLuint make_resize_texture()
 {
 	GLuint tex;
-	glGenTextures(1,&tex),
-	glBindTexture(GL_TEXTURE_2D,tex);
+	glGenTextures(1, &tex),
+		glBindTexture(GL_TEXTURE_2D, tex);
 
-	glPixelStorei(GL_UNPACK_ROW_LENGTH,16);
-	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,GL_TRUE);
-	glPixelStorei(GL_UNPACK_SKIP_PIXELS,0);
-	glPixelStorei(GL_UNPACK_SKIP_ROWS,0);
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,16,16,0,GL_BGRA,GL_UNSIGNED_INT_8_8_8_8_REV,resize_data);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 16);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+	glPixelStorei(GL_UNPACK_SKIP_PIXELS, 0);
+	glPixelStorei(GL_UNPACK_SKIP_ROWS, 0);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 16, 16, 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, resize_data);
 
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_CLAMP);
-	glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 	return tex;
 }

@@ -2,29 +2,27 @@
 #import "XeeIFFHandle.h"
 #import "XeePrefKeys.h"
 
-
-
-#define ALPHA_MASK XeeMakeARGB8(0xff,0,0,0)
-#define R_MASK XeeMakeARGB8(0,0xff,0,0)
-#define G_MASK XeeMakeARGB8(0,0,0xff,0)
-#define B_MASK XeeMakeARGB8(0,0,0,0xff)
-#define COLOR_MASK XeeMakeARGB8(0,0xff,0xff,0xff)
-#define NOTR_MASK XeeMakeARGB8(0xff,0,0xff,0xff)
-#define NOTG_MASK XeeMakeARGB8(0xff,0xff,0,0xff)
-#define NOTB_MASK XeeMakeARGB8(0xff,0xff,0xff,0)
-#define OCS_MASK XeeMakeARGB8(0,0x0f,0x0f,0x0f)
-#define EHB_SHIFT_MASK XeeMakeARGB8(0,0x7f,0x7f,0x7f)
-#define EMPTY_COLOUR XeeMakeARGB8(0x80,0,0,0)
-#define BLACK_COLOUR XeeMakeARGB8(0xff,0,0,0)
+#define ALPHA_MASK XeeMakeARGB8(0xff, 0, 0, 0)
+#define R_MASK XeeMakeARGB8(0, 0xff, 0, 0)
+#define G_MASK XeeMakeARGB8(0, 0, 0xff, 0)
+#define B_MASK XeeMakeARGB8(0, 0, 0, 0xff)
+#define COLOR_MASK XeeMakeARGB8(0, 0xff, 0xff, 0xff)
+#define NOTR_MASK XeeMakeARGB8(0xff, 0, 0xff, 0xff)
+#define NOTG_MASK XeeMakeARGB8(0xff, 0xff, 0, 0xff)
+#define NOTB_MASK XeeMakeARGB8(0xff, 0xff, 0xff, 0)
+#define OCS_MASK XeeMakeARGB8(0, 0x0f, 0x0f, 0x0f)
+#define EHB_SHIFT_MASK XeeMakeARGB8(0, 0x7f, 0x7f, 0x7f)
+#define EMPTY_COLOUR XeeMakeARGB8(0x80, 0, 0, 0)
+#define BLACK_COLOUR XeeMakeARGB8(0xff, 0, 0, 0)
 
 @implementation XeeILBMImage
 
-+(NSArray *)fileTypes
++ (NSArray *)fileTypes
 {
-	return [NSArray arrayWithObjects:@"iff",@"ilbm",@"lbm",NSFileTypeForHFSTypeCode('ILBM'), @"com.ea.iff-ilbm", nil]; //@"'PNG '",@"'PNGf'",nil];
+	return [NSArray arrayWithObjects:@"iff", @"ilbm", @"lbm", NSFileTypeForHFSTypeCode('ILBM'), @"com.ea.iff-ilbm", nil]; //@"'PNG '",@"'PNGf'",nil];
 }
 
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes
++ (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes
 {
 	uint8_t *header = (uint8_t *)[block bytes];
 	if ([block length] > 12 && XeeBEUInt32(header) == 'FORM' && XeeBEUInt32(header + 8) == 'ILBM') {
@@ -34,7 +32,7 @@
 	}
 }
 
--(id)init
+- (id)init
 {
 	if (self = [super init]) {
 		image = NULL;
@@ -48,7 +46,7 @@
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	if (image)
 		free(image);
@@ -56,220 +54,220 @@
 		free(mask);
 }
 
--(SEL)initLoader
+- (SEL)initLoader
 {
-	iff=[XeeIFFHandle IFFHandleWithPath:[self filename] fileType:'ILBM'];
+	iff = [XeeIFFHandle IFFHandleWithPath:[self filename] fileType:'ILBM'];
 	if (!iff) {
 		return NULL;
 	}
 
-	ham=ham8=ehb=ocscol=transparency=NO;
+	ham = ham8 = ehb = ocscol = transparency = NO;
 
 	[self setFormat:@"IFF-ILBM"];
 
 	return @selector(loadChunk);
 }
 
--(void)deallocLoader
+- (void)deallocLoader
 {
 	iff = nil;
 }
 
--(SEL)loadChunk
+- (SEL)loadChunk
 {
 	int num, viewmode, col;
 	XeeILBMRange *range;
 
 	switch ([iff nextChunk]) {
-		case 'BMHD':
-			realwidth = [iff readUInt16];
-			realheight = [iff readUInt16];
-			[iff skipBytes:4]; // x,y
-			planes = [iff readUInt8];
-			masking = [iff readUInt8];
-			compression = [iff readUInt8];
-			[iff skipBytes:1]; // pad1
-			trans = [iff readUInt16];
-			xasp = [iff readUInt8];
-			yasp = [iff readUInt8];
-			// pagewidth, pageheight;
+	case 'BMHD':
+		realwidth = [iff readUInt16];
+		realheight = [iff readUInt16];
+		[iff skipBytes:4]; // x,y
+		planes = [iff readUInt8];
+		masking = [iff readUInt8];
+		compression = [iff readUInt8];
+		[iff skipBytes:1]; // pad1
+		trans = [iff readUInt16];
+		xasp = [iff readUInt8];
+		yasp = [iff readUInt8];
+		// pagewidth, pageheight;
 
-			if (planes > 8 && planes != 24) {
-				return NULL;
-			}
-
-			if (xasp > yasp) {
-				xscale=(float)xasp/(float)yasp+0.5;
-				yscale=1;
-			} else {
-				yscale=(float)yasp/(float)xasp+0.5;
-				xscale=1;
-			}
-
-			if (xscale > 4)
-				xscale = 4;
-			if (yscale > 4)
-				yscale = 4;
-
-			if(planes<=8) {
-				width = realwidth * xscale;
-				height = realheight * yscale;
-			} else {// no scaling support for 24 bit
-				width = realwidth;
-				height = realheight;
-			}
-
-			rowbytes = 2 * ((realwidth + 15) / 16);
-
-			//printf("w:%d h:%d planes:%d mask:%d comp:%d transp:%d xasp:%d yasp:%d xscale:%d yscale:%d\n",width,height,planes,masking,compression,trans,xasp,yasp,xscale,yscale);
-			break;
-
-		case 'CMAP':
-			num = [iff chunkSize] / 3;
-			if (num > 256) {
-				num = 256;
-			}
-
-			col = 0;
-
-			for (int i = 0; i < num; i++) {
-				uint8_t r=[iff readUInt8];
-				uint8_t g=[iff readUInt8];
-				uint8_t b=[iff readUInt8];
-				palette[i]=XeeMakeARGB8(0xff, r, g, b);
-				if (i < 32) {
-					col |= palette[i];
-				}
-			}
-
-			if ((col & OCS_MASK) == 0) {
-				ocscol = YES;
-			}
-			break;
-
-		case 'DEST':
-			//printf("warning: image has DEST chunk\n");
-			break;
-
-		case 'FVER':
-			[self addCommentWithLabel:@"Version" data:[iff chunkContents]];
-			break;
-			
-		case 'ANNO':
-			[self addCommentWithLabel:@"Annotation" data:[iff chunkContents]];
-			break;
-			
-		case 'AUTH':
-			[self addCommentWithLabel:@"Author" data:[iff chunkContents]];
-			break;
-			
-		case 'CHRS':
-			[self addCommentWithLabel:@"" data:[iff chunkContents]];
-			break;
-			
-		case 'NAME':
-			[self addCommentWithLabel:@"Name" data:[iff chunkContents]];
-			break;
-			
-		case 'TEXT':
-			[self addCommentWithLabel:@"" data:[iff chunkContents]];
-			break;
-			
-		case '(c) ':
-			[self addCommentWithLabel:@"Copyright" data:[iff chunkContents]];
-			break;
-
-		case 'CRNG':
-		case 'DRNG':
-		case 'CCRT':
-			range = [[XeeILBMRange alloc] initWithIFF:iff image:self];
-			if (range) {
-				[ranges addObject:range];
-			}
-			break;
-
-		case 'CAMG':
-			viewmode = [iff readUInt32];
-
-			if ((viewmode & 0x800) && (planes == 5 || planes == 6)) {
-				ham = YES;
-			} else if ((viewmode & 0x800) && (planes == 7 || planes == 8)) {
-				ham8 = YES;
-			} else if (viewmode & 0x80) {
-				ehb = YES;
-			}
-			break;
-
-		case 'BODY':
-			if (ham) {
-				[self setDepth:@"Amiga HAM"];
-				[self setDepthIconName:@"depth/amiga"];
-			} else if (ham8) {
-				[self setDepth:@"Amiga HAM8"];
-				[self setDepthIconName:@"depth/amiga"];
-			} else if (ehb) {
-				[self setDepth:@"Amiga EHB"];
-				[self setDepthIconName:@"depth/amiga"];
-			} else if (planes == 24) {
-				[self setDepthRGB:24];
-			} else {
-				[self setDepthIndexed:1<<planes];
-			}
-
-			if (ocscol && (planes <= 5 || ehb || ham)) { // fix 4-bit OCS palette
-				for (int i = 0; i < 32; i++) {
-					palette[i] |= (palette[i] >> 4) & OCS_MASK;
-				}
-			}
-
-			if (ehb) { // fix EHB palette
-				for (int i = 0; i < 32; i++) {
-					palette[i + 32] = ((palette[i] >> 1) & EHB_SHIFT_MASK) | ALPHA_MASK;
-				}
-			}
-
-			if (masking) {
-				int col = palette[trans];
-
-				[self setBackgroundColor:[NSColor
-				colorWithCalibratedRed:(CGFloat)XeeGetRFromARGB8(col)/255.0
-				green:(CGFloat)XeeGetGFromARGB8(col)/255.0
-				blue:(CGFloat)XeeGetBFromARGB8(col)/255.0
-				alpha:1]];
-
-				if (masking == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseMaskKey]) {
-					transparency = YES;
-				} else if (masking == 2 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseTransparentColorKey]) {
-					palette[trans] &= COLOR_MASK;
-					transparency = YES;
-				}
-			}
-
-			[ranges makeObjectsPerformSelector:@selector(setup) withObject:nil];
-
-			return @selector(startLoadingImage);
-
-		case 0:
+		if (planes > 8 && planes != 24) {
 			return NULL;
+		}
+
+		if (xasp > yasp) {
+			xscale = (float)xasp / (float)yasp + 0.5;
+			yscale = 1;
+		} else {
+			yscale = (float)yasp / (float)xasp + 0.5;
+			xscale = 1;
+		}
+
+		if (xscale > 4)
+			xscale = 4;
+		if (yscale > 4)
+			yscale = 4;
+
+		if (planes <= 8) {
+			width = realwidth * xscale;
+			height = realheight * yscale;
+		} else { // no scaling support for 24 bit
+			width = realwidth;
+			height = realheight;
+		}
+
+		rowbytes = 2 * ((realwidth + 15) / 16);
+
+		//printf("w:%d h:%d planes:%d mask:%d comp:%d transp:%d xasp:%d yasp:%d xscale:%d yscale:%d\n",width,height,planes,masking,compression,trans,xasp,yasp,xscale,yscale);
+		break;
+
+	case 'CMAP':
+		num = [iff chunkSize] / 3;
+		if (num > 256) {
+			num = 256;
+		}
+
+		col = 0;
+
+		for (int i = 0; i < num; i++) {
+			uint8_t r = [iff readUInt8];
+			uint8_t g = [iff readUInt8];
+			uint8_t b = [iff readUInt8];
+			palette[i] = XeeMakeARGB8(0xff, r, g, b);
+			if (i < 32) {
+				col |= palette[i];
+			}
+		}
+
+		if ((col & OCS_MASK) == 0) {
+			ocscol = YES;
+		}
+		break;
+
+	case 'DEST':
+		//printf("warning: image has DEST chunk\n");
+		break;
+
+	case 'FVER':
+		[self addCommentWithLabel:@"Version" data:[iff chunkContents]];
+		break;
+
+	case 'ANNO':
+		[self addCommentWithLabel:@"Annotation" data:[iff chunkContents]];
+		break;
+
+	case 'AUTH':
+		[self addCommentWithLabel:@"Author" data:[iff chunkContents]];
+		break;
+
+	case 'CHRS':
+		[self addCommentWithLabel:@"" data:[iff chunkContents]];
+		break;
+
+	case 'NAME':
+		[self addCommentWithLabel:@"Name" data:[iff chunkContents]];
+		break;
+
+	case 'TEXT':
+		[self addCommentWithLabel:@"" data:[iff chunkContents]];
+		break;
+
+	case '(c) ':
+		[self addCommentWithLabel:@"Copyright" data:[iff chunkContents]];
+		break;
+
+	case 'CRNG':
+	case 'DRNG':
+	case 'CCRT':
+		range = [[XeeILBMRange alloc] initWithIFF:iff image:self];
+		if (range) {
+			[ranges addObject:range];
+		}
+		break;
+
+	case 'CAMG':
+		viewmode = [iff readUInt32];
+
+		if ((viewmode & 0x800) && (planes == 5 || planes == 6)) {
+			ham = YES;
+		} else if ((viewmode & 0x800) && (planes == 7 || planes == 8)) {
+			ham8 = YES;
+		} else if (viewmode & 0x80) {
+			ehb = YES;
+		}
+		break;
+
+	case 'BODY':
+		if (ham) {
+			[self setDepth:@"Amiga HAM"];
+			[self setDepthIconName:@"depth/amiga"];
+		} else if (ham8) {
+			[self setDepth:@"Amiga HAM8"];
+			[self setDepthIconName:@"depth/amiga"];
+		} else if (ehb) {
+			[self setDepth:@"Amiga EHB"];
+			[self setDepthIconName:@"depth/amiga"];
+		} else if (planes == 24) {
+			[self setDepthRGB:24];
+		} else {
+			[self setDepthIndexed:1 << planes];
+		}
+
+		if (ocscol && (planes <= 5 || ehb || ham)) { // fix 4-bit OCS palette
+			for (int i = 0; i < 32; i++) {
+				palette[i] |= (palette[i] >> 4) & OCS_MASK;
+			}
+		}
+
+		if (ehb) { // fix EHB palette
+			for (int i = 0; i < 32; i++) {
+				palette[i + 32] = ((palette[i] >> 1) & EHB_SHIFT_MASK) | ALPHA_MASK;
+			}
+		}
+
+		if (masking) {
+			int col = palette[trans];
+
+			[self setBackgroundColor:[NSColor
+										 colorWithCalibratedRed:(CGFloat)XeeGetRFromARGB8(col) / 255.0
+														  green:(CGFloat)XeeGetGFromARGB8(col) / 255.0
+														   blue:(CGFloat)XeeGetBFromARGB8(col) / 255.0
+														  alpha:1]];
+
+			if (masking == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseMaskKey]) {
+				transparency = YES;
+			} else if (masking == 2 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseTransparentColorKey]) {
+				palette[trans] &= COLOR_MASK;
+				transparency = YES;
+			}
+		}
+
+		[ranges makeObjectsPerformSelector:@selector(setup) withObject:nil];
+
+		return @selector(startLoadingImage);
+
+	case 0:
+		return NULL;
 	}
 
 	return @selector(loadChunk);
 }
 
--(SEL)startLoadingImage
+- (SEL)startLoadingImage
 {
 	int type;
 	if (transparency) {
-		type=XeeBitmapTypeARGB8;
+		type = XeeBitmapTypeARGB8;
 	} else {
-		type=XeeBitmapTypeNRGB8;
+		type = XeeBitmapTypeNRGB8;
 	}
 	if (![self allocWithType:type width:width height:height]) {
 		return NULL;
 	}
 
 	if (masking == 1) {
-		mask = malloc(rowbytes*realheight);
+		mask = malloc(rowbytes * realheight);
 		if (!mask) {
 			return NULL;
 		}
@@ -278,7 +276,7 @@
 	current_line = 0;
 
 	if (planes <= 8) {
-		image=malloc(realwidth*realheight);
+		image = malloc(realwidth * realheight);
 		if (!image) {
 			return NULL;
 		}
@@ -290,13 +288,13 @@
 	}
 }
 
--(SEL)loadPaletteImage
+- (SEL)loadPaletteImage
 {
-	uint8_t *imageline=image+current_line*realwidth;
+	uint8_t *imageline = image + current_line * realwidth;
 	uint8_t row[rowbytes];
 
 	@try {
-		for (int p=0;p<planes;p++) {
+		for (int p = 0; p < planes; p++) {
 			[self readRow:row];
 
 			for (int x = 0; x < realwidth; x++) {
@@ -304,7 +302,7 @@
 			}
 		}
 
-		if (masking==1) {
+		if (masking == 1) {
 			[self readRow:mask + current_line * rowbytes];
 		}
 	} @catch (NSException *e) {
@@ -315,7 +313,7 @@
 
 	current_line++;
 	if (current_line >= realheight) {
-		loaded=YES;
+		loaded = YES;
 		[self renderImage];
 		[self setCompleted];
 		return @selector(loadChunk);
@@ -324,9 +322,9 @@
 	return @selector(loadPaletteImage);
 }
 
--(SEL)loadRGBImage
+- (SEL)loadRGBImage
 {
-	int *imageline=(int *)(data+current_line*bytesperrow);
+	int *imageline = (int *)(data + current_line * bytesperrow);
 	uint8_t row[rowbytes];
 
 	for (int i = 0; i < width; i++) {
@@ -341,7 +339,7 @@
 		}
 	}
 
-	for (int p = 0;p < 8; p++) {
+	for (int p = 0; p < 8; p++) {
 		[self readRow:row];
 		for (int i = 0; i < width; i++) {
 			int g = ((row[i >> 3] >> ((i & 7) ^ 7)) & 1) << (7 - (p ^ 7));
@@ -357,7 +355,7 @@
 		}
 	}
 
-	if (masking==1) {
+	if (masking == 1) {
 		[self readRow:row];
 		for (int i = 0; i < width; i++) {
 			if (!((row[i >> 3] >> ((i & 7) ^ 7)) & 1)) {
@@ -377,10 +375,10 @@
 	return @selector(loadRGBImage);
 }
 
--(void)readRow:(uint8_t *)row
+- (void)readRow:(uint8_t *)row
 {
 	if (compression == 0) {
-		for(int i = 0; i < rowbytes; i++) {
+		for (int i = 0; i < rowbytes; i++) {
 			row[i] = [iff readUInt8];
 		}
 	} else {
@@ -413,43 +411,43 @@
 	}
 }
 
--(void)renderImage
+- (void)renderImage
 {
 	if (planes == 24) {
 		return;
 	}
-	
+
 	if (ham) {
 		for (int y = 0; y < realheight; y++) {
 			for (int sub_y = 0; sub_y < yscale; sub_y++) {
 				uint8_t *srcline = image + y * realwidth;
 				int *destline = (int *)(data + (y * yscale + sub_y) * bytesperrow);
 				uint32_t hold = palette[0];
-				
+
 				for (int x = 0; x < realwidth; x++) {
 					int pixel = *srcline++;
 					int cmd = pixel >> 4;
 					int val = pixel & 0x0f;
-					int col = (val<<4) | val;
-					
+					int col = (val << 4) | val;
+
 					switch (cmd) {
-						case 0:
-							hold = palette[val];
-							break;
-							
-						case 1:
-							hold = (hold & NOTB_MASK) | XeeMakeARGB8(0,0,0,col);
-							break;
-							
-						case 2:
-							hold = (hold & NOTR_MASK) | XeeMakeARGB8(0,col,0,0);
-							break;
-							
-						case 3:
-							hold = (hold & NOTG_MASK) | XeeMakeARGB8(0,0,col,0);
-							break;
+					case 0:
+						hold = palette[val];
+						break;
+
+					case 1:
+						hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
+						break;
+
+					case 2:
+						hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
+						break;
+
+					case 3:
+						hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
+						break;
 					}
-					
+
 					for (int sub_x = 0; sub_x < xscale; sub_x++) {
 						*destline++ = hold;
 					}
@@ -460,34 +458,33 @@
 		for (int y = 0; y < realheight; y++) {
 			for (int sub_y = 0; sub_y < yscale; sub_y++) {
 				uint8_t *srcline = image + y * realwidth;
-				int *destline = (int *)(data+(y*yscale+sub_y)*bytesperrow);
+				int *destline = (int *)(data + (y * yscale + sub_y) * bytesperrow);
 				uint32_t hold = palette[0];
-				
+
 				for (int x = 0; x < realwidth; x++) {
 					int pixel = *srcline++;
 					int cmd = pixel >> 6;
 					int val = pixel & 0x3f;
 					int col = (val << 2) | ((val & 0x30) >> 4);
-					
+
 					switch (cmd) {
-						case 0:
-							hold = palette[val];
-							break;
-							
-						case 1:
-							hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
-							break;
-							
-						case 2:
-							hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
-							break;
-							
-						case 3:
-							hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
-							break;
-							
+					case 0:
+						hold = palette[val];
+						break;
+
+					case 1:
+						hold = (hold & NOTB_MASK) | XeeMakeARGB8(0, 0, 0, col);
+						break;
+
+					case 2:
+						hold = (hold & NOTR_MASK) | XeeMakeARGB8(0, col, 0, 0);
+						break;
+
+					case 3:
+						hold = (hold & NOTG_MASK) | XeeMakeARGB8(0, 0, col, 0);
+						break;
 					}
-					
+
 					for (int sub_x = 0; sub_x < xscale; sub_x++) {
 						*destline++ = hold;
 					}
@@ -495,11 +492,11 @@
 			}
 		}
 	} else {
-		for (int y = 0;y < realheight; y++) {
-			for (int sub_y = 0;sub_y < yscale; sub_y++) {
-				uint8_t *srcline=image+y*realwidth;
-				int *destline=(int *)(data+(y*yscale+sub_y)*bytesperrow);
-				
+		for (int y = 0; y < realheight; y++) {
+			for (int sub_y = 0; sub_y < yscale; sub_y++) {
+				uint8_t *srcline = image + y * realwidth;
+				int *destline = (int *)(data + (y * yscale + sub_y) * bytesperrow);
+
 				for (int x = 0; x < realwidth; x++) {
 					uint32_t col = palette[*srcline++];
 					for (int sub_x = 0; sub_x < xscale; sub_x++) {
@@ -509,13 +506,13 @@
 			}
 		}
 	}
-	
+
 	if (masking == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:XeeILBMUseMaskKey]) {
 		for (int y = 0; y < realheight; y++) {
 			for (int sub_y = 0; sub_y < yscale; sub_y++) {
-				uint8_t *maskline = mask+y*rowbytes;
-				int *destline = (int *)(data+(y*yscale+sub_y)*bytesperrow);
-				
+				uint8_t *maskline = mask + y * rowbytes;
+				int *destline = (int *)(data + (y * yscale + sub_y) * bytesperrow);
+
 				for (int x = 0; x < realwidth; x++) {
 					if (!((maskline[x >> 3] >> ((x & 7) ^ 7)) & 1)) {
 						for (int sub_x = 0; sub_x < xscale; sub_x++) {
@@ -529,33 +526,33 @@
 	}
 }
 
--(void)addCommentWithLabel:(NSString *)label data:(NSData *)commentdata
+- (void)addCommentWithLabel:(NSString *)label data:(NSData *)commentdata
 {
 	if (!comments) {
 		comments = [[NSMutableArray alloc] init];
 		[properties addObject:[XeePropertyItem itemWithLabel:
-							   NSLocalizedString(@"File comments",@"File comments section title")
-													   value:comments identifier:@"common.comments"]];
+												   NSLocalizedString(@"File comments", @"File comments section title")
+													   value:comments
+												  identifier:@"common.comments"]];
 	}
 
 	[comments addObject:[XeePropertyItem itemWithLabel:label
-												 value:[[NSString alloc] initWithData:commentdata encoding:NSISOLatin1StringEncoding]
-														]];
+												 value:[[NSString alloc] initWithData:commentdata encoding:NSISOLatin1StringEncoding]]];
 
 	[self triggerPropertyChangeAction];
 }
 
--(uint32_t *)palette
+- (uint32_t *)palette
 {
 	return palette;
 }
 
--(BOOL)animated
+- (BOOL)animated
 {
 	return [ranges count] ? YES : NO;
 }
 
--(void)setAnimating:(BOOL)animating
+- (void)setAnimating:(BOOL)animating
 {
 	if (![self animated]) {
 		return;
@@ -563,29 +560,29 @@
 
 	if (animating) {
 		if (!animationtimer) {
-			animationtimer = [NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(animate:) userInfo:nil repeats:YES];
+			animationtimer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 60.0 target:self selector:@selector(animate:) userInfo:nil repeats:YES];
 		}
 	} else {
 		if (animationtimer) {
 			[animationtimer invalidate];
-			animationtimer=nil;
+			animationtimer = nil;
 		}
 	}
 }
 
--(BOOL)animating
+- (BOOL)animating
 {
 	return animationtimer ? YES : NO;
 }
 
--(void)animate:(NSTimer *)timer
+- (void)animate:(NSTimer *)timer
 {
 	clock++;
 
 	BOOL triggered = NO;
 
 	for (XeeILBMRange *range in ranges) {
-		if ([range triggerCheck:(float)clock/60.0]) {
+		if ([range triggerCheck:(float)clock / 60.0]) {
 			triggered = YES;
 		}
 	}
@@ -598,11 +595,9 @@
 
 @end
 
-
-
 @implementation XeeILBMRange
 
--(id)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)img;
+- (id)initWithIFF:(XeeIFFHandle *)iff image:(XeeILBMImage *)img;
 {
 	if (self = [super init]) {
 		num = 0;
@@ -611,92 +606,89 @@
 		image = img;
 
 		switch ([iff chunkID]) {
-			case 'CRNG': {
-				[iff readUInt16]; // pad1
-				// TODO: endianness check?
-				int rate = [iff readUInt16];
-				int flags = [iff readUInt16];
-				int low = [iff readUInt8];
-				int high = [iff readUInt8];
+		case 'CRNG': {
+			[iff readUInt16]; // pad1
+			// TODO: endianness check?
+			int rate = [iff readUInt16];
+			int flags = [iff readUInt16];
+			int low = [iff readUInt8];
+			int high = [iff readUInt8];
 
-				if ((flags & 1) && rate && low < high) {
-					if ([self allocBuffers:high - low + 1]) {
-						next=interval=16384.0/(float)rate/60.0;
+			if ((flags & 1) && rate && low < high) {
+				if ([self allocBuffers:high - low + 1]) {
+					next = interval = 16384.0 / (float)rate / 60.0;
 
-						[self setIndexesFrom:low to:high reverse:(flags&2)?YES:NO];
+					[self setIndexesFrom:low to:high reverse:(flags & 2) ? YES : NO];
 
-						return self;
-					}
+					return self;
 				}
 			}
-			break;
+		} break;
 
-			case 'CCRT': {
-				// TODO: endianness check?
-				int dir = [iff readUInt16];
-				int start = [iff readUInt8];
-				int end = [iff readUInt8];
-				int secs = [iff readUInt32];
-				int micros = [iff readUInt32];
+		case 'CCRT': {
+			// TODO: endianness check?
+			int dir = [iff readUInt16];
+			int start = [iff readUInt8];
+			int end = [iff readUInt8];
+			int secs = [iff readUInt32];
+			int micros = [iff readUInt32];
 
-				if ((dir == 1 || dir == 2) && start < end) {
-					if ([self allocBuffers:end - start + 1]) {
-						next=interval=(float)secs + (float)micros/1000000.0;
+			if ((dir == 1 || dir == 2) && start < end) {
+				if ([self allocBuffers:end - start + 1]) {
+					next = interval = (float)secs + (float)micros / 1000000.0;
 
-						[self setIndexesFrom:start to:end reverse:dir==2]; // unsure if this should be ==2 or ==1.
+					[self setIndexesFrom:start to:end reverse:dir == 2]; // unsure if this should be ==2 or ==1.
 
-						return self;
-					}
+					return self;
 				}
 			}
-			break;
+		} break;
 
-			case 'DRNG': {
-				// TODO: endianness check?
-				int min = [iff readUInt8];
-				int max = [iff readUInt8];
-				int rate = [iff readUInt16]*100;
-				int flags = [iff readUInt16];
-				int ntrue = [iff readUInt8];
-				int nregs = [iff readUInt8];
+		case 'DRNG': {
+			// TODO: endianness check?
+			int min = [iff readUInt8];
+			int max = [iff readUInt8];
+			int rate = [iff readUInt16] * 100;
+			int flags = [iff readUInt16];
+			int ntrue = [iff readUInt8];
+			int nregs = [iff readUInt8];
 
-				//printf("DRNG min:%d max:%d rate:%x flags:%d ntrue:%d nregs:%d\n",min,max,rate,flags,ntrue,nregs);
+			//printf("DRNG min:%d max:%d rate:%x flags:%d ntrue:%d nregs:%d\n",min,max,rate,flags,ntrue,nregs);
 
-				if ((flags & 1) && rate && min < max) {
-					if ([self allocBuffers: max - min + 1]) {
-						for (int i = 0; i < ntrue; i++) {
-							uint8_t cell = [iff readUInt8];
-							uint8_t r = [iff readUInt8];
-							uint8_t g = [iff readUInt8];
-							uint8_t b = [iff readUInt8];
+			if ((flags & 1) && rate && min < max) {
+				if ([self allocBuffers:max - min + 1]) {
+					for (int i = 0; i < ntrue; i++) {
+						uint8_t cell = [iff readUInt8];
+						uint8_t r = [iff readUInt8];
+						uint8_t g = [iff readUInt8];
+						uint8_t b = [iff readUInt8];
 
-							if (cell >= min && cell <= max) {
-								colours[cell - min] = XeeMakeARGB8(0xff,r,g,b);
-							}
+						if (cell >= min && cell <= max) {
+							colours[cell - min] = XeeMakeARGB8(0xff, r, g, b);
 						}
-
-						for (int i=0;i<nregs;i++) {
-							uint8_t cell=[iff readUInt8];
-							uint8_t index=[iff readUInt8];
-
-							if (cell >= min && cell <= max) {
-								indexes[cell - min] = index;
-							}
-						}
-
-						next=interval=16384.0/(float)rate/60.0;
-
-						return self;
 					}
+
+					for (int i = 0; i < nregs; i++) {
+						uint8_t cell = [iff readUInt8];
+						uint8_t index = [iff readUInt8];
+
+						if (cell >= min && cell <= max) {
+							indexes[cell - min] = index;
+						}
+					}
+
+					next = interval = 16384.0 / (float)rate / 60.0;
+
+					return self;
 				}
 			}
-			break;
+		} break;
 		}
 	}
 	return nil;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	if (colours) {
 		free(colours);
@@ -706,7 +698,7 @@
 	}
 }
 
--(BOOL)allocBuffers:(int)length
+- (BOOL)allocBuffers:(int)length
 {
 	if (colours) {
 		free(colours);
@@ -715,8 +707,8 @@
 		free(indexes);
 	}
 
-	colours = malloc(sizeof(uint32_t)*length);
-	indexes = malloc(sizeof(int)*length);
+	colours = malloc(sizeof(uint32_t) * length);
+	indexes = malloc(sizeof(int) * length);
 
 	if (colours && indexes) {
 		num = length;
@@ -733,7 +725,7 @@
 	}
 }
 
--(void)setIndexesFrom:(int)start to:(int)end reverse:(BOOL)reverse
+- (void)setIndexesFrom:(int)start to:(int)end reverse:(BOOL)reverse
 {
 	if (reverse) {
 		for (int i = 0; i <= end - start; i++) {
@@ -746,20 +738,20 @@
 	}
 }
 
--(void)setup
+- (void)setup
 {
 	uint32_t *palette = [image palette];
 
 	for (int i = 0; i < num; i++) {
-		if(colours[i] == EMPTY_COLOUR && indexes[i] >= 0) {
+		if (colours[i] == EMPTY_COLOUR && indexes[i] >= 0) {
 			colours[i] = palette[indexes[i]];
 		}
 	}
 
 	for (int i = 0; i < num; i++) {
 		if (colours[i] == EMPTY_COLOUR) {
-			uint32_t startindex,endindex;
-			int startcol,endcol;
+			uint32_t startindex, endindex;
+			int startcol, endcol;
 
 			if (i != 0) {
 				startcol = colours[i - 1];
@@ -775,7 +767,7 @@
 			if (endindex < num) {
 				endcol = colours[endindex];
 				startcol = colours[startindex];
-			} else  {
+			} else {
 				endcol = startcol = colours[startindex];
 			}
 
@@ -785,15 +777,15 @@
 			int end_r = XeeGetRFromARGB8(endcol);
 			int end_g = XeeGetGFromARGB8(endcol);
 			int end_b = XeeGetBFromARGB8(endcol);
-			int total = endindex-startindex;
+			int total = endindex - startindex;
 
 			for (int j = startindex + 1; j < endindex; j++) {
 				int step = j - startindex;
-				int r = start_r + ((end_r-start_r) * step) / total;
-				int g = start_g + ((end_g-start_g) * step) / total;
-				int b = start_b + ((end_b-start_b) * step) / total;
+				int r = start_r + ((end_r - start_r) * step) / total;
+				int g = start_g + ((end_g - start_g) * step) / total;
+				int b = start_b + ((end_b - start_b) * step) / total;
 
-				colours[j] = XeeMakeARGB8(0xff,r,g,b);
+				colours[j] = XeeMakeARGB8(0xff, r, g, b);
 			}
 
 			i = endindex;
@@ -801,7 +793,7 @@
 	}
 }
 
--(BOOL)triggerCheck:(float)time
+- (BOOL)triggerCheck:(float)time
 {
 	if (time > next) {
 		while (time > next) {
@@ -813,13 +805,13 @@
 	return NO;
 }
 
--(void)cycle
+- (void)cycle
 {
 	uint32_t *palette = [image palette];
 	uint32_t tmp = colours[0];
 
 	for (int i = 1; i < num; i++) {
-		colours[i-1]=colours[i];
+		colours[i - 1] = colours[i];
 	}
 
 	colours[num - 1] = tmp;

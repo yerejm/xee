@@ -6,31 +6,32 @@
 extern NSString *PDFUnsupportedEncryptionException;
 
 @class PDFEncryptionAlgorithm;
-@class PDFParser,PDFObjectReference,PDFString;
+@class PDFParser, PDFObjectReference, PDFString;
 
-@interface PDFEncryptionHandler:NSObject
-{
-	int version,revision;
+@interface PDFEncryptionHandler : NSObject {
+	int version, revision;
 	NSDictionary *encrypt;
 	NSData *permanentid;
 
 	NSString *password;
 	BOOL needspassword;
 
-	NSMutableDictionary *keys,*algorithms;
-	PDFEncryptionAlgorithm *streamalgorithm,*stringalgorithm;
+	NSMutableDictionary *keys, *algorithms;
+	PDFEncryptionAlgorithm *streamalgorithm, *stringalgorithm;
 }
 
--(instancetype)initWithParser:(PDFParser *)parser;
+- (instancetype)initWithParser:(PDFParser *)parser;
 
 @property (readonly) BOOL needsPassword;
--(BOOL)setPassword:(NSString *)newpassword;
+- (BOOL)setPassword:(NSString *)newpassword;
 
--(NSData *)documentKeyOfLength:(int)length;
--(NSData *)keyOfLength:(int)length forReference:(PDFObjectReference *)ref AES:(BOOL)aes;
+- (NSData *)documentKeyOfLength:(int)length;
+- (NSData *)keyOfLength:(int)length
+		   forReference:(PDFObjectReference *)ref
+					AES:(BOOL)aes;
 
--(NSData *)decryptString:(XeePDFString *)string;
--(CSHandle *)decryptStream:(PDFStream *)stream;
+- (NSData *)decryptString:(PDFString *)string;
+- (CSHandle *)decryptStream:(PDFStream *)stream;
 
 /*-(NSData *)keyForReference:(PDFObjectReference *)ref AES:(BOOL)aes;
 -(NSData *)userKey;
@@ -38,51 +39,46 @@ extern NSString *PDFUnsupportedEncryptionException;
 
 @end
 
+@interface PDFEncryptionAlgorithm : NSObject
 
-
-@interface PDFEncryptionAlgorithm:NSObject
-
--(NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
--(CSHandle *)decryptedHandle:(CSHandle *)handle reference:(PDFObjectReference *)ref;
--(void)calculateKeyForPassword:(NSString *)password;
-
-@end
-
-
-
-@interface PDFNoAlgorithm:PDFEncryptionAlgorithm
-
--(NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
--(CSHandle *)decryptedHandle:(CSHandle *)handle reference:(PDFObjectReference *)ref;
+- (NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
+- (CSHandle *)decryptedHandle:(CSHandle *)handle
+					reference:(PDFObjectReference *)ref;
+- (void)calculateKeyForPassword:(NSString *)password;
 
 @end
 
+@interface PDFNoAlgorithm : PDFEncryptionAlgorithm
 
+- (NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
+- (CSHandle *)decryptedHandle:(CSHandle *)handle
+					reference:(PDFObjectReference *)ref;
 
-@interface PDFStandardAlgorithm:PDFEncryptionAlgorithm
-{
+@end
+
+@interface PDFStandardAlgorithm : PDFEncryptionAlgorithm {
 	int keylength;
 	PDFEncryptionHandler *parent;
 }
 
--(instancetype)initWithLength:(int)length handler:(PDFEncryptionHandler *)handler;
--(NSData *)keyForReference:(PDFObjectReference *)ref AES:(BOOL)aes;
+- (instancetype)initWithLength:(int)length
+					   handler:(PDFEncryptionHandler *)handler;
+- (NSData *)keyForReference:(PDFObjectReference *)ref AES:(BOOL)aes;
 
 @end
 
+@interface PDFRC4Algorithm : PDFStandardAlgorithm
 
-
-@interface PDFRC4Algorithm:PDFStandardAlgorithm
-
--(NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
--(CSHandle *)decryptedHandle:(CSHandle *)handle reference:(PDFObjectReference *)ref;
+- (NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
+- (CSHandle *)decryptedHandle:(CSHandle *)handle
+					reference:(PDFObjectReference *)ref;
 
 @end
 
+@interface PDFAESAlgorithm : PDFStandardAlgorithm
 
-@interface PDFAESAlgorithm:PDFStandardAlgorithm
-
--(NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
--(CSHandle *)decryptedHandle:(CSHandle *)handle reference:(PDFObjectReference *)ref;
+- (NSData *)decryptedData:(NSData *)data reference:(PDFObjectReference *)ref;
+- (CSHandle *)decryptedHandle:(CSHandle *)handle
+					reference:(PDFObjectReference *)ref;
 
 @end

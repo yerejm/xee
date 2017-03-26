@@ -2,8 +2,8 @@
 
 @interface NSString (XeeStringAdditions)
 
--(NSString *)stringByMappingColonToSlash;
--(NSString *)stringByMappingSlashToColon;
+- (NSString *)stringByMappingColonToSlash;
+- (NSString *)stringByMappingSlashToColon;
 
 @end
 

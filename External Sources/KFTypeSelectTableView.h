@@ -2,12 +2,12 @@
 //  KFTypeSelectTableView.h
 //  KFTypeSelectTableView v1.0.4
 //
-//  Keyboard navigation enabled table view.  Suitable for 
+//  Keyboard navigation enabled table view.  Suitable for
 //  class posing as well as normal use.
 //
 //  All delegate methods are optional, except you need to implement typeSelectTableView:stringValueForTableColumn:row:
 //  if you're using bindings to supply the table view with data.
-//  
+//
 //  ------------------------------------------------------------------------
 //  Copyright (c) 2005, Ken Ferry All rights reserved.
 //
@@ -21,7 +21,7 @@
 //  (2) Redistributions in binary form must reproduce the above copyright
 //      notice, this list of conditions and the following disclaimer in the
 //      documentation and/or other materials provided with the distribution.
-//      
+//
 //  (3) Neither Ken Ferry's name nor the names of other contributors
 //      may be used to endorse or promote products derived from this software
 //      without specific prior written permission.
@@ -40,15 +40,15 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 //  ------------------------------------------------------------------------
-// 
+//
 
 #import <Cocoa/Cocoa.h>
 
 #pragma mark constants
 
 typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
-    KFSubstringMatchAlgorithm = 0,
-    KFPrefixMatchAlgorithm = 1
+	KFSubstringMatchAlgorithm = 0,
+	KFPrefixMatchAlgorithm = 1
 };
 
 @interface KFTypeSelectTableView : NSTableView
@@ -79,13 +79,13 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 //! supply a set of identifiers to limit columns searched for match.
 //! Only columns with identifiers in the provided set are searched.
 //! nil identifiers means search all columns.  defaults to nil.
-@property (copy) NSSet<NSString*> *searchColumnIdentifiers;
+@property (copy) NSSet<NSString *> *searchColumnIdentifiers;
 
 @end
 
-@interface NSObject (KFTypeSelectTableViewDelegate) 
+@interface NSObject (KFTypeSelectTableViewDelegate)
 
-#pragma mark configuration methods 
+#pragma mark configuration methods
 
 //! Implement this method if the table uses bindings for data.
 //! Use something like
@@ -94,7 +94,7 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 - (NSString *)typeSelectTableView:(id)tableView stringValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row;
 
 //! defaults to YES
-- (BOOL)typeSelectTableViewSearchTopToBottom:(id)tableView; 
+- (BOOL)typeSelectTableViewSearchTopToBottom:(id)tableView;
 
 //! defaults to first or last row, depending on direction of search
 - (NSInteger)typeSelectTableViewInitialSearchRow:(id)tableView;
@@ -110,7 +110,7 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 //    when a search begins or is modified
 //    when a search is canceled
 //    x seconds after a search either succeeds or fails, where x is a timeout period
-- (void)typeSelectTableViewPatternDidChange:(NSNotification *)aNotification; 
+- (void)typeSelectTableViewPatternDidChange:(NSNotification *)aNotification;
 - (void)typeSelectTableView:(id)tableView didFindMatch:(NSString *)match range:(NSRange)matchedRange forPattern:(NSString *)pattern;
 - (void)typeSelectTableView:(id)tableView didFailToFindMatchForPattern:(NSString *)pattern; //!< fallback is a beep if delegate does not implement
 

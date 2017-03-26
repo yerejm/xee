@@ -37,5 +37,6 @@
 #define XeeDefaultImageBackgroundKey @"defaultImageBackground"
 #define XeeWindowBackgroundKey @"windowBackground"
 #define XeeFullScreenBackgroundKey @"fullScreenBackground"
+#define XeeHideStatusBarKey @"hideStatusBar"
 
 #endif /* XeePrefKeys_h */

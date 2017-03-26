@@ -3,48 +3,46 @@
 #import "XeeControllerFileActions.h"
 #import "XeeStringAdditions.h"
 
-
 @implementation XeeRenamePanel
 
--(void)run:(NSWindow *)window filename:(NSString *)filename
-delegate:(id)delegate didEndSelector:(SEL)selector
+- (void)run:(NSWindow *)window filename:(NSString *)filename
+		  delegate:(id)delegate
+	didEndSelector:(SEL)selector
 {
-	enddelegate=delegate;
-	endselector=selector;
+	enddelegate = delegate;
+	endselector = selector;
 
 	[namefield setStringValue:filename];
 
-	if(window)
-	{
-		sheet=YES;
+	if (window) {
+		sheet = YES;
 		[NSApp beginSheet:self modalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
-	}
-	else
-	{
-		sheet=NO;
+	} else {
+		sheet = NO;
 		[self makeKeyAndOrderFront:nil];
 	}
 
 	[self makeFirstResponder:namefield];
-	[[namefield currentEditor] setSelectedRange:NSMakeRange(0,[[filename stringByDeletingPathExtension] length])];
+	[[namefield currentEditor] setSelectedRange:NSMakeRange(0, [[filename stringByDeletingPathExtension] length])];
 }
 
--(void)cancelClick:(id)sender
+- (void)cancelClick:(id)sender
 {
 	[self endWithReturnCode:0 filename:nil];
 }
 
--(void)renameClick:(id)sender
+- (void)renameClick:(id)sender
 {
 	[self endWithReturnCode:1 filename:[namefield stringValue]];
 }
 
--(void)endWithReturnCode:(int)res filename:(NSString *)newname
+- (void)endWithReturnCode:(int)res filename:(NSString *)newname
 {
-	if(sheet) [NSApp endSheet:self];
+	if (sheet)
+		[NSApp endSheet:self];
 	[self orderOut:nil];
 
-	NSInvocation *invocation=[NSInvocation invocationWithMethodSignature:[enddelegate methodSignatureForSelector:endselector]];
+	NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[enddelegate methodSignatureForSelector:endselector]];
 	[invocation setSelector:endselector];
 	[invocation setArgument:&self atIndex:2];
 	[invocation setArgument:&res atIndex:3];

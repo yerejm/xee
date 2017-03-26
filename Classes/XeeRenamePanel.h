@@ -2,8 +2,7 @@
 
 @class XeeController;
 
-@interface XeeRenamePanel:NSWindow
-{
+@interface XeeRenamePanel : NSWindow {
 	id enddelegate;
 	SEL endselector;
 	BOOL sheet;
@@ -12,11 +11,13 @@
 	IBOutlet NSTextField *namefield;
 }
 
--(void)run:(NSWindow *)window filename:(NSString *)filename
-delegate:(id)delegate didEndSelector:(SEL)selector;
+- (void)run:(NSWindow *)window
+		  filename:(NSString *)filename
+		  delegate:(id)delegate
+	didEndSelector:(SEL)selector;
 
--(IBAction)cancelClick:(id)sender;
--(IBAction)renameClick:(id)sender;
--(void)endWithReturnCode:(int)res filename:(NSString *)newname;
+- (IBAction)cancelClick:(id)sender;
+- (IBAction)renameClick:(id)sender;
+- (void)endWithReturnCode:(int)res filename:(NSString *)newname;
 
 @end

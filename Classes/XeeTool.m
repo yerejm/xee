@@ -8,55 +8,66 @@
 
 #import "XeeTool.h"
 
-
 @implementation XeeTool
 
-+(XeeTool *)toolForView:(XeeView *)view
++ (XeeTool *)toolForView:(XeeView *)view
 {
 	return [[[self alloc] initWithView:view] autorelease];
 }
 
--(id)initWithView:(XeeView *)ownerview
+- (id)initWithView:(XeeView *)ownerview
 {
-	if(self=[super init])
-	{
-		view=ownerview;
-		clicking=NO;
+	if (self = [super init]) {
+		view = ownerview;
+		clicking = NO;
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	//[view release];
 	[super dealloc];
 }
 
--(void)begin {}
-
--(void)end {}
-
--(void)mouseDownAt:(NSPoint)position
+- (void)begin
 {
-	clicking=YES;
 }
 
--(void)mouseUpAt:(NSPoint)position;
+- (void)end
 {
-	clicking=NO;
 }
 
--(void)mouseDoubleClickedAt:(NSPoint)position
+- (void)mouseDownAt:(NSPoint)position
 {
-	clicking=YES;
+	clicking = YES;
 }
 
--(void)mouseMovedTo:(NSPoint)position relative:(NSPoint)relative {}
+- (void)mouseUpAt:(NSPoint)position;
+{
+	clicking = NO;
+}
 
--(void)mouseDraggedTo:(NSPoint)position relative:(NSPoint)relative {}
+- (void)mouseDoubleClickedAt:(NSPoint)position
+{
+	clicking = YES;
+}
 
--(NSCursor *)cursor { return nil; }
+- (void)mouseMovedTo:(NSPoint)position relative:(NSPoint)relative
+{
+}
 
--(void)draw {}
+- (void)mouseDraggedTo:(NSPoint)position relative:(NSPoint)relative
+{
+}
+
+- (NSCursor *)cursor
+{
+	return nil;
+}
+
+- (void)draw
+{
+}
 
 @end

@@ -19,22 +19,30 @@ typedef NS_OPTIONS(unsigned int, XeeRawAlphaFlags) {
 	XeeFloatingPointRawFlag = 0x0040,
 };
 
-@interface XeeRawImage:XeeBitmapImage
-{
-	int bitdepth,inbpr,channels,uncomposition,transformation,type;
+@interface XeeRawImage : XeeBitmapImage {
+	int bitdepth, inbpr, channels, uncomposition, transformation, type;
 	uint8_t *buffer;
-	BOOL flipendian,needsbuffer,adjustranges;
+	BOOL flipendian, needsbuffer, adjustranges;
 	float range[5][2];
 }
 
--(id)initWithHandle:(CSHandle *)inhandle width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth colourSpace:(XeeRawColourSpace)space flags:(XeeRawAlphaFlags)flags;
--(id)initWithHandle:(CSHandle *)inhandle width:(int)framewidth height:(int)frameheight
-depth:(int)framedepth colourSpace:(XeeRawColourSpace)space flags:(XeeRawAlphaFlags)flags bytesPerRow:(int)byterperinputrow;
--(void)dealloc;
+- (id)initWithHandle:(CSHandle *)inhandle
+			   width:(int)framewidth
+			  height:(int)frameheight
+			   depth:(int)framedepth
+		 colourSpace:(XeeRawColourSpace)space
+			   flags:(XeeRawAlphaFlags)flags;
+- (id)initWithHandle:(CSHandle *)inhandle
+			   width:(int)framewidth
+			  height:(int)frameheight
+			   depth:(int)framedepth
+		 colourSpace:(XeeRawColourSpace)space
+			   flags:(XeeRawAlphaFlags)flags
+		 bytesPerRow:(int)byterperinputrow;
+- (void)dealloc;
 
--(void)setZeroPoint:(float)low onePoint:(float)high forChannel:(int)channel;
+- (void)setZeroPoint:(float)low onePoint:(float)high forChannel:(int)channel;
 
--(void)load;
+- (void)load;
 
 @end

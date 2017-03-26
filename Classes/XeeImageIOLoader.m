@@ -1,7 +1,6 @@
 #import "XeeImageIOLoader.h"
 #import "XeeCGImage.h"
 
-
 @implementation XeeImageIOImage
 
 static size_t XeeImageIOGetBytes(void *info, void *buffer, size_t count)
@@ -9,9 +8,10 @@ static size_t XeeImageIOGetBytes(void *info, void *buffer, size_t count)
 	return [(CSHandle *)info readAtMost:count toBuffer:buffer];
 }
 
-static off_t XeeImageIOSkipBytes(void *info, off_t count) {
-    [(CSHandle *)info skipBytes:count];
-    return [(CSHandle*)info offsetInFile];
+static off_t XeeImageIOSkipBytes(void *info, off_t count)
+{
+	[(CSHandle *)info skipBytes:count];
+	return [(CSHandle *)info offsetInFile];
 }
 
 static void XeeImageIORewind(void *info)
@@ -24,111 +24,111 @@ static void XeeImageIOReleaseInfo(void *info)
 	[(CSHandle *)info release];
 }
 
-+(NSArray *)fileTypes
++ (NSArray *)fileTypes
 {
 	return [NSBitmapImageRep imageTypes];
 }
 
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes
++ (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes
 {
-	return floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_3;
+	return floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_3;
 }
 
--(SEL)initLoader
+- (SEL)initLoader
 {
-	source=NULL;
+	source = NULL;
 
-	NSMutableDictionary *options=[NSMutableDictionary dictionaryWithObjectsAndKeys:
-		@YES, kCGImageSourceShouldAllowFloat,
-	nil];
+	NSMutableDictionary *options = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+															@YES, kCGImageSourceShouldAllowFloat,
+															nil];
 
 	if (ref) {
-		NSString *type=CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-		(CFStringRef)[[self filename] pathExtension],kUTTypeData));
+		NSString *type = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+																				 (CFStringRef)[[self filename] pathExtension], kUTTypeData));
 		//if([type isEqual:(NSString *)kUTTypePICT]) return NULL;
 		[options setObject:type forKey:(NSString *)kCGImageSourceTypeIdentifierHint];
 	}
 
-    CGDataProviderSequentialCallbacks callbacks =
-    { 0,
-        XeeImageIOGetBytes,XeeImageIOSkipBytes,XeeImageIORewind,XeeImageIOReleaseInfo };
+	CGDataProviderSequentialCallbacks callbacks =
+		{0,
+		 XeeImageIOGetBytes, XeeImageIOSkipBytes, XeeImageIORewind, XeeImageIOReleaseInfo};
 
-	CGDataProviderRef provider = CGDataProviderCreateSequential([[self handle] retain],&callbacks);
+	CGDataProviderRef provider = CGDataProviderCreateSequential([[self handle] retain], &callbacks);
 	if (!provider) {
 		return NULL;
 	}
-	
+
 	source = CGImageSourceCreateWithDataProvider(provider, (CFDictionaryRef)options);
 	CGDataProviderRelease(provider);
 	if (!source) {
 		return NULL;
 	}
-	
-	NSDictionary *cgproperties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source,0,(CFDictionaryRef)options));
+
+	NSDictionary *cgproperties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, 0, (CFDictionaryRef)options));
 	if (!cgproperties) {
 		return NULL;
 	}
-	
-	width=[[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelWidth] intValue];
-	height=[[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelHeight] intValue];
-    
+
+	width = [[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelWidth] intValue];
+	height = [[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelHeight] intValue];
+
 	[self setDepthForImage:self properties:cgproperties];
 	[self setFormat:[self formatForType:(NSString *)CGImageSourceGetType(source)]];
-    
-	NSNumber *orientnum=[cgproperties objectForKey:(NSString *)kCGImagePropertyOrientation];
+
+	NSNumber *orientnum = [cgproperties objectForKey:(NSString *)kCGImagePropertyOrientation];
 	if (orientnum) {
 		[self setCorrectOrientation:[orientnum intValue]];
 	}
-	
+
 	[properties addObjectsFromArray:[self convertCGProperties:cgproperties]];
-    
+
 	current_image = 0;
-    
+
 	if (thumbonly) {
 		return @selector(loadThumbnail);
 	}
 	return @selector(loadImage);
 }
 
--(void)deallocLoader
+- (void)deallocLoader
 {
 	if (source) {
 		CFRelease(source);
 	}
 }
 
--(SEL)loadImage
+- (SEL)loadImage
 {
-	size_t count=CGImageSourceGetCount(source);
+	size_t count = CGImageSourceGetCount(source);
 	if (current_image == count) {
 		return @selector(loadThumbnail);
 	}
 
-	NSDictionary *options=[NSDictionary dictionaryWithObjectsAndKeys:
-		@YES,kCGImageSourceShouldAllowFloat,
-		@NO,kCGImageSourceShouldCache,
-	nil];
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+											  @YES, kCGImageSourceShouldAllowFloat,
+											  @NO, kCGImageSourceShouldCache,
+											  nil];
 
-	CGImageRef cgimage = CGImageSourceCreateImageAtIndex(source,current_image++,(CFDictionaryRef)options);
+	CGImageRef cgimage = CGImageSourceCreateImageAtIndex(source, current_image++, (CFDictionaryRef)options);
 	if (!cgimage) {
 		return @selector(loadImage);
 	}
 
-	NSDictionary *cgproperties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source,current_image - 1,(CFDictionaryRef)options));
+	NSDictionary *cgproperties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, current_image - 1, (CFDictionaryRef)options));
 
-	CFStringRef colormodel=(CFStringRef)[cgproperties objectForKey:(NSString *)kCGImagePropertyColorModel];
-	NSNumber *isindexed=[cgproperties objectForKey:(NSString *)kCGImagePropertyIsIndexed];
-	NSNumber *hasalpha=[cgproperties objectForKey:(NSString *)kCGImagePropertyHasAlpha];
+	CFStringRef colormodel = (CFStringRef)[cgproperties objectForKey:(NSString *)kCGImagePropertyColorModel];
+	NSNumber *isindexed = [cgproperties objectForKey:(NSString *)kCGImagePropertyIsIndexed];
+	NSNumber *hasalpha = [cgproperties objectForKey:(NSString *)kCGImagePropertyHasAlpha];
 	//int framedepth=[[cgproperties objectForKey:(NSString *)kCGImagePropertyDepth] intValue];
 
-	XeeBitmapImage *image=nil;
+	XeeBitmapImage *image = nil;
 
 	if (!CFEqual(colormodel, kCGImagePropertyColorModelCMYK) &&
 		!CFEqual(colormodel, kCGImagePropertyColorModelLab) &&
 		!(isindexed && [isindexed boolValue])) {
-		image=[[[XeeCGImage alloc] initWithCGImage:cgimage] autorelease];
+		image = [[[XeeCGImage alloc] initWithCGImage:cgimage] autorelease];
 
-		NSNumber *photometric=[[cgproperties objectForKey:@"{TIFF}"] objectForKey:@"PhotometricInterpretation"];
+		NSNumber *photometric = [[cgproperties objectForKey:@"{TIFF}"] objectForKey:@"PhotometricInterpretation"];
 		if (photometric && [photometric intValue] == 0) {
 			[(XeeCGImage *)image invertImage];
 		}
@@ -136,19 +136,22 @@ static void XeeImageIOReleaseInfo(void *info)
 
 	if (!image) {
 		int type;
-		if(hasalpha&&[hasalpha boolValue]) type=XeeBitmapTypePremultipliedARGB8;
-		else if(colormodel==kCGImagePropertyColorModelGray) type=XeeBitmapTypeLuma8;
-		else type=XeeBitmapTypeNRGB8;
+		if (hasalpha && [hasalpha boolValue])
+			type = XeeBitmapTypePremultipliedARGB8;
+		else if (colormodel == kCGImagePropertyColorModelGray)
+			type = XeeBitmapTypeLuma8;
+		else
+			type = XeeBitmapTypeNRGB8;
 
-		size_t pixelwidth=CGImageGetWidth(cgimage);
-		size_t pixelheight=CGImageGetHeight(cgimage);
+		size_t pixelwidth = CGImageGetWidth(cgimage);
+		size_t pixelheight = CGImageGetHeight(cgimage);
 
 		image = [[[XeeBitmapImage alloc] initWithType:type width:pixelwidth height:pixelheight] autorelease];
 
 		if (image) {
 			CGContextRef cgcontext = [image createCGContext];
 			if (cgcontext) {
-				CGContextDrawImage(cgcontext,CGRectMake(0,0,pixelwidth,pixelheight),cgimage);
+				CGContextDrawImage(cgcontext, CGRectMake(0, 0, pixelwidth, pixelheight), cgimage);
 				CGContextRelease(cgcontext);
 			} else {
 				image = nil;
@@ -158,7 +161,7 @@ static void XeeImageIOReleaseInfo(void *info)
 
 	CGImageRelease(cgimage);
 
-	if(!image) {
+	if (!image) {
 		return @selector(loadImage);
 	}
 
@@ -175,21 +178,21 @@ static void XeeImageIOReleaseInfo(void *info)
 	return @selector(loadImage);
 }
 
--(SEL)loadThumbnail
+- (SEL)loadThumbnail
 {
 	loaded = !thumbonly;
 
-	NSDictionary *options=[NSDictionary dictionaryWithObjectsAndKeys:
-		@NO, kCGImageSourceShouldCache,
-		@(thumbonly), kCGImageSourceCreateThumbnailFromImageIfAbsent,
-	nil];
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+											  @NO, kCGImageSourceShouldCache,
+											  @(thumbonly), kCGImageSourceCreateThumbnailFromImageIfAbsent,
+											  nil];
 
-	CGImageRef cgimage=CGImageSourceCreateThumbnailAtIndex(source,0,(CFDictionaryRef)options);
+	CGImageRef cgimage = CGImageSourceCreateThumbnailAtIndex(source, 0, (CFDictionaryRef)options);
 	if (!cgimage) {
 		return NULL;
 	}
 
-	NSDictionary *cgproperties=CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source,0,(CFDictionaryRef)options));
+	NSDictionary *cgproperties = CFBridgingRelease(CGImageSourceCopyPropertiesAtIndex(source, 0, (CFDictionaryRef)options));
 	XeeCGImage *image = [[[XeeCGImage alloc] initWithCGImage:cgimage] autorelease];
 
 	NSNumber *photometric = [[cgproperties objectForKey:@"{TIFF}"] objectForKey:@"PhotometricInterpretation"];
@@ -211,16 +214,16 @@ static void XeeImageIOReleaseInfo(void *info)
 	return NULL;
 }
 
--(void)setDepthForImage:(XeeImage *)image properties:(NSDictionary *)cgproperties
+- (void)setDepthForImage:(XeeImage *)image properties:(NSDictionary *)cgproperties
 {
-	CFStringRef colormodel=(CFStringRef)[cgproperties objectForKey:(NSString *)kCGImagePropertyColorModel];
-	NSNumber *indexednum=[cgproperties objectForKey:(NSString *)kCGImagePropertyIsIndexed];
-	NSNumber *floatnum=[cgproperties objectForKey:(NSString *)kCGImagePropertyIsFloat];
-	NSNumber *alphanum=[cgproperties objectForKey:(NSString *)kCGImagePropertyHasAlpha];
-	int framedepth=[[cgproperties objectForKey:(NSString *)kCGImagePropertyDepth] intValue];
-	BOOL isindexed=indexednum&&[indexednum boolValue];
-	BOOL isfloat=floatnum&&[floatnum boolValue];
-	BOOL hasalpha=alphanum&&[alphanum boolValue];
+	CFStringRef colormodel = (CFStringRef)[cgproperties objectForKey:(NSString *)kCGImagePropertyColorModel];
+	NSNumber *indexednum = [cgproperties objectForKey:(NSString *)kCGImagePropertyIsIndexed];
+	NSNumber *floatnum = [cgproperties objectForKey:(NSString *)kCGImagePropertyIsFloat];
+	NSNumber *alphanum = [cgproperties objectForKey:(NSString *)kCGImagePropertyHasAlpha];
+	int framedepth = [[cgproperties objectForKey:(NSString *)kCGImagePropertyDepth] intValue];
+	BOOL isindexed = indexednum && [indexednum boolValue];
+	BOOL isfloat = floatnum && [floatnum boolValue];
+	BOOL hasalpha = alphanum && [alphanum boolValue];
 
 	if (isindexed) {
 		[image setDepthIndexed:1 << framedepth];
@@ -235,46 +238,47 @@ static void XeeImageIOReleaseInfo(void *info)
 	}
 }
 
--(NSString *)formatForType:(NSString *)type
+- (NSString *)formatForType:(NSString *)type
 {
-	static NSDictionary *formatdict=nil;
-	if(!formatdict) formatdict=[[NSDictionary alloc] initWithObjectsAndKeys:
-		@"TIFF",@"public.tiff",
-		@"BMP",@"com.microsoft.bmp",
-		@"GIF",@"com.compuserve.gif",
-		@"JPEG",@"public.jpeg",
-		@"PICT",@"com.apple.pict",
-		@"PNG",@"public.png",
-		@"QTIF",@"com.apple.quicktime-image",
-		@"TGA",@"com.truevision.tga-image",
-		@"SGI",@"com.sgi.sgi-image",
-		@"PSD",@"com.adobe.photoshop-image",
-		@"PNTG",@"com.apple.macpaint-image",
-		@"FPX",@"com.kodak.flashpix-image",
-		@"JPEG2000",@"public.jpeg-2000",
-		@"ICO",@"com.microsoft.ico",
-		@"XBM",@"public.xbitmap-image",
-		@"EXR",@"com.ilm.openexr-image",
-		@"Fax",@"public.fax",
-		@"Icns",@"com.apple.icns",
-		@"Radiance",@"public.radiance",
-		@"PCX",@"cx.c3.pcx",
-		@"IFF ILBM",@"com.ea.iff-ilbm",
-		@"DNG",@"com.adobe.raw-image",
-		@"Leica",@"com.leica.raw-image",
-		@"RAW",@"com.panasonic.raw-image",
-		@"DCR",@"com.kodak.raw-image",
-		@"CR2",@"com.canon.cr2-raw-image",
-		@"CRW",@"com.canon.crw-raw-image",
-		@"MRW",@"com.konicaminolta.raw-image",
-		@"RAF",@"com.fuji.raw-image",
-		@"NEF",@"com.nikon.raw-image",
-		@"ORF",@"com.olympus.raw-image",
-		@"SRF",@"com.sony.raw-image",
-		@"PEF",@"com.pentax.raw-image",
-	nil];
+	static NSDictionary *formatdict = nil;
+	if (!formatdict)
+		formatdict = [[NSDictionary alloc] initWithObjectsAndKeys:
+											   @"TIFF", @"public.tiff",
+											   @"BMP", @"com.microsoft.bmp",
+											   @"GIF", @"com.compuserve.gif",
+											   @"JPEG", @"public.jpeg",
+											   @"PICT", @"com.apple.pict",
+											   @"PNG", @"public.png",
+											   @"QTIF", @"com.apple.quicktime-image",
+											   @"TGA", @"com.truevision.tga-image",
+											   @"SGI", @"com.sgi.sgi-image",
+											   @"PSD", @"com.adobe.photoshop-image",
+											   @"PNTG", @"com.apple.macpaint-image",
+											   @"FPX", @"com.kodak.flashpix-image",
+											   @"JPEG2000", @"public.jpeg-2000",
+											   @"ICO", @"com.microsoft.ico",
+											   @"XBM", @"public.xbitmap-image",
+											   @"EXR", @"com.ilm.openexr-image",
+											   @"Fax", @"public.fax",
+											   @"Icns", @"com.apple.icns",
+											   @"Radiance", @"public.radiance",
+											   @"PCX", @"cx.c3.pcx",
+											   @"IFF ILBM", @"com.ea.iff-ilbm",
+											   @"DNG", @"com.adobe.raw-image",
+											   @"Leica", @"com.leica.raw-image",
+											   @"RAW", @"com.panasonic.raw-image",
+											   @"DCR", @"com.kodak.raw-image",
+											   @"CR2", @"com.canon.cr2-raw-image",
+											   @"CRW", @"com.canon.crw-raw-image",
+											   @"MRW", @"com.konicaminolta.raw-image",
+											   @"RAF", @"com.fuji.raw-image",
+											   @"NEF", @"com.nikon.raw-image",
+											   @"ORF", @"com.olympus.raw-image",
+											   @"SRF", @"com.sony.raw-image",
+											   @"PEF", @"com.pentax.raw-image",
+											   nil];
 
-	NSString *shortformat=[formatdict objectForKey:type];
+	NSString *shortformat = [formatdict objectForKey:type];
 	if (shortformat) {
 		return shortformat;
 	} else {
@@ -282,34 +286,34 @@ static void XeeImageIOReleaseInfo(void *info)
 	}
 }
 
--(NSArray *)convertCGProperties:(NSDictionary *)cgproperties
+- (NSArray *)convertCGProperties:(NSDictionary *)cgproperties
 {
-	NSMutableArray *array=[NSMutableArray array];
-	NSBundle *imageio=[NSBundle bundleWithIdentifier:@"com.apple.ImageIO.framework"];
+	NSMutableArray *array = [NSMutableArray array];
+	NSBundle *imageio = [NSBundle bundleWithIdentifier:@"com.apple.ImageIO.framework"];
 
 	for (NSString *key in cgproperties) {
-		id value=[cgproperties objectForKey:key];
+		id value = [cgproperties objectForKey:key];
 		if (![value isKindOfClass:[NSDictionary class]]) {
 			continue;
 		}
 
-		NSString *keyname=[imageio localizedStringForKey:key value:key table:@"CGImageSource"];
+		NSString *keyname = [imageio localizedStringForKey:key value:key table:@"CGImageSource"];
 
 		[array addObject:[XeePropertyItem itemWithLabel:keyname
-		value:[self convertCGPropertyValues:value imageIOBundle:imageio]
-		identifier:[NSString stringWithFormat:@"%@.%@",@"imageio",key]]];
+												  value:[self convertCGPropertyValues:value imageIOBundle:imageio]
+											 identifier:[NSString stringWithFormat:@"%@.%@", @"imageio", key]]];
 	}
 
 	[array sortUsingSelector:@selector(compare:)];
 
 	[array addObject:[XeePropertyItem itemWithLabel:
-	NSLocalizedString(@"More properties",@"More properties (from ImageIO.framework) section title")
-	value:[self convertCGPropertyValues:cgproperties imageIOBundle:imageio]]];
+										  NSLocalizedString(@"More properties", @"More properties (from ImageIO.framework) section title")
+											  value:[self convertCGPropertyValues:cgproperties imageIOBundle:imageio]]];
 
 	return array;
 }
 
--(NSArray *)convertCGPropertyValues:(NSDictionary *)cgproperties imageIOBundle:(NSBundle *)imageio
+- (NSArray *)convertCGPropertyValues:(NSDictionary *)cgproperties imageIOBundle:(NSBundle *)imageio
 {
 	NSMutableArray *array = [NSMutableArray array];
 	for (NSString *key in cgproperties) {

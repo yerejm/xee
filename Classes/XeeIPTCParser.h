@@ -2,13 +2,12 @@
 #import "XeeParser.h"
 #import <XADMaster/CSHandle.h>
 
-@interface XeeIPTCParser:NSObject <XeeParser>
-{
+@interface XeeIPTCParser : NSObject <XeeParser> {
 	NSMutableArray *props;
 }
 
--(instancetype)initWithHandle:(CSHandle *)handle;
+- (instancetype)initWithHandle:(CSHandle *)handle;
 
--(NSArray<XeePropertyItem*> *)propertyArray;
+- (NSArray<XeePropertyItem *> *)propertyArray;
 
 @end

@@ -30,5 +30,4 @@
 #define CCITTFaxT6Handle XeeCCITTFaxT6Handle
 #define LZWHandle XeeLZWHandle
 
-
 #endif /* PDFNameCollisionPreventer_h */

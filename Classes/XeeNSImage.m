@@ -1,82 +1,92 @@
 #import "XeeNSImage.h"
 
-
 @implementation XeeNSImage
 
--(id)init
+- (id)init
 {
-	if(self=[super init])
-	{
-		rep=nil;
+	if (self = [super init]) {
+		rep = nil;
 	}
 	return self;
 }
 
--(id)initWithNSBitmapImageRep:(NSBitmapImageRep *)imagerep
+- (id)initWithNSBitmapImageRep:(NSBitmapImageRep *)imagerep
 {
-	if(self=[super init])
-	{
-		rep=nil;
+	if (self = [super init]) {
+		rep = nil;
 
-		if(![self setNSBitmapImageRep:imagerep]) {
+		if (![self setNSBitmapImageRep:imagerep]) {
 			return nil;
 		}
 	}
 	return self;
 }
 
--(BOOL)setNSBitmapImageRep:(NSBitmapImageRep *)imagerep
+- (BOOL)setNSBitmapImageRep:(NSBitmapImageRep *)imagerep
 {
-	if(!imagerep) return NO;
-	if([imagerep isPlanar]) return NO;
+	if (!imagerep)
+		return NO;
+	if ([imagerep isPlanar])
+		return NO;
 
-	uint8_t *pixeldata=[imagerep bitmapData];
-	NSInteger pixelwidth=[imagerep pixelsWide];
-	NSInteger pixelheight=[imagerep pixelsHigh];
-	NSInteger bppixel=[imagerep bitsPerPixel];
-	NSInteger bpcomponent=[imagerep bitsPerSample];
-	NSInteger bprow=[imagerep bytesPerRow];
+	uint8_t *pixeldata = [imagerep bitmapData];
+	NSInteger pixelwidth = [imagerep pixelsWide];
+	NSInteger pixelheight = [imagerep pixelsHigh];
+	NSInteger bppixel = [imagerep bitsPerPixel];
+	NSInteger bpcomponent = [imagerep bitsPerSample];
+	NSInteger bprow = [imagerep bytesPerRow];
 
-	int bitmapformat=[imagerep respondsToSelector:@selector(bitmapFormat)]?[imagerep bitmapFormat]:0;
-	NSString *colorspace=[imagerep colorSpaceName];
+	int bitmapformat = [imagerep respondsToSelector:@selector(bitmapFormat)] ? [imagerep bitmapFormat] : 0;
+	NSString *colorspace = [imagerep colorSpaceName];
 
-	int components,mode,alpha,flags=0;
+	int components, mode, alpha, flags = 0;
 
-	if(!colorspace||[colorspace isEqual:NSCalibratedRGBColorSpace]||[colorspace isEqual:NSDeviceRGBColorSpace])
-	{ mode=XeeRGBBitmap; components=3; }
-	else if([colorspace isEqual:NSCalibratedWhiteColorSpace]||[colorspace isEqual:NSDeviceWhiteColorSpace])
-	{ mode=XeeGreyBitmap; components=1; }
-	else return NO;
+	if (!colorspace || [colorspace isEqual:NSCalibratedRGBColorSpace] || [colorspace isEqual:NSDeviceRGBColorSpace]) {
+		mode = XeeRGBBitmap;
+		components = 3;
+	} else if ([colorspace isEqual:NSCalibratedWhiteColorSpace] || [colorspace isEqual:NSDeviceWhiteColorSpace]) {
+		mode = XeeGreyBitmap;
+		components = 1;
+	} else
+		return NO;
 
-	if([imagerep hasAlpha])
-	{
-		if(bitmapformat&NSAlphaNonpremultipliedBitmapFormat)
-		{
-			if(bitmapformat&NSAlphaFirstBitmapFormat) alpha=XeeAlphaFirst;
-			else alpha=XeeAlphaLast;
+	if ([imagerep hasAlpha]) {
+		if (bitmapformat & NSAlphaNonpremultipliedBitmapFormat) {
+			if (bitmapformat & NSAlphaFirstBitmapFormat)
+				alpha = XeeAlphaFirst;
+			else
+				alpha = XeeAlphaLast;
+		} else {
+			if (bitmapformat & NSAlphaFirstBitmapFormat)
+				alpha = XeeAlphaPremultipliedFirst;
+			else
+				alpha = XeeAlphaPremultipliedLast;
 		}
-		else
-		{
-			if(bitmapformat&NSAlphaFirstBitmapFormat) alpha=XeeAlphaPremultipliedFirst;
-			else alpha=XeeAlphaPremultipliedLast;
-		}
+	} else {
+		if (bppixel == (components + 1) * bpcomponent) {
+			if (bitmapformat & NSAlphaFirstBitmapFormat)
+				alpha = XeeAlphaNoneSkipFirst;
+			else
+				alpha = XeeAlphaNoneSkipLast;
+		} else
+			alpha = XeeAlphaNone;
 	}
-	else
-	{
-		if(bppixel==(components+1)*bpcomponent)
-		{
-			if(bitmapformat&NSAlphaFirstBitmapFormat) alpha=XeeAlphaNoneSkipFirst;
-			else alpha=XeeAlphaNoneSkipLast;
-		}
-		else alpha=XeeAlphaNone;
-	}
-	if(bitmapformat&NSFloatingPointSamplesBitmapFormat) flags|=XeeBitmapFloatingPointFlag;
+	if (bitmapformat & NSFloatingPointSamplesBitmapFormat)
+		flags |= XeeBitmapFloatingPointFlag;
 
-	if(![self setData:pixeldata freeData:NO width:pixelwidth height:pixelheight
-	bitsPerPixel:bppixel bitsPerComponent:bpcomponent bytesPerRow:bprow
-	mode:mode alphaType:alpha flags:flags]) return NO;
+	if (![self setData:pixeldata
+					freeData:NO
+					   width:pixelwidth
+					  height:pixelheight
+				bitsPerPixel:bppixel
+			bitsPerComponent:bpcomponent
+				 bytesPerRow:bprow
+						mode:mode
+				   alphaType:alpha
+					   flags:flags])
+		return NO;
 
-	rep=imagerep;
+	rep = imagerep;
 
 	[self setCompleted];
 
@@ -84,7 +94,6 @@
 }
 
 @end
-
 
 /*		if(hasalpha&&!premultiplied) bitmapformat|=NSAlphaNonpremultipliedBitmapFormat;
 

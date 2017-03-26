@@ -1,14 +1,13 @@
 #import <Cocoa/Cocoa.h>
 #import "XeeSimpleLayout.h"
 
-@class XeeImage,XeeController,XeeSLPages,XeeSimpleLayout;
+@class XeeImage, XeeController, XeeSLPages, XeeSimpleLayout;
 @class XeeImageSaver;
 
-@interface XeeSavePanel:NSSavePanel <XeeSimpleLayoutDelegate>
-{
+@interface XeeSavePanel : NSSavePanel <XeeSimpleLayoutDelegate> {
 	XeeImage *image;
 	XeeController *controller;
-	NSArray<XeeImageSaver*> *savers;
+	NSArray<XeeImageSaver *> *savers;
 	XeeSLPages *formats;
 	XeeSimpleLayout *view;
 
@@ -18,16 +17,19 @@
 	BOOL wasanimating;
 }
 
-+(void)runSavePanelForImage:(XeeImage *)image controller:(XeeController *)controller;
++ (void)runSavePanelForImage:(XeeImage *)image
+				  controller:(XeeController *)controller;
 
--(instancetype)initWithImage:(XeeImage *)img controller:(XeeController *)cont;
+- (instancetype)initWithImage:(XeeImage *)img controller:(XeeController *)cont;
 
--(void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)res contextInfo:(void *)info;
--(void)xeeSLUpdated:(XeeSimpleLayout *)alsoview;
+- (void)savePanelDidEnd:(NSSavePanel *)sheet
+			 returnCode:(NSInteger)res
+			contextInfo:(void *)info;
+- (void)xeeSLUpdated:(XeeSimpleLayout *)alsoview;
 
--(NSString *)updateExtension:(NSString *)filename;
--(NSString *)filenameFieldContents;
--(void)setFilenameFieldContents:(NSString *)filename;
--(void)selectNamePart;
+- (NSString *)updateExtension:(NSString *)filename;
+- (NSString *)filenameFieldContents;
+- (void)setFilenameFieldContents:(NSString *)filename;
+- (void)selectNamePart;
 
 @end

@@ -4,8 +4,7 @@
 
 extern NSString *LZWInvalidCodeException;
 
-@interface LZWHandle:CSByteStreamHandle
-{
+@interface LZWHandle : CSByteStreamHandle {
 	BOOL early;
 
 	LZW *lzw;
@@ -15,11 +14,11 @@ extern NSString *LZWInvalidCodeException;
 	uint8_t buffer[4096];
 }
 
--(id)initWithHandle:(CSHandle *)handle earlyChange:(BOOL)earlychange;
+- (id)initWithHandle:(CSHandle *)handle earlyChange:(BOOL)earlychange;
 
--(void)clearTable;
+- (void)clearTable;
 
--(void)resetByteStream;
--(uint8_t)produceByteAtOffset:(off_t)pos;
+- (void)resetByteStream;
+- (uint8_t)produceByteAtOffset:(off_t)pos;
 
 @end

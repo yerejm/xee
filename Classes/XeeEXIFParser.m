@@ -1,26 +1,25 @@
 #import "XeeEXIFParser.h"
 #import "XeeProperties.h"
 
-
 @implementation XeeEXIFParser
 
--(id)initWithBuffer:(const uint8_t *)exifdata length:(int)len
+- (id)initWithBuffer:(const uint8_t *)exifdata length:(int)len
 {
 	return [self initWithBuffer:(uint8_t *)exifdata length:len mutable:NO];
 }
 
--(id)initWithBuffer:(uint8_t *)exifdata length:(int)len mutable:(BOOL)mutable
+- (id)initWithBuffer:(uint8_t *)exifdata length:(int)len mutable:(BOOL) mutable
 {
-	if(self=[super init])
-	{
-		if(mutable) data=exifdata;
-		else data=NULL;
+	if (self = [super init]) {
+		if (mutable)
+			data = exifdata;
+		else
+			data = NULL;
 
-		dataobj=nil;
+		dataobj = nil;
 
-		exiftags=exifparse(exifdata,len);
-		if(exiftags)
-		{
+		exiftags = exifparse(exifdata, len);
+		if (exiftags) {
 			return self;
 		}
 		[self release];
@@ -28,156 +27,181 @@
 	return nil;
 }
 
--(id)initWithData:(NSData *)dataobject
+- (id)initWithData:(NSData *)dataobject
 {
-	if(self=[self initWithBuffer:(void *)[dataobject bytes] length:[dataobject length] mutable:NO])
-	{
-		dataobj=[dataobject retain];
+	if (self = [self initWithBuffer:(void *)[dataobject bytes] length:[dataobject length] mutable:NO]) {
+		dataobj = [dataobject retain];
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
 	exiffree(exiftags);
 	[dataobj release];
 	[super dealloc];
 }
 
-
-
--(NSString *)stringForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+- (NSString *)stringForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
 {
-	struct exifprop *prop=[self exifPropForTag:tag set:set];
-	if(!prop) return nil;
+	struct exifprop *prop = [self exifPropForTag:tag set:set];
+	if (!prop)
+		return nil;
 
-	if(prop->str) return [NSString stringWithCString:prop->str encoding:NSISOLatin1StringEncoding];
-	else return [NSString stringWithFormat:@"%d",prop->value];
+	if (prop->str)
+		return [NSString stringWithCString:prop->str encoding:NSISOLatin1StringEncoding];
+	else
+		return [NSString stringWithFormat:@"%d", prop->value];
 }
 
--(int)integerForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+- (int)integerForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
 {
-	struct exifprop *prop=[self exifPropForTag:tag set:set];
-	if(!prop) return 0;
+	struct exifprop *prop = [self exifPropForTag:tag set:set];
+	if (!prop)
+		return 0;
 
 	return prop->value;
 }
 
--(XeeRational)rationalForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+- (XeeRational)rationalForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
 {
-	struct exifprop *prop=[self exifPropForTag:tag set:set];
-	if(!prop) return XeeZeroRational;
+	struct exifprop *prop = [self exifPropForTag:tag set:set];
+	if (!prop)
+		return XeeZeroRational;
 
-	if(exiftags->md.order==BIG) return XeeMakeRational(XeeBEInt32(prop->valueptr),XeeBEInt32(prop->valueptr+4));
-	else return XeeMakeRational(XeeLEInt32(prop->valueptr),XeeLEInt32(prop->valueptr+4));
-}
-
--(BOOL)setShort:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
-{
-	if(!data) return NO;
-	struct exifprop *prop=[self exifPropForTag:tag set:set];
-	if(!prop) return NO;
-
-	if(exiftags->md.order==BIG) XeeSetBEInt16(prop->valueptr,val);
-	else XeeSetLEInt16(prop->valueptr,val);
-
-	return YES;
-}
-
--(BOOL)setLong:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
-{
-	if(!data) return NO;
-	struct exifprop *prop=[self exifPropForTag:tag set:set];
-	if(!prop) return NO;
-
-	if(exiftags->md.order==BIG) XeeSetBEInt32(prop->valueptr,val);
-	else XeeSetLEInt32(prop->valueptr,val);
-
-	return YES;
-}
-
--(BOOL)setRational:(XeeRational)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
-{
-	if(!data) return NO;
-	struct exifprop *prop=[self exifPropForTag:tag set:set];
-	if(!prop) return NO;
-
-	if(exiftags->md.order==BIG)
-	{
-		XeeSetBEInt32(prop->valueptr,XeeRationalNumerator(val));
-		XeeSetBEInt32(prop->valueptr+4,XeeRationalDenominator(val));
-	}
+	if (exiftags->md.order == BIG)
+		return XeeMakeRational(XeeBEInt32(prop->valueptr), XeeBEInt32(prop->valueptr + 4));
 	else
-	{
-		XeeSetLEInt32(prop->valueptr,XeeRationalNumerator(val));
-		XeeSetLEInt32(prop->valueptr+4,XeeRationalDenominator(val));
+		return XeeMakeRational(XeeLEInt32(prop->valueptr), XeeLEInt32(prop->valueptr + 4));
+}
+
+- (BOOL)setShort:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+{
+	if (!data)
+		return NO;
+	struct exifprop *prop = [self exifPropForTag:tag set:set];
+	if (!prop)
+		return NO;
+
+	if (exiftags->md.order == BIG)
+		XeeSetBEInt16(prop->valueptr, val);
+	else
+		XeeSetLEInt16(prop->valueptr, val);
+
+	return YES;
+}
+
+- (BOOL)setLong:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+{
+	if (!data)
+		return NO;
+	struct exifprop *prop = [self exifPropForTag:tag set:set];
+	if (!prop)
+		return NO;
+
+	if (exiftags->md.order == BIG)
+		XeeSetBEInt32(prop->valueptr, val);
+	else
+		XeeSetLEInt32(prop->valueptr, val);
+
+	return YES;
+}
+
+- (BOOL)setRational:(XeeRational)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+{
+	if (!data)
+		return NO;
+	struct exifprop *prop = [self exifPropForTag:tag set:set];
+	if (!prop)
+		return NO;
+
+	if (exiftags->md.order == BIG) {
+		XeeSetBEInt32(prop->valueptr, XeeRationalNumerator(val));
+		XeeSetBEInt32(prop->valueptr + 4, XeeRationalDenominator(val));
+	} else {
+		XeeSetLEInt32(prop->valueptr, XeeRationalNumerator(val));
+		XeeSetLEInt32(prop->valueptr + 4, XeeRationalDenominator(val));
 	}
 
 	return YES;
 }
 
--(struct exifprop *)exifPropForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+- (struct exifprop *)exifPropForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
 {
 	struct exiftag *tagset;
-	switch(set)
-	{
-		case XeeStandardTagSet: tagset=tags; break;
-		default: return NULL;
+	switch (set) {
+	case XeeStandardTagSet:
+		tagset = tags;
+		break;
+	default:
+		return NULL;
 	}
 
-	for(struct exifprop *prop=exiftags->props;prop;prop=prop->next)
-	if(prop->tagset==tagset&&prop->tag==tag) return prop;
+	for (struct exifprop *prop = exiftags->props; prop; prop = prop->next)
+		if (prop->tagset == tagset && prop->tag == tag)
+			return prop;
 
 	return NULL;
 }
 
--(NSArray *)propertyArray
+- (NSArray *)propertyArray
 {
-	NSMutableArray *array=[NSMutableArray array];
-	NSMutableArray *cameraprops=[NSMutableArray array];
-	NSMutableArray *imageprops=[NSMutableArray array];
-	NSMutableArray *otherprops=[NSMutableArray array];
+	NSMutableArray *array = [NSMutableArray array];
+	NSMutableArray *cameraprops = [NSMutableArray array];
+	NSMutableArray *imageprops = [NSMutableArray array];
+	NSMutableArray *otherprops = [NSMutableArray array];
 
-	for(struct exifprop *prop=exiftags->props;prop;prop=prop->next)
-	{
+	for (struct exifprop *prop = exiftags->props; prop; prop = prop->next) {
 		NSMutableArray *props;
-		switch(prop->lvl)
-		{
-			case ED_CAM: case ED_PAS: props=cameraprops; break;
-			case ED_IMG: props=imageprops; break;
-			case ED_VRB: case ED_OVR: case ED_BAD: props=otherprops; break;
-			default: props=nil; break;
+		switch (prop->lvl) {
+		case ED_CAM:
+		case ED_PAS:
+			props = cameraprops;
+			break;
+		case ED_IMG:
+			props = imageprops;
+			break;
+		case ED_VRB:
+		case ED_OVR:
+		case ED_BAD:
+			props = otherprops;
+			break;
+		default:
+			props = nil;
+			break;
 		}
 
 		// Could use some localizing, maybe?
 		id value;
-		if(prop->str) value=[NSString stringWithCString:prop->str encoding:NSISOLatin1StringEncoding];
-		else value=[NSNumber numberWithInt:prop->value];
+		if (prop->str)
+			value = [NSString stringWithCString:prop->str encoding:NSISOLatin1StringEncoding];
+		else
+			value = [NSNumber numberWithInt:prop->value];
 
-		NSString *label=[NSString stringWithCString:prop->descr?prop->descr:prop->name encoding:NSISOLatin1StringEncoding];
+		NSString *label = [NSString stringWithCString:prop->descr ? prop->descr : prop->name encoding:NSISOLatin1StringEncoding];
 
 		[props addObject:[XeePropertyItem itemWithLabel:label value:value]];
 	}
 
-	if([cameraprops count])
-	{
+	if ([cameraprops count]) {
 		[array addObject:[XeePropertyItem itemWithLabel:
-		NSLocalizedString(@"EXIF camera properties",@"EXIF camera properties section title")
-		value:cameraprops identifier:@"exif.camera"]];
+											  NSLocalizedString(@"EXIF camera properties", @"EXIF camera properties section title")
+												  value:cameraprops
+											 identifier:@"exif.camera"]];
 	}
 
-	if([imageprops count])
-	{
+	if ([imageprops count]) {
 		[array addObject:[XeePropertyItem itemWithLabel:
-		NSLocalizedString(@"EXIF image properties",@"EXIF image properties section title")
-		value:imageprops identifier:@"exif.image"]];
+											  NSLocalizedString(@"EXIF image properties", @"EXIF image properties section title")
+												  value:imageprops
+											 identifier:@"exif.image"]];
 	}
 
-	if([otherprops count])
-	{
+	if ([otherprops count]) {
 		[array addObject:[XeePropertyItem itemWithLabel:
-		NSLocalizedString(@"EXIF other properties",@"EXIF other properties section title")
-		value:otherprops identifier:@"exif.other"]];
+											  NSLocalizedString(@"EXIF other properties", @"EXIF other properties section title")
+												  value:otherprops
+											 identifier:@"exif.other"]];
 	}
 
 	return array;
@@ -261,6 +285,5 @@ Sequence Number	0
 Canon Tag4 Length	68
 Image Type	IMG:DIGITAL IXUS 800 IS JPEG
 Owner Name	*/
-
 
 @end

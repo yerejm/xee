@@ -4,174 +4,166 @@
 
 @implementation XeeController (NavigationActions)
 
--(IBAction)skipNext:(id)sender
+- (IBAction)skipNext:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source skip:1];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skipPrev:(id)sender
+- (IBAction)skipPrev:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source skip:-1];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skipFirst:(id)sender
+- (IBAction)skipFirst:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source pickFirstImage];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skipLast:(id)sender
+- (IBAction)skipLast:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source pickLastImage];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skip10Forward:(id)sender
+- (IBAction)skip10Forward:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source skip:10];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skip100Forward:(id)sender
+- (IBAction)skip100Forward:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source skip:100];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skip10Back:(id)sender
+- (IBAction)skip10Back:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source skip:-10];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skip100Back:(id)sender
+- (IBAction)skip100Back:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source skip:-100];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skipRandom:(id)sender
+- (IBAction)skipRandom:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source pickNextImageAtRandom];
 	[self setResizeBlock:NO];
 }
 
--(IBAction)skipRandomPrev:(id)sender
+- (IBAction)skipRandomPrev:(id)sender
 {
 	[self setResizeBlockFromSender:sender];
 	[source pickPreviousImageAtRandom];
 	[self setResizeBlock:NO];
 }
 
-
-
--(IBAction)setSortOrder:(id)sender
+- (IBAction)setSortOrder:(id)sender
 {
 	[source setSortOrder:[sender tag]];
 }
 
-
-
--(IBAction)runSlideshow:(id)sender
+- (IBAction)runSlideshow:(id)sender
 {
-	if(slideshowtimer)
-	{
+	if (slideshowtimer) {
 		[slideshowtimer invalidate];
 		[slideshowtimer release];
-		slideshowtimer=nil;
-	}
-	else
-	{
-		slideshowcount=0;
-		slideshowtimer=[[NSTimer scheduledTimerWithTimeInterval:1
-		target:self selector:@selector(slideshowStep:) userInfo:nil repeats:YES] retain];
+		slideshowtimer = nil;
+	} else {
+		slideshowcount = 0;
+		slideshowtimer = [[NSTimer scheduledTimerWithTimeInterval:1
+														   target:self
+														 selector:@selector(slideshowStep:)
+														 userInfo:nil
+														  repeats:YES] retain];
 	}
 }
 
--(IBAction)setSlideshowDelay:(id)sender
+- (IBAction)setSlideshowDelay:(id)sender
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:[sender tag] forKey:XeeSlideshowDelayKey];
 }
 
--(IBAction)setCustomSlideshowDelay:(id)sender
+- (IBAction)setCustomSlideshowDelay:(id)sender
 {
-	if(!delaypanel)
-	{
-		NSNib *nib=[[[NSNib alloc] initWithNibNamed:@"SlideshowDelayPanel" bundle:nil] autorelease];
+	if (!delaypanel) {
+		NSNib *nib = [[[NSNib alloc] initWithNibNamed:@"SlideshowDelayPanel" bundle:nil] autorelease];
 		[nib instantiateWithOwner:self topLevelObjects:nil];
 	}
 
-	NSInteger delay=[[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowCustomDelayKey];
-	if(!delay) delay=[[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
+	NSInteger delay = [[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowCustomDelayKey];
+	if (!delay)
+		delay = [[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
 	[delayfield setIntegerValue:delay];
 
-	if(fullscreenwindow)
-	{
+	if (fullscreenwindow) {
 		[delaypanel makeKeyAndOrderFront:nil];
-		delaysheet=NO;
-	}
-	else
-	{
+		delaysheet = NO;
+	} else {
 		[NSApp beginSheet:delaypanel modalForWindow:window modalDelegate:nil didEndSelector:nil contextInfo:nil];
-		delaysheet=YES;
+		delaysheet = YES;
 	}
 }
 
--(IBAction)delayPanelOK:(id)sender
+- (IBAction)delayPanelOK:(id)sender
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:[delayfield intValue] forKey:XeeSlideshowCustomDelayKey];
 	[[NSUserDefaults standardUserDefaults] setInteger:[delayfield intValue] forKey:XeeSlideshowDelayKey];
 
-	if(delaysheet) [NSApp endSheet:delaypanel];
+	if (delaysheet)
+		[NSApp endSheet:delaypanel];
 	[delaypanel orderOut:nil];
 }
 
--(IBAction)delayPanelCancel:(id)sender
+- (IBAction)delayPanelCancel:(id)sender
 {
-	if(delaysheet) [NSApp endSheet:delaypanel];
+	if (delaysheet)
+		[NSApp endSheet:delaypanel];
 	[delaypanel orderOut:nil];
 }
 
--(void)slideshowStep:(NSTimer *)timer
+- (void)slideshowStep:(NSTimer *)timer
 {
 	// Prevent sleeping
 	UpdateSystemActivity(UsrActivity);
 
-	NSInteger slideshowdelay=[[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
-	if(++slideshowcount>=slideshowdelay)
-	{
-		slideshowcount=0;
+	NSInteger slideshowdelay = [[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
+	if (++slideshowcount >= slideshowdelay) {
+		slideshowcount = 0;
 
-		if([[NSUserDefaults standardUserDefaults] boolForKey:XeeRandomizeSlideshowKey])
-		{
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeRandomizeSlideshowKey]) {
 			[source pickNextImageAtRandom];
-		}
-		else
-		{
-			if([source indexOfCurrentImage]<[source numberOfImages]-1
-			||[[NSUserDefaults standardUserDefaults] boolForKey:XeeWrapImageBrowsingKey])
-			[source skip:1];
-			else
-			{
+		} else {
+			if ([source indexOfCurrentImage] < [source numberOfImages] - 1 || [[NSUserDefaults standardUserDefaults] boolForKey:XeeWrapImageBrowsingKey])
+				[source skip:1];
+			else {
 				[slideshowtimer invalidate];
 				[slideshowtimer release];
-				slideshowtimer=nil;
+				slideshowtimer = nil;
 			}
 		}
 	}
 }
 
--(BOOL)isSlideshowRunning { return slideshowtimer?YES:NO; }
+- (BOOL)isSlideshowRunning
+{
+	return slideshowtimer ? YES : NO;
+}
 
 @end

@@ -8,8 +8,7 @@ extern NSString *PDFWrongMagicException;
 extern NSString *PDFInvalidFormatException;
 extern NSString *PDFParserException;
 
-@interface PDFParser:NSObject
-{
+@interface PDFParser : NSObject {
 	CSHandle *fh;
 
 	NSMutableDictionary *objdict;
@@ -19,60 +18,57 @@ extern NSString *PDFParserException;
 	PDFEncryptionHandler *encryption;
 }
 
-+(PDFParser *)parserWithHandle:(CSHandle *)handle;
-+(PDFParser *)parserForPath:(NSString *)path;
++ (PDFParser *)parserWithHandle:(CSHandle *)handle;
++ (PDFParser *)parserForPath:(NSString *)path;
 
--(instancetype)initWithHandle:(CSHandle *)handle;
+- (instancetype)initWithHandle:(CSHandle *)handle;
 
 @property (readonly, getter=isEncrypted) BOOL encrypted;
 @property (readonly) BOOL needsPassword;
--(BOOL)setPassword:(NSString *)password;
+- (BOOL)setPassword:(NSString *)password;
 
--(NSDictionary *)objectDictionary;
--(NSDictionary *)trailerDictionary;
--(NSDictionary *)rootDictionary;
--(NSDictionary *)infoDictionary;
+@property (readonly, retain) NSDictionary *objectDictionary;
+@property (readonly, retain) NSDictionary *trailerDictionary;
+@property (readonly, retain) NSDictionary *rootDictionary;
+@property (readonly, retain) NSDictionary *infoDictionary;
 
--(NSData *)permanentID;
--(NSData *)currentID;
+@property (readonly, retain) NSData *permanentID;
+@property (readonly, retain) NSData *currentID;
 
--(NSDictionary *)pagesRoot;
+@property (readonly, retain) NSDictionary *pagesRoot;
 
--(PDFEncryptionHandler *)encryptionHandler;
+@property (readonly) PDFEncryptionHandler *encryptionHandler;
 
--(void)parse;
+- (void)parse;
 
--(NSDictionary *)parsePDFXref;
--(int)parseSimpleInteger;
+- (NSDictionary *)parsePDFXref;
+- (int)parseSimpleInteger;
 
--(id)parsePDFObject;
+- (id)parsePDFObject;
 
--(id)parsePDFTypeWithParent:(PDFObjectReference *)parent;
--(NSNull *)parsePDFNull;
--(NSNumber *)parsePDFBoolStartingWith:(int)c;
--(NSNumber *)parsePDFNumberStartingWith:(int)c;
--(NSString *)parsePDFWord;
--(NSString *)parsePDFStringWithParent:(PDFObjectReference *)parent;
--(NSData *)parsePDFHexStringStartingWith:(int)c parent:(PDFObjectReference *)parent;
--(NSArray *)parsePDFArrayWithParent:(PDFObjectReference *)parent;
--(NSDictionary *)parsePDFDictionaryWithParent:(PDFObjectReference *)parent;
+- (id)parsePDFTypeWithParent:(PDFObjectReference *)parent;
+- (NSNull *)parsePDFNull;
+- (NSNumber *)parsePDFBoolStartingWith:(int)c;
+- (NSNumber *)parsePDFNumberStartingWith:(int)c;
+- (NSString *)parsePDFWord;
+- (NSString *)parsePDFStringWithParent:(PDFObjectReference *)parent;
+- (NSData *)parsePDFHexStringStartingWith:(int)c parent:(PDFObjectReference *)parent;
+- (NSArray *)parsePDFArrayWithParent:(PDFObjectReference *)parent;
+- (NSDictionary *)parsePDFDictionaryWithParent:(PDFObjectReference *)parent;
 
--(void)resolveIndirectObjects;
+- (void)resolveIndirectObjects;
 
--(void)_raiseParserException:(NSString *)error;
+- (void)_raiseParserException:(NSString *)error;
 
 @end
 
-
-
-@interface PDFString:NSObject <NSCopying>
-{
+@interface PDFString : NSObject <NSCopying> {
 	NSData *data;
 	PDFObjectReference *ref;
 	__unsafe_unretained PDFParser *parser;
 }
 
--(id)initWithData:(NSData *)bytes parent:(PDFObjectReference *)parent parser:(PDFParser *)owner;
+- (id)initWithData:(NSData *)bytes parent:(PDFObjectReference *)parent parser:(PDFParser *)owner;
 
 @property (readonly, retain) NSData *data;
 @property (readonly, retain) PDFObjectReference *reference;
@@ -81,17 +77,14 @@ extern NSString *PDFParserException;
 
 @end
 
-
-
-@interface PDFObjectReference:NSObject <NSCopying>
-{
-	int num,gen;
+@interface PDFObjectReference : NSObject <NSCopying> {
+	int num, gen;
 }
 
-+(instancetype)referenceWithNumber:(int)objnum generation:(int)objgen;
-+(instancetype)referenceWithNumberObject:(NSNumber *)objnum generationObject:(NSNumber *)objgen;
++ (instancetype)referenceWithNumber:(int)objnum generation:(int)objgen;
++ (instancetype)referenceWithNumberObject:(NSNumber *)objnum generationObject:(NSNumber *)objgen;
 
--(instancetype)initWithNumber:(int)objnum generation:(int)objgen NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithNumber:(int)objnum generation:(int)objgen NS_DESIGNATED_INITIALIZER;
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
 @property (readonly) int number;

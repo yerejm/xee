@@ -1,44 +1,43 @@
 #import "XeeImage.h"
 
-
-
-@interface XeeMultiImage:XeeImage <XeeImageDelegate>
-{
+@interface XeeMultiImage : XeeImage <XeeImageDelegate> {
 	NSMutableArray *subimages;
 	NSInteger currindex;
 	XeeImage *currloading;
 }
 
--(instancetype)init;
+- (instancetype)init;
 
--(void)addSubImage:(XeeImage *)subimage;
--(void)addSubImages:(NSArray<XeeImage*> *)array;
+- (void)addSubImage:(XeeImage *)subimage;
+- (void)addSubImages:(NSArray<XeeImage *> *)array;
 
--(void)xeeImageLoadingProgress:(XeeImage *)image;
--(void)xeeImageDidChange:(XeeImage *)image;
--(void)xeeImageSizeDidChange:(XeeImage *)image;
--(void)xeeImagePropertiesDidChange:(XeeImage *)image;
+- (void)xeeImageLoadingProgress:(XeeImage *)image;
+- (void)xeeImageDidChange:(XeeImage *)image;
+- (void)xeeImageSizeDidChange:(XeeImage *)image;
+- (void)xeeImagePropertiesDidChange:(XeeImage *)image;
 
--(XeeImage *)currentSubImage;
+- (XeeImage *)currentSubImage;
 
 /*-(BOOL)loaded;
 -(BOOL)failed;
 -(BOOL)needsLoading;*/
--(void)stopLoading;
+- (void)stopLoading;
 
--(void)runLoaderOnSubImage:(XeeImage *)image;
+- (void)runLoaderOnSubImage:(XeeImage *)image;
 
 @property (readonly) NSInteger frames;
 @property (nonatomic) NSInteger frame;
 
--(NSRect)updatedAreaInRect:(NSRect)rect;
--(void)drawInRect:(NSRect)rect bounds:(NSRect)bounds lowQuality:(BOOL)lowquality;
+- (NSRect)updatedAreaInRect:(NSRect)rect;
+- (void)drawInRect:(NSRect)rect
+			bounds:(NSRect)bounds
+		lowQuality:(BOOL)lowquality;
 
--(CGImageRef)createCGImage CF_RETURNS_RETAINED;
+- (CGImageRef)createCGImage CF_RETURNS_RETAINED;
 @property (readonly) XeeSaveFormatFlags losslessSaveFlags;
 @property (readonly, copy) NSString *losslessFormat;
 @property (readonly, copy) NSString *losslessExtension;
--(BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
+- (BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
 
 @property (readonly) NSInteger width;
 @property (readonly) NSInteger height;
@@ -52,8 +51,8 @@
 @property (nonatomic) XeeTransformation orientation;
 @property (nonatomic) XeeTransformation correctOrientation;
 
--(NSArray *)properties;
+- (NSArray *)properties;
 
--(void)resetTransformations;
+- (void)resetTransformations;
 
 @end

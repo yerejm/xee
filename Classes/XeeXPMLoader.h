@@ -1,19 +1,21 @@
 #import "XeeBitmapImage.h"
 
-@interface XeeXPMImage:XeeBitmapImage
-{
+@interface XeeXPMImage : XeeBitmapImage {
 	int version;
 }
 
-+(NSArray *)fileTypes;
-+(BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
-@property (class, readonly, copy) NSDictionary<NSString*,NSNumber*> *colourDictionary;
++ (NSArray *)fileTypes;
++ (BOOL)canOpenFile:(NSString *)name
+		 firstBlock:(NSData *)block
+		 attributes:(NSDictionary *)attributes;
+@property (class, readonly, copy)
+	NSDictionary<NSString *, NSNumber *> *colourDictionary;
 
--(void)load;
+- (void)load;
 
--(NSString *)nextLine;
--(NSString *)nextString;
+- (NSString *)nextLine;
+- (NSString *)nextString;
 
--(NSNumber *)parseHexColour:(NSString *)hex;
+- (NSNumber *)parseHexColour:(NSString *)hex;
 
 @end

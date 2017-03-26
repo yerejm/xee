@@ -3,11 +3,10 @@
 #import <OpenGL/GL.h>
 #import <OpenGL/GLu.h>
 
-@interface XeeBitmapTile:NSObject
-{
-	NSInteger x,y,width,height;
+@interface XeeBitmapTile : NSObject {
+	NSInteger x, y, width, height;
 
-	GLuint tex,textarget,texintformat,textype,texformat;
+	GLuint tex, textarget, texintformat, textype, texformat;
 	int realwidth;
 	void *data;
 
@@ -17,14 +16,25 @@
 	GLuint lists;
 }
 
--(instancetype)initWithTarget:(GLuint)tt internalFormat:(GLuint)tif
-							x:(NSInteger)x y:(NSInteger)y width:(NSInteger)width height:(NSInteger)height
-					   format:(GLuint)tf type:(GLuint)tt data:(void *)d;
+- (instancetype)initWithTarget:(GLuint)tt
+				internalFormat:(GLuint)tif
+							 x:(NSInteger)x
+							 y:(NSInteger)y
+						 width:(NSInteger)width
+						height:(NSInteger)height
+						format:(GLuint)tf
+						  type:(GLuint)tt
+						  data:(void *)d;
 
--(void)uploadWithCompletedSpan:(XeeSpan)global_completed;
--(void)invalidate;
+- (void)uploadWithCompletedSpan:(XeeSpan)global_completed;
+- (void)invalidate;
 
--(void)drawWithBounds:(NSRect)bounds minFilter:(GLuint)minfilter magFilter:(GLuint)magfilter;
--(void)drawMultipleWithBounds:(NSRect)bounds minFilter:(GLuint)minfilter magFilter:(GLuint)magfilter num:(int)num;
+- (void)drawWithBounds:(NSRect)bounds
+			 minFilter:(GLuint)minfilter
+			 magFilter:(GLuint)magfilter;
+- (void)drawMultipleWithBounds:(NSRect)bounds
+					 minFilter:(GLuint)minfilter
+					 magFilter:(GLuint)magfilter
+						   num:(int)num;
 
 @end

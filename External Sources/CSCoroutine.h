@@ -3,8 +3,7 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 
-@interface CSCoroutine:NSProxy
-{
+@interface CSCoroutine : NSProxy {
 	id target;
 	size_t stacksize;
 	void *stack;
@@ -17,17 +16,16 @@
 }
 @property (class, readonly, retain) CSCoroutine *mainCoroutine;
 @property (class, retain) CSCoroutine *currentCoroutine;
-+(void)returnFromCurrent;
++ (void)returnFromCurrent;
 
--(instancetype)initWithTarget:(id)targetobj stackSize:(size_t)stackbytes;
--(void)dealloc;
+- (instancetype)initWithTarget:(id)targetobj stackSize:(size_t)stackbytes;
+- (void)dealloc;
 
--(void)switchTo;
--(void)returnFrom;
+- (void)switchTo;
+- (void)returnFrom;
 @end
 
 @interface NSObject (CSCoroutine)
--(CSCoroutine *)newCoroutine;
--(CSCoroutine *)newCoroutineWithStackSize:(size_t)stacksize;
+- (CSCoroutine *)newCoroutine;
+- (CSCoroutine *)newCoroutineWithStackSize:(size_t)stacksize;
 @end
-

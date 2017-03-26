@@ -2,52 +2,52 @@
 
 @implementation XeeFSRef
 
-+(XeeFSRef *)refForPath:(NSString *)path
++ (XeeFSRef *)refForPath:(NSString *)path
 {
 	return [[XeeFSRef alloc] initWithPath:path];
 }
 
--(id)initWithPath:(NSString *)path
+- (id)initWithPath:(NSString *)path
 {
 	FSRef tmpRef;
 	if (FSPathMakeRef((const UInt8 *)[path fileSystemRepresentation], &tmpRef, NULL) != noErr) {
 		return nil;
 	}
-	
+
 	return [self initWithFSRef:&tmpRef];
 }
 
--(id)initWithFSRef:(FSRef *)fsref
+- (id)initWithFSRef:(FSRef *)fsref
 {
 	if (self = [super init]) {
-		ref=*fsref;
-		iterator=NULL;
+		ref = *fsref;
+		iterator = NULL;
 
 		FSCatalogInfo catinfo;
-		FSGetCatalogInfo(&ref,kFSCatInfoNodeID,&catinfo,NULL,NULL,NULL)/*!=noErr*/;
-		hash=catinfo.nodeID;
+		FSGetCatalogInfo(&ref, kFSCatInfoNodeID, &catinfo, NULL, NULL, NULL) /*!=noErr*/;
+		hash = catinfo.nodeID;
 	}
 	return self;
 }
 
--(void)dealloc
+- (void)dealloc
 {
-	if(iterator) {
+	if (iterator) {
 		FSCloseIterator(iterator);
 	}
 }
 
--(FSRef *)FSRef
+- (FSRef *)FSRef
 {
 	return &ref;
 }
 
--(BOOL)isValid
+- (BOOL)isValid
 {
 	return FSIsFSRefValid(&ref);
 }
 
--(BOOL)isDirectory
+- (BOOL)isDirectory
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoNodeFlags, &catinfo, NULL, NULL, NULL) != noErr) {
@@ -56,11 +56,11 @@
 	return (catinfo.nodeFlags & kFSNodeIsDirectoryMask) ? YES : NO;
 }
 
--(BOOL)isRemote
+- (BOOL)isRemote
 {
 	NSURL *currentURL = CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault, &ref));
 	NSNumber *aNum = nil;
-	
+
 	BOOL success = [currentURL getResourceValue:&aNum forKey:NSURLVolumeIsLocalKey error:NULL];
 	if (!success) {
 		return NO;
@@ -68,8 +68,7 @@
 	return ![aNum boolValue];
 }
 
-
--(NSString *)name;
+- (NSString *)name;
 {
 	HFSUniStr255 name;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoNone, NULL, &name, NULL, NULL) != noErr) {
@@ -78,12 +77,12 @@
 	return [NSString stringWithCharacters:name.unicode length:MIN(name.length, 255)];
 }
 
--(NSString *)path
+- (NSString *)path
 {
 	return self.URL.path;
 }
 
-- (const char*)fileSystemRepresentation
+- (const char *)fileSystemRepresentation
 {
 	if ([NSURL instancesRespondToSelector:@selector(fileSystemRepresentation)]) {
 		return self.URL.fileSystemRepresentation;
@@ -92,12 +91,12 @@
 	}
 }
 
--(NSURL *)URL
+- (NSURL *)URL
 {
 	return CFBridgingRelease(CFURLCreateFromFSRef(kCFAllocatorDefault, &ref));
 }
 
--(XeeFSRef *)parent
+- (XeeFSRef *)parent
 {
 	FSRef parent;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoNone, NULL, NULL, NULL, &parent) != noErr)
@@ -105,9 +104,7 @@
 	return [[XeeFSRef alloc] initWithFSRef:&parent];
 }
 
-
-
--(off_t)dataSize
+- (off_t)dataSize
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoDataSizes, &catinfo, NULL, NULL, NULL) != noErr)
@@ -115,7 +112,7 @@
 	return catinfo.dataLogicalSize;
 }
 
--(off_t)dataPhysicalSize
+- (off_t)dataPhysicalSize
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoDataSizes, &catinfo, NULL, NULL, NULL) != noErr)
@@ -123,7 +120,7 @@
 	return catinfo.dataPhysicalSize;
 }
 
--(off_t)resourceSize
+- (off_t)resourceSize
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoDataSizes, &catinfo, NULL, NULL, NULL) != noErr)
@@ -131,17 +128,15 @@
 	return catinfo.rsrcLogicalSize;
 }
 
--(off_t)resourcePhysicalSize
+- (off_t)resourcePhysicalSize
 {
 	FSCatalogInfo catinfo;
-	if(FSGetCatalogInfo(&ref,kFSCatInfoDataSizes,&catinfo,NULL,NULL,NULL) != noErr)
+	if (FSGetCatalogInfo(&ref, kFSCatInfoDataSizes, &catinfo, NULL, NULL, NULL) != noErr)
 		return 0;
 	return catinfo.rsrcPhysicalSize;
 }
 
-
-
--(CFAbsoluteTime)creationTime
+- (CFAbsoluteTime)creationTime
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoCreateDate, &catinfo, NULL, NULL, NULL) != noErr)
@@ -151,7 +146,7 @@
 	return res;
 }
 
--(CFAbsoluteTime)modificationTime
+- (CFAbsoluteTime)modificationTime
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoAllDates, &catinfo, NULL, NULL, NULL) != noErr)
@@ -161,7 +156,7 @@
 	return res;
 }
 
--(CFAbsoluteTime)attributeModificationTime
+- (CFAbsoluteTime)attributeModificationTime
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoAllDates, &catinfo, NULL, NULL, NULL) != noErr)
@@ -171,56 +166,54 @@
 	return res;
 }
 
--(CFAbsoluteTime)accessTime
+- (CFAbsoluteTime)accessTime
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoAccessDate, &catinfo, NULL, NULL, NULL) != noErr) {
 		return 0;
 	}
 	CFAbsoluteTime res;
-	UCConvertUTCDateTimeToCFAbsoluteTime(&catinfo.accessDate,&res);
+	UCConvertUTCDateTimeToCFAbsoluteTime(&catinfo.accessDate, &res);
 	return res;
 }
 
--(CFAbsoluteTime)backupTime
+- (CFAbsoluteTime)backupTime
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoBackupDate, &catinfo, NULL, NULL, NULL) != noErr) {
 		return 0;
 	}
 	CFAbsoluteTime res;
-	UCConvertUTCDateTimeToCFAbsoluteTime(&catinfo.backupDate,&res);
+	UCConvertUTCDateTimeToCFAbsoluteTime(&catinfo.backupDate, &res);
 	return res;
 }
 
-
--(NSString *)HFSTypeCode
+- (NSString *)HFSTypeCode
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoFinderInfo, &catinfo, NULL, NULL, NULL) != noErr)
 		return nil;
-	struct FileInfo *info=(struct FileInfo *)&catinfo.finderInfo;
-	OSType type=info->fileType;
+	struct FileInfo *info = (struct FileInfo *)&catinfo.finderInfo;
+	OSType type = info->fileType;
 	return CFBridgingRelease(UTCreateStringForOSType(type));
 }
 
--(NSString *)HFSCreatorCode
+- (NSString *)HFSCreatorCode
 {
 	FSCatalogInfo catinfo;
 	if (FSGetCatalogInfo(&ref, kFSCatInfoFinderInfo, &catinfo, NULL, NULL, NULL) != noErr)
 		return nil;
-	struct FileInfo *info=(struct FileInfo *)&catinfo.finderInfo;
-	OSType type=info->fileType;
+	struct FileInfo *info = (struct FileInfo *)&catinfo.finderInfo;
+	OSType type = info->fileType;
 	return CFBridgingRelease(UTCreateStringForOSType(type));
 }
 
-
--(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive
+- (BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive
 {
 	return [self startReadingDirectoryWithRecursion:recursive error:NULL];
 }
 
--(BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive error:(NSError**)error
+- (BOOL)startReadingDirectoryWithRecursion:(BOOL)recursive error:(NSError **)error
 {
 	if (iterator)
 		FSCloseIterator(iterator);
@@ -235,15 +228,15 @@
 	return NO;
 }
 
--(void)stopReadingDirectory
+- (void)stopReadingDirectory
 {
 	if (iterator) {
 		FSCloseIterator(iterator);
 	}
-	iterator=NULL;
+	iterator = NULL;
 }
 
--(XeeFSRef *)nextDirectoryEntry
+- (XeeFSRef *)nextDirectoryEntry
 {
 	if (!iterator)
 		return nil;
@@ -255,7 +248,7 @@
 
 	if (err == errFSNoMoreItems) {
 		FSCloseIterator(iterator);
-		iterator=NULL;
+		iterator = NULL;
 		return nil;
 	} else if (err != noErr) {
 		return nil;
@@ -264,21 +257,21 @@
 	return [[XeeFSRef alloc] initWithFSRef:&newref];
 }
 
--(NSArray *)directoryContents
+- (NSArray *)directoryContents
 {
-	if(![self startReadingDirectoryWithRecursion:NO])
+	if (![self startReadingDirectoryWithRecursion:NO])
 		return nil;
 
 	NSMutableArray *array = [NSMutableArray array];
 	XeeFSRef *entry;
-	while((entry = [self nextDirectoryEntry])) {
+	while ((entry = [self nextDirectoryEntry])) {
 		[array addObject:entry];
 	}
 
 	return [array copy];
 }
 
--(BOOL)isEqual:(XeeFSRef *)other
+- (BOOL)isEqual:(XeeFSRef *)other
 {
 	if (![other isKindOfClass:[XeeFSRef class]])
 		return NO;
@@ -288,27 +281,27 @@
 	return FSCompareFSRefs(&ref, &other->ref) == noErr;
 }
 
--(NSComparisonResult)compare:(XeeFSRef *)other
+- (NSComparisonResult)compare:(XeeFSRef *)other
 {
-	return [[self path] compare:[other path] options:NSCaseInsensitiveSearch|NSNumericSearch];
+	return [[self path] compare:[other path] options:NSCaseInsensitiveSearch | NSNumericSearch];
 }
 
--(NSComparisonResult)compare:(XeeFSRef *)other options:(NSStringCompareOptions)options
+- (NSComparisonResult)compare:(XeeFSRef *)other options:(NSStringCompareOptions)options
 {
 	return [[self path] compare:[other path] options:options];
 }
 
--(NSUInteger)hash
+- (NSUInteger)hash
 {
 	return hash;
 }
 
--(NSString *)description
+- (NSString *)description
 {
 	return [self path];
 }
 
--(id)copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
 	return [[XeeFSRef alloc] initWithFSRef:&ref];
 }
