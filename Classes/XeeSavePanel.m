@@ -29,7 +29,7 @@
 		} else {
 			[panel beginSheetModalForWindow:[controller window]
 						  completionHandler:^(NSInteger result) {
-							[panel savePanelDidEnd:panel returnCode:result contextInfo:NULL];
+							  [panel savePanelDidEnd:panel returnCode:result contextInfo:NULL];
 						  }];
 		}
 	}

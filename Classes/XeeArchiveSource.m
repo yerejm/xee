@@ -10,37 +10,37 @@
 	static NSArray *types;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-	  NSMutableArray *toAdd = [NSMutableArray arrayWithCapacity:20];
-	  [toAdd addObjectsFromArray:
-				 @[ @"zip", @"cbz", @"rar", @"cbr", @"7z", @"cb7", @"lha", @"lzh",
-					@"000", @"001", @"iso", @"bin", @"alz", @"sit", @"sitx" ]];
+		NSMutableArray *toAdd = [NSMutableArray arrayWithCapacity:20];
+		[toAdd addObjectsFromArray:
+				   @[ @"zip", @"cbz", @"rar", @"cbr", @"7z", @"cb7", @"lha", @"lzh",
+					  @"000", @"001", @"iso", @"bin", @"alz", @"sit", @"sitx" ]];
 
-	  // File types from HFS codes:
-	  [toAdd addObject:NSFileTypeForHFSTypeCode('SIT!')];
-	  [toAdd addObject:NSFileTypeForHFSTypeCode('SITD')];
-	  [toAdd addObject:NSFileTypeForHFSTypeCode('SIT5')];
+		// File types from HFS codes:
+		[toAdd addObject:NSFileTypeForHFSTypeCode('SIT!')];
+		[toAdd addObject:NSFileTypeForHFSTypeCode('SITD')];
+		[toAdd addObject:NSFileTypeForHFSTypeCode('SIT5')];
 
-	  if (&kUTTypeGNUZipArchive) {
-		  [toAdd addObject:(NSString *)kUTTypeGNUZipArchive];
-	  }
-	  if (&kUTTypeBzip2Archive) {
-		  [toAdd addObject:(NSString *)kUTTypeBzip2Archive];
-	  }
-	  if (&kUTTypeZipArchive) {
-		  [toAdd addObject:(NSString *)kUTTypeZipArchive];
-	  } else {
-		  [toAdd addObjectsFromArray:@[ @"com.pkware.zip-archive", @"public.zip-archive" ]];
-	  }
+		if (&kUTTypeGNUZipArchive) {
+			[toAdd addObject:(NSString *)kUTTypeGNUZipArchive];
+		}
+		if (&kUTTypeBzip2Archive) {
+			[toAdd addObject:(NSString *)kUTTypeBzip2Archive];
+		}
+		if (&kUTTypeZipArchive) {
+			[toAdd addObject:(NSString *)kUTTypeZipArchive];
+		} else {
+			[toAdd addObjectsFromArray:@[ @"com.pkware.zip-archive", @"public.zip-archive" ]];
+		}
 
-	  // other UTIs
-	  [toAdd addObject:@"org.7-zip.7-zip-archive"];
-	  [toAdd addObject:@"com.allume.stuffit-archive"];
-	  [toAdd addObject:@"com.stuffit.archive.sitx"];
-	  [toAdd addObject:@"public.iso-image"];
-	  [toAdd addObject:@"cx.c3.lha-archive"];
-	  [toAdd addObject:@"com.rarlab.rar-archive"];
+		// other UTIs
+		[toAdd addObject:@"org.7-zip.7-zip-archive"];
+		[toAdd addObject:@"com.allume.stuffit-archive"];
+		[toAdd addObject:@"com.stuffit.archive.sitx"];
+		[toAdd addObject:@"public.iso-image"];
+		[toAdd addObject:@"cx.c3.lha-archive"];
+		[toAdd addObject:@"com.rarlab.rar-archive"];
 
-	  types = [toAdd copy];
+		types = [toAdd copy];
 	});
 
 	return types;

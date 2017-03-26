@@ -162,13 +162,14 @@
 
 	[source setActionsBlocked:YES];
 
-	if (fullscreenwindow)
+	if (fullscreenwindow) {
 		[self deleteAlertEnd:alert returnCode:[alert runModal] contextInfo:NULL];
-	else
+	} else {
 		[alert beginSheetModalForWindow:window
 					  completionHandler:^(NSModalResponse returnCode) {
-						[self deleteAlertEnd:alert returnCode:returnCode contextInfo:NULL];
+						  [self deleteAlertEnd:alert returnCode:returnCode contextInfo:NULL];
 					  }];
+	}
 	[alert autorelease];
 
 	[self setResizeBlock:NO];
@@ -337,10 +338,11 @@
 	if (fullscreenwindow)
 		return; // just to be safe
 
-	if ([drawerseg selectedSegment] == 0)
+	if ([drawerseg selectedSegment] == 0) {
 		drawer_mode = XeeCopyMode;
-	else
+	} else {
 		drawer_mode = XeeMoveMode;
+	}
 
 	NSInteger index = [sender selectedRow];
 
@@ -358,10 +360,11 @@
 
 		[panel beginSheetModalForWindow:window
 					  completionHandler:^(NSInteger result) {
-						[self destinationPanelEnd:panel returnCode:result contextInfo:NULL];
+						  [self destinationPanelEnd:panel returnCode:result contextInfo:NULL];
 					  }];
-	} else
+	} else {
 		[self transferToDestination:index mode:drawer_mode];
+	}
 }
 
 - (void)destinationPanelEnd:(NSOpenPanel *)panel returnCode:(NSInteger)res contextInfo:(void *)info

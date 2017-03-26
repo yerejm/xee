@@ -494,7 +494,7 @@
 				[image setDepthGrey:depth alpha:hasalpha floating:depth == 32];
 			} else {
 				[image setDepth:[NSString stringWithFormat:NSLocalizedString(@"%d bits duotone", @"Description for duotone (Photoshop) images"), depth]
-					   iconName:@"depth_rgb"];
+					   iconName:@"depth/rgb"];
 			}
 			break;
 

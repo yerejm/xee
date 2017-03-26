@@ -81,7 +81,7 @@
 		@try {
 			[(XeeImage *)coro load];
 		}
-		@catch (id e) {
+		@catch (NSException *e) {
 			[CSCoroutine setCurrentCoroutine:currcoro];
 			NSLog(@"Exception during initial loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 			finished = YES;
@@ -115,11 +115,12 @@
 
 		@try {
 			do {
-				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+				@autoreleasepool {
 				nextselector = (SEL)[self performSelector:nextselector];
-				[pool release];
+				}
 			} while (nextselector && !width && !height);
-		} @catch (NSException *e) {
+		}
+		@catch (NSException *e) {
 			NSLog(@"Exception during initial loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 			nextselector = NULL;
 		}
@@ -134,8 +135,9 @@
 
 - (void)dealloc
 {
-	if (nextselector)
+	if (nextselector) {
 		[self deallocLoader];
+	}
 
 	[handle release];
 	[ref release];
@@ -162,7 +164,8 @@
 	CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
 	@try {
 		[coro switchTo];
-	} @catch (NSException *e) {
+	}
+	@catch (NSException *e) {
 		[CSCoroutine setCurrentCoroutine:currcoro];
 		NSLog(@"Exception during loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 		finished = YES;
@@ -254,10 +257,11 @@
 
 - (CSFileHandle *)fileHandle
 {
-	if ([handle isKindOfClass:[CSFileHandle class]])
+	if ([handle isKindOfClass:[CSFileHandle class]]) {
 		return (CSFileHandle *)handle;
-	else
+	} else {
 		[NSException raise:@"XeeHandleNotAFileHandleException" format:@"The image class %@ can only load image from files.", [self class]];
+	}
 	return nil;
 }
 
@@ -277,35 +281,39 @@
 
 - (void)triggerLoadingAction
 {
-	if (pthread_main_np())
+	if (pthread_main_np()) {
 		[delegate xeeImageLoadingProgress:self];
-	else
+	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImageLoadingProgress:) withObject:self waitUntilDone:NO];
+	}
 	//	usleep(20000);
 }
 
 - (void)triggerChangeAction
 {
-	if (pthread_main_np())
+	if (pthread_main_np()) {
 		[delegate xeeImageDidChange:self];
-	else
+	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImageDidChange:) withObject:self waitUntilDone:NO];
+	}
 }
 
 - (void)triggerSizeChangeAction
 {
-	if (pthread_main_np())
+	if (pthread_main_np()) {
 		[delegate xeeImageSizeDidChange:self];
-	else
+	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImageSizeDidChange:) withObject:self waitUntilDone:NO];
+	}
 }
 
 - (void)triggerPropertyChangeAction
 {
-	if (pthread_main_np())
+	if (pthread_main_np()) {
 		[delegate xeeImagePropertiesDidChange:self];
-	else
+	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImagePropertiesDidChange:) withObject:self waitUntilDone:NO];
+	}
 }
 
 - (NSRect)updatedAreaInRect:(NSRect)rect
@@ -362,40 +370,45 @@
 
 - (NSInteger)width
 {
-	if (XeeTransformationIsFlipped(orientation))
+	if (XeeTransformationIsFlipped(orientation)) {
 		return crop_height ? crop_height : height;
-	else
+	} else {
 		return crop_width ? crop_width : width;
+	}
 }
 
 - (NSInteger)height
 {
-	if (XeeTransformationIsFlipped(orientation))
+	if (XeeTransformationIsFlipped(orientation)) {
 		return crop_width ? crop_width : width;
-	else
+	} else {
 		return crop_height ? crop_height : height;
+	}
 }
 
 - (NSInteger)fullWidth
 {
-	if (XeeTransformationIsFlipped(orientation))
+	if (XeeTransformationIsFlipped(orientation)) {
 		return height;
-	else
+	} else {
 		return width;
+	}
 }
 
 - (NSInteger)fullHeight
 {
-	if (XeeTransformationIsFlipped(orientation))
+	if (XeeTransformationIsFlipped(orientation)) {
 		return width;
-	else
+	} else {
 		return height;
+	}
 }
 
 - (NSColor *)backgroundColor
 {
-	if (!back)
+	if (!back) {
 		back = [[NSUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] dataForKey:XeeDefaultImageBackgroundKey]] retain];
+	}
 
 	return back;
 }
@@ -407,16 +420,18 @@
 
 - (NSRect)rawCroppingRect
 {
-	if (crop_width || crop_height)
+	if (crop_width || crop_height) {
 		return NSMakeRect(crop_x, crop_y, crop_width, crop_height);
-	else
+	} else {
 		return NSMakeRect(0, 0, width, height);
+	}
 }
 
 - (BOOL)isTransformed
 {
-	if ([self isCropped])
+	if ([self isCropped]) {
 		return YES;
+	}
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeUseOrientationKey]) {
 		XeeTransformation corr = [self correctOrientation];
 		if (corr) {
@@ -587,46 +602,49 @@
 
 - (void)setDepthRGB:(int)bits alpha:(BOOL)alpha floating:(BOOL)floating
 {
-	if (floating && alpha)
+	if (floating && alpha) {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits FP RGBA", @"Description for floating-point RGBA images"), bits]
 			  iconName:@"depth/rgba"];
-	else if (floating)
+	} else if (floating) {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits FP RGB", @"Description for floating-point RGB images"), bits]
 			  iconName:@"depth/rgb"];
-	else if (alpha)
+	} else if (alpha) {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits RGBA", @"Description for RGBA images"), bits]
 			  iconName:@"depth/rgba"];
-	else
+	} else {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits RGB", @"Description for RGBA images"), bits]
 			  iconName:@"depth/rgb"];
+	}
 }
 
 - (void)setDepthCMYK:(int)bits alpha:(BOOL)alpha
 {
-	if (alpha)
+	if (alpha) {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits CMYK+alpha", @"Description for CMYK+alpha images"), bits]
 			  iconName:@"depth/cmyk"];
-	else
+	} else {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits CMYK", @"Description for CMYK images"), bits]
 			  iconName:@"depth/cmyk"];
+	}
 }
 
 - (void)setDepthLab:(int)bits alpha:(BOOL)alpha
 {
-	if (alpha)
+	if (alpha) {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits Lab+alpha", @"Description for Lab+alpha images"), bits]
 			  iconName:@"depth/rgb"];
-	else
+	} else {
 		[self setDepth:
 				  [NSString stringWithFormat:NSLocalizedString(@"%d bits Lab", @"Description for Lab images"), bits]
 			  iconName:@"depth/rgb"];
+	}
 }
 
 - (void)setDepthGrey:(int)bits
@@ -747,7 +765,7 @@ NSMutableArray *imageclasses = nil;
 	[imageclasses addObject:class];
 }
 
-	+ (BOOL)canOpenFile : (NSString *)name firstBlock : (NSData *)block attributes : (NSDictionary *)attributes
++ (BOOL)canOpenFile : (NSString *)name firstBlock : (NSData *)block attributes : (NSDictionary *)attributes
 {
 	return NO;
 }

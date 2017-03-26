@@ -250,7 +250,7 @@
 		55E039651E720F1A000E8268 /* UniversalDetector.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1FDE1E71142D00C41ADA /* UniversalDetector.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		55E039661E720F6B000E8268 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAAA1E70A3F500697829 /* CoreFoundation.framework */; };
 		55E039671E720F6B000E8268 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAAB1E70A3F600697829 /* Foundation.framework */; };
-		7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC411DD17DC0A8600626F23 /* libz.dylib */; };
+		7FC411DE17DC0A8600626F23 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC411DD17DC0A8600626F23 /* libz.tbd */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.xib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -838,7 +838,7 @@
 		558A1FE51E71153A00C41ADA /* XeeTypesAdditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XeeTypesAdditions.swift; sourceTree = "<group>"; };
 		558A1FE71E713EF400C41ADA /* XeeImageThumbnailing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XeeImageThumbnailing.swift; sourceTree = "<group>"; };
 		558DB12B1E78855E00566997 /* XeeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeParser.h; sourceTree = "<group>"; };
-		7FC411DD17DC0A8600626F23 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		7FC411DD17DC0A8600626F23 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Xee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xee.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -881,7 +881,7 @@
 				1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */,
 				1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */,
 				5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */,
-				7FC411DE17DC0A8600626F23 /* libz.dylib in Frameworks */,
+				7FC411DE17DC0A8600626F23 /* libz.tbd in Frameworks */,
 				55E039671E720F6B000E8268 /* Foundation.framework in Frameworks */,
 				55E039611E720F0A000E8268 /* UniversalDetector.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
@@ -1377,7 +1377,7 @@
 			isa = PBXGroup;
 			children = (
 				5571AAA81E70A3DF00697829 /* Security.framework */,
-				7FC411DD17DC0A8600626F23 /* libz.dylib */,
+				7FC411DD17DC0A8600626F23 /* libz.tbd */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				1B3D30D809351D7A00345FD0 /* Carbon.framework */,
 				1B68CED90885F5D7001971C8 /* QuickTime.framework */,
