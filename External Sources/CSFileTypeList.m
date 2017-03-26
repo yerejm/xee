@@ -1,8 +1,6 @@
 #import "CSFileTypeList.h"
 
-@implementation CSFileTypeList {
-	CSFileTypeListSource *listSource;
-}
+@implementation CSFileTypeList
 
 - (id)initWithCoder:(NSCoder *)coder
 {

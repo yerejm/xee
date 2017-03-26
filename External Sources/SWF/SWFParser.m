@@ -18,7 +18,7 @@
 
 + (SWFParser *)parserWithHandle:(CSHandle *)handle
 {
-	return [[SWFParser alloc] initWithHandle:handle];
+	return [[self alloc] initWithHandle:handle];
 }
 
 + (SWFParser *)parserForPath:(NSString *)path

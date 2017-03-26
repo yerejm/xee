@@ -1,6 +1,10 @@
 #import <Cocoa/Cocoa.h>
 
-@interface CSFileTypeList : NSTableView
+@class CSFileTypeListSource;
+
+@interface CSFileTypeList : NSTableView {
+	CSFileTypeListSource *listSource;
+}
 
 - (instancetype)initWithCoder:(NSCoder *)coder;
 - (instancetype)initWithFrame:(NSRect)frame;
