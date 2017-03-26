@@ -316,9 +316,9 @@
 	}
 }
 
-- (NSRect)updatedAreaInRect:(NSRect)rect
+- (BOOL)animated
 {
-	return NSMakeRect(0, 0, 0, 0);
+	return NO;
 }
 
 - (void)setAnimating:(BOOL)animating
@@ -327,6 +327,16 @@
 
 - (void)setAnimatingDefault
 {
+}
+
+- (BOOL)animating
+{
+	return NO;
+}
+
+- (NSRect)updatedAreaInRect:(NSRect)rect
+{
+	return NSMakeRect(0, 0, 0, 0);
 }
 
 - (void)drawInRect:(NSRect)rect bounds:(NSRect)bounds

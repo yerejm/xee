@@ -99,15 +99,17 @@
 {
 	if (self = [super init]) {
 		if (itemlabel && [itemlabel length]) {
-			if ([itemvalue isKindOfClass:[NSArray class]])
+			if ([itemvalue isKindOfClass:[NSArray class]]) {
 				label = [itemlabel copy];
-			else
+			} else {
 				label = [itemlabel stringByAppendingString:@":"];
-		} else
+			}
+		} else {
 			label = @"";
+		}
 		value = itemvalue;
 		ident = [identifier copy];
-
+		
 		heading = headingitem;
 		pos = position;
 	}

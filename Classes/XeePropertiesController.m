@@ -6,9 +6,7 @@
 
 #import <XADMaster/XADRegex.h>
 
-@implementation XeePropertiesController {
-	NSDateFormatter *dateFormatter;
-}
+@implementation XeePropertiesController
 
 - (void)awakeFromNib
 {

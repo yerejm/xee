@@ -2,13 +2,13 @@
 
 @class XeePropertyItem, XeeController;
 
-@interface XeePropertiesController
-	: NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate> {
+@interface XeePropertiesController : NSObject <NSOutlineViewDataSource, NSOutlineViewDelegate> {
 	IBOutlet NSPanel *infopanel;
 	IBOutlet NSOutlineView *outlineview;
 	NSArray *dataarray;
 
 	NSDictionary *sectionattributes, *labelattributes;
+	NSDateFormatter *dateFormatter;
 }
 
 - (void)awakeFromNib;
