@@ -131,7 +131,7 @@
 		1BFB0E0B0B126FD10088CDB4 /* XeeImageSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E0A0B126FD10088CDB4 /* XeeImageSource.m */; };
 		1BFB0E490B139D260088CDB4 /* XeeFileSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E480B139D260088CDB4 /* XeeFileSource.m */; };
 		1BFB0E4C0B139D370088CDB4 /* XeeDirectorySource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E4B0B139D370088CDB4 /* XeeDirectorySource.m */; };
-		1BFB0E4F0B139D420088CDB4 /* XeeArchiveSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E4E0B139D420088CDB4 /* XeeArchiveSource.m */; };
+		1BFB0E4F0B139D420088CDB4 /* XeeArchiveSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E4E0B139D420088CDB4 /* XeeArchiveSource.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1BFB0E520B139D4C0088CDB4 /* XeeClipboardSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E510B139D4C0088CDB4 /* XeeClipboardSource.m */; };
 		1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFF73280B6AF5C500E0900B /* IOKit.framework */; };
 		5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAA81E70A3DF00697829 /* Security.framework */; };

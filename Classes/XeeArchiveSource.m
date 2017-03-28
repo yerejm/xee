@@ -20,17 +20,9 @@
 		[toAdd addObject:NSFileTypeForHFSTypeCode('SITD')];
 		[toAdd addObject:NSFileTypeForHFSTypeCode('SIT5')];
 
-		if (&kUTTypeGNUZipArchive) {
-			[toAdd addObject:(NSString *)kUTTypeGNUZipArchive];
-		}
-		if (&kUTTypeBzip2Archive) {
-			[toAdd addObject:(NSString *)kUTTypeBzip2Archive];
-		}
-		if (&kUTTypeZipArchive) {
-			[toAdd addObject:(NSString *)kUTTypeZipArchive];
-		} else {
-			[toAdd addObjectsFromArray:@[ @"com.pkware.zip-archive", @"public.zip-archive" ]];
-		}
+		[toAdd addObject:(NSString *)kUTTypeGNUZipArchive];
+		[toAdd addObject:(NSString *)kUTTypeBzip2Archive];
+		[toAdd addObject:(NSString *)kUTTypeZipArchive];
 
 		// other UTIs
 		[toAdd addObject:@"org.7-zip.7-zip-archive"];
@@ -49,12 +41,11 @@
 - (id)initWithArchive:(NSString *)archivename
 {
 	if (self = [super init]) {
-		filename = [archivename retain];
+		filename = [archivename copy];
 
 		parser = nil;
-		tmpdir = [[NSTemporaryDirectory() stringByAppendingPathComponent:
-											  [NSString stringWithFormat:@"Xee-archive-%04lx%04lx%04lx", random() & 0xffff, random() & 0xffff, random() & 0xffff]]
-			retain];
+		tmpdir = [NSTemporaryDirectory() stringByAppendingPathComponent:
+											  [NSString stringWithFormat:@"Xee-archive-%04lx%04lx%04lx", random() & 0xffff, random() & 0xffff, random() & 0xffff]];
 
 		[[NSFileManager defaultManager] createDirectoryAtPath:tmpdir withIntermediateDirectories:NO attributes:nil error:nil];
 
@@ -62,27 +53,21 @@
 		[icon setSize:NSMakeSize(16, 16)];
 
 		@try {
-			parser = [[XADArchiveParser archiveParserForPath:archivename] retain];
+			parser = [XADArchiveParser archiveParserForPath:archivename];
 		}
 		@catch (id e) {
 		}
 
-		if (parser)
-			return self;
+		if (!parser)
+			return nil;
 	}
 
-	[self release];
-	return nil;
+	return self;
 }
 
 - (void)dealloc
 {
 	[[NSFileManager defaultManager] removeItemAtPath:tmpdir error:NULL];
-
-	[parser release];
-	[tmpdir release];
-
-	[super dealloc];
 }
 
 - (void)start
@@ -103,7 +88,6 @@
 	[self endListUpdates];
 	[self pickImageAtIndex:0];
 
-	[parser release];
 	parser = nil;
 }
 
@@ -127,10 +111,10 @@
 
 	if ([filetypes indexOfObject:ext] != NSNotFound || [filetypes indexOfObject:type] != NSNotFound) {
 		NSString *realpath = [tmpdir stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", n++]];
-		[self addEntry:[[[XeeArchiveEntry alloc]
+		[self addEntry:[[XeeArchiveEntry alloc]
 						   initWithArchiveParser:parser
 										   entry:dict
-										realPath:realpath] autorelease]];
+										realPath:realpath]];
 	}
 }
 
@@ -174,7 +158,7 @@
 - (id)initWithArchiveParser:(XADArchiveParser *)parent entry:(NSDictionary *)entry realPath:(NSString *)realpath
 {
 	if (self = [super init]) {
-		parser = [parent retain];
+		parser = parent;
 		dict = [entry copy];
 		path = [realpath copy];
 		ref = nil;
@@ -193,23 +177,14 @@
 - (id)initAsCopyOf:(XeeArchiveEntry *)other
 {
 	if (self = [super initAsCopyOf:other]) {
-		parser = [other->parser retain];
+		parser = other->parser;
 		dict = [other->dict copy];
-		ref = [other->ref retain];
+		ref = other->ref;
 		path = [other->path copy];
 		size = other->size;
 		time = other->time;
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[parser release];
-	[dict release];
-	[path release];
-	[ref release];
-	[super dealloc];
 }
 
 - (NSString *)descriptiveName

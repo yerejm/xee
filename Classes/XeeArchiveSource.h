@@ -12,7 +12,6 @@
 + (NSArray *)fileTypes;
 
 - (instancetype)initWithArchive:(NSString *)archivename;
-- (void)dealloc;
 
 - (void)start;
 
@@ -38,7 +37,6 @@
 								entry:(NSDictionary *)entry
 							 realPath:(NSString *)realpath;
 - (instancetype)initAsCopyOf:(XeeArchiveEntry *)other;
-- (void)dealloc;
 
 - (NSString *)descriptiveName;
 @property (readonly, retain) XeeFSRef *ref;
