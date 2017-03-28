@@ -253,7 +253,8 @@ void XeePlayPoof(NSWindow *somewindow);
 				}
 			}
 		}
-		[self setDropRow:row num:[files count]];
+		[self setDropRow:row
+					 num:[files count]];
 	} else {
 		[self setDropRow:row num:1];
 	}
@@ -566,7 +567,9 @@ void XeePlayPoof(NSWindow *somewindow)
 	/*	[[[[NSSound alloc] initWithContentsOfFile:@"/System/Library/Components/CoreAudio.component/Contents/Resources/SystemSounds/dock/poof item off dock.aif"
 	byReference:NO] autorelease] play];*/
 
+	NSPoint localCoords = [somewindow mouseLocationOutsideOfEventStream];
+	NSRect screenRect = [somewindow convertRectToScreen:NSMakeRect(localCoords.x, localCoords.y, 1, 1)];
 	NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault,
-						  [somewindow convertBaseToScreen:[somewindow mouseLocationOutsideOfEventStream]],
+						  screenRect.origin,
 						  NSZeroSize, nil, nil, nil);
 }

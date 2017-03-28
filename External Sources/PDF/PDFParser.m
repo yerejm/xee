@@ -609,6 +609,7 @@ static BOOL IsWhiteSpace(uint8_t c);
 			id value = [self parsePDFTypeWithParent:parent];
 			if (!value) {
 				[self _raiseParserException:@"Error parsing dictionary value"];
+				continue;
 			}
 			[dict setObject:value forKey:key];
 			prev_key = key;

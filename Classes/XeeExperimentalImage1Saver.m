@@ -139,6 +139,7 @@ static void f(int n, int *xp, int *yp)
 	*yp = y;
 }
 
+__unused
 static int fi(int x, int y)
 {
 	static const int transforms[4] = {1, 0, 3, 0};

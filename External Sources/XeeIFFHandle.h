@@ -2,9 +2,11 @@
 #import "XeeTypes.h"
 
 @interface XeeIFFHandle : CSFileHandle {
-	uint32_t file_id, file_end, file_type;
-	uint32_t next_chunk;
-	uint32_t curr_id, curr_start, curr_size;
+	uint32_t file_id, file_type;
+	off_t file_end;
+	off_t next_chunk;
+	uint32_t curr_id, curr_size;
+	off_t curr_start;
 	int align_mask;
 	BOOL big_endian;
 }
@@ -21,7 +23,7 @@
 
 - (uint32_t)nextChunk;
 
-@property (readonly) uint32_t offsetInChunk;
+@property (readonly) off_t offsetInChunk;
 @property (readonly) uint32_t chunkSize;
 @property (readonly) uint32_t chunkID;
 @property (readonly) uint32_t bytesLeft;

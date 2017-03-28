@@ -153,7 +153,7 @@
 	} else {
 		[alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"Do you want to delete the image file \"%@\"?", @"Content of the delete confirmation dialog"),
 															 [source descriptiveNameOfCurrentImage]]];
-		[alert setIcon:[[[NSImage alloc] initWithContentsOfFile:@"/System/Library/CoreServices/Dock.app/Contents/Resources/trashfull.png"] autorelease]];
+		[alert setIcon:[[NSWorkspace sharedWorkspace] iconForFileType:NSFileTypeForHFSTypeCode(kFullTrashIcon)]];
 	}
 
 	[alert setMessageText:NSLocalizedString(@"Delete File", @"Title of the delete confirmation dialog")];

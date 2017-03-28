@@ -20,7 +20,7 @@
 			thumbheight = size;
 		}
 
-		NSMutableData *thumbdata = [NSMutableData dataWithLength:thumbwidth * thumbheight * 4];
+		NSMutableData *thumbdata = [[NSMutableData alloc] initWithLength:thumbwidth * thumbheight * 4];
 		if (thumbdata) {
 			CGContextRef context = CGBitmapContextCreate(thumbdata.mutableBytes,
 														 thumbwidth, thumbheight, 8, thumbwidth * 4, CGImageGetColorSpace(cgimage),
@@ -32,7 +32,7 @@
 
 				CGContextRelease(context);
 			}
-			CFRelease(thumbdata);
+			[thumbdata release];
 		}
 		CGImageRelease(cgimage);
 	}
@@ -71,6 +71,7 @@
 		quality -= 10;
 	} while (!thumbdata && quality > 0);
 
+	CGImageRelease(thumbnail);
 	if (thumbdata)
 		return [thumbdata autorelease];
 

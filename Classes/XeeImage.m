@@ -116,7 +116,7 @@
 		@try {
 			do {
 				@autoreleasepool {
-				nextselector = (SEL)[self performSelector:nextselector];
+					nextselector = (SEL)[self performSelector:nextselector];
 				}
 			} while (nextselector && !width && !height);
 		}
@@ -767,15 +767,15 @@ NSMutableArray *imageclasses = nil;
 	return typehash;
 }
 
-+ (void)registerImageClass:(Class) class
++ (void)registerImageClass:(Class)aClass
 {
 	if (!imageclasses)
 		imageclasses = [[NSMutableArray alloc] init];
 
-	[imageclasses addObject:class];
+	[imageclasses addObject:aClass];
 }
 
-+ (BOOL)canOpenFile : (NSString *)name firstBlock : (NSData *)block attributes : (NSDictionary *)attributes
++ (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes
 {
 	return NO;
 }

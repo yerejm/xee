@@ -1,5 +1,6 @@
 #import "CSDesktopServices.h"
 
+__unused
 static inline uint16_t CSGetUInt16(const uint8_t *b)
 {
 	return ((uint16_t)b[0] << 8) | (uint16_t)b[1];
@@ -8,6 +9,7 @@ static inline uint32_t CSGetUInt32(const uint8_t *b)
 {
 	return ((uint32_t)b[0] << 24) | ((uint32_t)b[1] << 16) | ((uint32_t)b[2] << 8) | (uint32_t)b[3];
 }
+__unused
 static inline int16_t CSGetInt16(const uint8_t *b)
 {
 	return ((int16_t)b[0] << 8) | (int16_t)b[1];

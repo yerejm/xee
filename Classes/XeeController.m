@@ -311,10 +311,11 @@ static NSMutableArray *controllers = nil;
 - (void)xeeImageSource:(XeeImageSource *)msgsource imageDidChange:(XeeImage *)image
 {
 	NSString *title = [source windowTitle];
-	if (title)
+	if (title) {
 		[window setTitle:title];
-	else
+	} else {
 		[window setTitle:@"Xee"];
+	}
 
 	NSString *filename = [source windowRepresentedFilename];
 	if (filename)
