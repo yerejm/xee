@@ -3,7 +3,7 @@
 
 #import "XeeXMPParser.h"
 #import "XeeIPTCParser.h"
-#import "XeeExifParser.h"
+#import "XeeEXIFParser.h"
 
 @implementation Xee8BIMParser
 @synthesize indexOfTransparentColour = trans;
