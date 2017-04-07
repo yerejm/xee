@@ -415,6 +415,9 @@
 @end
 
 @implementation XeeDirectoryEntry
+@synthesize ref;
+@synthesize size;
+@synthesize time;
 
 + (XeeDirectoryEntry *)entryWithRef:(XeeFSRef *)ref
 {
@@ -483,11 +486,6 @@
 	return [[ref name] stringByMappingColonToSlash];
 }
 
-- (XeeFSRef *)ref
-{
-	return ref;
-}
-
 - (NSString *)path
 {
 	return [ref path];
@@ -498,27 +496,20 @@
 	return [ref name];
 }
 
-- (uint64_t)size
-{
-	return size;
-}
-
-- (double)time
-{
-	return time;
-}
-
 - (BOOL)matchesObject:(id)obj
 {
 	return [obj isKindOfClass:[XeeFSRef class]] && [ref isEqual:obj];
 }
 
-- (BOOL)isEqual:(XeeDirectoryEntry *)other
+- (BOOL)isEqual:(id)other
 {
-	return [ref isEqual:other->ref];
+	if (![other isKindOfClass:[XeeDirectoryEntry class]]) {
+		return NO;
+	}
+	return [ref isEqual:((XeeDirectoryEntry *)other)->ref];
 }
 
-- (unsigned long)hash
+- (NSUInteger)hash
 {
 	return [ref hash];
 }

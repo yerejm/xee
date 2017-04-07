@@ -217,10 +217,10 @@
 
 				int offs = [exif integerForTag:XeeThumbnailOffsetTag set:XeeStandardTagSet];
 				if (offs) {
-					int size = 160;
+					NSInteger size = 160;
 					if ([subimages count] > 1) {
 						XeeImage *thumbimage = [subimages objectAtIndex:1];
-						size = imax([thumbimage width], [thumbimage height]);
+						size = MAX([thumbimage width], [thumbimage height]);
 					}
 
 					NSData *thumbdata = [self makeJPEGThumbnailOfSize:size maxBytes:0xffff - 6 - offs];
@@ -229,9 +229,9 @@
 						NSUInteger newlen = [thumbdata length];
 						const uint8_t *newdata = [thumbdata bytes];
 
-						[exif setLong:newlen forTag:XeeThumbnailLengthTag set:XeeStandardTagSet];
+						[exif setLong:(int)newlen forTag:XeeThumbnailLengthTag set:XeeStandardTagSet];
 
-						jpeg_write_m_header(&dest, marker->marker, 6 + offs + newlen);
+						jpeg_write_m_header(&dest, marker->marker, (unsigned int)(6 + offs + newlen));
 						for (NSInteger i = 0; i < offs + 6; i++)
 							jpeg_write_m_byte(&dest, marker->data[i]);
 						for (NSInteger i = 0; i < newlen; i++)

@@ -434,8 +434,8 @@ static NSString *findCoreAudioSoundNamed(NSString *name)
 
 - (NSComparisonResult)compareTimes:(XeeFileEntry *)other
 {
-	double time1 = [self time];
-	double time2 = [other time];
+	NSTimeInterval time1 = [self time];
+	NSTimeInterval time2 = [other time];
 
 	if (time1 == time2) {
 		return NSOrderedSame;

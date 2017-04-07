@@ -16,7 +16,9 @@
 		[alert setInformativeText:NSLocalizedString(@"Xee is unable to save this image. Please run Xee on Mac OS X 10.4 or higher for full functionality.", @"Error text when failing to find an image saver module that works")];
 		[alert setAlertStyle:NSCriticalAlertStyle];
 		[alert addButtonWithTitle:NSLocalizedString(@"OK", "OK Button")];
-		[alert beginSheetModalForWindow:[controller window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+		[alert beginSheetModalForWindow:controller.window completionHandler:^(NSModalResponse returnCode) {
+			// do nothing
+		}];
 	} else {
 		NSString *path = [image filename];
 		NSString *directory = [path stringByDeletingLastPathComponent];

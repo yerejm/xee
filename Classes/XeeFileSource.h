@@ -37,7 +37,7 @@
 
 @interface XeeFileEntry : XeeListEntry {
 	UniChar *pathbuf;
-	int pathlen;
+	NSInteger pathlen;
 }
 
 - (instancetype)init;
@@ -48,7 +48,7 @@
 @property (readonly) NSString *path;
 @property (readonly) NSString *filename;
 @property (readonly) uint64_t size;
-@property (readonly) double time;
+@property (readonly) NSTimeInterval time;
 
 - (void)prepareForSortingBy:(XeeSortOrder)sortorder;
 - (void)finishSorting;

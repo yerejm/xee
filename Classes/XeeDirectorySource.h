@@ -73,16 +73,13 @@
 
 - (void)prepareForSortingBy:(XeeSortOrder)sortorder;
 
-- (NSString *)descriptiveName;
-- (XeeFSRef *)ref;
-- (NSString *)path;
-- (NSString *)filename;
-- (uint64_t)size;
-- (double)time;
+@property (readonly, copy) NSString *descriptiveName;
+@property (readonly, retain) XeeFSRef *ref;
+@property (readonly, copy) NSString *path;
+@property (readonly, copy) NSString *filename;
+@property (readonly) uint64_t size;
+@property (readonly) NSTimeInterval time;
 
 - (BOOL)matchesObject:(id)obj;
-
-- (BOOL)isEqual:(XeeDirectoryEntry *)other;
-- (unsigned long)hash;
 
 @end
