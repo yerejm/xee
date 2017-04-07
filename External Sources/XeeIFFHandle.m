@@ -81,9 +81,9 @@
 	return curr_id;
 }
 
-- (uint32_t)offsetInChunk
+- (off_t)offsetInChunk
 {
-	return (uint32_t)([self offsetInFile] - curr_start);
+	return ([self offsetInFile] - curr_start);
 }
 
 - (uint32_t)bytesLeft
@@ -93,9 +93,10 @@
 
 - (void)seekToChunkOffset:(off_t)offs
 {
-	uint32_t newpos = curr_start + offs;
-	if (newpos < curr_start || newpos >= curr_start + curr_size)
+	off_t newpos = curr_start + offs;
+	if (newpos < curr_start || newpos >= curr_start + curr_size) {
 		[self _raiseChunk];
+	}
 	[super seekToFileOffset:newpos];
 }
 
@@ -106,65 +107,73 @@
 
 - (void)seekToFileOffset:(off_t)offs
 {
-	if (offs < curr_start || offs >= curr_start + curr_size)
+	if (offs < curr_start || offs >= curr_start + curr_size) {
 		[self _raiseChunk];
+	}
 	[super seekToFileOffset:offs];
 }
 
 - (int16_t)readInt16
 {
-	if (big_endian)
+	if (big_endian) {
 		return [self readInt16BE];
-	else
+	} else {
 		return [self readInt16LE];
+	}
 }
 
 - (int32_t)readInt32
 {
-	if (big_endian)
+	if (big_endian) {
 		return [self readInt32BE];
-	else
+	} else {
 		return [self readInt32LE];
+	}
 }
 
 - (int64_t)readInt64
 {
-	if (big_endian)
+	if (big_endian) {
 		return [self readInt64BE];
-	else
+	} else {
 		return [self readInt64LE];
+	}
 }
 
 - (uint16_t)readUInt16
 {
-	if (big_endian)
+	if (big_endian) {
 		return [self readUInt16BE];
-	else
+	} else {
 		return [self readUInt16LE];
+	}
 }
 
 - (uint32_t)readUInt32
 {
-	if (big_endian)
+	if (big_endian) {
 		return [self readUInt32BE];
-	else
+	} else {
 		return [self readUInt32LE];
+	}
 }
 
 - (uint64_t)readUInt64
 {
-	if (big_endian)
+	if (big_endian) {
 		return [self readUInt64BE];
-	else
+	} else {
 		return [self readUInt64LE];
+	}
 }
 
 - (uint32_t)_readHeaderUint32
 {
-	if (big_endian)
+	if (big_endian) {
 		return [super readUInt32BE];
-	else
+	} else {
 		return [super readUInt32LE];
+	}
 }
 
 #define XeeIFFReadValueImpl(type, name)      \
@@ -175,26 +184,26 @@
 		return [super name];                 \
 	}
 
-XeeIFFReadValueImpl(int8_t, readInt8)
-		XeeIFFReadValueImpl(uint8_t, readUInt8)
+XeeIFFReadValueImpl(int8_t, readInt8);
+XeeIFFReadValueImpl(uint8_t, readUInt8);
 
-			XeeIFFReadValueImpl(int16_t, readInt16BE)
-				XeeIFFReadValueImpl(int32_t, readInt32BE)
-					XeeIFFReadValueImpl(int64_t, readInt64BE)
-						XeeIFFReadValueImpl(uint16_t, readUInt16BE)
-							XeeIFFReadValueImpl(uint32_t, readUInt32BE)
-								XeeIFFReadValueImpl(uint64_t, readUInt64BE)
+XeeIFFReadValueImpl(int16_t, readInt16BE);
+XeeIFFReadValueImpl(int32_t, readInt32BE);
+XeeIFFReadValueImpl(int64_t, readInt64BE);
+XeeIFFReadValueImpl(uint16_t, readUInt16BE);
+XeeIFFReadValueImpl(uint32_t, readUInt32BE);
+XeeIFFReadValueImpl(uint64_t, readUInt64BE);
 
-									XeeIFFReadValueImpl(int16_t, readInt16LE)
-										XeeIFFReadValueImpl(int32_t, readInt32LE)
-											XeeIFFReadValueImpl(int64_t, readInt64LE)
-												XeeIFFReadValueImpl(uint16_t, readUInt16LE)
-													XeeIFFReadValueImpl(uint32_t, readUInt32LE)
-														XeeIFFReadValueImpl(uint64_t, readUInt64LE)
+XeeIFFReadValueImpl(int16_t, readInt16LE);
+XeeIFFReadValueImpl(int32_t, readInt32LE);
+XeeIFFReadValueImpl(int64_t, readInt64LE);
+XeeIFFReadValueImpl(uint16_t, readUInt16LE);
+XeeIFFReadValueImpl(uint32_t, readUInt32LE);
+XeeIFFReadValueImpl(uint64_t, readUInt64LE);
 
-															XeeIFFReadValueImpl(uint32_t, readID)
+XeeIFFReadValueImpl(uint32_t, readID);
 
-	- (void)pushBackByte : (int)byte
+- (void)pushBackByte : (int)byte
 {
 	[self _raiseNotSupported:_cmd];
 }
@@ -257,7 +266,7 @@ XeeIFFReadValueImpl(int8_t, readInt8)
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"XeeIFFHandle for file \"%@\", position %d in chunk %c%c%c%c",
+	return [NSString stringWithFormat:@"XeeIFFHandle for file \"%@\", position %lld in chunk %c%c%c%c",
 									  name, [self offsetInChunk], (curr_id >> 24) & 0xff, (curr_id >> 16) & 0xff, (curr_id >> 8) & 0xff, curr_id & 0xff];
 }
 
@@ -268,13 +277,15 @@ XeeIFFReadValueImpl(int8_t, readInt8)
 
 + (id)IFFHandleWithPath:(NSString *)path fileType:(uint32_t)type
 {
-	if (!path)
+	if (!path) {
 		return nil;
+	}
 
 	FILE *fh = fopen([path fileSystemRepresentation], "rb");
 	XeeIFFHandle *handle = [[[self alloc] initWithFilePointer:fh closeOnDealloc:YES description:path fileType:type] autorelease];
-	if (handle)
+	if (handle) {
 		return handle;
+	}
 
 	fclose(fh);
 	return nil;

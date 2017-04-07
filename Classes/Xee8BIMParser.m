@@ -32,7 +32,7 @@
 				//if((namelen&1)==0) [handle readInt8];
 				[handle skipBytes:namelen + 1 - (namelen & 1)];
 				int chunklen = [handle readUInt32BE];
-				int next = [handle offsetInFile] + ((chunklen + 1) & ~1);
+				off_t next = [handle offsetInFile] + ((chunklen + 1) & ~1);
 
 				switch (chunkid) {
 					case 0x03f0: // Caption (?)

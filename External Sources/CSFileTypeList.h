@@ -27,7 +27,7 @@
 }
 
 - (instancetype)init;
-@property (readonly, copy) NSArray<NSDictionary<NSString*,id>*> *readFileTypes;
+@property (readonly, copy) NSArray<NSDictionary<NSString *, id> *> *readFileTypes;
 
 - (void)claimAllTypes;
 - (void)surrenderAllTypes;

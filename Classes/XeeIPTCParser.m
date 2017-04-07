@@ -24,7 +24,7 @@ static NSString *XeeLookupIPTCTag(int record, int dataset, int *type);
 				int record = [handle readUInt8];
 				int dataset = [handle readUInt8];
 				int size = [handle readUInt16BE];
-				int next = [handle offsetInFile] + size;
+				off_t next = [handle offsetInFile] + size;
 
 				if (size & 0x8000)
 					@throw @"Extended tags not supported";

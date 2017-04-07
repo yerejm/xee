@@ -142,6 +142,7 @@
 		1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFF73280B6AF5C500E0900B /* IOKit.framework */; };
 		5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAA81E70A3DF00697829 /* Security.framework */; };
 		5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5571AAB21E70AE9200697829 /* Icons.xcassets */; };
+		557CBAC01E8AC3D4008A96AE /* XeeCoroutineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 557CBABF1E8AC3D4008A96AE /* XeeCoroutineTests.m */; };
 		558372A21E7F71DD007221B7 /* XeeQuicktimeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B262C3408BE6A4900648EBC /* XeeQuicktimeLoader.m */; };
 		558A1EE41E70E63300C41ADA /* asahi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1420F0B094080003A8D57 /* asahi.c */; };
 		558A1EE51E70E63300C41ADA /* canon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142100B094080003A8D57 /* canon.c */; };
@@ -256,6 +257,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		557CBAC21E8AC3D4008A96AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = Xee;
+		};
 		558A1EF71E70E66200C41ADA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -688,6 +696,9 @@
 		5571AAAE1E70A3FC00697829 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		5571AAB11E70A7CD00697829 /* XeePrefKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = XeePrefKeys.h; path = Classes/XeePrefKeys.h; sourceTree = "<group>"; };
 		5571AAB21E70AE9200697829 /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
+		557CBABD1E8AC3D4008A96AE /* XeeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XeeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		557CBABF1E8AC3D4008A96AE /* XeeCoroutineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XeeCoroutineTests.m; sourceTree = "<group>"; };
+		557CBAC11E8AC3D4008A96AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		558A1EE01E70E62100C41ADA /* libexiftags.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libexiftags.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1EFE1E70E67F00C41ADA /* libjpeg.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libjpeg.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		558A1F421E70E6D500C41ADA /* libpng.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libpng.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -700,6 +711,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		557CBABA1E8AC3D4008A96AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		558A1EDD1E70E62100C41ADA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -759,6 +777,7 @@
 				558A1EFE1E70E67F00C41ADA /* libjpeg.a */,
 				558A1F421E70E6D500C41ADA /* libpng.a */,
 				558A1F5F1E70E72300C41ADA /* libungif.a */,
+				557CBABD1E8AC3D4008A96AE /* XeeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1176,6 +1195,7 @@
 				1BE4C35208E4C46300859EE2 /* External Sources */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				557CBABE1E8AC3D4008A96AE /* XeeTests */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 			);
@@ -1259,6 +1279,15 @@
 				5571AAAB1E70A3F600697829 /* Foundation.framework */,
 			);
 			name = "Additional frameworks";
+			sourceTree = "<group>";
+		};
+		557CBABE1E8AC3D4008A96AE /* XeeTests */ = {
+			isa = PBXGroup;
+			children = (
+				557CBABF1E8AC3D4008A96AE /* XeeCoroutineTests.m */,
+				557CBAC11E8AC3D4008A96AE /* Info.plist */,
+			);
+			path = XeeTests;
 			sourceTree = "<group>";
 		};
 		558EACBB1E7150A300C84199 /* Dependant libraries */ = {
@@ -1360,6 +1389,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		557CBABC1E8AC3D4008A96AE /* XeeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 557CBAC61E8AC3D4008A96AE /* Build configuration list for PBXNativeTarget "XeeTests" */;
+			buildPhases = (
+				557CBAB91E8AC3D4008A96AE /* Sources */,
+				557CBABA1E8AC3D4008A96AE /* Frameworks */,
+				557CBABB1E8AC3D4008A96AE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				557CBAC31E8AC3D4008A96AE /* PBXTargetDependency */,
+			);
+			name = XeeTests;
+			productName = XeeTests;
+			productReference = 557CBABD1E8AC3D4008A96AE /* XeeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		558A1EDF1E70E62100C41ADA /* exiftags */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 558A1EE11E70E62100C41ADA /* Build configuration list for PBXNativeTarget "exiftags" */;
@@ -1459,6 +1506,11 @@
 			attributes = {
 				LastUpgradeCheck = 0820;
 				TargetAttributes = {
+					557CBABC1E8AC3D4008A96AE = {
+						CreatedOnToolsVersion = 8.3;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 8D15AC270486D014006FF6A4;
+					};
 					558A1EDF1E70E62100C41ADA = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -1503,11 +1555,19 @@
 				558A1EFD1E70E67F00C41ADA /* jpeg */,
 				558A1F411E70E6D500C41ADA /* png */,
 				558A1F5E1E70E72300C41ADA /* ungif */,
+				557CBABC1E8AC3D4008A96AE /* XeeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		557CBABB1E8AC3D4008A96AE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1560,6 +1620,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		557CBAB91E8AC3D4008A96AE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				557CBAC01E8AC3D4008A96AE /* XeeCoroutineTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		558A1EDC1E70E62100C41ADA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1769,6 +1837,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		557CBAC31E8AC3D4008A96AE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* Xee */;
+			targetProxy = 557CBAC21E8AC3D4008A96AE /* PBXContainerItemProxy */;
+		};
 		558A1EF81E70E66200C41ADA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 558A1EDF1E70E62100C41ADA /* exiftags */;
@@ -2076,6 +2149,52 @@
 			};
 			name = Release;
 		};
+		557CBAC41E8AC3D4008A96AE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = XeeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.XeeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Xee.app/Contents/MacOS/Xee";
+			};
+			name = Debug;
+		};
+		557CBAC51E8AC3D4008A96AE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				INFOPLIST_FILE = XeeTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.XeeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Xee.app/Contents/MacOS/Xee";
+			};
+			name = Release;
+		};
 		558A1EE21E70E62100C41ADA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2264,6 +2383,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		557CBAC61E8AC3D4008A96AE /* Build configuration list for PBXNativeTarget "XeeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				557CBAC41E8AC3D4008A96AE /* Debug */,
+				557CBAC51E8AC3D4008A96AE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		558A1EE11E70E62100C41ADA /* Build configuration list for PBXNativeTarget "exiftags" */ = {
 			isa = XCConfigurationList;
