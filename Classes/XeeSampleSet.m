@@ -5,12 +5,12 @@
 
 @interface XeeBestCandidateSamples : XeeSampleSet {
 }
-- (id)initWithCount:(int)count;
+- (id)initWithCount:(NSInteger)count;
 @end
 
 @interface XeeNRooksSamples : XeeSampleSet {
 }
-- (id)initWithCount:(int)count;
+- (id)initWithCount:(NSInteger)count;
 @end
 
 #define PI ((CGFloat)(M_PI))
@@ -115,13 +115,13 @@ static int XeeSamplePointSorter(const void *a, const void *b)
 
 @implementation XeeBestCandidateSamples
 
-- (id)initWithCount:(int)count
+- (id)initWithCount:(NSInteger)count
 {
 	if (self = [super initWithCount:count]) {
 		samples[0].u = drand() - 0.5;
 		samples[0].v = drand() - 0.5;
 
-		for (int i = 1; i < num; i++) {
+		for (NSInteger i = 1; i < num; i++) {
 			float maxdist = 0;
 			XeeSamplePoint maxpoint = {0};
 
@@ -161,7 +161,7 @@ static int XeeSamplePointSorter(const void *a, const void *b)
 
 @implementation XeeNRooksSamples
 
-- (id)initWithCount:(int)count
+- (id)initWithCount:(NSInteger)count
 {
 	if (self = [super initWithCount:count]) {
 		for (int i = 0; i < num; i++) {
@@ -169,7 +169,7 @@ static int XeeSamplePointSorter(const void *a, const void *b)
 			samples[i].v = (float)i / (float)num + drand() / (float)num - 0.5;
 		}
 
-		for (int i = num - 1; i >= 1; i--) {
+		for (NSInteger i = num - 1; i >= 1; i--) {
 			int n = rand() % (i + 1);
 			if (n != i) {
 				float tmp = samples[i].u;
