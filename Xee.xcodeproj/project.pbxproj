@@ -259,6 +259,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5526328B1FA7AD02000D4175 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1E961E70DC4700C41ADA /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 55F5908E1EB53613000B4973;
+			remoteInfo = "Static Library";
+		};
+		5526329F1FA7AD02000D4175 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 551BADD11EB032B500EAF64E;
+			remoteInfo = "XADMaster-iOS";
+		};
+		552632A11FA7AD02000D4175 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 555EF0701EA7DB1F000CAE58;
+			remoteInfo = XADMasterSwift;
+		};
+		552632A31FA7AD02000D4175 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 558A1EA21E70DC5800C41ADA /* XADMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5591221B1EB3D07D007CF99D;
+			remoteInfo = "XADMasterSwift-iOS";
+		};
 		557CBAC21E8AC3D4008A96AE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -1203,8 +1231,10 @@
 				1C14FE441C70CEB300200498 /* transupp.c */,
 				1C14FE451C70CEB300200498 /* transupp.h */,
 			);
+			indentWidth = 2;
 			path = libjpeg;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		1BE5E4B00A8249CF00967AD2 /* Other UI Elements */ = {
 			isa = PBXGroup;
@@ -1431,7 +1461,10 @@
 			isa = PBXGroup;
 			children = (
 				558A1FBB1E71142900C41ADA /* XADMaster.framework */,
+				552632A01FA7AD02000D4175 /* XADMaster.framework */,
 				558A1FBD1E71142900C41ADA /* XADMaster.framework */,
+				552632A21FA7AD02000D4175 /* XADMasterSwift.framework */,
+				552632A41FA7AD02000D4175 /* XADMasterSwift.framework */,
 				558A1FBF1E71142900C41ADA /* libXADMaster.a */,
 				558A1FC11E71142900C41ADA /* libXADMaster.win.a */,
 				558A1FC31E71142900C41ADA /* libXADMaster.ios.a */,
@@ -1455,6 +1488,7 @@
 				558A1FDE1E71142D00C41ADA /* UniversalDetector.framework */,
 				558A1FE01E71142D00C41ADA /* DetectorTest */,
 				558A1FE21E71142D00C41ADA /* UniversalDetectorTests.xctest */,
+				5526328C1FA7AD02000D4175 /* libUniversalDetector.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1686,7 +1720,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				TargetAttributes = {
 					557CBABC1E8AC3D4008A96AE = {
 						CreatedOnToolsVersion = 8.3;
@@ -1753,6 +1787,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		5526328C1FA7AD02000D4175 /* libUniversalDetector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libUniversalDetector.a;
+			remoteRef = 5526328B1FA7AD02000D4175 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		552632A01FA7AD02000D4175 /* XADMaster.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XADMaster.framework;
+			remoteRef = 5526329F1FA7AD02000D4175 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		552632A21FA7AD02000D4175 /* XADMasterSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XADMasterSwift.framework;
+			remoteRef = 552632A11FA7AD02000D4175 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		552632A41FA7AD02000D4175 /* XADMasterSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XADMasterSwift.framework;
+			remoteRef = 552632A31FA7AD02000D4175 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		558A1FBB1E71142900C41ADA /* XADMaster.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2408,14 +2470,20 @@
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2444,14 +2512,20 @@
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

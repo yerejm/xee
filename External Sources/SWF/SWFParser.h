@@ -47,6 +47,7 @@
 + (instancetype)parserForPath:(NSString *)path;
 
 - (instancetype)initWithHandle:(CSHandle *)handle;
+- (instancetype)initWithHandle:(CSHandle *)handle error:(NSError**)error;
 
 - (void)parseHeader;
 

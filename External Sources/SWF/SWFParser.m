@@ -42,6 +42,20 @@
 	return self;
 }
 
+- (instancetype)initWithHandle:(CSHandle *)handle error:(NSError**)error;
+{
+	@try {
+		self = [self initWithHandle:handle];
+	}
+	@catch (NSException *e) {
+		if (error) {
+			//*error 
+		}
+		return nil;
+	}
+	return self;
+}
+
 - (void)parseHeader
 {
 	uint8_t magic[4];

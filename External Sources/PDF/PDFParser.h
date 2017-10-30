@@ -18,8 +18,8 @@ extern NSString *PDFParserException;
 	PDFEncryptionHandler *encryption;
 }
 
-+ (PDFParser *)parserWithHandle:(CSHandle *)handle;
-+ (PDFParser *)parserForPath:(NSString *)path;
++ (instancetype)parserWithHandle:(CSHandle *)handle;
++ (instancetype)parserForPath:(NSString *)path;
 
 - (instancetype)initWithHandle:(CSHandle *)handle;
 
