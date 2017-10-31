@@ -69,7 +69,7 @@ static void CSSetEntryPoint(jmp_buf env, void (*entry)(), void *stack, long stac
 + (void)initialize
 {
 	pthread_key_create(&currkey, NULL);
-	pthread_key_create(&mainkey, (void (*)())CSCoroutineFreeMain);
+	pthread_key_create(&mainkey, (void (*)(void*))CSCoroutineFreeMain);
 }
 
 + (CSCoroutine *)mainCoroutine

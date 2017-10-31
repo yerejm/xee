@@ -33,8 +33,6 @@
 		finished = loaded = YES;
 		thumbonly = stop = NO;
 
-		coro = nil;
-
 		format = nil;
 		width = height = 0;
 		depth = nil;
@@ -142,8 +140,6 @@
 	[handle release];
 	[ref release];
 	[attrs release];
-
-	[coro release];
 
 	[format release];
 	[depth release];

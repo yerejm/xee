@@ -3,6 +3,7 @@
 #include <objc/runtime.h>
 #include <objc/message.h>
 
+#if 0
 @interface CSCoroutine : NSProxy {
 	id target;
 	size_t stacksize;
@@ -29,3 +30,4 @@
 - (CSCoroutine *)newCoroutine;
 - (CSCoroutine *)newCoroutineWithStackSize:(size_t)stacksize;
 @end
+#endif

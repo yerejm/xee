@@ -68,6 +68,14 @@ extension XeeMatrix {
 	var formInverse: XeeMatrix {
 		return XeeInverseMatrix(self)
 	}
+	
+	func loadGLMatrix() {
+		XeeGLLoadMatrix(self)
+	}
+	
+	func multiplyGLMatrix() {
+		XeeGLMultMatrix(self)
+	}
 }
 
 public func ==(lhs: XeeSpan, rhs: XeeSpan) -> Bool {
@@ -75,6 +83,10 @@ public func ==(lhs: XeeSpan, rhs: XeeSpan) -> Bool {
 }
 
 extension XeeSpan: Equatable {
+	static var empty: XeeSpan {
+		return XeeMakeSpan(0, 0)
+	}
+	
 	var end: CInt {
 		return XeeSpanEnd(self)
 	}

@@ -32,7 +32,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	BOOL finished, loaded, thumbonly;
 	volatile BOOL stop;
 
-	CSCoroutine *coro;
+	//CSCoroutine *coro;
 
 	NSString *format;
 	NSInteger width, height;
@@ -174,6 +174,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 @end
 
+#if 0
 static inline void __XeeImageLoaderYield(volatile BOOL *stop, CSCoroutine *coro)
 {
 	if (*stop) {
@@ -193,6 +194,8 @@ static inline void __XeeImageLoaderDone(BOOL success, BOOL *loaded,
 #define XeeImageLoaderYield() __XeeImageLoaderYield(&stop, coro)
 #define XeeImageLoaderDone(success) \
 	__XeeImageLoaderDone(success, &loaded, &finished, coro)
+
+#endif
 
 @protocol XeeImageDelegate <NSObject>
 
