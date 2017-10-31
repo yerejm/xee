@@ -83,7 +83,7 @@ typedef NS_ENUM(int, KFTypeSelectMatchAlgorithm) {
 
 @end
 
-@interface NSObject (KFTypeSelectTableViewDelegate)
+@protocol KFTypeSelectTableViewDelegate <NSTableViewDelegate>
 
 #pragma mark configuration methods
 

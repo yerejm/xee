@@ -1,11 +1,11 @@
 #import "XeeTileImage.h"
 #import "XeePrefKeys.h"
 
-GLuint XeeMakeGridTexture(float r, float b, float g);
-size_t XeeTileImageGetBytes(void *infoptr, void *buffer, size_t count);
-off_t XeeTileImageSkipBytes(void *infoptr, off_t count);
-void XeeTileImageRewind(void *infoptr);
-void XeeTileImageReleaseInfo(void *infoptr);
+static GLuint XeeMakeGridTexture(float r, float b, float g);
+static size_t XeeTileImageGetBytes(void *infoptr, void *buffer, size_t count);
+static off_t XeeTileImageSkipBytes(void *infoptr, off_t count);
+static void XeeTileImageRewind(void *infoptr);
+static void XeeTileImageReleaseInfo(void *infoptr);
 
 struct XeeTileImageProviderInfo {
 	XeeReadPixelFunction readpixel;
@@ -392,7 +392,7 @@ struct XeeTileImageProviderInfo {
 
 - (void)drawSampleSet:(XeeSampleSet *)set xScale:(float)x_scale yScale:(float)y_scale bounds:(NSRect)transbounds
 {
-	int num = [set count];
+	NSInteger num = [set count];
 	XeeSamplePoint *samples = [set samples];
 
 	GLint textureunits;
@@ -407,7 +407,7 @@ struct XeeTileImageProviderInfo {
 
 	if (textureunits == 1) {
 		float totalweight = 0;
-		for (int i = 0; i < num; i++) {
+		for (NSInteger i = 0; i < num; i++) {
 			totalweight += samples[i].weight;
 			glBlendColor(0, 0, 0, samples[i].weight / totalweight);
 
@@ -415,8 +415,8 @@ struct XeeTileImageProviderInfo {
 		}
 	} else {
 		float totalweight = 0;
-		for (int i = 0; i < num; i += textureunits) {
-			int curr_num = num - i > textureunits ? textureunits : num - i;
+		for (NSInteger i = 0; i < num; i += textureunits) {
+			NSInteger curr_num = num - i > textureunits ? textureunits : num - i;
 			float currweight = 0;
 			for (int j = 0; j < curr_num; j++)
 				currweight += samples[i + j].weight;
@@ -424,7 +424,7 @@ struct XeeTileImageProviderInfo {
 			totalweight += currweight;
 			glBlendColor(0, 0, 0, currweight / totalweight);
 
-			[self drawSamplesOnTextureUnits:samples + i num:curr_num xScale:x_scale yScale:y_scale bounds:transbounds];
+			[self drawSamplesOnTextureUnits:samples + i num:(int)curr_num xScale:x_scale yScale:y_scale bounds:transbounds];
 		}
 	}
 }
@@ -533,9 +533,9 @@ struct XeeTileImageProviderInfo {
 		info->readpixel = readpixel;
 		info->pos = 0;
 		info->data = data;
-		info->bytesperrow = bytesperrow;
-		info->pixelsize = pixelsize;
-		info->width = [self width];
+		info->bytesperrow = (int)bytesperrow;
+		info->pixelsize = (int)pixelsize;
+		info->width = (int)[self width];
 		info->a00 = (int)m.a00;
 		info->a01 = (int)m.a01;
 		info->a02 = (int)(m.a02 + (m.a00 + m.a01) / 4.0);
@@ -667,7 +667,7 @@ GLuint XeeMakeGridTexture(float r, float g, float b)
 	uint32_t data[] = {col1, col2, col2, col1};
 
 	GLuint tex;
-	glGenTextures(1, &tex),
+	glGenTextures(1, &tex);
 		glBindTexture(GL_TEXTURE_2D, tex);
 
 	glPixelStorei(GL_UNPACK_ROW_LENGTH, 2);

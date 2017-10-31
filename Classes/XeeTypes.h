@@ -266,7 +266,7 @@ XeeMatrix XeeMatrixForTransformation(XeeTransformation trans, float w, float h);
 // Time
 //
 
-double XeeGetTime();
+double XeeGetTime(void);
 
 //
 // Hex Data

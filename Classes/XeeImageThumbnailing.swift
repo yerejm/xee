@@ -43,7 +43,7 @@ extension XeeImage {
 			return nil
 		}
 		
-		var thumbdata: NSData? = nil
+		var thumbdata: Data? = nil
 		var quality = 60
 		repeat {
 			if let data = NSMutableData(capacity: maxBytes),
@@ -54,17 +54,13 @@ extension XeeImage {
 				
 				if CGImageDestinationFinalize(dest) {
 					if data.length < maxBytes {
-						thumbdata = data
+						thumbdata = data as Data
 					}
 				}
 			}
 			quality -= 10
 		} while thumbdata != nil && quality > 0
 		
-		if let thumbdata = thumbdata {
-			return thumbdata as Data
-		}
-		
-		return nil
+		return thumbdata
 	}
 }
