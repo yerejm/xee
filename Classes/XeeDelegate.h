@@ -4,7 +4,7 @@
 extern NSString *XeeRefreshImageNotification;
 @class XeeController, XeeKeyboardShortcuts, XeePropertiesController, CSAction;
 
-@interface XeeDelegate : NSObject {
+@interface XeeDelegate : NSObject <NSApplicationDelegate> {
 	NSNib *browsernib;
 	BOOL filesopened;
 
