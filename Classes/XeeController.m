@@ -473,7 +473,7 @@ static NSMutableArray *controllers = nil;
 														  nil]];
 	}
 
-	XeeFSRef *ref = [currimage ref];
+	NSURL *ref = [currimage fileURL];
 	NSDictionary *attrs = [currimage attributes];
 	if (ref && attrs) {
 		NSString *filename = [currimage filename];

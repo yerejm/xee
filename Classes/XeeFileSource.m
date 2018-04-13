@@ -356,7 +356,7 @@ static NSString *findCoreAudioSoundNamed(NSString *name)
 
 - (XeeImage *)produceImage
 {
-	return [XeeImage imageForRef:[self ref]];
+	return [XeeImage imageForFileURL:[self ref].URL];
 }
 
 - (XeeFSRef *)ref

@@ -44,11 +44,12 @@
 
 - (XeeImage *)produceImage;
 
-@property (readonly) XeeFSRef *ref;
-@property (readonly) NSString *path;
-@property (readonly) NSString *filename;
+@property (readonly) XeeFSRef *ref DEPRECATED_ATTRIBUTE;
+@property (readonly, retain) NSURL *fileURL;
+@property (readonly, copy) NSString *path;
+@property (readonly, copy) NSString *filename;
 @property (readonly) uint64_t size;
-@property (readonly) double time;
+@property (readonly) NSTimeInterval time;
 
 - (void)prepareForSortingBy:(XeeSortOrder)sortorder;
 - (void)finishSorting;

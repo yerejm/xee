@@ -387,7 +387,7 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 			}
 
 			if (!source) {
-				XeeImage *image = [XeeImage imageForRef:ref];
+				XeeImage *image = [XeeImage imageForFileURL:ref.URL];
 				if (image) {
 					source = [[[XeeDirectorySource alloc] initWithImage:image] autorelease];
 					dirref = [ref parent];

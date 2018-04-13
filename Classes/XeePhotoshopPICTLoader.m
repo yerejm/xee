@@ -397,13 +397,13 @@
 
 - (void)fallback
 {
-	NSLog(@"falling back for %@", ref);
+	NSLog(@"falling back for %@", fileURL);
 	[image release];
 	image = nil;
 
 	[handle seekToFileOffset:0];
 	//	XeeImage *fallbackimage=[[[XeeQuicktimeImage alloc] initWithHandle:handle ref:ref attributes:attrs] autorelease];
-	XeeImage *fallbackimage = [[[XeeImageIOImage alloc] initWithHandle:handle ref:ref attributes:attrs] autorelease];
+	XeeImage *fallbackimage = [[[XeeImageIOImage alloc] initWithHandle:handle fileURL:fileURL attributes:attrs] autorelease];
 	if (!fallbackimage)
 		XeeImageLoaderDone(NO);
 

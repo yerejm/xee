@@ -25,7 +25,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 @interface XeeImage : NSObject {
 	CSHandle *handle;
-	XeeFSRef *ref;
+	NSURL *fileURL;
 	NSDictionary *attrs;
 
 	SEL nextselector;
@@ -50,11 +50,18 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithHandle:(CSHandle *)fh;
 - (instancetype)initWithHandle:(CSHandle *)fh
-						   ref:(XeeFSRef *)fsref
+					   fileURL:(NSURL *)furl
 					attributes:(NSDictionary *)attributes;
 - (instancetype)initWithHandle2:(CSHandle *)fh
-							ref:(XeeFSRef *)fsref
+						fileURL:(NSURL *)furl
 					 attributes:(NSDictionary *)attributes;
+
+- (instancetype)initWithHandle:(CSHandle *)fh
+						   ref:(XeeFSRef *)fsref
+					attributes:(NSDictionary *)attributes DEPRECATED_ATTRIBUTE;
+- (instancetype)initWithHandle2:(CSHandle *)fh
+							ref:(XeeFSRef *)fsref
+					 attributes:(NSDictionary *)attributes DEPRECATED_ATTRIBUTE;
 
 - (SEL)initLoader;
 - (void)deallocLoader;
@@ -102,7 +109,8 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 @property (readonly, copy) NSString *losslessExtension;
 - (BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
 
-@property (readonly, retain) XeeFSRef *ref;
+@property (readonly, retain) XeeFSRef *ref DEPRECATED_ATTRIBUTE;
+@property (readonly, retain) NSURL *fileURL;
 @property (readonly) NSString *filename;
 @property (nonatomic, copy) NSString *format;
 @property (nonatomic, retain) NSImage *icon;
@@ -158,10 +166,14 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 - (void)setDepthRGBA:(int)bits;
 
 + (XeeImage *)imageForFilename:(NSString *)filename;
-+ (XeeImage *)imageForRef:(XeeFSRef *)ref;
++ (XeeImage *)imageForRef:(XeeFSRef *)ref DEPRECATED_ATTRIBUTE;
++ (XeeImage *)imageForFileURL:(NSURL *)ref;
 + (XeeImage *)imageForHandle:(CSHandle *)fh;
 + (XeeImage *)imageForHandle:(CSHandle *)fh
 						 ref:(XeeFSRef *)ref
+				  attributes:(NSDictionary *)attrs DEPRECATED_ATTRIBUTE;
++ (XeeImage *)imageForHandle:(CSHandle *)fh
+					 fileURL:(NSURL *)furl
 				  attributes:(NSDictionary *)attrs;
 @property (class, readonly) NSArray<NSString *> *allFileTypes;
 @property (class, readonly) NSDictionary *fileTypeDictionary;

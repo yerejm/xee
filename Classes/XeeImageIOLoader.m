@@ -42,9 +42,9 @@ static void XeeImageIOReleaseInfo(void *info)
 															@YES, (NSString*)kCGImageSourceShouldAllowFloat,
 															nil];
 
-	if (ref) {
+	if (fileURL) {
 		NSString *type = CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-																				 (CFStringRef)[[self filename] pathExtension], kUTTypeData));
+																				 (CFStringRef)[[self fileURL] pathExtension], kUTTypeData));
 		//if([type isEqual:(NSString *)kUTTypePICT]) return NULL;
 		[options setObject:type forKey:(NSString *)kCGImageSourceTypeIdentifierHint];
 	}

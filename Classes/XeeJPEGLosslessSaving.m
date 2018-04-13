@@ -15,7 +15,7 @@
 
 	XeeSaveFormatFlags flags = XeeCanSaveLosslesslyFlag;
 
-	if (ref && !overwriting)
+	if (fileURL && !overwriting)
 		flags |= XeeCanOverwriteLosslesslyFlag;
 
 	XeeTransformation orient = [mainimage orientation];

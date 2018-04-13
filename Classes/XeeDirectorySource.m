@@ -24,6 +24,11 @@
 	return nil;
 }
 
+- (instancetype)initWithFileURL:(NSURL *)ref
+{
+	return [self initWithFileURL:ref image:nil];
+}
+
 - (id)initWithRef:(XeeFSRef *)ref
 {
 	return [self initWithRef:ref image:nil];
@@ -415,7 +420,7 @@
 @end
 
 @implementation XeeDirectoryEntry
-@synthesize ref;
+@synthesize fileURL;
 @synthesize size;
 @synthesize time;
 
@@ -429,15 +434,40 @@
 	return [[[XeeDirectoryEntry alloc] initWithRef:ref image:image] autorelease];
 }
 
++ (XeeDirectoryEntry *)entryWithFileURL:(NSURL *)ref
+{
+	return [self entryWithFileURL:ref image:nil];
+}
+
++ (XeeDirectoryEntry *)entryWithFileURL:(NSURL *)ref image:(XeeImage *)image
+{
+	
+}
+
+- (XeeFSRef *)ref
+{
+	return [XeeFSRef refWithFileURL:self.fileURL];
+}
+
 - (id)initWithRef:(XeeFSRef *)fsref
 {
-	return [self initWithRef:fsref image:nil];
+	return [self initWithFileURL:fsref.URL image:nil];
 }
 
 - (id)initWithRef:(XeeFSRef *)fsref image:(XeeImage *)image
 {
+	return [self initWithFileURL:fsref.URL image:image];
+}
+
+- (id)initWithFileURL:(NSURL *)fsref
+{
+	return [self initWithFileURL:fsref image:nil];
+}
+
+- (id)initWithFileURL:(NSURL *)fsref image:(XeeImage *)image
+{
 	if (self = [super init]) {
-		ref = [fsref retain];
+		fileURL = [fsref retain];
 		savedimage = [image retain];
 		//[self readAttributes];
 	}
@@ -447,7 +477,7 @@
 - (id)initAsCopyOf:(XeeDirectoryEntry *)other
 {
 	if (self = [super initAsCopyOf:other]) {
-		ref = [other->ref retain];
+		fileURL = [other->fileURL retain];
 		size = other->size;
 		time = other->time;
 	}
@@ -456,7 +486,7 @@
 
 - (void)dealloc
 {
-	[ref release];
+	[fileURL release];
 	[super dealloc];
 }
 
@@ -488,7 +518,7 @@
 
 - (NSString *)path
 {
-	return [ref path];
+	return [fileURL path];
 }
 
 - (NSString *)filename
@@ -511,7 +541,7 @@
 
 - (NSUInteger)hash
 {
-	return [ref hash];
+	return [fileURL hash];
 }
 
 @end

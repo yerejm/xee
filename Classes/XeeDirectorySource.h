@@ -10,11 +10,12 @@
 	XeeDirectoryEntry *first;
 }
 
-- (id)initWithDirectory:(XeeFSRef *)directory;
-- (id)initWithRef:(XeeFSRef *)ref;
-- (id)initWithImage:(XeeImage *)image;
-- (id)initWithRef:(XeeFSRef *)ref image:(XeeImage *)image;
-- (void)dealloc;
+- (instancetype)initWithDirectory:(XeeFSRef *)directory;
+- (instancetype)initWithRef:(XeeFSRef *)ref DEPRECATED_ATTRIBUTE;
+- (instancetype)initWithFileURL:(NSURL *)ref;
+- (instancetype)initWithImage:(XeeImage *)image;
+- (instancetype)initWithRef:(XeeFSRef *)ref image:(XeeImage *)image DEPRECATED_ATTRIBUTE;
+- (instancetype)initWithFileURL:(NSURL *)ref image:(XeeImage *)image;
 
 - (NSString *)windowTitle;
 - (NSString *)windowRepresentedFilename;
@@ -58,23 +59,28 @@
 @end
 
 @interface XeeDirectoryEntry : XeeFileEntry {
-	XeeFSRef *ref;
+	NSURL *fileURL;
 	uint64_t size;
 	NSTimeInterval time;
 }
 
-+ (XeeDirectoryEntry *)entryWithRef:(XeeFSRef *)ref;
-+ (XeeDirectoryEntry *)entryWithRef:(XeeFSRef *)ref image:(XeeImage *)image;
++ (XeeDirectoryEntry *)entryWithRef:(XeeFSRef *)ref DEPRECATED_ATTRIBUTE;
++ (XeeDirectoryEntry *)entryWithRef:(XeeFSRef *)ref image:(XeeImage *)image DEPRECATED_ATTRIBUTE;
++ (XeeDirectoryEntry *)entryWithFileURL:(NSURL *)ref;
++ (XeeDirectoryEntry *)entryWithFileURL:(NSURL *)ref image:(XeeImage *)image;
 
-- (id)initWithRef:(XeeFSRef *)fsref;
-- (id)initWithRef:(XeeFSRef *)fsref image:(XeeImage *)image;
-- (id)initAsCopyOf:(XeeDirectoryEntry *)other;
+- (id)initWithRef:(XeeFSRef *)fsref DEPRECATED_ATTRIBUTE;
+- (id)initWithRef:(XeeFSRef *)fsref image:(XeeImage *)image DEPRECATED_ATTRIBUTE;
+- (instancetype)initWithFileURL:(NSURL *)fsref;
+- (instancetype)initWithFileURL:(NSURL *)fsref image:(XeeImage *)image;
+- (instancetype)initAsCopyOf:(XeeDirectoryEntry *)other;
 - (void)dealloc;
 
 - (void)prepareForSortingBy:(XeeSortOrder)sortorder;
 
 @property (readonly, copy) NSString *descriptiveName;
-@property (readonly, retain) XeeFSRef *ref;
+@property (readonly, retain) XeeFSRef *ref DEPRECATED_ATTRIBUTE;
+@property (readonly, retain) NSURL *fileURL;
 @property (readonly, copy) NSString *path;
 @property (readonly, copy) NSString *filename;
 @property (readonly) uint64_t size;

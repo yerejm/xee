@@ -2,6 +2,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+DEPRECATED_ATTRIBUTE
 @interface XeeFSRef : NSObject <NSCopying> {
 	FSRef ref;
 	FSIterator iterator;
