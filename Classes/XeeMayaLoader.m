@@ -226,15 +226,15 @@
 	}*/
 
 	uint8_t *data = [mainimage data];
-	int bprow = [mainimage bytesPerRow];
+	NSInteger bprow = [mainimage bytesPerRow];
 
-	int bytesperpixel = numchannels * bytedepth;
+	NSInteger bytesperpixel = numchannels * bytedepth;
 
-	for (int dy = 0; dy < h; dy++) {
+	for (NSInteger dy = 0; dy < h; dy++) {
 		uint8_t *ptr = data + (height - y - dy - 1) * bprow + x * bytesperpixel;
-		for (int dx = 0; dx < w; dx++) {
-			for (int i = 0; i < numchannels; i++)
-				for (int j = 0; j < bytedepth; j++) {
+		for (NSInteger dx = 0; dx < w; dx++) {
+			for (NSInteger i = 0; i < numchannels; i++)
+				for (NSInteger j = 0; j < bytedepth; j++) {
 #ifdef __BIG_ENDIAN__
 					ptr[(numchannels - i - 1) * bytedepth + j] = [subiff readUInt8];
 #else
@@ -249,12 +249,12 @@
 - (void)readRLECompressedAtX:(int)x y:(int)y width:(int)w height:(int)h
 {
 	uint8_t *data = [mainimage data];
-	int bprow = [mainimage bytesPerRow];
+	NSInteger bprow = [mainimage bytesPerRow];
 
 	int bytesperpixel = numchannels * bytedepth;
 
-	for (int j = 0; j < bytedepth; j++)
-		for (int i = 0; i < numchannels; i++) {
+	for (NSInteger j = 0; j < bytedepth; j++)
+		for (NSInteger i = 0; i < numchannels; i++) {
 #ifdef __BIG_ENDIAN__
 			[self readRLECompressedTo:data + (height - y - 1) * bprow + x * bytesperpixel + (numchannels - i - 1) * bytedepth + j
 								  num:w * h
@@ -271,7 +271,7 @@
 		}
 }
 
-- (void)readRLECompressedTo:(uint8_t *)buf num:(int)num stride:(int)stride width:(int)w bytesPerRow:(int)bprow
+- (void)readRLECompressedTo:(uint8_t *)buf num:(int)num stride:(int)stride width:(int)w bytesPerRow:(NSInteger)bprow
 {
 	int x = 0;
 	uint8_t *row = buf;

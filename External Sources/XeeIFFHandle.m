@@ -8,7 +8,7 @@
 
 - (id)initWithFilePointer:(FILE *)file closeOnDealloc:(BOOL)closeondealloc description:(NSString *)description fileType:(OSType)type
 {
-	if (self = [super initWithFilePointer:file closeOnDealloc:closeondealloc name:description]) {
+	if (self = [super initWithFilePointer:file closeOnDealloc:closeondealloc path:description]) {
 		file_id = [super readID];
 		switch (file_id) {
 			case 'FORM':
@@ -253,7 +253,7 @@ XeeIFFReadValueImpl(uint32_t, readID);
 	if (!curr_start)
 		[self _raiseChunk];
 	[super seekToFileOffset:curr_start - 8];
-	return [[[XeeIFFHandle alloc] initWithFilePointer:fh closeOnDealloc:NO description:name fileType:0] autorelease];
+	return [[[XeeIFFHandle alloc] initWithFilePointer:fh closeOnDealloc:NO description:path fileType:0] autorelease];
 }
 
 - (void)_raiseChunk
@@ -267,7 +267,7 @@ XeeIFFReadValueImpl(uint32_t, readID);
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"XeeIFFHandle for file \"%@\", position %lld in chunk %c%c%c%c",
-									  name, [self offsetInChunk], (curr_id >> 24) & 0xff, (curr_id >> 16) & 0xff, (curr_id >> 8) & 0xff, curr_id & 0xff];
+									  path, [self offsetInChunk], (curr_id >> 24) & 0xff, (curr_id >> 16) & 0xff, (curr_id >> 8) & 0xff, curr_id & 0xff];
 }
 
 + (id)IFFHandleWithPath:(NSString *)path

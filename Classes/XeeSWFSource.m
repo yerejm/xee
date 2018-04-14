@@ -63,7 +63,7 @@
 					CSHandle *subhandle = [fh subHandleOfLength:[parser tagBytesLeft]];
 
 					[self addEntry:[[[XeeSWFJPEGEntry alloc] initWithHandle:
-																 [CSMultiHandle multiHandleWithHandles:[[jpegtables copy] autorelease], subhandle, nil]
+																 [CSMultiHandle handleWithHandles:[[jpegtables copy] autorelease], subhandle, nil]
 																	   name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
 				} break;
 
@@ -97,7 +97,7 @@
 								CSHandle *subhandle = [fh subHandleOfLength:[parser tagBytesLeft]];
 
 								[self addEntry:[[[XeeSWFJPEGEntry alloc] initWithHandle:
-																			 [CSMultiHandle multiHandleWithHandles:tables, subhandle, nil]
+																			 [CSMultiHandle handleWithHandles:tables, subhandle, nil]
 																				   name:[NSString stringWithFormat:@"Image %d", n++]] autorelease]];
 
 								break;

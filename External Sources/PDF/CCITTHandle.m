@@ -44,7 +44,7 @@ static int ReadLengthWithCodeTable(CSInputBuffer *input, XADPrefixCode *prefixco
 
 - (id)initWithHandle:(CSHandle *)handle columns:(int)columns white:(int)whitevalue
 {
-	if (self = [super initWithHandle:handle]) {
+	if (self = [super initWithInputBufferForHandle:handle]) {
 		cols = columns;
 		white = whitevalue;
 	}

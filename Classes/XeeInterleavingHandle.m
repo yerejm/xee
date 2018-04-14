@@ -10,7 +10,7 @@ static int factor(int n, int *ifact, int *ipower, int *nexp);
 
 @implementation XeeInterleavingHandle
 
-- (id)initWithHandles:(NSArray *)handlearray elementSize:(int)bitsize;
+- (id)initWithHandles:(NSArray<CSHandle *> *)handlearray elementSize:(int)bitsize;
 {
 	if (self = [super initWithName:[[handlearray objectAtIndex:0] name]]) {
 		handles = [handlearray copy];

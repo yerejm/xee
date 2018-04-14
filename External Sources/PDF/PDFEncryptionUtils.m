@@ -94,7 +94,6 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 @end
 
 @implementation PDFAESHandle {
-	CSHandle *parent;
 	off_t startoffs;
 
 	NSData *key, *iv;
@@ -105,8 +104,7 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 
 - (id)initWithHandle:(CSHandle *)handle key:(NSData *)keydata
 {
-	if (self = [super initWithName:[handle name]]) {
-		parent = handle;
+	if (self = [super initWithParentHandle:handle]) {
 		key = [keydata copy];
 
 		iv = [parent copyDataOfLength:16];

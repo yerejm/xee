@@ -27,6 +27,6 @@
 						num:(int)num
 					 stride:(int)stride
 					  width:(int)w
-				bytesPerRow:(int)bprow;
+				bytesPerRow:(NSInteger)bprow;
 
 @end
