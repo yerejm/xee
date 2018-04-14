@@ -599,8 +599,9 @@
 	if (!thumbonly || !thumbhandle) {
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeJpegYUVKey] && cinfo.jpeg_color_space == JCS_YCbCr && cinfo.comp_info[0].h_samp_factor == 2 && (cinfo.comp_info[0].v_samp_factor == 2 || cinfo.comp_info[0].v_samp_factor == 1) && cinfo.comp_info[1].h_samp_factor == 1 && cinfo.comp_info[1].v_samp_factor == 1 && cinfo.comp_info[2].h_samp_factor == 1 && cinfo.comp_info[2].v_samp_factor == 1) {
 			mainimage = [[[XeeYUVImage alloc] initWithWidth:width height:height] autorelease];
-			if (!mainimage)
+			if (!mainimage) {
 				XeeImageLoaderDone(NO);
+			}
 			[self addSubImage:mainimage];
 
 			cinfo.raw_data_out = TRUE;

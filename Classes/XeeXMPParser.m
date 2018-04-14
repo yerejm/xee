@@ -190,8 +190,18 @@
 					timeoffs = -timeoffs;
 			}
 			NSTimeZone *tz = [NSTimeZone timeZoneForSecondsFromGMT:timeoffs * 60];
+			NSDateComponents *dc = [NSDateComponents new];
+			dc.timeZone = tz;
+			dc.year = year;
+			dc.month = month;
+			dc.day = day;
+			dc.hour = hour;
+			dc.minute = minute;
+			dc.second = second;
+			id stuff = [[NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian] dateFromComponents:dc];
+			[dc release];
 
-			return [NSCalendarDate dateWithYear:year month:month day:day hour:hour minute:minute second:second timeZone:tz];
+			return stuff;
 		}
 
 		return text;

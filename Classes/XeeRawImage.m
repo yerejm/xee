@@ -224,14 +224,16 @@ static inline uint16_t clamp16(int a)
 
 - (void)load
 {
-	if (!handle)
+	if (!handle) {
 		XeeImageLoaderDone(NO);
+	}
 	XeeImageLoaderHeaderDone();
 
-	if (![self allocWithType:type width:width height:height])
+	if (![self allocWithType:type width:width height:height]) {
 		XeeImageLoaderDone(NO);
+	}
 
-	int bytesperinputrow = (bitdepth / 8) * width * channels;
+	int bytesperinputrow = (int)((bitdepth / 8) * width * channels);
 
 	if (needsbuffer) {
 		buffer = malloc(bytesperinputrow);
@@ -254,7 +256,7 @@ static inline uint16_t clamp16(int a)
 		if (flipendian) {
 			if (bitdepth == 16) {
 				uint32_t *ptr = (uint32_t *)datarow;
-				int n = width * channels;
+				NSInteger n = width * channels;
 				for (; n > 1; n -= 2) {
 					uint32_t a = *ptr;
 					*ptr++ = ((a & 0xff00ff00) >> 8) | ((a & 0x00ff00ff) << 8);
@@ -266,7 +268,7 @@ static inline uint16_t clamp16(int a)
 				}
 			} else if (bitdepth == 32) {
 				uint32_t *rowptr = (uint32_t *)datarow;
-				int n = width * channels;
+				NSInteger n = width * channels;
 				while (n--) {
 					uint32_t a = rowptr[0];
 					*rowptr++ = ((a & 0xff000000) >> 24) | ((a & 0x00ff0000) >> 8) | ((a & 0x0000ff00) << 8) | ((a & 0x000000ff) << 24);

@@ -44,8 +44,9 @@
 
 - (void)load
 {
-	if (!handle)
+	if (!handle) {
 		XeeImageLoaderDone(NO);
+	}
 	XeeImageLoaderHeaderDone();
 
 	if (![self allocWithType:[pal isTransparent] ? XeeBitmapTypeARGB8 : XeeBitmapTypeRGB8 width:width height:height])

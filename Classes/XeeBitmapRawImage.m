@@ -33,8 +33,9 @@
 
 - (void)load
 {
-	if (!handle)
+	if (!handle) {
 		XeeImageLoaderDone(NO);
+	}
 	XeeImageLoaderHeaderDone();
 
 	if (![self allocWithType:XeeBitmapTypeLuma8 width:width height:height])
