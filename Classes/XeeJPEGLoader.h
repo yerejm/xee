@@ -25,7 +25,7 @@
 	int thumb_len;
 	CSHandle *thumbhandle;
 
-	XeeTileImage *mainimage;
+	__unsafe_unretained XeeTileImage *mainimage;
 
 	BOOL overwriting;
 }

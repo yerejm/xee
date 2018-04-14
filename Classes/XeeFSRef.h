@@ -9,8 +9,10 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (nullable instancetype)refForPath:(NSString *)path NS_SWIFT_UNAVAILABLE("Use `init(path:)` instead");
++ (nullable instancetype)refWithFileURL:(NSURL *)path;
 
 - (nullable instancetype)initWithPath:(NSString *)path;
+- (nullable instancetype)initWithFileURL:(NSURL *)path;
 - (instancetype)initWithFSRef:(FSRef *)fsref NS_DESIGNATED_INITIALIZER;
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 

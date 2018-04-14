@@ -11,10 +11,11 @@
 - (id)initWithBuffer:(uint8_t *)exifdata length:(int)len mutable:(BOOL) mutable
 {
 	if (self = [super init]) {
-		if (mutable)
+		if (mutable) {
 			data = exifdata;
-		else
+		} else {
 			data = NULL;
+		}
 
 		dataobj = nil;
 
@@ -29,9 +30,11 @@
 
 - (id)initWithData:(NSData *)dataobject
 {
-	if (self = [self initWithBuffer:(void *)[dataobject bytes] length:[dataobject length] mutable:NO]) {
+	dataobject = [dataobject copy];
+	if (self = [self initWithBuffer:(void *)[dataobject bytes] length:(int)[dataobject length] mutable:NO]) {
 		dataobj = [dataobject retain];
 	}
+	[dataobject release];
 	return self;
 }
 
@@ -48,10 +51,11 @@
 	if (!prop)
 		return nil;
 
-	if (prop->str)
+	if (prop->str) {
 		return [NSString stringWithCString:prop->str encoding:NSISOLatin1StringEncoding];
-	else
+	} else {
 		return [NSString stringWithFormat:@"%d", prop->value];
+	}
 }
 
 - (int)integerForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
@@ -69,13 +73,14 @@
 	if (!prop)
 		return XeeZeroRational;
 
-	if (exiftags->md.order == BIG)
+	if (exiftags->md.order == BIG) {
 		return XeeMakeRational(XeeBEInt32(prop->valueptr), XeeBEInt32(prop->valueptr + 4));
-	else
+	} else {
 		return XeeMakeRational(XeeLEInt32(prop->valueptr), XeeLEInt32(prop->valueptr + 4));
+	}
 }
 
-- (BOOL)setShort:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+- (BOOL)setShort:(int16_t)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
 {
 	if (!data)
 		return NO;
@@ -83,15 +88,16 @@
 	if (!prop)
 		return NO;
 
-	if (exiftags->md.order == BIG)
+	if (exiftags->md.order == BIG) {
 		XeeSetBEInt16(prop->valueptr, val);
-	else
+	} else {
 		XeeSetLEInt16(prop->valueptr, val);
+	}
 
 	return YES;
 }
 
-- (BOOL)setLong:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
+- (BOOL)setLong:(int32_t)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set
 {
 	if (!data)
 		return NO;
@@ -99,10 +105,11 @@
 	if (!prop)
 		return NO;
 
-	if (exiftags->md.order == BIG)
+	if (exiftags->md.order == BIG) {
 		XeeSetBEInt32(prop->valueptr, val);
-	else
+	} else {
 		XeeSetLEInt32(prop->valueptr, val);
+	}
 
 	return YES;
 }
@@ -144,9 +151,9 @@
 	return NULL;
 }
 
-- (NSArray *)propertyArray
+- (NSArray<XeePropertyItem *> *)propertyArray
 {
-	NSMutableArray *array = [NSMutableArray array];
+	NSMutableArray<XeePropertyItem *> *array = [NSMutableArray array];
 	NSMutableArray *cameraprops = [NSMutableArray array];
 	NSMutableArray *imageprops = [NSMutableArray array];
 	NSMutableArray *otherprops = [NSMutableArray array];
@@ -173,10 +180,11 @@
 
 		// Could use some localizing, maybe?
 		id value;
-		if (prop->str)
+		if (prop->str) {
 			value = [NSString stringWithCString:prop->str encoding:NSISOLatin1StringEncoding];
-		else
-			value = [NSNumber numberWithInt:prop->value];
+		} else {
+			value = @(prop->value);
+		}
 
 		NSString *label = [NSString stringWithCString:prop->descr ? prop->descr : prop->name encoding:NSISOLatin1StringEncoding];
 

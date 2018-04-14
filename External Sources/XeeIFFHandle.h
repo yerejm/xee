@@ -2,10 +2,11 @@
 #import "XeeTypes.h"
 
 @interface XeeIFFHandle : CSFileHandle {
-	uint32_t file_id, file_type;
+	OSType file_id, file_type;
 	off_t file_end;
 	off_t next_chunk;
-	uint32_t curr_id, curr_size;
+	OSType curr_id;
+	uint32_t curr_size;
 	off_t curr_start;
 	int align_mask;
 	BOOL big_endian;
@@ -14,18 +15,18 @@
 - (instancetype)initWithFilePointer:(FILE *)file
 					 closeOnDealloc:(BOOL)closeondealloc
 						description:(NSString *)description
-						   fileType:(uint32_t)type;
+						   fileType:(OSType)type;
 
 @property (readonly) BOOL isShort;
 
-@property (readonly) uint32_t fileID;
-@property (readonly) uint32_t fileType;
+@property (readonly) OSType fileID;
+@property (readonly) OSType fileType;
 
 - (uint32_t)nextChunk;
 
 @property (readonly) off_t offsetInChunk;
 @property (readonly) uint32_t chunkSize;
-@property (readonly) uint32_t chunkID;
+@property (readonly) OSType chunkID;
 @property (readonly) uint32_t bytesLeft;
 
 - (void)seekToChunkOffset:(off_t)offs;

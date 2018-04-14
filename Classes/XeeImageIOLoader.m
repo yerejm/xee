@@ -39,7 +39,7 @@ static void XeeImageIOReleaseInfo(void *info)
 	source = NULL;
 
 	NSMutableDictionary *options = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-															@YES, kCGImageSourceShouldAllowFloat,
+															@YES, (NSString*)kCGImageSourceShouldAllowFloat,
 															nil];
 
 	if (ref) {
@@ -69,8 +69,8 @@ static void XeeImageIOReleaseInfo(void *info)
 		return NULL;
 	}
 
-	width = [[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelWidth] intValue];
-	height = [[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelHeight] intValue];
+	width = [[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelWidth] integerValue];
+	height = [[cgproperties objectForKey:(NSString *)kCGImagePropertyPixelHeight] integerValue];
 
 	[self setDepthForImage:self properties:cgproperties];
 	[self setFormat:[self formatForType:(NSString *)CGImageSourceGetType(source)]];
@@ -104,10 +104,8 @@ static void XeeImageIOReleaseInfo(void *info)
 		return @selector(loadThumbnail);
 	}
 
-	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-											  @YES, kCGImageSourceShouldAllowFloat,
-											  @NO, kCGImageSourceShouldCache,
-											  nil];
+	NSDictionary *options = @{(NSString*)kCGImageSourceShouldAllowFloat: @YES,
+							  (NSString*)kCGImageSourceShouldCache: @NO};
 
 	CGImageRef cgimage = CGImageSourceCreateImageAtIndex(source, current_image++, (CFDictionaryRef)options);
 	if (!cgimage) {

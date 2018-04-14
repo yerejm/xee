@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +14,7 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Xee" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="5" userLabel="Window">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="143" y="344" width="666" height="512"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1024" height="746"/>
@@ -58,7 +58,7 @@
         <drawer trailingOffset="15" id="78" userLabel="DestinationDrawer">
             <size key="contentSize" width="200" height="480"/>
             <size key="minContentSize" width="156" height="100"/>
-            <size key="maxContentSize" width="600" height="400"/>
+            <size key="maxContentSize" width="600" height="480"/>
             <connections>
                 <outlet property="contentView" destination="89" id="92"/>
                 <outlet property="delegate" destination="11" id="120"/>
@@ -72,7 +72,7 @@
                 <button imageHugsTitle="YES" id="242">
                     <rect key="frame" x="458" y="413" width="13" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="leading" alignment="left" imageScaling="proportionallyDown" inset="2" id="254">
+                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="left" imageScaling="proportionallyDown" inset="2" id="254">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -81,7 +81,7 @@
                     </connections>
                 </button>
                 <segmentedControl verticalHuggingPriority="750" id="235">
-                    <rect key="frame" x="1" y="408" width="134" height="20"/>
+                    <rect key="frame" x="1" y="408" width="134" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" style="automatic" trackingMode="selectOne" id="253">
                         <font key="font" metaFont="smallSystem"/>

@@ -361,7 +361,7 @@ static int XeeGIFReadData(GifFileType *gif, GifByteType *buf, int len)
 - (void)clearImage
 {
 	uint32_t *ptr = (uint32_t *)data;
-	int n = (bytesperrow / 4) * height;
+	NSInteger n = (bytesperrow / 4) * height;
 	uint32_t val;
 
 	if (transindex >= 0)
@@ -431,7 +431,7 @@ static int XeeGIFReadData(GifFileType *gif, GifByteType *buf, int len)
 	uint32_t *backup = (uint32_t *)[image backup];
 	uint32_t *ptable = [palette table];
 	uint8_t *src = data;
-	int destwidth = [image bytesPerRow] / 4;
+	NSInteger destwidth = [image bytesPerRow] / 4;
 
 	if (disposal == 3 && backup)
 		for (int y = 0; y < height; y++) {
@@ -459,7 +459,7 @@ static int XeeGIFReadData(GifFileType *gif, GifByteType *buf, int len)
 		return;
 
 	uint32_t *destdata = (uint32_t *)[image data];
-	int destwidth = [image width];
+	NSInteger destwidth = [image width];
 
 	if (disposal == 2) {
 		int background = [image background];

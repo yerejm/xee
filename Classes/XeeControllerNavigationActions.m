@@ -79,12 +79,17 @@
 	[source setSortOrder:[sender tag]];
 }
 
+- (void)stopSlideshow
+{
+	[slideshowtimer invalidate];
+	[slideshowtimer release];
+	slideshowtimer = nil;
+}
+
 - (IBAction)runSlideshow:(id)sender
 {
 	if (slideshowtimer) {
-		[slideshowtimer invalidate];
-		[slideshowtimer release];
-		slideshowtimer = nil;
+		[self stopSlideshow];
 	} else {
 		slideshowcount = 0;
 		slideshowtimer = [[NSTimer scheduledTimerWithTimeInterval:1
@@ -141,6 +146,7 @@
 - (void)slideshowStep:(NSTimer *)timer
 {
 	// Prevent sleeping
+	// TODO: IOPMAssertionCreateWithName
 	UpdateSystemActivity(UsrActivity);
 
 	NSInteger slideshowdelay = [[NSUserDefaults standardUserDefaults] integerForKey:XeeSlideshowDelayKey];
@@ -153,9 +159,7 @@
 			if ([source indexOfCurrentImage] < [source numberOfImages] - 1 || [[NSUserDefaults standardUserDefaults] boolForKey:XeeWrapImageBrowsingKey])
 				[source skip:1];
 			else {
-				[slideshowtimer invalidate];
-				[slideshowtimer release];
-				slideshowtimer = nil;
+				[self stopSlideshow];
 			}
 		}
 	}

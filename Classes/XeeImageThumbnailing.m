@@ -2,7 +2,7 @@
 
 @implementation XeeImage (Thumbnailing)
 
-- (CGImageRef)makeRGBThumbnailOfSize:(int)size
+- (CGImageRef)makeRGBThumbnailOfSize:(NSInteger)size
 {
 	CGImageRef cgimage = [self createCGImage];
 	CGImageRef thumbnail = NULL;
@@ -39,7 +39,7 @@
 	return thumbnail;
 }
 
-- (NSData *)makeJPEGThumbnailOfSize:(int)size maxBytes:(int)maxbytes
+- (NSData *)makeJPEGThumbnailOfSize:(NSInteger)size maxBytes:(NSInteger)maxbytes
 {
 	CGImageRef thumbnail = [self makeRGBThumbnailOfSize:size];
 	if (!thumbnail) {
@@ -49,7 +49,7 @@
 	NSData *thumbdata = NULL;
 	int quality = 60;
 	do {
-		NSMutableData *data = [[NSMutableData alloc] init];
+		NSMutableData *data = [[NSMutableData alloc] initWithCapacity:maxbytes];
 		if (data) {
 			CGImageDestinationRef dest = CGImageDestinationCreateWithData((CFMutableDataRef)data,
 																		  kUTTypeJPEG, 1, NULL);

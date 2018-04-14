@@ -57,29 +57,6 @@
 		1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68CE2C0885F42A001971C8 /* OpenGL.framework */; };
 		1B9094D90C7525F8009E5ACE /* XeePhotoshopLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5DEB40A7E9B6900967AD2 /* XeePhotoshopLoader.m */; };
 		1B9099D10C91BE1A009E5ACE /* XeeInterleavingHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9099D00C91BE1A009E5ACE /* XeeInterleavingHandle.m */; };
-		1B996C250928EE9E0026832A /* jpeg.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C230928EE9E0026832A /* jpeg.icns */; };
-		1B996C260928EE9E0026832A /* Xeei.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C240928EE9E0026832A /* Xeei.icns */; };
-		1B996C52092929DA0026832A /* gif.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C4E092929DA0026832A /* gif.icns */; };
-		1B996C53092929DA0026832A /* png.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C4F092929DA0026832A /* png.icns */; };
-		1B996C54092929DA0026832A /* psd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C50092929DA0026832A /* psd.icns */; };
-		1B996C55092929DA0026832A /* ilbm.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C51092929DA0026832A /* ilbm.icns */; };
-		1B996C7D0929302C0026832A /* pcx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C6B0929302C0026832A /* pcx.icns */; };
-		1B996C7E0929302C0026832A /* pict.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C6C0929302C0026832A /* pict.icns */; };
-		1B996C7F0929302C0026832A /* fax.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C6D0929302C0026832A /* fax.icns */; };
-		1B996C800929302C0026832A /* qtif.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C6E0929302C0026832A /* qtif.icns */; };
-		1B996C810929302C0026832A /* pntg.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C6F0929302C0026832A /* pntg.icns */; };
-		1B996C820929302C0026832A /* exr.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C700929302C0026832A /* exr.icns */; };
-		1B996C830929302C0026832A /* bmp.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C710929302C0026832A /* bmp.icns */; };
-		1B996C840929302C0026832A /* tga.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C720929302C0026832A /* tga.icns */; };
-		1B996C850929302C0026832A /* dng.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C730929302C0026832A /* dng.icns */; };
-		1B996C860929302C0026832A /* fpx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C740929302C0026832A /* fpx.icns */; };
-		1B996C870929302C0026832A /* sgi.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C750929302C0026832A /* sgi.icns */; };
-		1B996C880929302C0026832A /* tiff.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C760929302C0026832A /* tiff.icns */; };
-		1B996C890929302C0026832A /* jp2.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C770929302C0026832A /* jp2.icns */; };
-		1B996C8A0929302C0026832A /* ico.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C780929302C0026832A /* ico.icns */; };
-		1B996C8B0929302C0026832A /* pic.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C790929302C0026832A /* pic.icns */; };
-		1B996C8D0929302C0026832A /* icns.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C7B0929302C0026832A /* icns.icns */; };
-		1B996C8E0929302C0026832A /* xbm.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1B996C7C0929302C0026832A /* xbm.icns */; };
 		1BA51C770E980F7000554F95 /* XeePDFSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9863E0B19FBC0000B4425 /* XeePDFSource.m */; };
 		1BA51CF80E99212E00554F95 /* PDFEncryptionUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA51CF70E99212E00554F95 /* PDFEncryptionUtils.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1BA51CFB0E9921C200554F95 /* PDFStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA51CFA0E9921C200554F95 /* PDFStream.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -113,13 +90,9 @@
 		1BE7D7BE0B2E4739009166F5 /* XeeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE7D7BD0B2E4739009166F5 /* XeeTool.m */; };
 		1BE7D7CC0B2F58F4009166F5 /* XeeMoveTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE7D7CB0B2F58F4009166F5 /* XeeMoveTool.m */; };
 		1BE7D7D10B2F58FD009166F5 /* XeeCropTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE7D7D00B2F58FD009166F5 /* XeeCropTool.m */; };
-		1BEEDCCA0A648BDC00603584 /* raw.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BEEDCC90A648BDC00603584 /* raw.icns */; };
 		1BF142420B094404003A8D57 /* XeeEXIFParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142410B094403003A8D57 /* XeeEXIFParser.m */; };
 		1BF143370B0A6364003A8D57 /* XeePropertiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BF143360B0A6364003A8D57 /* XeePropertiesController.m */; };
 		1BF144930B0B83D3003A8D57 /* PropertyPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF144920B0B83D3003A8D57 /* PropertyPanel.xib */; };
-		1BF289400B56F7E700481BED /* cbz.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BF2893D0B56F7E700481BED /* cbz.icns */; };
-		1BF289410B56F7E700481BED /* cbr.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BF2893E0B56F7E700481BED /* cbr.icns */; };
-		1BF289420B56F7E700481BED /* archive.icns in Resources */ = {isa = PBXBuildFile; fileRef = 1BF2893F0B56F7E700481BED /* archive.icns */; };
 		1BF28B6E0B5B1A5F00481BED /* PrefsWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B6D0B5B1A5E00481BED /* PrefsWindow.xib */; };
 		1BF28B700B5B1A7A00481BED /* CollisionPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B6F0B5B1A7A00481BED /* CollisionPanel.xib */; };
 		1BF28B720B5B1A8500481BED /* RenamePanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BF28B710B5B1A8500481BED /* RenamePanel.xib */; };
@@ -580,29 +553,6 @@
 		1B68CED90885F5D7001971C8 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		1B9099CF0C91BE1A009E5ACE /* XeeInterleavingHandle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeInterleavingHandle.h; sourceTree = "<group>"; };
 		1B9099D00C91BE1A009E5ACE /* XeeInterleavingHandle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = XeeInterleavingHandle.m; sourceTree = "<group>"; };
-		1B996C230928EE9E0026832A /* jpeg.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = jpeg.icns; sourceTree = "<group>"; };
-		1B996C240928EE9E0026832A /* Xeei.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Xeei.icns; sourceTree = "<group>"; };
-		1B996C4E092929DA0026832A /* gif.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = gif.icns; sourceTree = "<group>"; };
-		1B996C4F092929DA0026832A /* png.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = png.icns; sourceTree = "<group>"; };
-		1B996C50092929DA0026832A /* psd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = psd.icns; sourceTree = "<group>"; };
-		1B996C51092929DA0026832A /* ilbm.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ilbm.icns; sourceTree = "<group>"; };
-		1B996C6B0929302C0026832A /* pcx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = pcx.icns; sourceTree = "<group>"; };
-		1B996C6C0929302C0026832A /* pict.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = pict.icns; sourceTree = "<group>"; };
-		1B996C6D0929302C0026832A /* fax.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = fax.icns; sourceTree = "<group>"; };
-		1B996C6E0929302C0026832A /* qtif.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = qtif.icns; sourceTree = "<group>"; };
-		1B996C6F0929302C0026832A /* pntg.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = pntg.icns; sourceTree = "<group>"; };
-		1B996C700929302C0026832A /* exr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = exr.icns; sourceTree = "<group>"; };
-		1B996C710929302C0026832A /* bmp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bmp.icns; sourceTree = "<group>"; };
-		1B996C720929302C0026832A /* tga.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = tga.icns; sourceTree = "<group>"; };
-		1B996C730929302C0026832A /* dng.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = dng.icns; sourceTree = "<group>"; };
-		1B996C740929302C0026832A /* fpx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = fpx.icns; sourceTree = "<group>"; };
-		1B996C750929302C0026832A /* sgi.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = sgi.icns; sourceTree = "<group>"; };
-		1B996C760929302C0026832A /* tiff.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = tiff.icns; sourceTree = "<group>"; };
-		1B996C770929302C0026832A /* jp2.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = jp2.icns; sourceTree = "<group>"; };
-		1B996C780929302C0026832A /* ico.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ico.icns; sourceTree = "<group>"; };
-		1B996C790929302C0026832A /* pic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = pic.icns; sourceTree = "<group>"; };
-		1B996C7B0929302C0026832A /* icns.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icns.icns; sourceTree = "<group>"; };
-		1B996C7C0929302C0026832A /* xbm.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = xbm.icns; sourceTree = "<group>"; };
 		1BA51CF60E99212E00554F95 /* PDFEncryptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFEncryptionUtils.h; sourceTree = "<group>"; };
 		1BA51CF70E99212E00554F95 /* PDFEncryptionUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDFEncryptionUtils.m; sourceTree = "<group>"; };
 		1BA51CF90E9921C200554F95 /* PDFStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFStream.h; sourceTree = "<group>"; };
@@ -728,7 +678,6 @@
 		1BE7D7CB0B2F58F4009166F5 /* XeeMoveTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeMoveTool.m; sourceTree = "<group>"; };
 		1BE7D7CF0B2F58FD009166F5 /* XeeCropTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeCropTool.h; sourceTree = "<group>"; };
 		1BE7D7D00B2F58FD009166F5 /* XeeCropTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeCropTool.m; sourceTree = "<group>"; };
-		1BEEDCC90A648BDC00603584 /* raw.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = raw.icns; sourceTree = "<group>"; };
 		1BF1420F0B094080003A8D57 /* asahi.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = asahi.c; sourceTree = "<group>"; };
 		1BF142100B094080003A8D57 /* canon.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = canon.c; sourceTree = "<group>"; };
 		1BF142110B094080003A8D57 /* casio.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = casio.c; sourceTree = "<group>"; };
@@ -754,9 +703,6 @@
 		1BF143360B0A6364003A8D57 /* XeePropertiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeePropertiesController.m; sourceTree = "<group>"; };
 		1BF1436F0B0A6F95003A8D57 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PropertyPanel.xib; sourceTree = "<group>"; };
 		1BF288E10B55811600481BED /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PrefsWindow.xib; sourceTree = "<group>"; };
-		1BF2893D0B56F7E700481BED /* cbz.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cbz.icns; sourceTree = "<group>"; };
-		1BF2893E0B56F7E700481BED /* cbr.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = cbr.icns; sourceTree = "<group>"; };
-		1BF2893F0B56F7E700481BED /* archive.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = archive.icns; sourceTree = "<group>"; };
 		1BF9A7990B5C3EA000A79EA7 /* XeeDreamcastLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeDreamcastLoader.h; sourceTree = "<group>"; };
 		1BF9A79A0B5C3EA000A79EA7 /* XeeDreamcastLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeDreamcastLoader.m; sourceTree = "<group>"; };
 		1BFB09C90B0FE2C90088CDB4 /* XeeJPEGUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeJPEGUtilities.h; sourceTree = "<group>"; };
@@ -1045,41 +991,6 @@
 				1B07078A0C9F3DA700FA8EBD /* SWFParser.m */,
 			);
 			path = SWF;
-			sourceTree = "<group>";
-		};
-		1BDBF95F08EC71A600C83392 /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				1B996C240928EE9E0026832A /* Xeei.icns */,
-				1B996C230928EE9E0026832A /* jpeg.icns */,
-				1B996C4E092929DA0026832A /* gif.icns */,
-				1B996C4F092929DA0026832A /* png.icns */,
-				1B996C50092929DA0026832A /* psd.icns */,
-				1B996C51092929DA0026832A /* ilbm.icns */,
-				1B996C6B0929302C0026832A /* pcx.icns */,
-				1B996C6C0929302C0026832A /* pict.icns */,
-				1B996C6D0929302C0026832A /* fax.icns */,
-				1B996C6E0929302C0026832A /* qtif.icns */,
-				1B996C6F0929302C0026832A /* pntg.icns */,
-				1B996C700929302C0026832A /* exr.icns */,
-				1B996C710929302C0026832A /* bmp.icns */,
-				1B996C720929302C0026832A /* tga.icns */,
-				1B996C730929302C0026832A /* dng.icns */,
-				1B996C740929302C0026832A /* fpx.icns */,
-				1B996C750929302C0026832A /* sgi.icns */,
-				1B996C760929302C0026832A /* tiff.icns */,
-				1B996C770929302C0026832A /* jp2.icns */,
-				1B996C780929302C0026832A /* ico.icns */,
-				1B996C790929302C0026832A /* pic.icns */,
-				1BEEDCC90A648BDC00603584 /* raw.icns */,
-				1B996C7B0929302C0026832A /* icns.icns */,
-				1B996C7C0929302C0026832A /* xbm.icns */,
-				1BF2893D0B56F7E700481BED /* cbz.icns */,
-				1BF2893E0B56F7E700481BED /* cbr.icns */,
-				1BF2893F0B56F7E700481BED /* archive.icns */,
-			);
-			name = Icons;
-			path = icons;
 			sourceTree = "<group>";
 		};
 		1BE4C10E08E22FB500859EE2 /* libpng */ = {
@@ -1414,7 +1325,6 @@
 				1B262E6508BF97B000648EBC /* Localizable.strings */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				1BDBF95F08EC71A600C83392 /* Icons */,
 				1B2823C60C63F33800AA7D9C /* jpeg_quant.txt */,
 				1B4078270EBA122F008D5F17 /* rgb.txt */,
 				5571AAB21E70AE9200697829 /* Icons.xcassets */,
@@ -1719,7 +1629,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				TargetAttributes = {
 					557CBABC1E8AC3D4008A96AE = {
 						CreatedOnToolsVersion = 8.3;
@@ -1961,40 +1871,13 @@
 				1B262DD008BF8CF200648EBC /* BrowserWindow.xib in Resources */,
 				1B262E6608BF97B000648EBC /* Localizable.strings in Resources */,
 				1BE7849210ABA3AE007EA6F6 /* Credits.rtf in Resources */,
-				1B996C250928EE9E0026832A /* jpeg.icns in Resources */,
-				1B996C260928EE9E0026832A /* Xeei.icns in Resources */,
-				1B996C52092929DA0026832A /* gif.icns in Resources */,
-				1B996C53092929DA0026832A /* png.icns in Resources */,
-				1B996C54092929DA0026832A /* psd.icns in Resources */,
-				1B996C55092929DA0026832A /* ilbm.icns in Resources */,
-				1B996C7D0929302C0026832A /* pcx.icns in Resources */,
-				1B996C7E0929302C0026832A /* pict.icns in Resources */,
-				1B996C7F0929302C0026832A /* fax.icns in Resources */,
-				1B996C800929302C0026832A /* qtif.icns in Resources */,
-				1B996C810929302C0026832A /* pntg.icns in Resources */,
-				1B996C820929302C0026832A /* exr.icns in Resources */,
-				1B996C830929302C0026832A /* bmp.icns in Resources */,
-				1B996C840929302C0026832A /* tga.icns in Resources */,
-				1B996C850929302C0026832A /* dng.icns in Resources */,
-				1B996C860929302C0026832A /* fpx.icns in Resources */,
-				1B996C870929302C0026832A /* sgi.icns in Resources */,
-				1B996C880929302C0026832A /* tiff.icns in Resources */,
-				1B996C890929302C0026832A /* jp2.icns in Resources */,
-				1B996C8A0929302C0026832A /* ico.icns in Resources */,
-				1B996C8B0929302C0026832A /* pic.icns in Resources */,
-				1B996C8D0929302C0026832A /* icns.icns in Resources */,
-				1B996C8E0929302C0026832A /* xbm.icns in Resources */,
 				5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */,
-				1BEEDCCA0A648BDC00603584 /* raw.icns in Resources */,
 				1BF144930B0B83D3003A8D57 /* PropertyPanel.xib in Resources */,
 				1BF28B700B5B1A7A00481BED /* CollisionPanel.xib in Resources */,
 				1BF28B720B5B1A8500481BED /* RenamePanel.xib in Resources */,
 				1BF28B740B5B1A9200481BED /* IconSetWindow.xib in Resources */,
 				1BF28B760B5B1A9D00481BED /* SlideshowDelayPanel.xib in Resources */,
 				1BF28B6E0B5B1A5F00481BED /* PrefsWindow.xib in Resources */,
-				1BF289400B56F7E700481BED /* cbz.icns in Resources */,
-				1BF289410B56F7E700481BED /* cbr.icns in Resources */,
-				1BF289420B56F7E700481BED /* archive.icns in Resources */,
 				1B2823C70C63F33800AA7D9C /* jpeg_quant.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2408,7 +2291,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Xee;
 				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2419,10 +2302,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)\"/Vendor";
-				IBC_STRIP_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cx.c3.xee;
 				PRODUCT_NAME = Xee;
@@ -2437,7 +2318,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = Xee;
 				CLANG_ENABLE_MODULES = YES;
-				COMBINE_HIDPI_IMAGES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -2447,10 +2328,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)\"/Vendor";
-				IBC_STRIP_NIBS = NO;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cx.c3.xee;
 				PRODUCT_NAME = Xee;
@@ -2466,17 +2345,22 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -2484,6 +2368,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -2497,6 +2382,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2509,17 +2395,22 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -2527,6 +2418,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2538,6 +2430,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
@@ -2547,11 +2440,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2560,8 +2450,6 @@
 				);
 				INFOPLIST_FILE = XeeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.XeeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Xee.app/Contents/MacOS/Xee";
@@ -2572,17 +2460,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				INFOPLIST_FILE = XeeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.XeeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Xee.app/Contents/MacOS/Xee";
@@ -2592,9 +2475,7 @@
 		558A1EE21E70E62100C41ADA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2607,7 +2488,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2615,9 +2495,7 @@
 		558A1EE31E70E62100C41ADA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2626,7 +2504,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2634,9 +2511,7 @@
 		558A1F001E70E67F00C41ADA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2649,7 +2524,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2657,9 +2531,7 @@
 		558A1F011E70E67F00C41ADA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2668,7 +2540,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2676,9 +2547,7 @@
 		558A1F441E70E6D500C41ADA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2691,7 +2560,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2699,9 +2567,7 @@
 		558A1F451E70E6D500C41ADA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2710,7 +2576,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2718,9 +2583,7 @@
 		558A1F611E70E72300C41ADA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2733,7 +2596,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2741,9 +2603,7 @@
 		558A1F621E70E72300C41ADA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
@@ -2752,7 +2612,6 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

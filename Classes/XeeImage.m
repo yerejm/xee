@@ -277,7 +277,7 @@
 
 - (void)triggerLoadingAction
 {
-	if (pthread_main_np()) {
+	if ([NSThread isMainThread]) {
 		[delegate xeeImageLoadingProgress:self];
 	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImageLoadingProgress:) withObject:self waitUntilDone:NO];
@@ -287,7 +287,7 @@
 
 - (void)triggerChangeAction
 {
-	if (pthread_main_np()) {
+	if ([NSThread isMainThread]) {
 		[delegate xeeImageDidChange:self];
 	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImageDidChange:) withObject:self waitUntilDone:NO];
@@ -296,7 +296,7 @@
 
 - (void)triggerSizeChangeAction
 {
-	if (pthread_main_np()) {
+	if ([NSThread isMainThread]) {
 		[delegate xeeImageSizeDidChange:self];
 	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImageSizeDidChange:) withObject:self waitUntilDone:NO];
@@ -305,7 +305,7 @@
 
 - (void)triggerPropertyChangeAction
 {
-	if (pthread_main_np()) {
+	if ([NSThread isMainThread]) {
 		[delegate xeeImagePropertiesDidChange:self];
 	} else {
 		[(NSObject *)delegate performSelectorOnMainThread:@selector(xeeImagePropertiesDidChange:) withObject:self waitUntilDone:NO];
@@ -489,10 +489,12 @@
 - (NSString *)descriptiveFilename
 {
 	NSString *name = [self filename];
-	if (name)
+	if (name) {
 		return name;
-	if (delegate && [delegate isKindOfClass:[XeeImage class]])
+	}
+	if (delegate && [delegate isKindOfClass:[XeeImage class]]) {
 		return [(XeeImage *)delegate filename];
+	}
 	return nil;
 }
 
@@ -511,10 +513,11 @@
 
 	orientation = transformation;
 
-	if (sizechanged)
+	if (sizechanged) {
 		[self triggerSizeChangeAction];
-	else
+	} else {
 		[self triggerChangeAction];
+	}
 	[self triggerPropertyChangeAction];
 }
 
@@ -522,9 +525,11 @@
 {
 	correctorientation = transformation;
 
-	if (correctorientation)
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeUseOrientationKey])
+	if (correctorientation) {
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeUseOrientationKey]) {
 			orientation = correctorientation;
+		}
+	}
 }
 
 - (void)setCroppingRect:(NSRect)rect
@@ -548,10 +553,11 @@
 
 - (void)resetTransformations
 {
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeUseOrientationKey])
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:XeeUseOrientationKey]) {
 		orientation = correctorientation;
-	else
+	} else {
 		orientation = XeeNoTransformation;
+	}
 
 	crop_x = crop_y = 0;
 	crop_width = crop_height = 0;

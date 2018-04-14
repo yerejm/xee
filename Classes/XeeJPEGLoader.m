@@ -550,7 +550,7 @@
 	if ([exifhandles count]) {
 		CSHandle *exifhandle = [CSMultiHandle multiHandleWithHandleArray:exifhandles];
 		NSData *data = [exifhandle remainingFileContents];
-		XeeEXIFParser *exif = [[XeeEXIFParser alloc] initWithBuffer:[data bytes] length:[data length]];
+		XeeEXIFParser *exif = [[XeeEXIFParser alloc] initWithData:data];
 		if (exif) {
 			[self setCorrectOrientation:[exif integerForTag:XeeOrientationTag set:XeeStandardTagSet]];
 

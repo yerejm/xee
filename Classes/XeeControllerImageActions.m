@@ -168,8 +168,8 @@ NSInteger XeeNumberOfZoomLevels = 21;
 {
 	[self setResizeBlockFromSender:sender];
 	if (currimage) {
-		int frame = [currimage frame];
-		int frames = [currimage frames];
+		NSInteger frame = [currimage frame];
+		NSInteger frames = [currimage frames];
 		[self setFrame:(frame + 1) % frames];
 	}
 	[self setResizeBlock:NO];
@@ -179,8 +179,8 @@ NSInteger XeeNumberOfZoomLevels = 21;
 {
 	[self setResizeBlockFromSender:sender];
 	if (currimage) {
-		int frame = [currimage frame];
-		int frames = [currimage frames];
+		NSInteger frame = [currimage frame];
+		NSInteger frames = [currimage frames];
 		[self setFrame:(frame + frames - 1) % frames];
 	}
 	[self setResizeBlock:NO];

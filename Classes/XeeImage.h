@@ -127,7 +127,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 - (NSArray *)properties;
 
-@property (readonly, retain) NSDictionary<NSString *, id> *attributes;
+@property (readonly, retain) NSDictionary<NSFileAttributeKey, id> *attributes;
 @property (readonly) uint64_t fileSize;
 @property (readonly) NSDate *date;
 @property (readonly, copy) NSString *descriptiveFilename;

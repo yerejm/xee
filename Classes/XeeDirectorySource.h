@@ -60,7 +60,7 @@
 @interface XeeDirectoryEntry : XeeFileEntry {
 	XeeFSRef *ref;
 	uint64_t size;
-	double time;
+	NSTimeInterval time;
 }
 
 + (XeeDirectoryEntry *)entryWithRef:(XeeFSRef *)ref;

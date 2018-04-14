@@ -11,7 +11,7 @@
 #include <Carbon/Carbon.h>
 #include <ApplicationServices/ApplicationServices.h>
 
-static GLuint make_resize_texture();
+static GLuint make_resize_texture(void);
 
 @implementation XeeView
 @synthesize delegate;
@@ -702,7 +702,7 @@ static const uint32_t resize_data[256] =
 GLuint make_resize_texture()
 {
 	GLuint tex;
-	glGenTextures(1, &tex),
+	glGenTextures(1, &tex);
 		glBindTexture(GL_TEXTURE_2D, tex);
 
 	glPixelStorei(GL_UNPACK_ROW_LENGTH, 16);

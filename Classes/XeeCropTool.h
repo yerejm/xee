@@ -1,29 +1,34 @@
 #import "XeeTool.h"
 
-#define XeeOutsideArea 0
-#define XeeInsideArea 1
-#define XeeTopLeftArea 2
-#define XeeTopRightArea 3
-#define XeeBottomLeftArea 4
-#define XeeBottomRightArea 5
-#define XeeTopArea 6
-#define XeeBottomArea 7
-#define XeeLeftArea 8
-#define XeeRightArea 9
+typedef NS_ENUM(int, XeeCropArea) {
+	XeeAreaOutside = 0,
+	XeeAreaInside = 1,
+	XeeAreaTopLeft = 2,
+	XeeAreaTopRight = 3,
+	XeeAreaBottomLeft = 4,
+	XeeAreaBottomRight = 5,
+	XeeAreaTop = 6,
+	XeeAreaBottom = 7,
+	XeeAreaLeft = 8,
+	XeeAreaRight = 9,
+};
 
-#define XeeNoCropMode 0
-#define XeeResizeCropMode 1
-#define XeeVerticalResizeCropMode 2
-#define XeeHorizontalResizeCropMode 3
-#define XeeMoveCropMode 4
+typedef NS_ENUM(int, XeeCropMode) {
+	XeeCropModeNone = 0,
+	XeeCropModeResize = 1,
+	XeeCropModeVerticalResize = 2,
+	XeeCropModeHorizontalResize = 3,
+	XeeCropModeMove = 4,
+};
 
 @interface XeeCropTool : XeeTool {
-	float o, i;
+	CGFloat o, i;
 
-	int crop_x, crop_y, crop_width, crop_height;
-	int area, mode;
-	int start_x, start_y;
-	float offs_x, offs_y;
+	NSInteger crop_x, crop_y, crop_width, crop_height;
+	XeeCropArea area;
+	XeeCropMode mode;
+	NSInteger start_x, start_y;
+	CGFloat offs_x, offs_y;
 }
 
 - (id)initWithView:(XeeView *)ownerview;
@@ -38,6 +43,6 @@
 - (NSCursor *)cursor;
 - (void)draw;
 
-- (NSRect)croppingRect;
+@property (readonly) NSRect croppingRect;
 
 @end

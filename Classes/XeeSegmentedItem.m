@@ -67,7 +67,7 @@
 	}
 }
 
-- (void)setSegment:(int)segment label:(NSString *)label image:(NSImage *)image longLabel:(NSString *)longlabel width:(int)width action:(SEL)action
+- (void)setSegment:(NSInteger)segment label:(NSString *)label image:(NSImage *)image longLabel:(NSString *)longlabel width:(int)width action:(SEL)action
 {
 	if (segment < 0 || segment >= [control segmentCount])
 		return;
@@ -90,12 +90,12 @@
 	[item setAction:action];
 }
 
-- (void)setSegment:(int)segment label:(NSString *)label longLabel:(NSString *)longlabel action:(SEL)action
+- (void)setSegment:(NSInteger)segment label:(NSString *)label longLabel:(NSString *)longlabel action:(SEL)action
 {
 	[self setSegment:segment label:label image:nil longLabel:longlabel width:0 action:action];
 }
 
-- (void)setSegment:(int)segment imageName:(NSString *)imagename longLabel:(NSString *)longlabel action:(SEL)action
+- (void)setSegment:(NSInteger)segment imageName:(NSString *)imagename longLabel:(NSString *)longlabel action:(SEL)action
 {
 	NSImage *image = [NSImage imageNamed:imagename];
 	[self setSegment:segment label:nil image:image longLabel:longlabel width:[image size].width action:action];

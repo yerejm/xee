@@ -997,7 +997,7 @@
 				<string>xeeicons</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string>Xeei</string>
+			<string>Xee</string>
 			<key>CFBundleTypeName</key>
 			<string>Xee Icon Set</string>
 			<key>CFBundleTypeRole</key>

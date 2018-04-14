@@ -114,7 +114,7 @@ struct jpeg_source_mgr *XeeJPEGSourceManager(struct XeeJPEGSource *src, CSHandle
 	return &src->pub;
 }
 
-void XeeJPEGPlanarToChunky(uint8_t *row, uint8_t *y_row, uint8_t *cb_row, uint8_t *cr_row, int width)
+void XeeJPEGPlanarToChunky(uint8_t *row, uint8_t *y_row, uint8_t *cb_row, uint8_t *cr_row, NSInteger width)
 {
 #ifdef __BIG_ENDIAN__
 #define MOVE(val, from, to) ((((to) > (from)) ? ((val) >> (((to) - (from)) * 8)) : (((val) << ((from) - (to)) * 8))) & (0xff << (24 - (to)*8)))
@@ -122,7 +122,7 @@ void XeeJPEGPlanarToChunky(uint8_t *row, uint8_t *y_row, uint8_t *cb_row, uint8_
 #define MOVE(val, from, to) ((((to) > (from)) ? ((val) << (((to) - (from)) * 8)) : (((val) >> ((from) - (to)) * 8))) & (0xff << ((to)*8)))
 #endif
 
-	int n = (width + 1) / 4;
+	NSInteger n = (width + 1) / 4;
 	uint32_t *row_l = (uint32_t *)row;
 	uint32_t *y_l = (uint32_t *)y_row;
 	uint32_t *cb_l = (uint32_t *)cb_row;
@@ -159,7 +159,7 @@ void XeeJPEGPlanarToChunky(uint8_t *row, uint8_t *y_row, uint8_t *cb_row, uint8_
 	}
 }
 
-BOOL XeeTestJPEGMarker(struct jpeg_marker_struct *marker, int n, int ident_len, void *ident_data)
+BOOL XeeTestJPEGMarker(struct jpeg_marker_struct *marker, int n, NSInteger ident_len, void *ident_data)
 {
 	if (marker->marker != JPEG_APP0 + n)
 		return NO;

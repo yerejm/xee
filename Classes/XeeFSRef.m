@@ -2,15 +2,30 @@
 
 @implementation XeeFSRef
 
-+ (XeeFSRef *)refForPath:(NSString *)path
++ (id)refForPath:(NSString *)path
 {
-	return [[XeeFSRef alloc] initWithPath:path];
+	return [[self alloc] initWithPath:path];
+}
+
++ (instancetype)refWithFileURL:(NSURL *)path
+{
+	return [[self alloc] initWithFileURL:path];
 }
 
 - (id)initWithPath:(NSString *)path
 {
 	FSRef tmpRef;
 	if (FSPathMakeRef((const UInt8 *)[path fileSystemRepresentation], &tmpRef, NULL) != noErr) {
+		return nil;
+	}
+
+	return [self initWithFSRef:&tmpRef];
+}
+
+- (instancetype)initWithFileURL:(NSURL *)path
+{
+	FSRef tmpRef;
+	if (!CFURLGetFSRef((CFURLRef)path, &tmpRef)) {
 		return nil;
 	}
 

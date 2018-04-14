@@ -852,7 +852,6 @@ NSString *XeeRefreshImageNotification = @"XeeRefreshImageNotification";
 						@"jpeg.icns", @"pcx.icns", @"pic.icns", @"pict.icns",
 						@"png.icns", @"pntg.icns", @"psd.icns", @"qtif.icns",
 						@"sgi.icns", @"tga.icns", @"tiff.icns", @"xbm.icns",
-						@"Xeei.icns",
 						nil];
 }
 

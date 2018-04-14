@@ -20,10 +20,11 @@ XeeSpan XeeSpanIntersection(XeeSpan span1, XeeSpan span2)
 {
 	int start = imax(XeeSpanStart(span1), XeeSpanStart(span2));
 	int end = imin(XeeSpanPastEnd(span1), XeeSpanPastEnd(span2));
-	if (start <= end)
+	if (start <= end) {
 		return XeeMakeSpan(start, end - start);
-	else
+	} else {
 		return XeeMakeSpan(start, 0);
+	}
 }
 
 XeeSpan XeeSpanDifference(XeeSpan old, XeeSpan new)
@@ -31,14 +32,15 @@ XeeSpan XeeSpanDifference(XeeSpan old, XeeSpan new)
 	BOOL start_in_old = XeeSpanStartsInSpan(new, old);
 	BOOL end_in_old = XeeSpanEndsInSpan(new, old);
 
-	if (start_in_old && end_in_old)
+	if (start_in_old && end_in_old) {
 		return XeeEmptySpan;
-	else if (start_in_old)
+	} else if (start_in_old) {
 		return XeeMakeSpan(XeeSpanPastEnd(old), XeeSpanPastEnd(new) - XeeSpanPastEnd(old));
-	else if (end_in_old)
+	} else if (end_in_old) {
 		return XeeMakeSpan(XeeSpanStart(new), XeeSpanStart(old) - XeeSpanStart(new));
-	else
+	} else {
 		return XeeSpanUnion(old, new);
+	}
 }
 
 //
@@ -182,18 +184,18 @@ double XeeGetTime()
 // Hex data
 //
 
-NSString *XeeHexDump(const uint8_t *data, int length, int maxlen)
+NSString *XeeHexDump(const uint8_t *data, NSInteger length, NSInteger maxlen)
 {
 	NSMutableString *str = [NSMutableString string];
 
-	int len = imin(length, maxlen);
-	for (int i = 0; i < len; i++)
+	NSInteger len = MIN(length, maxlen);
+	for (NSInteger i = 0; i < len; i++)
 		[str appendFormat:@"%s%02x", i == 0 ? "" : " ", data[i]];
 
 	if (length > maxlen)
 		[str appendFormat:@"..."];
 
-	return str;
+	return [NSString stringWithString:str];
 }
 
 //

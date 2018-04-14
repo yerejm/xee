@@ -2,7 +2,9 @@
 #import "XeeParser.h"
 
 #import "XeeTypes.h"
-#import "exiftags/exif.h"
+#include "exiftags/exif.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class XeePropertyItem;
 
@@ -17,8 +19,9 @@ typedef NS_ENUM(int16_t, XeeEXIFTag) {
 
 };
 
-typedef enum { XeeStandardTagSet }
-XeeEXIFTagSet;
+typedef NS_ENUM(NSInteger, XeeEXIFTagSet) {
+	XeeStandardTagSet
+};
 
 // Rationals
 
@@ -31,10 +34,12 @@ static inline XeeRational XeeMakeRational(int num, int denom)
 	XeeRational res = {num, denom};
 	return res;
 }
+
 static inline int XeeRationalNumerator(XeeRational r)
 {
 	return r.num;
 }
+
 static inline int XeeRationalDenominator(XeeRational r)
 {
 	return r.denom;
@@ -50,22 +55,25 @@ static inline int XeeRationalDenominator(XeeRational r)
 	NSData *dataobj;
 }
 
-- (instancetype)initWithBuffer:(const uint8_t *)exifdata length:(int)len;
-- (instancetype)initWithBuffer:(uint8_t *)exifdata
-						length:(int)len
-					   mutable:(BOOL) mutable;
-- (instancetype)initWithData:(NSData *)data;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (nullable instancetype)initWithBuffer:(const uint8_t *)exifdata length:(int)len;
+- (nullable instancetype)initWithBuffer:(uint8_t *)exifdata
+								 length:(int)len
+								mutable:(BOOL)isMutable NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithData:(NSData *)data;
 
-- (NSString *)stringForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
+- (nullable NSString *)stringForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 - (int)integerForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 - (XeeRational)rationalForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
-- (BOOL)setShort:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
-- (BOOL)setLong:(int)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
+- (BOOL)setShort:(int16_t)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
+- (BOOL)setLong:(int32_t)val forTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 - (BOOL)setRational:(XeeRational)val
 			 forTag:(XeeEXIFTag)tag
 				set:(XeeEXIFTagSet)set;
-- (struct exifprop *)exifPropForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
+- (nullable struct exifprop *)exifPropForTag:(XeeEXIFTag)tag set:(XeeEXIFTagSet)set;
 
 - (NSArray<XeePropertyItem *> *)propertyArray;
 
 @end
+
+NS_ASSUME_NONNULL_END

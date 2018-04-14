@@ -512,10 +512,7 @@ struct XeeTileImageProviderInfo {
 		return GL_LINEAR;
 }
 
-- (uint8_t *)data
-{
-	return data;
-}
+@synthesize data;
 
 - (CGImageRef)createCGImage
 {

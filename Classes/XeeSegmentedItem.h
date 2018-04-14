@@ -18,17 +18,17 @@
 
 - (void)validate;
 
-- (void)setSegment:(int)segment
+- (void)setSegment:(NSInteger)segment
 			 label:(NSString *)label
 			 image:(NSImage *)image
 		 longLabel:(NSString *)longlabel
 			 width:(int)width
 			action:(SEL)action;
-- (void)setSegment:(int)segment
+- (void)setSegment:(NSInteger)segment
 			 label:(NSString *)label
 		 longLabel:(NSString *)longlabel
 			action:(SEL)action;
-- (void)setSegment:(int)segment
+- (void)setSegment:(NSInteger)segment
 		 imageName:(NSString *)imagename
 		 longLabel:(NSString *)longlabel
 			action:(SEL)action;

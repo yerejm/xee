@@ -2,9 +2,9 @@
 
 @interface XeeJPEGImage (LosslessSaving)
 
-- (int)losslessSaveFlags;
-- (NSString *)losslessFormat;
-- (NSString *)losslessExtension;
+- (XeeSaveFormatFlags)losslessSaveFlags;
+@property (readonly, copy) NSString *losslessFormat;
+@property (readonly, copy) NSString *losslessExtension;
 - (BOOL)losslessSaveTo:(NSString *)path flags:(XeeSaveFormatFlags)flags;
 
 @end

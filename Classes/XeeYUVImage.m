@@ -1,11 +1,11 @@
 #import "XeeYUVImage.h"
 
 static void XeeYUVImageReadPixel(uint8_t *row, NSInteger x, NSInteger pixelsize, uint8_t *dest);
-static void XeeBuildYUVConversionTables();
+static void XeeBuildYUVConversionTables(void);
 
 @implementation XeeYUVImage
 
-- (id)initWithWidth:(int)pixelwidth height:(int)pixelheight
+- (id)initWithWidth:(NSInteger)pixelwidth height:(NSInteger)pixelheight
 {
 	if (self = [super init]) {
 		if (![self allocWithWidth:pixelwidth height:pixelheight]) {
@@ -43,7 +43,7 @@ static void XeeBuildYUVConversionTables();
 #endif
 }
 
-- (BOOL)allocWithWidth:(int)pixelwidth height:(int)pixelheight
+- (BOOL)allocWithWidth:(NSInteger)pixelwidth height:(NSInteger)pixelheight
 {
 	int bprow = (2 * pixelwidth + 2) & ~3;
 	void *newdata = malloc(pixelheight * bprow);

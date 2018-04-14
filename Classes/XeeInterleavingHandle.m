@@ -13,8 +13,8 @@ static int factor(int n, int *ifact, int *ipower, int *nexp);
 - (id)initWithHandles:(NSArray *)handlearray elementSize:(int)bitsize;
 {
 	if (self = [super initWithName:[[handlearray objectAtIndex:0] name]]) {
-		handles = [handlearray retain];
-		n2 = [handles count];
+		handles = [handlearray copy];
+		n2 = (int)[handles count];
 		bits = bitsize;
 	}
 	return self;
@@ -73,6 +73,8 @@ static int factor(int n, int *ifact, int *ipower, int *nexp);
 
 #import <stdio.h>
 #import <stdlib.h>
+
+static void transpose(uint8_t *buf,int n1,int n2);
 
 void test(int n1, int n2)
 {
@@ -360,7 +362,7 @@ static int factor(int n, int *ifact, int *ipower, int *nexp)
 	}
 }
 
-/*
+#ifdef TEST
 static void transpose(uint8_t *buf,int n1,int n2)
 {
 	int n=n1;
@@ -464,4 +466,4 @@ static void transpose(uint8_t *buf,int n1,int n2)
 		idiv/=ipower[i];
 	}
 }
-*/
+#endif

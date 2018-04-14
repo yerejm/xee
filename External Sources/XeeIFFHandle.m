@@ -6,7 +6,7 @@
 @synthesize chunkSize = curr_size;
 @synthesize chunkID = curr_id;
 
-- (id)initWithFilePointer:(FILE *)file closeOnDealloc:(BOOL)closeondealloc description:(NSString *)description fileType:(uint32_t)type
+- (id)initWithFilePointer:(FILE *)file closeOnDealloc:(BOOL)closeondealloc description:(NSString *)description fileType:(OSType)type
 {
 	if (self = [super initWithFilePointer:file closeOnDealloc:closeondealloc name:description]) {
 		file_id = [super readID];

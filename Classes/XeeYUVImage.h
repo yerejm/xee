@@ -2,14 +2,14 @@
 
 @interface XeeYUVImage : XeeTileImage
 
-- (instancetype)initWithWidth:(int)pixelwidth height:(int)pixelheight;
+- (instancetype)initWithWidth:(NSInteger)pixelwidth height:(NSInteger)pixelheight;
 
 - (void)setData:(uint8_t *)pixeldata
 	   freeData:(BOOL)willfree
 		  width:(NSInteger)pixelwidth
 		 height:(NSInteger)pixelheight
 	bytesPerRow:(NSInteger)bprow;
-- (BOOL)allocWithWidth:(int)pixelwidth height:(int)pixelheight;
+- (BOOL)allocWithWidth:(NSInteger)pixelwidth height:(NSInteger)pixelheight;
 
 - (void)fixYUVGamma;
 

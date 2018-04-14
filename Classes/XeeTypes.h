@@ -234,7 +234,7 @@ void XeeGLMultMatrix(XeeMatrix m);
 //
 // Transformations
 //
-typedef CF_ENUM(unsigned int, XeeTransformation) {
+typedef NS_ENUM(unsigned int, XeeTransformation) {
 	XeeUnknownTransformation = 0,
 	XeeNoTransformation = 1,
 	XeeMirrorHorizontalTransformation = 2,
@@ -272,7 +272,7 @@ double XeeGetTime(void);
 // Hex Data
 //
 
-NSString *XeeHexDump(const uint8_t *data, int length, int maxlen);
+NSString *XeeHexDump(const uint8_t *data, NSInteger length, NSInteger maxlen);
 
 //
 // Events

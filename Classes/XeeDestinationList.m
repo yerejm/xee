@@ -217,12 +217,12 @@ void XeePlayPoof(NSWindow *somewindow);
 	[super mouseDown:event];
 }
 
-- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)local
+- (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
 {
 	return NSDragOperationMove | NSDragOperationDelete;
 }
 
-- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)point operation:(NSDragOperation)operation
+- (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
 	if (operation != NSDragOperationMove)
 		XeePlayPoof([self window]);

@@ -966,21 +966,19 @@ static CSKeyboardShortcuts *defaultshortcuts = nil;
 	[super mouseDown:event];
 }
 
-- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)local
-{
-	return NSDragOperationMove | NSDragOperationDelete;
-}
-
 - (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context
 {
 	return NSDragOperationMove | NSDragOperationDelete;
 }
 
-- (void)draggedImage:(NSImage *)image endedAt:(NSPoint)point operation:(NSDragOperation)operation
+- (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
 	if (operation != NSDragOperationMove) {
+		NSRect ourRect;
+		ourRect.origin = [[self window] mouseLocationOutsideOfEventStream];
+		ourRect.size = NSMakeSize(1, 1);
 		NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault,
-							  [[self window] convertBaseToScreen:[[self window] mouseLocationOutsideOfEventStream]],
+							  [[self window] convertRectToScreen:ourRect].origin,
 							  NSZeroSize, nil, nil, nil);
 	}
 }

@@ -2,7 +2,7 @@
 
 @interface XeeImage (Thumbnailing)
 
-- (CGImageRef)makeRGBThumbnailOfSize:(int)size CF_RETURNS_RETAINED;
-- (NSData *)makeJPEGThumbnailOfSize:(int)size maxBytes:(int)maxbytes;
+- (CGImageRef)makeRGBThumbnailOfSize:(NSInteger)size CF_RETURNS_RETAINED;
+- (NSData *)makeJPEGThumbnailOfSize:(NSInteger)size maxBytes:(NSInteger)maxbytes;
 
 @end

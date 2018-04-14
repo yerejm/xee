@@ -9,17 +9,17 @@
 
 @implementation XeeJPEGImage (LosslessSaving)
 
-- (int)losslessSaveFlags
+- (XeeSaveFormatFlags)losslessSaveFlags
 {
 	if (currindex != 0)
 		return [super losslessSaveFlags];
 
-	int flags = XeeCanSaveLosslesslyFlag;
+	XeeSaveFormatFlags flags = XeeCanSaveLosslesslyFlag;
 
 	if (ref && !overwriting)
 		flags |= XeeCanOverwriteLosslesslyFlag;
 
-	int orient = [mainimage orientation];
+	XeeTransformation orient = [mainimage orientation];
 	int trimmed_width = width - width % mcu_width;
 	int trimmed_height = height - height % mcu_height;
 	XeeMatrix m = XeeMatrixForTransformation(orient, trimmed_width, trimmed_height);
