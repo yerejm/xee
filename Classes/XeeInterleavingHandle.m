@@ -12,7 +12,7 @@ static int factor(int n, int *ifact, int *ipower, int *nexp);
 
 - (id)initWithHandles:(NSArray<CSHandle *> *)handlearray elementSize:(int)bitsize;
 {
-	if (self = [super initWithName:[[handlearray objectAtIndex:0] name]]) {
+	if (self = [super initWithParentHandle:[handlearray objectAtIndex:0]]) {
 		handles = [handlearray copy];
 		n2 = (int)[handles count];
 		bits = bitsize;
