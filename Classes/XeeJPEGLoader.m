@@ -17,7 +17,12 @@
 
 + (NSArray *)fileTypes
 {
-	return @[ @"jpg", @"jpeg", @"jpe", NSFileTypeForHFSTypeCode('JPEG'), (NSString *)kUTTypeJPEG ];
+	static NSArray *fType;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fType = [@[ @"jpg", @"jpeg", @"jpe", NSFileTypeForHFSTypeCode('JPEG'), (NSString *)kUTTypeJPEG ] retain];
+	});
+	return fType;
 }
 
 + (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;

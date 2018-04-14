@@ -41,7 +41,12 @@ struct pcx_header {
 
 + (NSArray *)fileTypes
 {
-	return @[ @"pcx", NSFileTypeForHFSTypeCode('PCX '), NSFileTypeForHFSTypeCode('PCXf') /*,(NSString*)kUTTypePCX*/ ];
+	static NSArray *fType;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fType = [@[ @"pcx", NSFileTypeForHFSTypeCode('PCX '), NSFileTypeForHFSTypeCode('PCXf') /*,(NSString*)kUTTypePCX*/ ] retain];
+	});
+	return fType;
 }
 
 + (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes

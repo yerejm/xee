@@ -19,7 +19,12 @@
 
 + (NSArray *)fileTypes
 {
-	return [NSArray arrayWithObjects:@"iff", @"ilbm", @"lbm", NSFileTypeForHFSTypeCode('ILBM'), @"com.ea.iff-ilbm", nil]; //@"'PNG '",@"'PNGf'",nil];
+	static NSArray *fType;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fType = @[@"iff", @"ilbm", @"lbm", NSFileTypeForHFSTypeCode('ILBM'), @"com.ea.iff-ilbm"];
+	});
+	return fType;
 }
 
 + (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes

@@ -6,7 +6,12 @@
 
 + (NSArray *)fileTypes
 {
-	return @[ @"xbm", @"public.xbitmap-image" ];
+	static NSArray *fType;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fType = [@[ @"xbm", @"public.xbitmap-image" ] retain];
+	});
+	return fType;
 }
 
 + (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;

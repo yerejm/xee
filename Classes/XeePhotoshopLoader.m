@@ -13,7 +13,12 @@
 
 + (NSArray *)fileTypes
 {
-	return [NSArray arrayWithObjects:@"psd", NSFileTypeForHFSTypeCode('8BPS'), nil];
+	static NSArray *fType;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		fType = [@[@"psd", NSFileTypeForHFSTypeCode('8BPS'), @"com.adobe.photoshop-image"] retain];
+	});
+	return fType;
 }
 
 + (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes
