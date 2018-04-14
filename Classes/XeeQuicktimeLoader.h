@@ -2,8 +2,10 @@
 
 #if !__LP64__
 
-//#import <QuickTime/ImageCompression.h>
-//#import <QuickTime/QuickTimeComponents.h>
+#if __has_include(<QuickTime/QuickTime.h>)
+#include <QuickTime/ImageCompression.h>
+#include <QuickTime/QuickTimeComponents.h>
+#endif
 
 @class XeeBitmapImage;
 
