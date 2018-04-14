@@ -73,21 +73,21 @@
 
 		finished = loaded = NO;
 
-		coro = [self newCoroutine];
+		//coro = [self newCoroutine];
 
-		CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
+		//CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
 		@try {
-			[(XeeImage *)coro load];
+			[self load];
 		}
 		@catch (NSException *e) {
-			[CSCoroutine setCurrentCoroutine:currcoro];
+			//[CSCoroutine setCurrentCoroutine:currcoro];
 			NSLog(@"Exception during initial loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 			finished = YES;
 		}
 
 		if (finished) {
-			[coro release];
-			coro = nil;
+			//[coro release];
+			//coro = nil;
 		}
 
 		if (finished && !loaded) {
@@ -157,19 +157,19 @@
 	if (finished)
 		return;
 
-	CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
+	//CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
 	@try {
-		[coro switchTo];
+		//[coro switchTo];
 	}
 	@catch (NSException *e) {
-		[CSCoroutine setCurrentCoroutine:currcoro];
+		//[CSCoroutine setCurrentCoroutine:currcoro];
 		NSLog(@"Exception during loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 		finished = YES;
 	}
 
 	if (finished) {
-		[coro release];
-		coro = nil;
+		//[coro release];
+		//coro = nil;
 		[self triggerChangeAction];
 	}
 }
@@ -189,14 +189,15 @@
 		nextselector = (SEL)[self performSelector:nextselector];
 
 		if (!hashead && (width && height)) {
-			XeeImageLoaderHeaderDone();
+			//XeeImageLoaderHeaderDone();
 		} else {
-			XeeImageLoaderYield();
+			//XeeImageLoaderYield();
 		}
 	} while (nextselector);
 
 	[self deallocLoader];
-	XeeImageLoaderDone(loaded);
+	finished = true;
+	//XeeImageLoaderDone(loaded);
 }
 
 - (SEL)initLoader

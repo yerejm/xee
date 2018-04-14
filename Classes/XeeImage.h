@@ -195,6 +195,13 @@ static inline void __XeeImageLoaderDone(BOOL success, BOOL *loaded,
 #define XeeImageLoaderDone(success) \
 	__XeeImageLoaderDone(success, &loaded, &finished, coro)
 
+#else
+#define XeeImageLoaderDone(success) do { \
+loaded = success; \
+finished = YES; \
+} while (0)
+#define XeeImageLoaderHeaderDone()
+#define XeeImageLoaderYield()
 #endif
 
 @protocol XeeImageDelegate <NSObject>
