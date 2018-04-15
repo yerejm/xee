@@ -56,6 +56,11 @@ PNG_tEXt;
 PNG_tIME;
 PNG_tRNS;
 PNG_zTXt;
+#ifdef PNG_APNG_SUPPORTED
+PNG_acTL;
+PNG_fcTL;
+PNG_fdAT;
+#endif
 
 #ifdef PNG_READ_SUPPORTED
 /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
@@ -731,17 +736,21 @@ png_get_copyright(png_structp png_ptr)
 #else
 #ifdef __STDC__
    return ((png_charp) PNG_STRING_NEWLINE \
-     "libpng version 1.2.56 - December 17, 2015" PNG_STRING_NEWLINE \
+     "libpng version 1.2.56+apng - December 17, 2015" PNG_STRING_NEWLINE \
      "Copyright (c) 1998-2002,2004,2006-2015 Glenn Randers-Pehrson" \
      PNG_STRING_NEWLINE \
      "Copyright (c) 1996-1997 Andreas Dilger" PNG_STRING_NEWLINE \
      "Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc." \
-     PNG_STRING_NEWLINE);
+     PNG_STRING_NEWLINE \
+     "Portions Copyright (c) 2006-2007 Andrew Smith" PNG_STRING_NEWLINE \
+     "Portions Copyright (c) 2008-2015 Max Stepin" PNG_STRING_NEWLINE);
 #else
-   return ((png_charp) "libpng version 1.2.56 - December 17, 2015\
+   return ((png_charp) "libpng version 1.2.56+apng - December 17, 2015\
       Copyright (c) 1998-2002,2004,2006-2015 Glenn Randers-Pehrson\
       Copyright (c) 1996-1997 Andreas Dilger\
-      Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.");
+      Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\
+      Portions Copyright (c) 2006-2007 Andrew Smith\
+      Portions Copyright (c) 2008-2015 Max Stepin");
 #endif
 #endif
 }

@@ -57,6 +57,10 @@ png_write_info_before_PLTE(png_structp png_ptr, png_infop info_ptr)
    /* The rest of these check to see if the valid field has the appropriate
     * flag set, and if it does, writes the chunk.
     */
+#ifdef PNG_WRITE_APNG_SUPPORTED
+   if (info_ptr->valid & PNG_INFO_acTL)
+      png_write_acTL(png_ptr, info_ptr->num_frames, info_ptr->num_plays);
+#endif
 #ifdef PNG_WRITE_gAMA_SUPPORTED
    if (info_ptr->valid & PNG_INFO_gAMA)
    {
@@ -320,6 +324,10 @@ png_write_end(png_structp png_ptr, png_infop info_ptr)
       return;
    if (!(png_ptr->mode & PNG_HAVE_IDAT))
       png_error(png_ptr, "No IDATs written into file");
+#ifdef PNG_WRITE_APNG_SUPPORTED
+   if (png_ptr->num_frames_written != png_ptr->num_frames_to_write)
+      png_error(png_ptr, "Not enough frames written");
+#endif
 
    /* See if user wants us to write information chunks */
    if (info_ptr != NULL)
@@ -1476,4 +1484,38 @@ png_write_png(png_structp png_ptr, png_infop info_ptr,
    PNG_UNUSED(params)
 }
 #endif
+
+#ifdef PNG_WRITE_APNG_SUPPORTED
+void PNGAPI
+png_write_frame_head(png_structp png_ptr, png_infop info_ptr,
+    png_bytepp row_pointers, png_uint_32 width, png_uint_32 height,
+    png_uint_32 x_offset, png_uint_32 y_offset,
+    png_uint_16 delay_num, png_uint_16 delay_den, png_byte dispose_op,
+    png_byte blend_op)
+{
+    png_debug(1, "in png_write_frame_head");
+
+    /* there is a chance this has been set after png_write_info was called,
+    * so it would be set but not written. is there a way to be sure? */
+    if (!(info_ptr->valid & PNG_INFO_acTL))
+        png_error(png_ptr, "png_write_frame_head(): acTL not set");
+
+    png_write_reset(png_ptr);
+
+    png_write_reinit(png_ptr, info_ptr, width, height);
+
+    if ( !(png_ptr->num_frames_written == 0 &&
+           (png_ptr->apng_flags & PNG_FIRST_FRAME_HIDDEN) ) )
+        png_write_fcTL(png_ptr, width, height, x_offset, y_offset,
+                       delay_num, delay_den, dispose_op, blend_op);
+}
+
+void PNGAPI
+png_write_frame_tail(png_structp png_ptr, png_infop info_ptr)
+{
+    png_debug(1, "in png_write_frame_tail");
+
+    png_ptr->num_frames_written++;
+}
+#endif /* PNG_WRITE_APNG_SUPPORTED */
 #endif /* PNG_WRITE_SUPPORTED */

@@ -965,6 +965,10 @@
 #  define PNG_NO_READ_tEXt
 #  define PNG_NO_READ_zTXt
 #endif
+#ifndef PNG_NO_READ_APNG
+#  define PNG_READ_APNG_SUPPORTED
+#  define PNG_APNG_SUPPORTED
+#endif
 #ifndef PNG_NO_READ_bKGD
 #  define PNG_READ_bKGD_SUPPORTED
 #  define PNG_bKGD_SUPPORTED
@@ -1189,6 +1193,14 @@
 #  define PNG_WRITE_TEXT_SUPPORTED
 #  ifndef PNG_TEXT_SUPPORTED
 #    define PNG_TEXT_SUPPORTED
+#  endif
+#endif
+#ifndef PNG_NO_WRITE_APNG
+#  ifndef PNG_WRITE_APNG_SUPPORTED
+#    define PNG_WRITE_APNG_SUPPORTED
+#  endif
+#  ifndef PNG_APNG_SUPPORTED
+#    define PNG_APNG_SUPPORTED
 #  endif
 #endif
 
