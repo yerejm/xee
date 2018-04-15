@@ -816,17 +816,21 @@ png_get_copyright(png_const_structrp png_ptr)
 #else
 #  ifdef __STDC__
    return PNG_STRING_NEWLINE \
-      "libpng version 1.6.34 - September 29, 2017" PNG_STRING_NEWLINE \
+      "libpng version 1.6.34+apng - September 29, 2017" PNG_STRING_NEWLINE \
       "Copyright (c) 1998-2002,2004,2006-2017 Glenn Randers-Pehrson" \
       PNG_STRING_NEWLINE \
       "Copyright (c) 1996-1997 Andreas Dilger" PNG_STRING_NEWLINE \
       "Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc." \
-      PNG_STRING_NEWLINE;
+      PNG_STRING_NEWLINE \
+      "Portions Copyright (c) 2006-2007 Andrew Smith" PNG_STRING_NEWLINE \
+      "Portions Copyright (c) 2008-2017 Max Stepin" PNG_STRING_NEWLINE ;
 #  else
-   return "libpng version 1.6.34 - September 29, 2017\
+   return "libpng version 1.6.34+apng - September 29, 2017\
       Copyright (c) 1998-2002,2004,2006-2017 Glenn Randers-Pehrson\
       Copyright (c) 1996-1997 Andreas Dilger\
-      Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.";
+      Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\
+      Portions Copyright (c) 2006-2007 Andrew Smith\
+      Portions Copyright (c) 2008-2017 Max Stepin";
 #  endif
 #endif
 }
