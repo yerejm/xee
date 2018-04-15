@@ -2,7 +2,10 @@
 
 #import "libpng/png.h"
 
+@class XeePNGFrame;
+
 @interface XeePNGImage : XeeBitmapImage {
+	NSMutableArray<XeePNGFrame*> *frames;
 	png_structp png;
 	png_infop info;
 
@@ -20,5 +23,11 @@
 - (SEL)startLoading;
 - (SEL)loadImage;
 - (SEL)finishLoading;
+
+@end
+
+@interface XeePNGFrame : NSObject {
+
+}
 
 @end

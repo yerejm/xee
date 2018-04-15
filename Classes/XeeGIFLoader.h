@@ -7,7 +7,7 @@
 @interface XeeGIFImage : XeeBitmapImage {
 	GifFileType *gif;
 
-	NSMutableArray *frames;
+	NSMutableArray<XeeGIFFrame*> *frames;
 	NSMutableArray *comments;
 
 	int background;
