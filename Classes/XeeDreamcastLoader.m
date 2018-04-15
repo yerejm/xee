@@ -9,15 +9,15 @@
 #define PIXEL_8BIT 6
 #define PIXEL_LAST_EXPANDABLE PIXEL_ARGB4444
 
-static int CalculateMipmapSize(int width, int height)
+static int CalculateMipmapSize(NSInteger width, NSInteger height)
 {
-	int sum = 0;
+	NSInteger sum = 0;
 	while (width && height) {
 		width /= 2;
 		height /= 2;
 		sum += width * height;
 	}
-	return sum + 1;
+	return (int)(sum + 1);
 }
 
 __unused static uint32_t InterleavedCoords(uint32_t x, uint32_t y)
@@ -288,13 +288,13 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 
 	int x_offs, y_offs, size;
 	if (width > height) {
-		x_offs = height;
+		x_offs = (int)height;
 		y_offs = 0;
-		size = height * height;
+		size = (int)(height * height);
 	} else {
 		x_offs = 0;
-		y_offs = width;
-		size = width * width;
+		y_offs = (int)width;
+		size = (int)(width * width);
 	}
 
 	for (int n = 0; n < height * width; n++) {
@@ -317,13 +317,13 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 
 	int x_offs, y_offs, size;
 	if (width > height) {
-		x_offs = height;
+		x_offs = (int)height;
 		y_offs = 0;
-		size = height * height;
+		size = (int)(height * height);
 	} else {
 		x_offs = 0;
-		y_offs = width;
-		size = width * width;
+		y_offs = (int)width;
+		size = (int)(width * width);
 	}
 
 	for (int n = 0; n < height * width; n += 4) {
@@ -364,13 +364,13 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 
 	int x_offs, y_offs, size;
 	if (width > height) {
-		x_offs = height;
+		x_offs = (int)height;
 		y_offs = 0;
-		size = height * height;
+		size = (int)(height * height);
 	} else {
 		x_offs = 0;
-		y_offs = width;
-		size = width * width;
+		y_offs = (int)width;
+		size = (int)(width * width);
 	}
 
 	for (int n = 0; n < height * width; n++) {
@@ -412,13 +412,13 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 
 	int x_offs, y_offs, size;
 	if (width > height) {
-		x_offs = height;
+		x_offs = (int)height;
 		y_offs = 0;
-		size = height * height;
+		size = (int)(height * height);
 	} else {
 		x_offs = 0;
-		y_offs = width;
-		size = width * width;
+		y_offs = (int)width;
+		size = (int)(width * width);
 	}
 
 	for (int n = 0; n < height * width; n += 2) {
@@ -473,7 +473,7 @@ static void WritePixel(XeeDreamcastImage *self, int x, int y, uint32_t col)
 
 	uint8_t rowbuf[width * 2];
 	for (int row = 0; row < height; row++) {
-		[fh readBytes:width * 2 toBuffer:rowbuf];
+		[fh readBytes:(int)(width * 2) toBuffer:rowbuf];
 
 		uint32_t *dest = (uint32_t *)(data + row * bytesperrow);
 		for (int col = 0; col < width; col++)

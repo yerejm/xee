@@ -61,7 +61,7 @@
 
 	[self allocWithType:XeeBitmapTypeLuma8 width:width height:height];
 
-	int shortsperrow = (width + 15) / 16;
+	int shortsperrow = (int)((width + 15) / 16);
 	int intsperrow = shortsperrow * (shorts ? 1 : 2);
 	int pixelsperint = shorts ? 16 : 8;
 

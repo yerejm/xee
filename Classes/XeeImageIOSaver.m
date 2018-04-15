@@ -16,7 +16,7 @@
 
 	CGImageRelease(cgimage);
 
-	return [self canSaveImageWithBitDepth:depth floating:info & kCGBitmapFloatComponents ? YES : NO];
+	return [self canSaveImageWithBitDepth:(int)depth floating:info & kCGBitmapFloatComponents ? YES : NO];
 }
 
 + (BOOL)canSaveImageWithBitDepth:(int)depth floating:(BOOL)floating

@@ -75,8 +75,8 @@
 
 	NSArray *metaprops = [parser propertyArrayWithPhotoshopFirst:YES];
 	BOOL hasmerged = [parser hasMergedImage];
-	int numcols = [parser numberOfIndexedColours];
-	int trans = [parser indexOfTransparentColour];
+	int numcols = (int)[parser numberOfIndexedColours];
+	int trans = (int)[parser indexOfTransparentColour];
 	if (trans >= 0)
 		[pal setTransparent:trans];
 
@@ -287,8 +287,8 @@
 			case XeePhotoshopGreyscaleMode:
 			case XeePhotoshopDuotoneMode:
 				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:1 alpha:hasalpha]
-														   width:width
-														  height:height
+														   width:(int)width
+														  height:(int)height
 														   depth:bitdepth
 													 colourSpace:XeeGreyRawColourSpace
 														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0) | (bitdepth == 32 ? XeeFloatingPointRawFlag : 0)]
@@ -297,8 +297,8 @@
 
 			case XeePhotoshopRGBMode:
 				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:3 alpha:hasalpha]
-														   width:width
-														  height:height
+														   width:(int)width
+														  height:(int)height
 														   depth:bitdepth
 													 colourSpace:XeeRGBRawColourSpace
 														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0) | (bitdepth == 32 ? XeeFloatingPointRawFlag : 0)]
@@ -307,8 +307,8 @@
 
 			case XeePhotoshopCMYKMode:
 				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:4 alpha:hasalpha]
-														   width:width
-														  height:height
+														   width:(int)width
+														  height:(int)height
 														   depth:bitdepth
 													 colourSpace:XeeCMYKRawColourSpace
 														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0)]
@@ -322,8 +322,8 @@
 
 			case XeePhotoshopLabMode:
 				mainimage = [[[XeeRawImage alloc] initWithHandle:[self handleForNumberOfChannels:3 alpha:hasalpha]
-														   width:width
-														  height:height
+														   width:(int)width
+														  height:(int)height
 														   depth:bitdepth
 													 colourSpace:XeeLabRawColourSpace
 														   flags:XeeBigEndianRawFlag | XeeAlphaPrecomposedRawFlag | (hasalpha ? XeeAlphaLastRawFlag : 0)]
@@ -385,7 +385,7 @@
 
 	NSMutableArray *array = [NSMutableArray array];
 	off_t totalsize = 0;
-	int bpr = (bitdepth * width + 7) / 8;
+	int bpr = (int)((bitdepth * width + 7) / 8);
 
 	int compression = [handle readUInt16BE];
 	switch (compression) {
@@ -400,7 +400,7 @@
 		case 1:
 			for (int i = 0; i < numchannels; i++) {
 				XeePackbitsHandle *ph = [[[XeePackbitsHandle alloc] initWithHandle:[[handle copy] autorelease]
-																			  rows:height
+																			  rows:(int)height
 																	   bytesPerRow:bpr
 																		   channel:i
 																				of:channels

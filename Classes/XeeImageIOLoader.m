@@ -5,7 +5,7 @@
 
 static size_t XeeImageIOGetBytes(void *info, void *buffer, size_t count)
 {
-	return [(CSHandle *)info readAtMost:count toBuffer:buffer];
+	return [(CSHandle *)info readAtMost:(int)count toBuffer:buffer];
 }
 
 static off_t XeeImageIOSkipBytes(void *info, off_t count)

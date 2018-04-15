@@ -41,8 +41,8 @@ static int fi(int x, int y);
 	BOOL res = NO;
 	CGImageRef cgimage = [image createCGImage];
 	if (cgimage) {
-		int pixelwidth = CGImageGetWidth(cgimage);
-		int pixelheight = CGImageGetHeight(cgimage);
+		int pixelwidth = (int)CGImageGetWidth(cgimage);
+		int pixelheight = (int)CGImageGetHeight(cgimage);
 
 		XeeBitmapImage *bmimage = [[[XeeBitmapImage alloc] initWithType:XeeBitmapTypeNRGB8 width:pixelwidth height:pixelheight] autorelease];
 
@@ -60,7 +60,7 @@ static int fi(int x, int y);
 					[fh writeInt32BE:pixelheight];
 
 					uint8_t *data = [bmimage data];
-					int bpr = [bmimage bytesPerRow];
+					int bpr = (int)[bmimage bytesPerRow];
 					int left, n, x, y;
 					uint8_t prev;
 

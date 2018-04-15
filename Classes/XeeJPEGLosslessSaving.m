@@ -20,8 +20,8 @@
 		flags |= XeeCanOverwriteLosslesslyFlag;
 
 	XeeTransformation orient = [mainimage orientation];
-	int trimmed_width = width - width % mcu_width;
-	int trimmed_height = height - height % mcu_height;
+	int trimmed_width = (int)(width - width % mcu_width);
+	int trimmed_height = (int)(height - height % mcu_height);
 	XeeMatrix m = XeeMatrixForTransformation(orient, trimmed_width, trimmed_height);
 	NSRect crop = [mainimage rawCroppingRect];
 	NSRect destcrop = XeeTransformRect(m, crop);
@@ -82,8 +82,8 @@
 		};
 
 	int orient = [mainimage orientation];
-	int trimmed_width = width - width % mcu_width;
-	int trimmed_height = height - height % mcu_height;
+	int trimmed_width = (int)(width - width % mcu_width);
+	int trimmed_height = (int)(height - height % mcu_height);
 	XeeMatrix m = XeeMatrixForTransformation(orient, trimmed_width, trimmed_height);
 	NSRect crop = [mainimage rawCroppingRect];
 	NSRect destcrop = XeeTransformRect(m, crop);

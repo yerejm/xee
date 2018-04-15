@@ -12,7 +12,7 @@
 	if (self = [super initWithHandle:fh]) {
 		width = w;
 		height = h;
-		bytesperfilerow = bpr;
+		bytesperfilerow = (int)bpr;
 		zero = 255;
 		one = 0;
 		buffer = NULL;

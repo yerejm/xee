@@ -57,7 +57,7 @@
 	NSMutableArray *items = [NSMutableArray arrayWithObject:heading];
 
 	for (NSInteger i = 1; i < count; i++) {
-		[items addObject:[self itemWithLabel:@"" value:[values objectAtIndex:i] heading:heading position:i]];
+		[items addObject:[self itemWithLabel:@"" value:[values objectAtIndex:i] heading:heading position:(int)i]];
 	}
 
 	return items;
