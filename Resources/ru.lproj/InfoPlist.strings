@@ -1,4 +1,4 @@
-﻿/* Localized versions of Info.plist keys */
+/* Localized versions of Info.plist keys */
 
 CFBundleName = "Xee";
-NSHumanReadableCopyright = "Создана в 2005-2010 Dag Ågren и выпущена в свободный доступ.\nv2.2.1 2013 CocooaBob\nCopyright © vit9696 2013-2016";
+NSHumanReadableCopyright = "Создана в 2005-2010 Dag Ågren и выпущена в свободный доступ.\nv2.3 2013 CocooaBob\nCopyright © vit9696 2013-2016";

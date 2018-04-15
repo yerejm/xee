@@ -10,7 +10,7 @@
 	static NSArray *types;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSMutableArray *toAdd = [NSMutableArray arrayWithCapacity:20];
+		NSMutableArray *toAdd = [NSMutableArray arrayWithCapacity:27];
 		[toAdd addObjectsFromArray:
 				   @[ @"zip", @"cbz", @"rar", @"cbr", @"7z", @"cb7", @"lha", @"lzh",
 					  @"000", @"001", @"iso", @"bin", @"alz", @"sit", @"sitx" ]];

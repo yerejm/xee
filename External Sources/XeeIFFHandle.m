@@ -267,7 +267,7 @@ XeeIFFReadValueImpl(uint32_t, readID);
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"XeeIFFHandle for file \"%@\", position %lld in chunk %c%c%c%c",
-									  path, [self offsetInChunk], (curr_id >> 24) & 0xff, (curr_id >> 16) & 0xff, (curr_id >> 8) & 0xff, curr_id & 0xff];
+									  path, [self offsetInChunk], (char)((curr_id >> 24) & 0xff), (char)((curr_id >> 16) & 0xff), (char)((curr_id >> 8) & 0xff), (char)(curr_id & 0xff)];
 }
 
 + (id)IFFHandleWithPath:(NSString *)path
