@@ -4,6 +4,7 @@
 #define PNG_NO_PROGRESSIVE_READ
 #define PNG_NO_READ_hIST
 #define PNG_iTXt_SUPPORTED
+#define PNG_INTEL_SSE
 
 #ifdef __BIG_ENDIAN__
 #define PNG_READ_BIG_ENDIAN_SUPPORTED

@@ -6,7 +6,7 @@ int is_png_gray_palette(png_structp png, png_infop info);
 
 static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 {
-	[(CSHandle *)png->io_ptr readBytes:len toBuffer:buf];
+	[(CSHandle *)png_get_io_ptr(png) readBytes:len toBuffer:buf];
 }
 
 + (NSArray *)fileTypes

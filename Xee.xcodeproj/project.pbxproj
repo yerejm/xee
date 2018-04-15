@@ -113,6 +113,13 @@
 		1BFB0E4F0B139D420088CDB4 /* XeeArchiveSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E4E0B139D420088CDB4 /* XeeArchiveSource.m */; };
 		1BFB0E520B139D4C0088CDB4 /* XeeClipboardSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BFB0E510B139D4C0088CDB4 /* XeeClipboardSource.m */; };
 		1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BFF73280B6AF5C500E0900B /* IOKit.framework */; };
+		55718BBA2084038E00C809E0 /* intel_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 55718BB82084038E00C809E0 /* intel_init.c */; };
+		55718BBB2084038E00C809E0 /* filter_sse2_intrinsics.c in Sources */ = {isa = PBXBuildFile; fileRef = 55718BB92084038E00C809E0 /* filter_sse2_intrinsics.c */; };
+		55718BC0208403DD00C809E0 /* pnginfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 55718BBC208403DC00C809E0 /* pnginfo.h */; };
+		55718BC1208403DD00C809E0 /* pngstruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 55718BBD208403DC00C809E0 /* pngstruct.h */; };
+		55718BC2208403DD00C809E0 /* pngdebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 55718BBE208403DD00C809E0 /* pngdebug.h */; };
+		55718BC3208403DD00C809E0 /* pngpriv.h in Headers */ = {isa = PBXBuildFile; fileRef = 55718BBF208403DD00C809E0 /* pngpriv.h */; };
+		55718BC72084051E00C809E0 /* pnglibconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 55718BC52084051E00C809E0 /* pnglibconf.h */; };
 		5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAA81E70A3DF00697829 /* Security.framework */; };
 		5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5571AAB21E70AE9200697829 /* Icons.xcassets */; };
 		557CBAC01E8AC3D4008A96AE /* XeeCoroutineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 557CBABF1E8AC3D4008A96AE /* XeeCoroutineTests.m */; };
@@ -636,6 +643,14 @@
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
 		2A37F4B7FDCFA73011CA2CEA /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* Xee_Prefix.pch */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = Xee_Prefix.pch; sourceTree = "<group>"; };
+		55718BB82084038E00C809E0 /* intel_init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = intel_init.c; sourceTree = "<group>"; };
+		55718BB92084038E00C809E0 /* filter_sse2_intrinsics.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = filter_sse2_intrinsics.c; sourceTree = "<group>"; };
+		55718BBC208403DC00C809E0 /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
+		55718BBD208403DC00C809E0 /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
+		55718BBE208403DD00C809E0 /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
+		55718BBF208403DD00C809E0 /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
+		55718BC42084051E00C809E0 /* pnglibconf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pnglibconf.c; sourceTree = "<group>"; };
+		55718BC52084051E00C809E0 /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
 		5571AAA81E70A3DF00697829 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5571AAAA1E70A3F500697829 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		5571AAAB1E70A3F600697829 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -824,12 +839,19 @@
 		1BE4C10E08E22FB500859EE2 /* libpng */ = {
 			isa = PBXGroup;
 			children = (
+				55718BB72084038E00C809E0 /* intel */,
 				1BE4C11008E22FB500859EE2 /* png.h */,
+				55718BC52084051E00C809E0 /* pnglibconf.h */,
 				1BE4C11108E22FB500859EE2 /* pngconf.h */,
 				1BE4C2D808E38EDE00859EE2 /* pngusr.h */,
+				55718BBE208403DD00C809E0 /* pngdebug.h */,
+				55718BBC208403DC00C809E0 /* pnginfo.h */,
+				55718BBF208403DD00C809E0 /* pngpriv.h */,
+				55718BBD208403DC00C809E0 /* pngstruct.h */,
 				1BE4C10F08E22FB500859EE2 /* png.c */,
 				1BE4C11208E22FB500859EE2 /* pngerror.c */,
 				1BE4C11308E22FB500859EE2 /* pngget.c */,
+				55718BC42084051E00C809E0 /* pnglibconf.c */,
 				1BE4C11408E22FB500859EE2 /* pngmem.c */,
 				1BE4C11508E22FB500859EE2 /* pngpread.c */,
 				1BE4C11608E22FB500859EE2 /* pngread.c */,
@@ -1181,6 +1203,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		55718BB72084038E00C809E0 /* intel */ = {
+			isa = PBXGroup;
+			children = (
+				55718BB82084038E00C809E0 /* intel_init.c */,
+				55718BB92084038E00C809E0 /* filter_sse2_intrinsics.c */,
+			);
+			path = intel;
+			sourceTree = "<group>";
+		};
 		5571AAB01E70A40600697829 /* Additional frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1281,9 +1312,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55718BC2208403DD00C809E0 /* pngdebug.h in Headers */,
+				55718BC0208403DD00C809E0 /* pnginfo.h in Headers */,
 				558A1F561E70E6E800C41ADA /* pngconf.h in Headers */,
 				558A1F571E70E6E800C41ADA /* pngusr.h in Headers */,
+				55718BC72084051E00C809E0 /* pnglibconf.h in Headers */,
 				558A1F551E70E6E800C41ADA /* png.h in Headers */,
+				55718BC3208403DD00C809E0 /* pngpriv.h in Headers */,
+				55718BC1208403DD00C809E0 /* pngstruct.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1601,9 +1637,11 @@
 				558A1F461E70E6E300C41ADA /* png.c in Sources */,
 				558A1F511E70E6E300C41ADA /* pngwio.c in Sources */,
 				558A1F4F1E70E6E300C41ADA /* pngset.c in Sources */,
+				55718BBB2084038E00C809E0 /* filter_sse2_intrinsics.c in Sources */,
 				558A1F4A1E70E6E300C41ADA /* pngpread.c in Sources */,
 				558A1F481E70E6E300C41ADA /* pngget.c in Sources */,
 				558A1F4B1E70E6E300C41ADA /* pngread.c in Sources */,
+				55718BBA2084038E00C809E0 /* intel_init.c in Sources */,
 				558A1F4E1E70E6E300C41ADA /* pngrutil.c in Sources */,
 				558A1F541E70E6E300C41ADA /* pngwutil.c in Sources */,
 				558A1F4D1E70E6E300C41ADA /* pngrtran.c in Sources */,
