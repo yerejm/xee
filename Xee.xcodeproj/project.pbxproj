@@ -860,8 +860,10 @@
 				1BE4C11E08E22FB500859EE2 /* pngwtran.c */,
 				1BE4C11F08E22FB500859EE2 /* pngwutil.c */,
 			);
+			indentWidth = 3;
 			path = libpng;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		1BE4C16808E23B6C00859EE2 /* libungif */ = {
 			isa = PBXGroup;
