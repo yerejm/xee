@@ -219,7 +219,6 @@
 		558A1F541E70E6E300C41ADA /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C11F08E22FB500859EE2 /* pngwutil.c */; };
 		558A1F551E70E6E800C41ADA /* png.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4C11008E22FB500859EE2 /* png.h */; };
 		558A1F561E70E6E800C41ADA /* pngconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4C11108E22FB500859EE2 /* pngconf.h */; };
-		558A1F571E70E6E800C41ADA /* pngusr.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BE4C2D808E38EDE00859EE2 /* pngusr.h */; };
 		558A1F5A1E70E6FA00C41ADA /* libpng.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 558A1F421E70E6D500C41ADA /* libpng.a */; };
 		558A1F631E70E73300C41ADA /* dgif_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C16908E23B6C00859EE2 /* dgif_lib.c */; };
 		558A1F641E70E73300C41ADA /* egif_lib.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BE4C16A08E23B6C00859EE2 /* egif_lib.c */; };
@@ -475,7 +474,6 @@
 		1BE4C16D08E23B6C00859EE2 /* gif_lib_private.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = gif_lib_private.h; sourceTree = "<group>"; };
 		1BE4C16E08E23B6C00859EE2 /* gifalloc.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = gifalloc.c; sourceTree = "<group>"; };
 		1BE4C16F08E23B6C00859EE2 /* quantize.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = quantize.c; sourceTree = "<group>"; };
-		1BE4C2D808E38EDE00859EE2 /* pngusr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngusr.h; sourceTree = "<group>"; };
 		1BE4C37A08E4C58300859EE2 /* XeePCXLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeePCXLoader.h; sourceTree = "<group>"; };
 		1BE4C37B08E4C58300859EE2 /* XeePCXLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeePCXLoader.m; sourceTree = "<group>"; };
 		1BE4C37D08E4C5A300859EE2 /* XeeILBMLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeILBMLoader.h; sourceTree = "<group>"; };
@@ -649,7 +647,6 @@
 		55718BBD208403DC00C809E0 /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
 		55718BBE208403DD00C809E0 /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
 		55718BBF208403DD00C809E0 /* pngpriv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngpriv.h; sourceTree = "<group>"; };
-		55718BC42084051E00C809E0 /* pnglibconf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pnglibconf.c; sourceTree = "<group>"; };
 		55718BC52084051E00C809E0 /* pnglibconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnglibconf.h; sourceTree = "<group>"; };
 		5571AAA81E70A3DF00697829 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		5571AAAA1E70A3F500697829 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -843,7 +840,6 @@
 				1BE4C11008E22FB500859EE2 /* png.h */,
 				55718BC52084051E00C809E0 /* pnglibconf.h */,
 				1BE4C11108E22FB500859EE2 /* pngconf.h */,
-				1BE4C2D808E38EDE00859EE2 /* pngusr.h */,
 				55718BBE208403DD00C809E0 /* pngdebug.h */,
 				55718BBC208403DC00C809E0 /* pnginfo.h */,
 				55718BBF208403DD00C809E0 /* pngpriv.h */,
@@ -851,7 +847,6 @@
 				1BE4C10F08E22FB500859EE2 /* png.c */,
 				1BE4C11208E22FB500859EE2 /* pngerror.c */,
 				1BE4C11308E22FB500859EE2 /* pngget.c */,
-				55718BC42084051E00C809E0 /* pnglibconf.c */,
 				1BE4C11408E22FB500859EE2 /* pngmem.c */,
 				1BE4C11508E22FB500859EE2 /* pngpread.c */,
 				1BE4C11608E22FB500859EE2 /* pngread.c */,
@@ -1315,7 +1310,6 @@
 				55718BC2208403DD00C809E0 /* pngdebug.h in Headers */,
 				55718BC0208403DD00C809E0 /* pnginfo.h in Headers */,
 				558A1F561E70E6E800C41ADA /* pngconf.h in Headers */,
-				558A1F571E70E6E800C41ADA /* pngusr.h in Headers */,
 				55718BC72084051E00C809E0 /* pnglibconf.h in Headers */,
 				558A1F551E70E6E800C41ADA /* png.h in Headers */,
 				55718BC3208403DD00C809E0 /* pngpriv.h in Headers */,
@@ -1950,10 +1944,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Xee_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					PNG_USER_CONFIG,
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)\"/Vendor";
@@ -1983,10 +1974,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Xee_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					PNG_USER_CONFIG,
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)\"/Vendor";
@@ -2216,10 +2204,7 @@
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = lib;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					PNG_USER_CONFIG,
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -2236,10 +2221,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				EXECUTABLE_PREFIX = lib;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					PNG_USER_CONFIG,
-					"$(inherited)",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
