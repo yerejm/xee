@@ -44,6 +44,7 @@ static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 	height = png_get_image_height(png, info);
 	bit_depth = png_get_bit_depth(png, info);
 	color_type = png_get_color_type(png, info);
+	frame_count = png_get_num_frames(png, info);
 
 	switch (color_type) {
 		case PNG_COLOR_TYPE_GRAY:
@@ -78,7 +79,11 @@ static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 		}
 	}
 
-	[self setFormat:@"PNG"];
+	if (frame_count == 1) {
+		[self setFormat:@"PNG"];
+	} else {
+		[self setFormat:@"APNG"];
+	}
 
 	current_line = 0;
 	current_pass = 0;
@@ -258,6 +263,13 @@ static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 	return NULL;
 }
 
+@end
+
+@implementation XeePNGImage (APNG)
+- (BOOL)animated
+{
+	return frame_count > 1;
+}
 @end
 
 int is_png_gray_palette(png_structp png, png_infop info)
