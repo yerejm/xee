@@ -56,7 +56,6 @@
 		1B5D4919086DFD7F004480AB /* XeeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5D4918086DFD7F004480AB /* XeeDelegate.m */; };
 		1B5E0A420C8A37DA00F22867 /* CSCoroutine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5E0A410C8A37DA00F22867 /* CSCoroutine.m */; };
 		1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68CE2C0885F42A001971C8 /* OpenGL.framework */; };
-		1B68CEDA0885F5D7001971C8 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B68CED90885F5D7001971C8 /* QuickTime.framework */; };
 		1B9094D90C7525F8009E5ACE /* XeePhotoshopLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE5DEB40A7E9B6900967AD2 /* XeePhotoshopLoader.m */; };
 		1B9099D10C91BE1A009E5ACE /* XeeInterleavingHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B9099D00C91BE1A009E5ACE /* XeeInterleavingHandle.m */; };
 		1BA51C770E980F7000554F95 /* XeePDFSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BB9863E0B19FBC0000B4425 /* XeePDFSource.m */; };
@@ -116,7 +115,6 @@
 		5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5571AAA81E70A3DF00697829 /* Security.framework */; };
 		5571AAB31E70AE9200697829 /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5571AAB21E70AE9200697829 /* Icons.xcassets */; };
 		557CBAC01E8AC3D4008A96AE /* XeeCoroutineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 557CBABF1E8AC3D4008A96AE /* XeeCoroutineTests.m */; };
-		558372A21E7F71DD007221B7 /* XeeQuicktimeLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B262C3408BE6A4900648EBC /* XeeQuicktimeLoader.m */; };
 		558A1EE41E70E63300C41ADA /* asahi.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF1420F0B094080003A8D57 /* asahi.c */; };
 		558A1EE51E70E63300C41ADA /* canon.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142100B094080003A8D57 /* canon.c */; };
 		558A1EE61E70E63300C41ADA /* casio.c in Sources */ = {isa = PBXBuildFile; fileRef = 1BF142110B094080003A8D57 /* casio.c */; };
@@ -317,8 +315,6 @@
 		1B1D53130B03F876009AA7EB /* XeeCGImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeCGImage.m; sourceTree = "<group>"; };
 		1B1D534F0B0405F4009AA7EB /* XeeNSImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeNSImage.h; sourceTree = "<group>"; };
 		1B1D53500B0405F4009AA7EB /* XeeNSImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeNSImage.m; sourceTree = "<group>"; };
-		1B262C3308BE6A4900648EBC /* XeeQuicktimeLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeQuicktimeLoader.h; sourceTree = "<group>"; };
-		1B262C3408BE6A4900648EBC /* XeeQuicktimeLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeQuicktimeLoader.m; sourceTree = "<group>"; };
 		1B262C3808BE6A5900648EBC /* XeeGIFLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XeeGIFLoader.h; sourceTree = "<group>"; };
 		1B262C3908BE6A5900648EBC /* XeeGIFLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XeeGIFLoader.m; sourceTree = "<group>"; };
 		1B262E6308BF979E00648EBC /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -381,7 +377,6 @@
 		1B5E0A410C8A37DA00F22867 /* CSCoroutine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSCoroutine.m; sourceTree = "<group>"; };
 		1B66365B0B1F7B7400AF779A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IconSetWindow.xib; sourceTree = "<group>"; };
 		1B68CE2C0885F42A001971C8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		1B68CED90885F5D7001971C8 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		1B9099CF0C91BE1A009E5ACE /* XeeInterleavingHandle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = XeeInterleavingHandle.h; sourceTree = "<group>"; };
 		1B9099D00C91BE1A009E5ACE /* XeeInterleavingHandle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = XeeInterleavingHandle.m; sourceTree = "<group>"; };
 		1BA51CF60E99212E00554F95 /* PDFEncryptionUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDFEncryptionUtils.h; sourceTree = "<group>"; };
@@ -699,7 +694,6 @@
 				5571AAA91E70A3DF00697829 /* Security.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				1B68CEC80885F4B1001971C8 /* OpenGL.framework in Frameworks */,
-				1B68CEDA0885F5D7001971C8 /* QuickTime.framework in Frameworks */,
 				1B3D30D909351D7A00345FD0 /* Carbon.framework in Frameworks */,
 				1BFF73290B6AF5C500E0900B /* IOKit.framework in Frameworks */,
 				7FC411DE17DC0A8600626F23 /* libz.tbd in Frameworks */,
@@ -863,8 +857,6 @@
 		1BE4C35108E4C43800859EE2 /* Image Loading */ = {
 			isa = PBXGroup;
 			children = (
-				1B262C3308BE6A4900648EBC /* XeeQuicktimeLoader.h */,
-				1B262C3408BE6A4900648EBC /* XeeQuicktimeLoader.m */,
 				1B00E4590A7AEAE70094B997 /* XeeImageIOLoader.h */,
 				1B00E45A0A7AEAE70094B997 /* XeeImageIOLoader.m */,
 				1BE5DEAE0A7E9B5D00967AD2 /* XeeJPEGLoader.h */,
@@ -1173,7 +1165,6 @@
 				7FC411DD17DC0A8600626F23 /* libz.tbd */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 				1B3D30D809351D7A00345FD0 /* Carbon.framework */,
-				1B68CED90885F5D7001971C8 /* QuickTime.framework */,
 				1B68CE2C0885F42A001971C8 /* OpenGL.framework */,
 				1BFF73280B6AF5C500E0900B /* IOKit.framework */,
 				5571AAB01E70A40600697829 /* Additional frameworks */,
@@ -1668,7 +1659,6 @@
 				1BFB0E4C0B139D370088CDB4 /* XeeDirectorySource.m in Sources */,
 				1BFB0E4F0B139D420088CDB4 /* XeeArchiveSource.m in Sources */,
 				1BFB0E520B139D4C0088CDB4 /* XeeClipboardSource.m in Sources */,
-				558372A21E7F71DD007221B7 /* XeeQuicktimeLoader.m in Sources */,
 				1BB983620B187BAA000B4425 /* XeeControllerImageActions.m in Sources */,
 				1BB983670B187BB8000B4425 /* XeeControllerNavigationActions.m in Sources */,
 				1BB9836C0B187BC7000B4425 /* XeeControllerFileActions.m in Sources */,
@@ -1957,7 +1947,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2001,6 +1991,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -2008,7 +1999,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -2049,6 +2040,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
