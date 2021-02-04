@@ -32,7 +32,7 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	BOOL finished, loaded, thumbonly;
 	volatile BOOL stop;
 
-	CSCoroutine *coro;
+//	CSCoroutine *coro;
 
 	NSString *format;
 	NSInteger width, height;
@@ -174,25 +174,28 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 @end
 
-static inline void __XeeImageLoaderYield(volatile BOOL *stop, CSCoroutine *coro)
+static inline void __XeeImageLoaderYield(volatile BOOL *stop)//, CSCoroutine *coro)
 {
-	if (*stop) {
-		*stop = NO;
-		[coro returnFrom];
-	}
+//	if (*stop) {
+		//*stop = NO;
+		//[coro returnFrom];
+//	}
 }
 static inline void __XeeImageLoaderDone(BOOL success, BOOL *loaded,
-										BOOL *finished, CSCoroutine *coro)
+										BOOL *finished) //, CSCoroutine *coro)
 {
 	*loaded = success;
 	*finished = YES;
-	for (;;)
-		[coro returnFrom];
+//	for (;;)
+//		[coro returnFrom];
 }
-#define XeeImageLoaderHeaderDone() [coro returnFrom]
-#define XeeImageLoaderYield() __XeeImageLoaderYield(&stop, coro)
+#define XeeImageLoaderHeaderDone()
+//[coro returnFrom]
+#define XeeImageLoaderYield() __XeeImageLoaderYield(&stop)
+//, coro)
 #define XeeImageLoaderDone(success) \
-	__XeeImageLoaderDone(success, &loaded, &finished, coro)
+	__XeeImageLoaderDone(success, &loaded, &finished)
+//, coro)
 
 @protocol XeeImageDelegate <NSObject>
 

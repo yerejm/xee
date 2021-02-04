@@ -33,7 +33,7 @@
 		finished = loaded = YES;
 		thumbonly = stop = NO;
 
-		coro = nil;
+//		coro = nil;
 
 		format = nil;
 		width = height = 0;
@@ -75,21 +75,22 @@
 
 		finished = loaded = NO;
 
-		coro = [self newCoroutine];
+//		coro = [self newCoroutine];
 
-		CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
+//		CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
 		@try {
-			[(XeeImage *)coro load];
+//            [(XeeImage *)coro load];
+			[self load];
 		}
 		@catch (NSException *e) {
-			[CSCoroutine setCurrentCoroutine:currcoro];
+//			[CSCoroutine setCurrentCoroutine:currcoro];
 			NSLog(@"Exception during initial loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 			finished = YES;
 		}
 
 		if (finished) {
-			[coro release];
-			coro = nil;
+//			[coro release];
+//			coro = nil;
 		}
 
 		if (finished && !loaded) {
@@ -143,7 +144,7 @@
 	[ref release];
 	[attrs release];
 
-	[coro release];
+//	[coro release];
 
 	[format release];
 	[depth release];
@@ -161,19 +162,19 @@
 	if (finished)
 		return;
 
-	CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
+//	CSCoroutine *currcoro = [CSCoroutine currentCoroutine];
 	@try {
-		[coro switchTo];
+//		[coro switchTo];
 	}
 	@catch (NSException *e) {
-		[CSCoroutine setCurrentCoroutine:currcoro];
+//		[CSCoroutine setCurrentCoroutine:currcoro];
 		NSLog(@"Exception during loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 		finished = YES;
 	}
 
 	if (finished) {
-		[coro release];
-		coro = nil;
+//		[coro release];
+//		coro = nil;
 		[self triggerChangeAction];
 	}
 }
