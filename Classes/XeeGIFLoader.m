@@ -52,7 +52,8 @@ static int XeeGIFReadData(GifFileType *gif, GifByteType *buf, int len)
 
 - (SEL)initLoader
 {
-	gif = DGifOpen([self handle], XeeGIFReadData);
+    int giferr;
+	gif = DGifOpen([self handle], XeeGIFReadData, &giferr);
 	if (!gif)
 		return NULL;
 
@@ -74,8 +75,9 @@ static int XeeGIFReadData(GifFileType *gif, GifByteType *buf, int len)
 
 - (void)deallocLoader
 {
+    int giferr;
 	if (gif)
-		DGifCloseFile(gif);
+		DGifCloseFile(gif, &giferr);
 }
 
 - (SEL)startLoading

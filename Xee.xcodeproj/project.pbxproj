@@ -225,6 +225,8 @@
 		5641B87125CCE40D00CAE1EA /* pngstruct.h in Headers */ = {isa = PBXBuildFile; fileRef = 5641B87025CCE40D00CAE1EA /* pngstruct.h */; };
 		5641B87325CCE42800CAE1EA /* pnginfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 5641B87225CCE42700CAE1EA /* pnginfo.h */; };
 		5641B87525CCE44300CAE1EA /* pngdebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 5641B87425CCE44300CAE1EA /* pngdebug.h */; };
+		5641B87825CCE8C200CAE1EA /* gif_hash.h in Headers */ = {isa = PBXBuildFile; fileRef = 5641B87625CCE87800CAE1EA /* gif_hash.h */; };
+		5641B87A25CCE9B700CAE1EA /* openbsd-reallocarray.c in Sources */ = {isa = PBXBuildFile; fileRef = 5641B87925CCE9B700CAE1EA /* openbsd-reallocarray.c */; };
 		7FC411DE17DC0A8600626F23 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FC411DD17DC0A8600626F23 /* libz.tbd */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.xib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -656,6 +658,8 @@
 		5641B87025CCE40D00CAE1EA /* pngstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngstruct.h; sourceTree = "<group>"; };
 		5641B87225CCE42700CAE1EA /* pnginfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pnginfo.h; sourceTree = "<group>"; };
 		5641B87425CCE44300CAE1EA /* pngdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngdebug.h; sourceTree = "<group>"; };
+		5641B87625CCE87800CAE1EA /* gif_hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gif_hash.h; sourceTree = "<group>"; };
+		5641B87925CCE9B700CAE1EA /* openbsd-reallocarray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "openbsd-reallocarray.c"; sourceTree = "<group>"; };
 		7FC411DD17DC0A8600626F23 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Xee.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xee.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -858,6 +862,8 @@
 		1BE4C16808E23B6C00859EE2 /* libungif */ = {
 			isa = PBXGroup;
 			children = (
+				5641B87925CCE9B700CAE1EA /* openbsd-reallocarray.c */,
+				5641B87625CCE87800CAE1EA /* gif_hash.h */,
 				1BE4C16908E23B6C00859EE2 /* dgif_lib.c */,
 				1BE4C16A08E23B6C00859EE2 /* egif_lib.c */,
 				1BE4C16B08E23B6C00859EE2 /* gif_err.c */,
@@ -1302,6 +1308,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5641B87825CCE8C200CAE1EA /* gif_hash.h in Headers */,
 				558A1F661E70E73300C41ADA /* gif_lib.h in Headers */,
 				558A1F671E70E73300C41ADA /* gif_lib_private.h in Headers */,
 			);
@@ -1627,6 +1634,7 @@
 			files = (
 				558A1F681E70E73300C41ADA /* gifalloc.c in Sources */,
 				558A1F641E70E73300C41ADA /* egif_lib.c in Sources */,
+				5641B87A25CCE9B700CAE1EA /* openbsd-reallocarray.c in Sources */,
 				558A1F651E70E73300C41ADA /* gif_err.c in Sources */,
 				558A1F691E70E73300C41ADA /* quantize.c in Sources */,
 				558A1F631E70E73300C41ADA /* dgif_lib.c in Sources */,
