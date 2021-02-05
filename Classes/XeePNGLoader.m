@@ -1,4 +1,5 @@
 #import "XeePNGLoader.h"
+#import "libpng/pngstruct.h"
 
 int is_png_gray_palette(png_structp png, png_infop info);
 
