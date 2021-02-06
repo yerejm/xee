@@ -1,3 +1,23 @@
+/*
+ * XADRegex.h
+ *
+ * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 #import <Foundation/Foundation.h>
 
 #ifdef _WIN32
@@ -23,17 +43,17 @@
 
 +(NSString *)null;
 
--(instancetype)init UNAVAILABLE_ATTRIBUTE;
--(instancetype)initWithPattern:(NSString *)pattern options:(int)options NS_DESIGNATED_INITIALIZER;
+-(id)initWithPattern:(NSString *)pattern options:(int)options;
+-(void)dealloc;
 
 -(void)beginMatchingString:(NSString *)string;
 //-(void)beginMatchingString:(NSString *)string range:(NSRange)range;
 -(void)beginMatchingData:(NSData *)data;
 -(void)beginMatchingData:(NSData *)data range:(NSRange)range;
 -(void)finishMatching;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL matchNext;
+-(BOOL)matchNext;
 -(NSString *)stringForMatch:(int)n;
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSArray<NSString*> *allMatches;
+-(NSArray *)allMatches;
 
 -(BOOL)matchesString:(NSString *)string;
 -(NSString *)matchedSubstringOfString:(NSString *)string;
@@ -46,8 +66,8 @@
 -(NSString *)expandReplacementString:(NSString *)replacement;
 */
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *pattern;
-@property (readonly, copy) NSString *description;
+-(NSString *)pattern;
+-(NSString *)description;
 
 @end
 
@@ -59,19 +79,19 @@
 -(NSString *)substringMatchedByPattern:(NSString *)pattern;
 -(NSString *)substringMatchedByPattern:(NSString *)pattern options:(int)options;
 
--(NSArray<NSString*> *)substringsCapturedByPattern:(NSString *)pattern;
--(NSArray<NSString*> *)substringsCapturedByPattern:(NSString *)pattern options:(int)options;
+-(NSArray *)substringsCapturedByPattern:(NSString *)pattern;
+-(NSArray *)substringsCapturedByPattern:(NSString *)pattern options:(int)options;
 
--(NSArray<NSString*> *)allSubstringsMatchedByPattern:(NSString *)pattern;
--(NSArray<NSString*> *)allSubstringsMatchedByPattern:(NSString *)pattern options:(int)options;
+-(NSArray *)allSubstringsMatchedByPattern:(NSString *)pattern;
+-(NSArray *)allSubstringsMatchedByPattern:(NSString *)pattern options:(int)options;
 
--(NSArray<NSString*> *)allSubstringsCapturedByPattern:(NSString *)pattern;
--(NSArray<NSString*> *)allSubstringsCapturedByPattern:(NSString *)pattern options:(int)options;
+-(NSArray *)allSubstringsCapturedByPattern:(NSString *)pattern;
+-(NSArray *)allSubstringsCapturedByPattern:(NSString *)pattern options:(int)options;
 
--(NSArray<NSString*> *)componentsSeparatedByPattern:(NSString *)pattern;
--(NSArray<NSString*> *)componentsSeparatedByPattern:(NSString *)pattern options:(int)options;
+-(NSArray *)componentsSeparatedByPattern:(NSString *)pattern;
+-(NSArray *)componentsSeparatedByPattern:(NSString *)pattern options:(int)options;
 
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *escapedPattern;
+-(NSString *)escapedPattern;
 
 @end
 

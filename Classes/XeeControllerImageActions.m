@@ -21,13 +21,7 @@ NSInteger XeeNumberOfZoomLevels = 21;
 		CGImageRef cgimage = [currimage createCGImage];
 
 		if (cgimage) {
-			[[NSPasteboard generalPasteboard] declareTypes:@[ NSTIFFPboardType
-#if !__LP64__
-															  ,
-															  NSPICTPboardType
-#endif
-			]
-													 owner:self];
+			[[NSPasteboard generalPasteboard] declareTypes:@[ NSTIFFPboardType] owner:self];
 
 			copiedcgimage = cgimage;
 			[self retain];
@@ -60,47 +54,6 @@ NSInteger XeeNumberOfZoomLevels = 21;
 
 		[pboard setData:data forType:type];
 	}
-#if !__LP64__
-	else if ([type isEqual:NSPICTPboardType]) {
-		// BEGIN old QuickTime declarations
-		typedef ComponentInstance GraphicsExportComponent;
-		enum {
-			GraphicsExporterComponentType = 'grex',
-			kQTFileTypePicture = 'PICT',
-
-		}
-		;
-		extern ComponentResult GraphicsExportSetInputCGImage(GraphicsExportComponent, CGImageRef) AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
-		extern ComponentResult GraphicsExportSetOutputHandle(GraphicsExportComponent, Handle) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
-		extern ComponentResult GraphicsExportDoExport(GraphicsExportComponent, unsigned long *) AVAILABLE_MAC_OS_X_VERSION_10_0_AND_LATER_BUT_DEPRECATED_IN_MAC_OS_X_VERSION_10_9;
-		// END old QuickTime declarations
-		BOOL res = NO;
-
-		Handle outhandle = NewHandle(0);
-		if (outhandle) {
-			GraphicsExportComponent exporter;
-			if (OpenADefaultComponent(GraphicsExporterComponentType, kQTFileTypePicture, &exporter) == noErr) {
-				GraphicsExportSetInputCGImage(exporter, copiedcgimage);
-				GraphicsExportSetOutputHandle(exporter, outhandle);
-				//GraphicsExportSetOutputDataReference(exporter,dataRef, dataRefType);
-
-				unsigned long size;
-				if (GraphicsExportDoExport(exporter, &size) == noErr) {
-					NSData *data = [NSData dataWithBytes:*outhandle + 512 length:size - 512];
-					NSLog(@"%@", [data subdataWithRange:NSMakeRange(0, 2 * 1024)]);
-					[pboard setData:data forType:type];
-					res = YES;
-				}
-
-				CloseComponent(exporter);
-			}
-			DisposeHandle(outhandle);
-		}
-		if (!res) {
-			NSBeep();
-		}
-	}
-#endif
 }
 
 - (void)pasteboardChangedOwner:(NSPasteboard *)pboard

@@ -238,7 +238,6 @@ void XeePlayPoof(NSWindow *somewindow);
 	if ([[pboard types] containsObject:NSFilenamesPboardType]) {
 		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
 
-#ifdef __LP64__
 		for (NSString *file in files) {
 			NSURL *fileURL = [NSURL fileURLWithPath:file];
 			NSURL *resolvedURL = [NSURL URLByResolvingAliasFileAtURL:fileURL options:NSURLBookmarkResolutionWithoutUI error:NULL];
@@ -254,18 +253,6 @@ void XeePlayPoof(NSWindow *somewindow);
 				}
 			}
 		}
-#else
-		for (NSString *file in files) {
-			FSRef ref;
-			if (CFURLGetFSRef((CFURLRef)[NSURL fileURLWithPath:file], &ref)) {
-				Boolean folder, aliased;
-				if (!FSResolveAliasFileWithMountFlags(&ref, TRUE, &folder, &aliased, kResolveAliasFileNoUI)) {
-					if (!folder)
-						return NSDragOperationNone;
-				}
-			}
-		}
-#endif
 		[self setDropRow:row
 					 num:[files count]];
 	} else {
@@ -513,32 +500,11 @@ void XeePlayPoof(NSWindow *somewindow);
 
 		NSURL *url = [NSURL fileURLWithPath:directory];
 
-#if __LP64__
 		NSColor *tmpClr = nil;
 
 		if ([url getResourceValue:&tmpClr forKey:NSURLLabelColorKey error:NULL]) {
 			color = [tmpClr colorWithAlphaComponent:0.2];
 		}
-#else
-		FSRef fsref;
-		FSSpec fsspec;
-		CFURLGetFSRef((CFURLRef)url, &fsref);
-		FSGetCatalogInfo(&fsref, kFSCatInfoNone, NULL, NULL, &fsspec, NULL);
-
-		IconRef dummyicon;
-		SInt16 label;
-		RGBColor rgbcol;
-		Str255 labelstr;
-		if (GetIconRefFromFile(&fsspec, &dummyicon, &label) == noErr) {
-			ReleaseIconRef(dummyicon);
-
-			if (label) {
-				if (GetLabel(label, &rgbcol, labelstr) == noErr) {
-					color = [NSColor colorWithCalibratedRed:rgbcol.red / 65280.0 green:rgbcol.green / 65280.0 blue:rgbcol.blue / 65280.0 alpha:0.2];
-				}
-			}
-		}
-#endif
 
 		NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
 											   directory, @"path", dirname, @"filename", icon, @"icon", color, @"color", nil];

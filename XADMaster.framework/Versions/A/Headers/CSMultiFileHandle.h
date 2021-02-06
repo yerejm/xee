@@ -1,5 +1,5 @@
 /*
- * XADResourceFork.h
+ * CSMultiFileHandle.h
  *
  * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
  *
@@ -18,25 +18,32 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-#import "CSHandle.h"
-#import "XADException.h"
+#import "CSSegmentedHandle.h"
 
-@interface XADResourceFork:NSObject
+#define CSMultiFileHandle XADMultiFileHandle
+
+@interface CSMultiFileHandle:CSSegmentedHandle
 {
-	NSDictionary *resources;
+	NSArray *paths;
 }
 
-+(XADResourceFork *)resourceForkWithHandle:(CSHandle *)handle;
-+(XADResourceFork *)resourceForkWithHandle:(CSHandle *)handle error:(XADError *)errorptr;
++(CSHandle *)handleWithPathArray:(NSArray *)patharray;
++(CSHandle *)handleWithPaths:(CSHandle *)firstpath,...;
 
--(id)init;
+// Initializers
+-(id)initWithPaths:(NSArray *)patharray;
+-(id)initAsCopyOf:(CSMultiFileHandle *)other;
 -(void)dealloc;
 
--(void)parseFromHandle:(CSHandle *)handle;
--(NSData *)resourceDataForType:(uint32_t)type identifier:(int)identifier;
+// Public methods
+-(NSArray *)paths;
 
--(NSMutableDictionary *)_parseResourceDataFromHandle:(CSHandle *)handle;
--(NSDictionary *)_parseMapFromHandle:(CSHandle *)handle withDataObjects:(NSMutableDictionary *)dataobjects;
--(NSDictionary *)_parseReferencesFromHandle:(CSHandle *)handle count:(int)count;
+// Implemented by this class
+-(NSInteger)numberOfSegments;
+-(off_t)segmentSizeAtIndex:(NSInteger)index;
+-(CSHandle *)handleAtIndex:(NSInteger)index;
+
+// Internal methods
+-(void)_raiseError;
 
 @end

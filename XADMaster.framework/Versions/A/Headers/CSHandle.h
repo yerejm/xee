@@ -1,3 +1,23 @@
+/*
+ * CSHandle.h
+ *
+ * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 #import <Foundation/Foundation.h>
 #import <stdint.h>
 
@@ -18,32 +38,32 @@
 #endif
 
 
-extern NSString *const CSOutOfMemoryException;
-extern NSString *const CSEndOfFileException;
-extern NSString *const CSNotImplementedException;
-extern NSString *const CSNotSupportedException;
+extern NSString *CSOutOfMemoryException;
+extern NSString *CSEndOfFileException;
+extern NSString *CSNotImplementedException;
+extern NSString *CSNotSupportedException;
 
 
 
 @interface CSHandle:NSObject <NSCopying>
 {
-	NSString *name;
+	CSHandle *parent;
 	off_t bitoffs;
 	uint8_t readbyte,readbitsleft;
 	uint8_t writebyte,writebitsleft;
 }
 
--(instancetype)initWithName:(NSString *)descname;
--(instancetype)initAsCopyOf:(CSHandle *)other;
+-(id)init;
+-(id)initWithParentHandle:(CSHandle *)parenthandle;
+-(id)initAsCopyOf:(CSHandle *)other;
+-(void)dealloc;
 -(void)close;
-
 
 // Methods implemented by subclasses
 
-@property (NS_NONATOMIC_IOSONLY, readonly) off_t fileSize;
-@property (NS_NONATOMIC_IOSONLY, readonly) off_t offsetInFile;
-@property (NS_NONATOMIC_IOSONLY, readonly) BOOL atEndOfFile;
-
+-(off_t)fileSize;
+-(off_t)offsetInFile;
+-(BOOL)atEndOfFile;
 -(void)seekToFileOffset:(off_t)offs;
 -(void)seekToEndOfFile;
 -(void)pushBackByte:(int)byte;
@@ -122,10 +142,10 @@ extern NSString *const CSNotSupportedException;
 
 -(void)writeInt16LE:(int16_t)val;
 -(void)writeInt32LE:(int32_t)val;
-//-(void)writeInt64LE:(int64_t)val;
+-(void)writeInt64LE:(int64_t)val;
 -(void)writeUInt16LE:(uint16_t)val;
 -(void)writeUInt32LE:(uint32_t)val;
-//-(void)writeUInt64LE:(uint64_t)val;
+-(void)writeUInt64LE:(uint64_t)val;
 
 -(void)writeID:(uint32_t)val;
 
@@ -141,8 +161,12 @@ extern NSString *const CSNotSupportedException;
 -(void)_raiseNotImplemented:(SEL)selector;
 -(void)_raiseNotSupported:(SEL)selector;
 
-@property (readonly, copy) NSString *name;
+-(NSString *)name;
+-(CSHandle *)parentHandle;
+-(void)setParentHandle:(CSHandle *)newparent;
 -(NSString *)description;
+
+-(id)copyWithZone:(NSZone *)zone;
 
 @end
 
@@ -165,6 +189,9 @@ static inline void CSSetUInt16BE(uint8_t *b,uint16_t n) { b[0]=(n>>8)&0xff; b[1]
 static inline void CSSetUInt32BE(uint8_t *b,uint32_t n) { b[0]=(n>>24)&0xff; b[1]=(n>>16)&0xff; b[2]=(n>>8)&0xff; b[3]=n&0xff; }
 static inline void CSSetInt16LE(uint8_t *b,int16_t n) { b[1]=(n>>8)&0xff; b[0]=n&0xff; }
 static inline void CSSetInt32LE(uint8_t *b,int32_t n) { b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=n&0xff; }
+static inline void CSSetInt64LE(uint8_t *b,int64_t n) { b[7]=(n>>56)&0xff; b[6]=(n>>48)&0xff; b[5]=(n>>40)&0xff; b[4]=(n>>32)&0xff; b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=(n>>0)&0xff;}
 static inline void CSSetUInt16LE(uint8_t *b,uint16_t n) { b[1]=(n>>8)&0xff; b[0]=n&0xff; }
 static inline void CSSetUInt32LE(uint8_t *b,uint32_t n) { b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=n&0xff; }
+static inline void CSSetUInt64LE(uint8_t *b,uint64_t n) { b[7]=(n>>56)&0xff; b[6]=(n>>48)&0xff; b[5]=(n>>40)&0xff; b[4]=(n>>32)&0xff; b[3]=(n>>24)&0xff; b[2]=(n>>16)&0xff; b[1]=(n>>8)&0xff; b[0]=(n>>0)&0xff;}
+
 

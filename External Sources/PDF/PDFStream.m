@@ -336,7 +336,7 @@
 		return [self predictorHandleForDecodeParms:decodeparms
 									  parentHandle:[[[LZWHandle alloc] initWithHandle:parent earlyChange:early] autorelease]];
 	} else if ([filtername isEqual:@"ASCII85Decode"]) {
-		return [[[PDFASCII85Handle alloc] initWithHandle:parent] autorelease];
+		return [[[PDFASCII85Handle alloc] initWithParentHandle:parent] autorelease];
 	} else if ([filtername isEqual:@"Crypt"]) {
 		return parent; // handled elsewhere
 	}
@@ -452,7 +452,7 @@ static uint8_t ASCII85NextByte(CSInputBuffer *input)
 		  components:(int)components
 	bitsPerComponent:(int)bitspercomp
 {
-	if (self = [super initWithHandle:handle]) {
+	if (self = [super initWithParentHandle:handle]) {
 		cols = columns;
 		comps = components;
 		bpc = bitspercomp;
@@ -493,7 +493,7 @@ static inline int iabs(int a)
 		  components:(int)components
 	bitsPerComponent:(int)bitspercomp
 {
-	if (self = [super initWithHandle:handle]) {
+	if (self = [super initWithParentHandle:handle]) {
 		cols = columns;
 		comps = components;
 		bpc = bitspercomp;

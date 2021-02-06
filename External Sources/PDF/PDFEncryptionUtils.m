@@ -41,7 +41,6 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 {
 	if (done)
 		[NSException raise:PDFMD5FinishedException format:@"Attempted to update a finished %@ object", [self class]];
-#if __LP64__
 	if (length > INT_MAX) {
 		//split up the blocks
 		NSInteger i;
@@ -50,9 +49,9 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 		}
 		CC_LONG final = length % INT_MAX;
 		CC_MD5_Update(&md5, bytes + i, final);
-	} else
-#endif
+    } else {
 		CC_MD5_Update(&md5, bytes, (CC_LONG)length);
+    }
 }
 
 - (NSData *)digest
@@ -92,8 +91,8 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 
 - (id)initWithHandle:(CSHandle *)handle key:(NSData *)keydata
 {
-	if (self = [super initWithName:[handle name]]) {
-		parent = [handle retain];
+	if (self = [super initWithParentHandle:handle]) {
+		parenthandle = [handle retain];
 		key = [keydata copy];
 
 		iv = [parent copyDataOfLength:16];
@@ -118,14 +117,14 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 
 - (void)resetBlockStream
 {
-	[parent seekToFileOffset:startoffs];
+	[parenthandle seekToFileOffset:startoffs];
 	memcpy(ivbuffer, [iv bytes], 16);
 }
 
 - (int)produceBlockAtOffset:(off_t)pos
 {
 	uint8_t inbuf[16];
-	[parent readBytes:16 toBuffer:inbuf];
+	[parenthandle readBytes:16 toBuffer:inbuf];
 	SecTransformRef decrypt = SecDecryptTransformCreate(aeskey, NULL);
 	SecTransformSetAttribute(decrypt, kSecEncryptionMode, kSecModeCBCKey, NULL);
 	SecTransformSetAttribute(decrypt, kSecIVKey, (CFDataRef)[NSData dataWithBytesNoCopy:ivbuffer length:16 freeWhenDone:NO], NULL);
@@ -138,7 +137,7 @@ NSString *PDFMD5FinishedException = @"PDFMD5FinishedException";
 	[decryptedData getBytes:streambuffer length:16];
 	CFRelease(decrypt);
 
-	if ([parent atEndOfFile]) {
+	if ([parenthandle atEndOfFile]) {
 		[self endBlockStream];
 		int val = streambuffer[15];
 		if (val > 0 && val <= 16) {

@@ -1,5 +1,5 @@
 /*
- * CSMultiHandle.h
+ * CSSegmentedHandle.h
  *
  * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
  *
@@ -18,29 +18,52 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-#import "CSSegmentedHandle.h"
+#import "CSHandle.h"
 
-#define CSMultiHandle XADMultiHandle
+#define CSSegmentedHandle XADSegmentedHandle
 
-@interface CSMultiHandle:CSSegmentedHandle
+extern NSString *CSNoSegmentsException;
+extern NSString *CSSizeOfSegmentUnknownException;
+
+@interface CSSegmentedHandle:CSHandle
 {
-	NSArray *handles;
+	NSInteger count;
+	NSInteger currindex;
+	CSHandle *currhandle;
+	off_t *segmentends;
+	NSArray *segmentsizes;
 }
 
-+(CSHandle *)handleWithHandleArray:(NSArray *)handlearray;
-+(CSHandle *)handleWithHandles:(CSHandle *)firsthandle,...;
-
 // Initializers
--(id)initWithHandles:(NSArray *)handlearray;
--(id)initAsCopyOf:(CSMultiHandle *)other;
+-(id)init;
+-(id)initAsCopyOf:(CSSegmentedHandle *)other;
 -(void)dealloc;
 
 // Public methods
--(NSArray *)handles;
+-(CSHandle *)currentHandle;
+-(NSArray *)segmentSizes;
 
 // Implemented by this class
+-(off_t)fileSize;
+-(off_t)offsetInFile;
+-(BOOL)atEndOfFile;
+
+-(void)seekToFileOffset:(off_t)offs;
+-(void)seekToEndOfFile;
+-(int)readAtMost:(int)num toBuffer:(void *)buffer;
+
+-(NSString *)name;
+-(NSString *)description;
+
+// Implemented by subclasses
 -(NSInteger)numberOfSegments;
 -(off_t)segmentSizeAtIndex:(NSInteger)index;
 -(CSHandle *)handleAtIndex:(NSInteger)index;
+
+// Internal methods
+-(void)_open;
+-(void)_setCurrentIndex:(NSInteger)newindex;
+-(void)_raiseNoSegments;
+-(void)_raiseSizeUnknownForSegment:(NSInteger)i;
 
 @end

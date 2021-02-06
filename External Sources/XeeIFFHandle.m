@@ -253,7 +253,7 @@ XeeIFFReadValueImpl(uint32_t, readID);
 	if (!curr_start)
 		[self _raiseChunk];
 	[super seekToFileOffset:curr_start - 8];
-	return [[[XeeIFFHandle alloc] initWithFilePointer:fh closeOnDealloc:NO description:name fileType:0] autorelease];
+	return [[[XeeIFFHandle alloc] initWithFilePointer:fh closeOnDealloc:NO description:[self name] fileType:0] autorelease];
 }
 
 - (void)_raiseChunk
@@ -267,7 +267,7 @@ XeeIFFReadValueImpl(uint32_t, readID);
 - (NSString *)description
 {
 	return [NSString stringWithFormat:@"XeeIFFHandle for file \"%@\", position %lld in chunk %c%c%c%c",
-									  name, [self offsetInChunk], (char)((curr_id >> 24) & 0xff), (char)((curr_id >> 16) & 0xff), (char)((curr_id >> 8) & 0xff), (char)(curr_id & 0xff)];
+									  [self name], [self offsetInChunk], (char)((curr_id >> 24) & 0xff), (char)((curr_id >> 16) & 0xff), (char)((curr_id >> 8) & 0xff), (char)(curr_id & 0xff)];
 }
 
 + (id)IFFHandleWithPath:(NSString *)path

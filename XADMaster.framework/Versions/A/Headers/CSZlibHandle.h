@@ -1,3 +1,23 @@
+/*
+ * CSZlibHandle.h
+ *
+ * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 #import "CSStreamHandle.h"
 
 #ifndef __MACTYPES__
@@ -10,11 +30,10 @@
 
 #define CSZlibHandle XADZlibHandle
 
-extern NSString *const CSZlibException;
+extern NSString *CSZlibException;
 
 @interface CSZlibHandle:CSStreamHandle
 {
-	CSHandle *parent;
 	off_t startoffs;
 	z_stream zs;
 	BOOL inited,seekback,endstreamateof;
@@ -28,8 +47,9 @@ extern NSString *const CSZlibException;
 +(CSZlibHandle *)deflateHandleWithHandle:(CSHandle *)handle length:(off_t)length;
 
 // Intializers
--(instancetype)initWithHandle:(CSHandle *)handle length:(off_t)length header:(BOOL)header name:(NSString *)descname;
--(instancetype)initAsCopyOf:(CSZlibHandle *)other;
+-(id)initWithHandle:(CSHandle *)handle length:(off_t)length header:(BOOL)header ;
+-(id)initAsCopyOf:(CSZlibHandle *)other;
+-(void)dealloc;
 
 // Public methods
 -(void)setSeekBackAtEOF:(BOOL)seekateof;
@@ -40,6 +60,6 @@ extern NSString *const CSZlibException;
 -(int)streamAtMost:(int)num toBuffer:(void *)buffer;
 
 // Internal methods
--(void)_raiseZlib NS_SWIFT_UNAVAILABLE("Call throws");
+-(void)_raiseZlib;
 
 @end

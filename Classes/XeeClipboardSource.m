@@ -37,7 +37,7 @@
 		CSHandle *handle;
 		if ([type isEqual:NSPICTPboardType]) {
 			NSMutableData *head = [NSMutableData dataWithLength:512];
-			handle = [CSMultiHandle multiHandleWithHandles:
+			handle = [CSMultiHandle handleWithHandles:
 										[CSMemoryHandle memoryHandleForReadingData:head],
 										[CSMemoryHandle memoryHandleForReadingData:data],
 										nil];

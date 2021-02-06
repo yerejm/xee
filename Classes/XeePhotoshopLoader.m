@@ -428,7 +428,7 @@
 
 - (id)initWithHandle:(CSHandle *)handle rows:(int)numrows bytesPerRow:(int)bpr channel:(int)channel of:(int)numchannels previousSize:(off_t)prevsize
 {
-	if (self = [super initWithHandle:handle]) {
+	if (self = [super initWithParentHandle:handle]) {
 		rows = numrows;
 		bytesperrow = bpr;
 
@@ -491,7 +491,7 @@
 
 - (id)initWithHandle:(CSHandle *)handle depth:(int)bitdepth columns:(int)columns
 {
-	if (self = [super initWithHandle:handle]) {
+	if (self = [super initWithParentHandle:handle]) {
 		depth = bitdepth;
 		cols = columns;
 	}

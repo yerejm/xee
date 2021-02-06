@@ -548,7 +548,7 @@
 	}
 
 	if ([exifhandles count]) {
-		CSHandle *exifhandle = [CSMultiHandle multiHandleWithHandleArray:exifhandles];
+		CSHandle *exifhandle = [CSMultiHandle handleWithHandleArray:exifhandles];
 		NSData *data = [exifhandle remainingFileContents];
 		XeeEXIFParser *exif = [[XeeEXIFParser alloc] initWithData:data];
 		if (exif) {
@@ -567,13 +567,13 @@
 	}
 
 	if ([xmphandles count]) {
-		XeeXMPParser *xmp = [[XeeXMPParser alloc] initWithHandle:[CSMultiHandle multiHandleWithHandleArray:xmphandles]];
+		XeeXMPParser *xmp = [[XeeXMPParser alloc] initWithHandle:[CSMultiHandle handleWithHandleArray:xmphandles]];
 		[properties addObjectsFromArray:[xmp propertyArray]];
 		[xmp release];
 	}
 
 	if ([pshandles count]) {
-		Xee8BIMParser *parser = [[Xee8BIMParser alloc] initWithHandle:[CSMultiHandle multiHandleWithHandleArray:pshandles]];
+		Xee8BIMParser *parser = [[Xee8BIMParser alloc] initWithHandle:[CSMultiHandle handleWithHandleArray:pshandles]];
 		[properties addObjectsFromArray:[parser propertyArrayWithPhotoshopFirst:NO]];
 		[parser release];
 	}

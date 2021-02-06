@@ -1,59 +1,49 @@
+/*
+ * UniversalDetector.h
+ *
+ * Copyright (c) 2017-present, MacPaw Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301  USA
+ */
 #import <Foundation/Foundation.h>
 
-NS_ASSUME_NONNULL_BEGIN
-
-/// You can enable this heuristic by setting the BOOL with that key in NSUserDefaults -standardUserDefaults to YES.
-/// In this case, only -encoding wll be valid and -MIMECharset will be invalid.
-extern NSString * const	UniversalDetectorUseMacRomanHeuristic;
-
-typedef NS_OPTIONS(signed char, UDLanguageFilter) {
-	UDLanguageChineseSimplified = 1 << 0,
-	UDLanguageChineseTraditional = 1 << 1,
-	UDLanguageJapanese = 1 << 2,
-	UDLanguageKorean = 1 << 3,
-	UDLanguageNonCJK = 1 << 4,
-	UDLanguageAll = 0x1f,
-	
-	UDLanguageChinese = (UDLanguageChineseSimplified |
-						 UDLanguageChineseTraditional),
-	UDLanguageCJK = (UDLanguageChineseSimplified |
-					 UDLanguageChineseTraditional |
-					 UDLanguageJapanese |
-					 UDLanguageKorean),
-};
-
 @interface UniversalDetector:NSObject
-#if __i386__
 {
-	void *detectorPtr;
-	BOOL possiblyMacRoman;
+	void *detector;
+	NSString *charset;
 	float confidence;
-	NSString *charsetName;
+	const char *lastcstring;
 }
-#endif
 
-+(instancetype)detector NS_SWIFT_UNAVAILABLE("Use UniversalDetector() instead");
-+(instancetype)detectorWithFilter:(UDLanguageFilter)aFilter NS_SWIFT_UNAVAILABLE("Use UniversalDetector(filter:) instead");
-+(NSArray<NSString*> *)possibleMIMECharsets;
-#if __has_feature(objc_class_property)
-@property (class, readonly, copy) NSArray<NSString*> *possibleMIMECharsets;
-#endif
++(UniversalDetector *)detector;
++(NSArray *)possibleMIMECharsets;
 
--(instancetype)init;
--(instancetype)initWithFilter:(UDLanguageFilter)aFilter NS_DESIGNATED_INITIALIZER;
+-(id)init;
+-(void)dealloc;
 
--(void)analyzeContentsOfFile:(NSString *)path;
--(void)analyzeContentsOfURL:(NSURL *)url;
 -(void)analyzeData:(NSData *)data;
 -(void)analyzeBytes:(const char *)data length:(int)len;
 -(void)reset;
 
-@property (nonatomic, readonly, getter=isDone) BOOL done;
-@property (nonatomic, copy, readonly, nullable) NSString *MIMECharset;
-@property (nonatomic, readonly) NSStringEncoding encoding;
-@property (nonatomic, readonly) float confidence;
-@property (nonatomic, readonly) UDLanguageFilter languageFilter;
+-(BOOL)done;
+-(NSString *)MIMECharset;
+-(float)confidence;
+
+#ifdef __APPLE__
+-(NSStringEncoding)encoding;
+#endif
 
 @end
-
-NS_ASSUME_NONNULL_END
