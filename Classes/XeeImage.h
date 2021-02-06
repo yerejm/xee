@@ -1,8 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
 #import "XeeTypes.h"
-// TODO: port to GCD/libdispatch or NSOperation?
-#import "CSCoroutine.h"
 #import "XeeFSRef.h"
 #import "XeeProperties.h"
 
@@ -31,8 +29,6 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	SEL nextselector;
 	BOOL finished, loaded, thumbonly;
 	volatile BOOL stop;
-
-//	CSCoroutine *coro;
 
 	NSString *format;
 	NSInteger width, height;
@@ -174,28 +170,21 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 @end
 
-static inline void __XeeImageLoaderYield(volatile BOOL *stop)//, CSCoroutine *coro)
+static inline void __XeeImageLoaderYield(volatile BOOL *stop)
 {
-//	if (*stop) {
-		//*stop = NO;
-		//[coro returnFrom];
-//	}
+	if (*stop) {
+		*stop = NO;
+	}
 }
 static inline void __XeeImageLoaderDone(BOOL success, BOOL *loaded,
-										BOOL *finished) //, CSCoroutine *coro)
+										BOOL *finished)
 {
 	*loaded = success;
 	*finished = YES;
-//	for (;;)
-//		[coro returnFrom];
 }
 #define XeeImageLoaderHeaderDone()
-//[coro returnFrom]
 #define XeeImageLoaderYield() __XeeImageLoaderYield(&stop)
-//, coro)
-#define XeeImageLoaderDone(success) \
-	__XeeImageLoaderDone(success, &loaded, &finished)
-//, coro)
+#define XeeImageLoaderDone(success) __XeeImageLoaderDone(success, &loaded, &finished)
 
 @protocol XeeImageDelegate <NSObject>
 
