@@ -1,5 +1,6 @@
 #import "XeePNGLoader.h"
-#import "libpng/pngstruct.h"
+#include "libpng/png.h"
+#include <limits.h>
 
 int is_png_gray_palette(png_structp png, png_infop info);
 
@@ -7,7 +8,14 @@ int is_png_gray_palette(png_structp png, png_infop info);
 
 static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 {
-	[(CSHandle *)png->io_ptr readBytes:len toBuffer:buf];
+	CSHandle *handle = (CSHandle *)png_get_io_ptr(png);
+	while (len > 0) {
+		const png_size_t maxchunk = (png_size_t)INT_MAX;
+		const int chunk = (len > maxchunk) ? INT_MAX : (int)len;
+		[handle readBytes:chunk toBuffer:buf];
+		buf += (png_size_t)chunk;
+		len -= (png_size_t)chunk;
+	}
 }
 
 + (NSArray *)fileTypes
@@ -17,7 +25,7 @@ static void XeePNGReadData(png_structp png, png_bytep buf, png_size_t len)
 
 + (BOOL)canOpenFile:(NSString *)name firstBlock:(NSData *)block attributes:(NSDictionary *)attributes;
 {
-	if ([block length] > 8 && png_check_sig((unsigned char *)[block bytes], 8))
+	if ([block length] > 8 && png_sig_cmp((png_bytep)[block bytes], 0, 8) == 0)
 		return YES;
 	return NO;
 }
