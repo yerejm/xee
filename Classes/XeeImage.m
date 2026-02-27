@@ -6,6 +6,13 @@
 #include <pthread.h>
 #include <unistd.h>
 
+static NSString *const XeeImageLoaderDoneExceptionName = @"XeeImageLoaderDoneException";
+static void *XeeImageLoaderThreadEntry(void *arg);
+
+@interface XeeImage (XeeLoaderThreadMain)
+- (void)_xeeLoaderThreadMain;
+@end
+
 @implementation XeeImage
 @synthesize delegate;
 @synthesize icon;
@@ -32,6 +39,15 @@
 		nextselector = NULL;
 		finished = loaded = YES;
 		thumbonly = stop = NO;
+
+		pthread_mutex_init(&loadermutex, NULL);
+		pthread_cond_init(&loadercond, NULL);
+		loaderthreadstarted = NO;
+		loaderthreadrunserial = 0;
+		loaderthreadpaused = NO;
+		loaderthreadexited = NO;
+		loaderthreadshouldexit = NO;
+		loaderthreadhasid = NO;
 
 		format = nil;
 		width = height = 0;
@@ -73,16 +89,13 @@
 
 		finished = loaded = NO;
 
-    	@try {
-			[self load];
+		// Like the old coroutine: run until header is available (or load finishes/fails).
+		@try {
+			[self runLoader];
 		}
 		@catch (NSException *e) {
 			NSLog(@"Exception during initial loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
 			finished = YES;
-		}
-
-		if (finished) {
-            [self triggerChangeAction];
 		}
 
 		if (finished && !loaded) {
@@ -128,6 +141,25 @@
 
 - (void)dealloc
 {
+	pthread_t thread = 0;
+	BOOL shouldjoin = NO;
+
+	pthread_mutex_lock(&loadermutex);
+	if (loaderthreadstarted && loaderthreadhasid && !loaderthreadexited) {
+		loaderthreadshouldexit = YES;
+		stop = YES;
+		loaderthreadrunserial++;
+		pthread_cond_broadcast(&loadercond);
+
+		thread = loaderthread;
+		shouldjoin = !pthread_equal(pthread_self(), thread);
+	}
+	pthread_mutex_unlock(&loadermutex);
+
+	if (shouldjoin) {
+		pthread_join(thread, NULL);
+	}
+
 	if (nextselector) {
 		[self deallocLoader];
 	}
@@ -144,7 +176,37 @@
 
 	[properties release];
 
+	pthread_cond_destroy(&loadercond);
+	pthread_mutex_destroy(&loadermutex);
+
 	[super dealloc];
+}
+
+- (void)startLoaderThreadIfNeeded
+{
+	pthread_mutex_lock(&loadermutex);
+	if (loaderthreadstarted) {
+		pthread_mutex_unlock(&loadermutex);
+		return;
+	}
+
+	loaderthreadstarted = YES;
+	loaderthreadrunserial = 0;
+	loaderthreadpaused = NO;
+	loaderthreadexited = NO;
+	loaderthreadshouldexit = NO;
+	loaderthreadhasid = NO;
+
+	int err = pthread_create(&loaderthread, NULL, XeeImageLoaderThreadEntry, self);
+	if (err != 0) {
+		loaderthreadstarted = NO;
+		loaderthreadexited = YES;
+		pthread_mutex_unlock(&loadermutex);
+		[NSException raise:@"XeeImageLoaderThreadException" format:@"Failed to create loader thread (%d)", err];
+		return;
+	}
+	loaderthreadhasid = YES;
+	pthread_mutex_unlock(&loadermutex);
 }
 
 - (void)runLoader
@@ -152,16 +214,21 @@
 	if (finished)
 		return;
 
-	@try {
-	}
-	@catch (NSException *e) {
-		NSLog(@"Exception during loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
-		finished = YES;
+	[self startLoaderThreadIfNeeded];
+
+	pthread_mutex_lock(&loadermutex);
+	loaderthreadrunserial++;
+	loaderthreadpaused = NO;
+	pthread_cond_broadcast(&loadercond);
+
+	while (!loaderthreadpaused && !loaderthreadexited && !finished) {
+		pthread_cond_wait(&loadercond, &loadermutex);
 	}
 
-	if (finished) {
+	pthread_mutex_unlock(&loadermutex);
+
+	if (finished)
 		[self triggerChangeAction];
-	}
 }
 
 - (void)runLoaderForThumbnail
@@ -239,6 +306,71 @@
 - (void)stopLoading
 {
 	stop = YES;
+}
+
+- (void)_xeeLoaderHeaderDone
+{
+	// Always yield back to the scheduler once header is available.
+	pthread_mutex_lock(&loadermutex);
+	if (loaderthreadshouldexit) {
+		pthread_mutex_unlock(&loadermutex);
+		@throw [NSException exceptionWithName:XeeImageLoaderDoneExceptionName reason:nil userInfo:nil];
+	}
+	unsigned int serial = loaderthreadrunserial;
+	loaderthreadpaused = YES;
+	pthread_cond_broadcast(&loadercond);
+
+	while (loaderthreadrunserial == serial && !finished && !loaderthreadshouldexit) {
+		pthread_cond_wait(&loadercond, &loadermutex);
+	}
+	if (loaderthreadshouldexit) {
+		loaderthreadpaused = NO;
+		pthread_mutex_unlock(&loadermutex);
+		@throw [NSException exceptionWithName:XeeImageLoaderDoneExceptionName reason:nil userInfo:nil];
+	}
+	loaderthreadpaused = NO;
+	pthread_mutex_unlock(&loadermutex);
+}
+
+- (void)_xeeLoaderYield
+{
+	// Old coroutine behaviour: only yield when stopLoading has been requested.
+	if (loaderthreadshouldexit) {
+		@throw [NSException exceptionWithName:XeeImageLoaderDoneExceptionName reason:nil userInfo:nil];
+	}
+	if (!stop)
+		return;
+
+	stop = NO;
+
+	pthread_mutex_lock(&loadermutex);
+	unsigned int serial = loaderthreadrunserial;
+	loaderthreadpaused = YES;
+	pthread_cond_broadcast(&loadercond);
+
+	while (loaderthreadrunserial == serial && !finished && !loaderthreadshouldexit) {
+		pthread_cond_wait(&loadercond, &loadermutex);
+	}
+	if (loaderthreadshouldexit) {
+		loaderthreadpaused = NO;
+		pthread_mutex_unlock(&loadermutex);
+		@throw [NSException exceptionWithName:XeeImageLoaderDoneExceptionName reason:nil userInfo:nil];
+	}
+	loaderthreadpaused = NO;
+	pthread_mutex_unlock(&loadermutex);
+}
+
+- (void)_xeeLoaderDone:(BOOL)success
+{
+	loaded = success;
+	finished = YES;
+
+	pthread_mutex_lock(&loadermutex);
+	loaderthreadpaused = YES;
+	pthread_cond_broadcast(&loadercond);
+	pthread_mutex_unlock(&loadermutex);
+
+	@throw [NSException exceptionWithName:XeeImageLoaderDoneExceptionName reason:nil userInfo:nil];
 }
 
 - (CSFileHandle *)fileHandle
@@ -774,6 +906,62 @@ NSMutableArray *imageclasses = nil;
 + (NSArray *)fileTypes
 {
 	return nil;
+}
+
+@end
+
+static void *XeeImageLoaderThreadEntry(void *arg)
+{
+	@autoreleasepool {
+		[(XeeImage *)arg _xeeLoaderThreadMain];
+	}
+	return NULL;
+}
+
+@implementation XeeImage (XeeLoaderThreadMain)
+
+- (void)_xeeLoaderThreadMain
+{
+	[NSThread setThreadPriority:0.1];
+
+	// Wait until someone asks us to run (runLoader) or until finished.
+	pthread_mutex_lock(&loadermutex);
+	while (loaderthreadrunserial == 0 && !finished) {
+		pthread_cond_wait(&loadercond, &loadermutex);
+	}
+	BOOL shouldexit = loaderthreadshouldexit;
+	pthread_mutex_unlock(&loadermutex);
+
+	if (shouldexit) {
+		pthread_mutex_lock(&loadermutex);
+		loaderthreadexited = YES;
+		loaderthreadpaused = YES;
+		pthread_cond_broadcast(&loadercond);
+		pthread_mutex_unlock(&loadermutex);
+		return;
+	}
+
+	@try {
+		[self load];
+
+		// If a loader returns without calling XeeImageLoaderDone, treat it as finished.
+		if (!finished) {
+			finished = YES;
+		}
+	}
+	@catch (NSException *e) {
+		if (![e.name isEqualToString:XeeImageLoaderDoneExceptionName]) {
+			NSLog(@"Exception during loading of \"%@\" (%@): %@", [self descriptiveFilename], [self class], e);
+			loaded = NO;
+			finished = YES;
+		}
+	}
+
+	pthread_mutex_lock(&loadermutex);
+	loaderthreadexited = YES;
+	loaderthreadpaused = YES;
+	pthread_cond_broadcast(&loadercond);
+	pthread_mutex_unlock(&loadermutex);
 }
 
 @end

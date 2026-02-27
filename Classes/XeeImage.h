@@ -4,6 +4,8 @@
 #import "XeeFSRef.h"
 #import "XeeProperties.h"
 
+#include <pthread.h>
+
 #import <XADMaster/CSFileHandle.h>
 
 typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
@@ -29,6 +31,17 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 	SEL nextselector;
 	BOOL finished, loaded, thumbonly;
 	volatile BOOL stop;
+
+	// Coroutine replacement: a loader thread that can pause at yield points.
+	pthread_mutex_t loadermutex;
+	pthread_cond_t loadercond;
+	BOOL loaderthreadstarted;
+	unsigned int loaderthreadrunserial;
+	BOOL loaderthreadpaused;
+	BOOL loaderthreadexited;
+	BOOL loaderthreadshouldexit;
+	BOOL loaderthreadhasid;
+	pthread_t loaderthread;
 
 	NSString *format;
 	NSInteger width, height;
@@ -170,21 +183,21 @@ typedef NS_OPTIONS(unsigned int, XeeSaveFormatFlags) {
 
 @end
 
-static inline void __XeeImageLoaderYield(volatile BOOL *stop)
-{
-	if (*stop) {
-		*stop = NO;
-	}
-}
-static inline void __XeeImageLoaderDone(BOOL success, BOOL *loaded,
-										BOOL *finished)
-{
-	*loaded = success;
-	*finished = YES;
-}
-#define XeeImageLoaderHeaderDone()
-#define XeeImageLoaderYield() __XeeImageLoaderYield(&stop)
-#define XeeImageLoaderDone(success) __XeeImageLoaderDone(success, &loaded, &finished)
+// These macros are used by loader implementations (including inside tight loops).
+// They must behave like the old coroutine primitives:
+// - HeaderDone: always yield back to the scheduler once header is available.
+// - Yield: yield back only when stopLoading has been requested.
+// - Done: mark finished and return control immediately.
+#define XeeImageLoaderHeaderDone() [self _xeeLoaderHeaderDone]
+#define XeeImageLoaderYield() [self _xeeLoaderYield]
+#define XeeImageLoaderDone(success) [self _xeeLoaderDone:(success)]
+
+@interface XeeImage (XeeLoaderControl)
+// Private loader-control methods used by the macros above.
+- (void)_xeeLoaderHeaderDone;
+- (void)_xeeLoaderYield;
+- (void)_xeeLoaderDone:(BOOL)success;
+@end
 
 @protocol XeeImageDelegate <NSObject>
 
